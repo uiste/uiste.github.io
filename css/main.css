@@ -454,7 +454,7 @@ body {
 }
 .header-inner {
   margin: 0 auto;
-  padding: 3px 0 3px;
+  padding: 100px 0 70px;
   width: 700px;
 }
 @media (min-width: 1600px) {
@@ -913,7 +913,7 @@ pre .javascript .function {
   font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 .site-subtitle {
-  margin-top: 0px;
+  margin-top: 10px;
   font-size: 13px;
   color: #999;
 }
@@ -930,7 +930,7 @@ pre .javascript .function {
 .site-nav-toggle {
   display: none;
   position: absolute;
-  top: 1px;
+  top: 10px;
   left: 10px;
 }
 @media (max-width: 767px) {
@@ -1548,7 +1548,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #789ad5;
+  background: #c8ff69;
 }
 .links-of-blogroll {
   font-size: 13px;
