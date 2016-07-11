@@ -454,7 +454,7 @@ body {
 }
 .header-inner {
   margin: 0 auto;
-  padding: 100px 0 70px;
+  padding: 3px 0 3px;
   width: 700px;
 }
 @media (min-width: 1600px) {
@@ -913,7 +913,7 @@ pre .javascript .function {
   font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 .site-subtitle {
-  margin-top: 10px;
+  margin-top: 0px;
   font-size: 13px;
   color: #999;
 }
@@ -930,7 +930,7 @@ pre .javascript .function {
 .site-nav-toggle {
   display: none;
   position: absolute;
-  top: 10px;
+  top: 1px;
   left: 10px;
 }
 @media (max-width: 767px) {
