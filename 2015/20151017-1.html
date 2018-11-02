@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Smarty 模板引擎Smarty作用Smarty 是一个成熟的引擎，用来实现表现和内容相分离。Smarty官网  文件目录  plugins 存放Smarty插件，即扩展类文件 sysplugins 存放系统系统函数的目录 Smarty.class.php Smarty 的入口文件，引入此文件即可 SmartyBC.class.php 兼容版    Smarty.class.php -构造函数">
+<meta name="keywords" content="Smarty">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Smarty2 模板引擎">
+<meta property="og:url" content="http://blog.uiste.com/2015/20151017-1.html">
+<meta property="og:site_name" content="uiste">
+<meta property="og:description" content="Smarty 模板引擎Smarty作用Smarty 是一个成熟的引擎，用来实现表现和内容相分离。Smarty官网  文件目录  plugins 存放Smarty插件，即扩展类文件 sysplugins 存放系统系统函数的目录 Smarty.class.php Smarty 的入口文件，引入此文件即可 SmartyBC.class.php 兼容版    Smarty.class.php -构造函数">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-19T01:57:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Smarty2 模板引擎">
+<meta name="twitter:description" content="Smarty 模板引擎Smarty作用Smarty 是一个成熟的引擎，用来实现表现和内容相分离。Smarty官网  文件目录  plugins 存放Smarty插件，即扩展类文件 sysplugins 存放系统系统函数的目录 Smarty.class.php Smarty 的入口文件，引入此文件即可 SmartyBC.class.php 兼容版    Smarty.class.php -构造函数">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="uiste" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://blog.uiste.com/2015/20151017-1.html"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Smarty2 模板引擎 | uiste</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">uiste</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">uiste</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'aSf9eNpjToN3z8HppMAx','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    <!--  -->
+    
+    
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151017-1.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="uiste">
+      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="uiste">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Smarty2 模板引擎
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2015-10-17 02:40:34" itemprop="dateCreated datePublished" datetime="2015-10-17T02:40:34+08:00">2015-10-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-19 09:57:01" itemprop="dateModified" datetime="2018-10-19T09:57:01+08:00">2018-10-19</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Smarty-模板引擎"><a href="#Smarty-模板引擎" class="headerlink" title="Smarty 模板引擎"></a>Smarty 模板引擎</h1><h2 id="Smarty作用"><a href="#Smarty作用" class="headerlink" title="Smarty作用"></a>Smarty作用</h2><p>Smarty 是一个成熟的引擎，用来实现表现和内容相分离。<br><a href="www.smarty.net">Smarty官网</a></p>
+<blockquote>
+<p>文件目录</p>
+<ul>
+<li><code>plugins</code> 存放Smarty插件，即扩展类文件</li>
+<li><code>sysplugins</code> 存放系统系统函数的目录</li>
+<li><code>Smarty.class.php</code> Smarty 的入口文件，引入此文件即可</li>
+<li><code>SmartyBC.class.php</code> 兼容版</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>Smarty.class.php -构造函数</p>
+<ul>
+<li>setTemplateDir(): 设置模板文件夹</li>
+<li>setCompileDir(): 设置混编文件夹</li>
+<li>setCacheDir(): 设置缓存文件夹</li>
+<li>setConfigsDir(): 设置配置文件夹</li>
+</ul>
+</blockquote>
+<h2 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h2><p>拷贝核心文件libs 到站点下。并更名为Smarty<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">require &apos;./Smarty/Smarty.class.php&apos;;</span><br><span class="line">$smarty = new Smarty();</span><br><span class="line">$smarty-&gt;assign(&apos;name&apos;,&apos;uiste&apos;);</span><br><span class="line">$smarty-&gt;display(&apos;demo1.html&apos;);</span><br></pre></td></tr></table></figure></p>
+<p>界定符：<code>$left_delimiter = &#39;{&#39;</code><br>修改界定符：<code>$smarty-&gt;left_delimiter = &#39;&lt;{&#39;;</code><br>更改模板文件：<code>$smarty-&gt;setTemplateDir(&#39;./views/&#39;);</code><br>更改混编文件夹：<code>$smarty-&gt;setCompileDir(&#39;./view_c/&#39;);</code></p>
+<p>注释：<code>{*这是Smarty的注释*}</code><br>多学一招：Smarty和HTML注释内容的区别。Smarty注释在网页源代码中不显示。</p>
+<blockquote>
+<p>如果Smarty的定界符是<code>{*</code> <code>*}</code>那么注释的语法是?<br>答：<code>{** 注释 **}</code></p>
+</blockquote>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><h3 id="普通变量"><a href="#普通变量" class="headerlink" title="普通变量"></a>普通变量</h3><p>自定义变量。<br>语法一：<br>在PHP文件中，$smarty-&gt;assign(‘变量名’,’变量值’);<br>在模板文件中，<code>{$name}</code><br>语法二：<br>在模板文件中，使用{assign} 标签,定义变量<br><code>{assign var=&#39;name&#39; value=&#39;berry&#39;}</code><br><code>{$name}</code></p>
+<h3 id="保留变量"><a href="#保留变量" class="headerlink" title="保留变量"></a>保留变量</h3><p>Smarty 中有一个特殊的变量 <code>$smarty</code> ，不能作为自定义变量名，他是一个保留变量（内置变量）。该变量用来获取用户的请求、系统变量、常量。</p>
+<blockquote>
+<p>例题</p>
+<ul>
+<li>模板文件中：<code>{$smarty.get.name}</code> 获取<code>GET</code>、<code>POST</code>、<code>REQUEST</code>提交的值</li>
+<li>模板文件中：<code>{$smarty.const.PI}</code> 获取<code>define</code>定义常量</li>
+<li>PHP文件中：<code>$_SESSION[&#39;name&#39;] = &#39;root&#39;</code> ；模板文件中：<code>$smarty.session.admin</code> 获取会话的值，<code>$smarty.cookies.admin</code> 获取cookie的值</li>
+<li>模板文件中：<code>{$smarty.server.DOCUMENT_ROOT}</code> 获取根目录</li>
+<li>模板文件中：<code>{$smarty.now}</code> 获取时间戳</li>
+<li>模板文件中：<code>{$smarty.ldelim}</code>，<code>{$smarty.rdelim}</code> 获取左右界定符</li>
+<li>模板文件中：<code>{$smarty.version}</code> 获取版本号</li>
+</ul>
+</blockquote>
+<h3 id="配置变量"><a href="#配置变量" class="headerlink" title="配置变量"></a>配置变量</h3><p>将变量保存在配置文件，然后再Smarty模板中引入</p>
+<blockquote>
+<ol>
+<li>新建<code>configs</code>文件夹</li>
+<li>创建<code>smarty.conf</code>文件，参数设置如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;HOST          = 127.0.0.1</span><br><span class="line">&gt;USERNAME =  ROOT</span><br><span class="line">&gt;PWD            =  aa</span><br><span class="line">&gt;[style1]</span><br><span class="line">&gt;COLOR        =   #FF0000</span><br><span class="line">&gt;[style2]</span><br><span class="line">&gt;COLOR        =   #00FF00</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>配置文件中<strong>节</strong>，用<code>[]</code>中括号来声明，通过<code>config_load</code> 的 <code>section</code> 属性来引入配置文件中的节，没有经过<code>[]</code>设置为节的为<strong>全局</strong>配置文件</p>
+<ol start="3">
+<li>模板文件中：<code>{config_load file = &#39;smarty.conf&#39; section=&#39;&#39;}</code> //只需要写配置文件名，不需要写路径</li>
+<li>模板文件中，获取数据<br>语法a) ：<br>主机名 用户名</li>
+</ol>
+</blockquote>
+<p>自定义不同情况下的颜色<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">*&#123;</span><br><span class="line">	color:&#123;##COLOR&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><h3 id="在Smarty中对数组的操作有两种方法"><a href="#在Smarty中对数组的操作有两种方法" class="headerlink" title="在Smarty中对数组的操作有两种方法"></a>在Smarty中对数组的操作有两种方法</h3><p>方法一：{数组[下标]}<br>方法二：{数组.下标}</p>
+<h3 id="foreach-循环遍历数组"><a href="#foreach-循环遍历数组" class="headerlink" title="foreach 循环遍历数组"></a>foreach 循环遍历数组</h3><h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;foreach 数组 as 键=&gt;值&#125;</span><br><span class="line">//循环体</span><br><span class="line">&#123;foreachelse&#125;</span><br><span class="line">//没有数组输出，foreachelse可以省略</span><br><span class="line">&#123;/foreach&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h4><p>语法：<code>{值变量@属性}</code><br><code>{$value@iteration}</code> 从1开始的编号<br><code>{$value@index}</code> 从0开始的索引<br><code>{$value@first}</code> 是否是第一个元素<br><code>{$value@last}</code> 是否是最后一个元素<br><code>{$value@show}</code> 数组中是否有元素显示<br><code>{$value@total}</code> 一共有多少个元素</p>
+<h3 id="section-循环遍历数组"><a href="#section-循环遍历数组" class="headerlink" title="section 循环遍历数组"></a>section 循环遍历数组</h3><p>只能遍历索引数组，不能遍历关联数组</p>
+<h4 id="语法："><a href="#语法：" class="headerlink" title="语法："></a>语法：</h4><p><code>{section name = 自定义变量(key)  loop=数组($week)}</code><br>{$week[key]}//循环体<br>{sectionelse}<br>//没有数组输出<br>{/section}</p>
+<h4 id="属性-1"><a href="#属性-1" class="headerlink" title="属性"></a>属性</h4><p><code>{$smarty.section.自定义变量名.iteration}</code> 从1增长的编号<br><code>{$smarty.section.自定义变量名.index}</code> 从0增长的索引<br><code>{$smarty.section.自定义变量名.first}</code> 是否是第一个元素<br><code>{$smarty.section.自定义变量名.last}</code> 是否是最后一个元素</p>
+<h2 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h2><p>语法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;if $score&gt;=90&#125;</span><br><span class="line">优秀</span><br><span class="line">&#123;elseif $score&gt;=80&#125;</span><br><span class="line">良好</span><br><span class="line">&#123;else $score&gt;=70&#125;</span><br><span class="line">满意</span><br><span class="line">&#123;/if&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><h3 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;for 变量=初始值 to 结束值 [step 步长]&#125;</span><br><span class="line">//循环体</span><br><span class="line">&#123;/for&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;for $i=1 to 10 step 2&#125;</span><br><span class="line">	&#123;$i&#125;:锄禾日当午</span><br><span class="line">&#123;/for&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>步长默认是1，step 自定义步长</p>
+</blockquote>
+<h3 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;while 条件&#125;</span><br><span class="line">	//循环体</span><br><span class="line">&#123;/while&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;assign var=&apos;n&apos; value=1&#125;</span><br><span class="line">&#123;while $n&lt;=10&#125;</span><br><span class="line">	&#123;$n++&#125;:汗滴禾下土</span><br><span class="line">&#123;/while&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="自定义函数"><a href="#自定义函数" class="headerlink" title="自定义函数"></a>自定义函数</h2><h3 id="html-checkboxes-复选框"><a href="#html-checkboxes-复选框" class="headerlink" title="{html_checkboxes} 复选框"></a>{html_checkboxes} 复选框</h3><p>模板文件中：<br>方法一：<code>{html_checkboxes output=$output values=$values selected=$selected}</code><br>方法二：<code>{html_checkboxes options=$options selected=$selected}</code><br>PHP文件中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$smarty-&gt;assign(&apos;output&apos;,array(&apos;ff&apos;,&apos;bb&apos;,&apos;cc&apos;,&apos;dd&apos;,&apos;ee&apos;));</span><br><span class="line">$smarty-&gt;assign(&apos;value&apos;,array(&apos;1&apos;,&apos;2&apos;,&apos;3&apos;,&apos;4&apos;,&apos;5&apos;));</span><br><span class="line">$smarty-&gt;assign(&apos;selected&apos;,array(&apos;1&apos;,&apos;4&apos;));</span><br></pre></td></tr></table></figure></p>
+<p>模板文件中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;html_checkboxes output=$output values=$value selected=$selected&#125;</span><br><span class="line">&#123;html_options output=$output values=$value name=&apos;hobby&apos; selected=$selected2&#125;</span><br><span class="line">&#123;html_radios output=$output values=$value selected=$selected2&#125;</span><br><span class="line">&#123;html_select_date month_format=&apos;%m&apos; field_order=&apos;YMD&apos;&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="html-options-下拉菜单"><a href="#html-options-下拉菜单" class="headerlink" title="{html_options} 下拉菜单"></a>{html_options} 下拉菜单</h3><p>模板文件中：<br><code>{html_options options=$options name=&#39;hobby&#39; selected=$selected}</code><br>PHP文件中：</p>
+<h3 id="html-radios-单选按钮"><a href="#html-radios-单选按钮" class="headerlink" title="{html_radios}单选按钮"></a>{html_radios}单选按钮</h3><p>模板文件中：<br><code>{html_radios options=$options selected=$selected}</code></p>
+<h3 id="html-select-date-显示日期"><a href="#html-select-date-显示日期" class="headerlink" title="{html_select_date}显示日期"></a>{html_select_date}显示日期</h3><p><code>{html_select_date month_format=&#39;%m&#39; field_order=&#39;YMD&#39;}</code></p>
+<h2 id="变量修饰器"><a href="#变量修饰器" class="headerlink" title="变量修饰器"></a>变量修饰器</h2><p>要使用变量修饰器，我们需要管道运算符( | )</p>
+<p>在默认情况下，<code>truncate</code>是按字节截取的，但是中文属于多字节字符，在UTF-8下一个字符占用3个字节显示，这样会出现乱码；如果开启了多字节处理，<code>truncate</code>就会自动按多字符处理了。</p>
+<blockquote>
+<p><code>extension=php_mbstring.dll</code></p>
+</blockquote>
+<h2 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h2><h3 id="Smarty-缓存就是生成静态页面"><a href="#Smarty-缓存就是生成静态页面" class="headerlink" title="Smarty 缓存就是生成静态页面"></a>Smarty 缓存就是生成静态页面</h3><p>开启：<code>$smarty-&gt;caching = 1;</code>  开启缓存<br>更新缓存：<br>方法一：删除对应的缓存，系统会更新<br>方法二：更改对应的模板文件，包括配置文件，包含文件，布局文件缓存都会自动更新<br>方法三：缓存文件的有效时间过期，会自动更新<br>方法四：<code>$smarty-&gt;force_cache = true;</code> 强制更新缓存</p>
+<h3 id="缓存的生命周期"><a href="#缓存的生命周期" class="headerlink" title="缓存的生命周期"></a>缓存的生命周期</h3><p>默认情况下，缓存的生命周期是3600秒。<br><code>$smarty-&gt;cache_lifetime = -1 | 0 | N;</code></p>
+<ul>
+<li>N：表示缓存文件生命周期是N秒</li>
+<li>0：缓存文件立即失效</li>
+<li>-1：永远不失效</li>
+</ul>
+<h3 id="单模板，多缓存【缓存分页】"><a href="#单模板，多缓存【缓存分页】" class="headerlink" title="单模板，多缓存【缓存分页】"></a>单模板，多缓存【缓存分页】</h3><p>php文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">require &apos;./Smarty/Smarty.class.php&apos;;</span><br><span class="line">$smarty = new Smarty();</span><br><span class="line">$smarty-&gt;caching = 1; //开启缓存</span><br><span class="line">$smarty-&gt;display(&apos;demo17.html&apos;,$_GET[&apos;pageno&apos;])</span><br></pre></td></tr></table></figure></p>
+<p>模板文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">当前是第&#123;$smarty.get.pageno&#125;页</span><br></pre></td></tr></table></figure></p>
+<h3 id="缓存集合"><a href="#缓存集合" class="headerlink" title="缓存集合"></a>缓存集合</h3><p>PHP代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">require &apos;./Smarty/Smarty.class.php&apos;;</span><br><span class="line">$smarty = new Smarty();</span><br><span class="line">$smarty-&gt;caching = 1; //开启缓存</span><br><span class="line">$color = $_GET[&apos;color&apos;];</span><br><span class="line">$size = $_GET[&apos;size&apos;]</span><br><span class="line">$smarty-&gt;display(&apos;demo18.html&apos;,&quot;$color|$size&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>模板文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">颜色：&#123;$smarty.get.color&#125;</span><br><span class="line">大小：&#123;$samrty.get.size&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>邓东旭语：厉害了我的哥</p>
+</blockquote>
+<h3 id="清除缓存"><a href="#清除缓存" class="headerlink" title="清除缓存"></a>清除缓存</h3><p>$smarty-&gt;clearCache(模板，识别id)<br>$smarty-&gt;clearAllCache();  //清楚所有缓存</p>
+<p><code>$smarty-&gt;clearCache(&#39;demo18.html&#39;,&#39;red|4&#39;);</code>清除有demeo18.html 模板生成的red 和 4组合的缓存<br>2、$smarty-&gt;clearCache(‘demo18.html’,’red’) : 清除demo18.html 模板生成的带有red的缓存<br>3、$smarty-&gt;clearCache(null,’red’); //清楚所有模板中带有red 的缓存</p>
+<p>局部缓存</p>
+<p>方法一：如果只有一个变量不缓存使用nocache属性<br>模板文件<code>{$smarty.now nocache}</code></p>
+<p>方法二：如果有很多内容不缓存，使用<code>{nocache}</code>标签<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;nocache&#125;</span><br><span class="line">一大堆什么鬼东西，是会被动态加载的</span><br><span class="line">&#123;/nocache&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="money"><a href="#money" class="headerlink" title="money"></a>money</h3><p>PHP文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">require &apos;./Smarty/Smarty.class.php&apos;;</span><br><span class="line">$smarty = new Smarty();</span><br><span class="line">$smarty-&gt;caching = 1; //开启缓存</span><br><span class="line">$smarty-&gt;display(&apos;demo17.html&apos;,$_GET[&apos;pageno&apos;])</span><br></pre></td></tr></table></figure></p>
+<p>模板文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;style type=&apos;text/css&apos;&gt;</span><br><span class="line">.aa&#123;</span><br><span class="line">	color:red;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;div class=&apos;aa&apos;&gt;锄禾日当午&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>报错问题：源于大括号<code>{}</code>，Smarty将CSS中大括号当成了Smarty的定界符</p>
+</blockquote>
+<p>解决方法：<br>方法一：更改定界符<br>方法二：在CSS和JS的大括号后面加上一个空格<br>方法三：使用{literal}标签，在literal标签内的大括号不会被解析</p>
+<h3 id="Smarty的优点与缺点"><a href="#Smarty的优点与缺点" class="headerlink" title="Smarty的优点与缺点"></a>Smarty的优点与缺点</h3><ol>
+<li>因为可以生产缓存，所有速度快</li>
+<li>如果要实时更新的内容很多的情况，不适合使用Smarty（比如，股票），如果一个小项目，不适合用</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Smarty/" rel="tag"># Smarty</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/20151012-Library-php-str-fun.html" rel="next" title="PHP字符串函数大汇总">
+                <i class="fa fa-chevron-left"></i> PHP字符串函数大汇总
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/20151017-2.html" rel="prev" title="模板引擎">
+                模板引擎 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/default_avatar.png"
+                alt="uiste" />
+            
+              <p class="site-author-name" itemprop="name">uiste</p>
+              <p class="site-description motion-element" itemprop="description">Stay Hungry，Stay Foolish</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">122</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">66</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/uiste" target="_blank" title="GitHub"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/uiste" target="_blank" title="微博"><i class="fa fa-fw fa-globe"></i>微博</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.zhihu.com/people/uiste" target="_blank" title="知乎"><i class="fa fa-fw fa-globe"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.xiaomanyu.cn" title="Mandy画站" target="_blank">Mandy画站</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Smarty-模板引擎"><span class="nav-number">1.</span> <span class="nav-text">Smarty 模板引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Smarty作用"><span class="nav-number">1.1.</span> <span class="nav-text">Smarty作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用步骤"><span class="nav-number">1.2.</span> <span class="nav-text">使用步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量"><span class="nav-number">1.3.</span> <span class="nav-text">变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#普通变量"><span class="nav-number">1.3.1.</span> <span class="nav-text">普通变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#保留变量"><span class="nav-number">1.3.2.</span> <span class="nav-text">保留变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置变量"><span class="nav-number">1.3.3.</span> <span class="nav-text">配置变量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组"><span class="nav-number">1.4.</span> <span class="nav-text">数组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在Smarty中对数组的操作有两种方法"><span class="nav-number">1.4.1.</span> <span class="nav-text">在Smarty中对数组的操作有两种方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#foreach-循环遍历数组"><span class="nav-number">1.4.2.</span> <span class="nav-text">foreach 循环遍历数组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#语法"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#属性"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#section-循环遍历数组"><span class="nav-number">1.4.3.</span> <span class="nav-text">section 循环遍历数组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#语法："><span class="nav-number">1.4.3.1.</span> <span class="nav-text">语法：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#属性-1"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#判断"><span class="nav-number">1.5.</span> <span class="nav-text">判断</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环"><span class="nav-number">1.6.</span> <span class="nav-text">循环</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#for循环"><span class="nav-number">1.6.1.</span> <span class="nav-text">for循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#while循环"><span class="nav-number">1.6.2.</span> <span class="nav-text">while循环</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义函数"><span class="nav-number">1.7.</span> <span class="nav-text">自定义函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#html-checkboxes-复选框"><span class="nav-number">1.7.1.</span> <span class="nav-text">{html_checkboxes} 复选框</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#html-options-下拉菜单"><span class="nav-number">1.7.2.</span> <span class="nav-text">{html_options} 下拉菜单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#html-radios-单选按钮"><span class="nav-number">1.7.3.</span> <span class="nav-text">{html_radios}单选按钮</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#html-select-date-显示日期"><span class="nav-number">1.7.4.</span> <span class="nav-text">{html_select_date}显示日期</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量修饰器"><span class="nav-number">1.8.</span> <span class="nav-text">变量修饰器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存"><span class="nav-number">1.9.</span> <span class="nav-text">缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Smarty-缓存就是生成静态页面"><span class="nav-number">1.9.1.</span> <span class="nav-text">Smarty 缓存就是生成静态页面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存的生命周期"><span class="nav-number">1.9.2.</span> <span class="nav-text">缓存的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单模板，多缓存【缓存分页】"><span class="nav-number">1.9.3.</span> <span class="nav-text">单模板，多缓存【缓存分页】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存集合"><span class="nav-number">1.9.4.</span> <span class="nav-text">缓存集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#清除缓存"><span class="nav-number">1.9.5.</span> <span class="nav-text">清除缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#money"><span class="nav-number">1.9.6.</span> <span class="nav-text">money</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Smarty的优点与缺点"><span class="nav-number">1.9.7.</span> <span class="nav-text">Smarty的优点与缺点</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">uiste</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+      <div>
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57838eee5e2620d0" async = "async" ></script>
+</div>
+
+      </div>
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

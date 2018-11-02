@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="问题与优化方案客户端与服务器之间的问题描述：由于客户端跟服务器之间的网络不同，导致信号传输缓慢解决：使用多线路服务器（运维处理） Apache性能问题描述：Apache在并发访问情况下，表现很一般并发：在同一秒中有多少个用户在访问，一般来说并发达到100就特别到了解决：使用负载均衡技术（服务器架构） PHP引擎性能问题描述：PHP代码整个解析效率根据引擎不一样，速度不一样解决：1、代码优化">
+<meta name="keywords" content="数据库优化,服务器优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大型项目优化">
+<meta property="og:url" content="http://blog.uiste.com/2015/20151116-3.html">
+<meta property="og:site_name" content="uiste">
+<meta property="og:description" content="问题与优化方案客户端与服务器之间的问题描述：由于客户端跟服务器之间的网络不同，导致信号传输缓慢解决：使用多线路服务器（运维处理） Apache性能问题描述：Apache在并发访问情况下，表现很一般并发：在同一秒中有多少个用户在访问，一般来说并发达到100就特别到了解决：使用负载均衡技术（服务器架构） PHP引擎性能问题描述：PHP代码整个解析效率根据引擎不一样，速度不一样解决：1、代码优化">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://7xwlfk.com1.z0.glb.clouddn.com/memcache.png">
+<meta property="og:image" content="http://7xwlfk.com1.z0.glb.clouddn.com/memcache_stats.png">
+<meta property="og:updated_time" content="2018-10-19T01:57:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="大型项目优化">
+<meta name="twitter:description" content="问题与优化方案客户端与服务器之间的问题描述：由于客户端跟服务器之间的网络不同，导致信号传输缓慢解决：使用多线路服务器（运维处理） Apache性能问题描述：Apache在并发访问情况下，表现很一般并发：在同一秒中有多少个用户在访问，一般来说并发达到100就特别到了解决：使用负载均衡技术（服务器架构） PHP引擎性能问题描述：PHP代码整个解析效率根据引擎不一样，速度不一样解决：1、代码优化">
+<meta name="twitter:image" content="http://7xwlfk.com1.z0.glb.clouddn.com/memcache.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="uiste" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://blog.uiste.com/2015/20151116-3.html"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>大型项目优化 | uiste</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">uiste</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">uiste</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'aSf9eNpjToN3z8HppMAx','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    <!--  -->
+    
+    
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151116-3.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="uiste">
+      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="uiste">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">大型项目优化
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2015-11-16 01:45:06" itemprop="dateCreated datePublished" datetime="2015-11-16T01:45:06+08:00">2015-11-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-19 09:57:01" itemprop="dateModified" datetime="2018-10-19T09:57:01+08:00">2018-10-19</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="问题与优化方案"><a href="#问题与优化方案" class="headerlink" title="问题与优化方案"></a>问题与优化方案</h2><h4 id="客户端与服务器之间的问题"><a href="#客户端与服务器之间的问题" class="headerlink" title="客户端与服务器之间的问题"></a>客户端与服务器之间的问题</h4><p>描述：由于客户端跟服务器之间的网络不同，导致信号传输缓慢<br>解决：使用多线路服务器（运维处理）</p>
+<h4 id="Apache性能问题"><a href="#Apache性能问题" class="headerlink" title="Apache性能问题"></a>Apache性能问题</h4><p>描述：Apache在并发访问情况下，表现很一般<br>并发：在同一秒中有多少个用户在访问，一般来说并发达到100就特别到了<br>解决：使用负载均衡技术（服务器架构）</p>
+<h4 id="PHP引擎性能问题"><a href="#PHP引擎性能问题" class="headerlink" title="PHP引擎性能问题"></a>PHP引擎性能问题</h4><p>描述：PHP代码整个解析效率根据引擎不一样，速度不一样<br>解决：1、代码优化    2、更换引擎</p>
+<h4 id="MySQL性能问题"><a href="#MySQL性能问题" class="headerlink" title="MySQL性能问题"></a>MySQL性能问题</h4><p>描述：同样MySQL在并发请求比较高的情况下会故障，并发过高MySQL服务器会处于宕机状态。<br>工具：<code>bin/mysqlslap</code>压力测试工具<br><code>mysqlslap.exe -a -c 10 -i 10 -uroot -p123456</code><br><code>mysqlslap.exe:Error when connecting to server:1040 Too many connections</code><br>解决：由于mysql的并发请求特别高，解决该问题可以减少mysql的请求量。可以使用一个高速的存储系统储存数据，以后每次找存储系统获取数据。即使用memcache</p>
+<h2 id="优化具体方法"><a href="#优化具体方法" class="headerlink" title="优化具体方法"></a>优化具体方法</h2><ol>
+<li>网站开发中尽量使用较小的资源文件</li>
+<li>使用压缩技术（gzip压缩）</li>
+<li>使用cdn加速资源文件（负载均衡）</li>
+<li>使用缓存技术（内存缓存 redis/memcache/页面静态化）</li>
+<li>对数据库进行优化（索引、存储引擎、表规范、sql优化）</li>
+<li>网站架构重构采用分层模式设计，面向接口（API）编程</li>
+<li>使用负载均衡技术（请求分流）</li>
+<li>数据库使用读写分离或者分布式技术</li>
+<li>对相关软件配置进行优化</li>
+<li>硬件升级</li>
+<li>延迟加载</li>
+</ol>
+<h2 id="项目承载的并发量"><a href="#项目承载的并发量" class="headerlink" title="项目承载的并发量"></a>项目承载的并发量</h2><p>单机+nginx+memcache+文件缓存+mysql数据库测试出的并发量：300</p>
+<h1 id="Memcache"><a href="#Memcache" class="headerlink" title="Memcache"></a>Memcache</h1><p>Memcache是一款基于<strong>内存</strong>的<strong>键值对</strong>的<strong>缓存系统</strong>，具备高速读写的特性，并且支持<strong>分布式存储</strong><br>Memcached是一个高性能的分布式的内存对象缓存系统，使用这个缓存项目来构建大负载的网站，来分担数据库的压力，通过在内存里维护一个统一的巨大的hash表，它能够用来存储各种格式的数据，包括图像、视频、文件以及数据库检索的结果等。简单的说就是将数据调用到内存中，然后从内存中读取，从而大大提高读取速度。</p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><h3 id="为什么内存中的数据读写速度快"><a href="#为什么内存中的数据读写速度快" class="headerlink" title="为什么内存中的数据读写速度快"></a>为什么内存中的数据读写速度快</h3><h4 id="计算机数据运算流程"><a href="#计算机数据运算流程" class="headerlink" title="计算机数据运算流程"></a>计算机数据运算流程</h4><p>数据运算在CPU上进行的，cpu本身不能存储数据，cpu需要运算的数据来源于内存。内存本身可以存储部分数据，也可以从其他存储介质（磁盘）上读取数据</p>
+<h4 id="设计机制"><a href="#设计机制" class="headerlink" title="设计机制"></a>设计机制</h4><p>在磁盘上决定数据读写速度的是磁头定位查找数据。磁盘专属越高读写速度越快，对于MySQL优化，第一步可以将磁盘换成固态硬盘。内存是使用电流信号，所以速度特别快。</p>
+<p>###缓存系统<br>只是临时存储数据的位置（非持久性数据），真实数据还是靠其他的存储介质保存。因为内存中的数据安全性不够，当由于异常服务器重启，内存中的数据会全部丢失。</p>
+<h3 id="分布式存储"><a href="#分布式存储" class="headerlink" title="分布式存储"></a>分布式存储</h3><p>将数据拆分到不同的Memcache服务器上存储。能够解决单台Memcache服务器存储的上线</p>
+<h2 id="Memcache安装"><a href="#Memcache安装" class="headerlink" title="Memcache安装"></a>Memcache安装</h2><h3 id="windows安装启动"><a href="#windows安装启动" class="headerlink" title="windows安装启动"></a>windows安装启动</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>方法一：一次性</p>
+<p>方法二：加载到服务<br><code>memcached.exe -d install memcached.exe -d start</code></p>
+<h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><p>方法一：服务启动<br>方法二：<code>memcached.exe -d start</code><br>方法三：<code>net start &quot;memcached Server&quot;</code></p>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>Memcache是一个基于tcp协议的第三方应用。可以使用Telnet工具操作Memcache</p>
+<ol>
+<li><p>开启Telnet客户端<br>控制面板-&gt;程序功能-&gt;启用或关闭windows功能-&gt;勾选Telnet</p>
+</li>
+<li><p>使用Telnet客户端<br>连接方式：进入cmd执行telent   ip地址  端口号</p>
+<h3 id="Linux安装"><a href="#Linux安装" class="headerlink" title="Linux安装"></a>Linux安装</h3></li>
+</ol>
+<p><code>[root@localhost libevent-2.0.20-stable]# make &amp;&amp; make install</code></p>
+<p>2.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost libevent-2.0.20-stable]# cd ../</span><br><span class="line">[root@localhost memcache]# tar -zxvf memcached-1.4.20.tar.gz</span><br><span class="line">[root@localhost memcached-1.4.20]# ./configure --prefix=/usr/local/memcache --with-libevent=/usr/local/bibevent</span><br><span class="line">[root@localhost memcached-1.4.20]# make &amp;&amp; make install</span><br></pre></td></tr></table></figure></p>
+<h4 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h4><p><strong>memcache的基本命令</strong></p>
+<p><img src="http://7xwlfk.com1.z0.glb.clouddn.com/memcache.png" alt="memcache"></p>
+<h4 id="权限问题"><a href="#权限问题" class="headerlink" title="权限问题"></a>权限问题</h4><p>在Memcache中没有账号密码，因此Memcache中的数据不太安全。<br>解决办法：</p>
+<ol>
+<li>将Memcache服务器置于内网中，然后使用反向代理技术访问</li>
+<li>通过服务器防火墙的配置，只允许某个IP地址可以访问<br>在Linux可以使用hosts.allow跟hosts.deny文件控制访问权限，也叫黑白名单</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cd /etc/host</span><br><span class="line">host.conf hosts hosts.allow hosts.deny</span><br><span class="line">[root@localhost ~]# cd /etc/host.allow</span><br></pre></td></tr></table></figure>
+<h3 id="常用操作命令"><a href="#常用操作命令" class="headerlink" title="常用操作命令"></a>常用操作命令</h3><h4 id="设置数据-set"><a href="#设置数据-set" class="headerlink" title="设置数据 | set"></a>设置数据 | set</h4><p>语法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set keyname(键名) 0|1 (数据是否压缩处理) exprie(有效时间) length(字符长度)</span><br><span class="line">Value(具体的数据)</span><br></pre></td></tr></table></figure></p>
+<p>如果数据已经存在则修改数据</p>
+<blockquote>
+<p>写入具体的value数据时有回车换行操作<br>对于键名的操作一般不操作250字节<br>一般情况数据不压缩，压缩会将数据的体积变小，但读取数据时需要进行解压操作，因此整个效率降低了（时间 &lt;==&gt; 空间）<br>有效时间：针对Memcache中每一个键，都可以设置一个过期时间，如果时间一到，该键数据会消失，时间采用的是秒为单位，即多少秒之后过期，0表示永不过期</p>
+</blockquote>
+<h4 id="获取数据-get"><a href="#获取数据-get" class="headerlink" title="获取数据 | get"></a>获取数据 | get</h4><p>配合set使用</p>
+<h4 id="添加数据-add"><a href="#添加数据-add" class="headerlink" title="添加数据 | add"></a>添加数据 | add</h4><p>语法：<code>add key 0|1 失效时间  值的长度</code></p>
+<blockquote>
+<p>注意：在使用add时，如果键已经存在，则添加失败。</p>
+</blockquote>
+<h4 id="删除数据-delete"><a href="#删除数据-delete" class="headerlink" title="删除数据 | delete"></a>删除数据 | delete</h4><p>语法：<code>delete key</code></p>
+<h4 id="删除所有-flush-all"><a href="#删除所有-flush-all" class="headerlink" title="删除所有 | flush_all"></a>删除所有 | flush_all</h4><p>语法：flush_all</p>
+<blockquote>
+<p>项目中慎用该命令</p>
+</blockquote>
+<h4 id="加法操作-incr"><a href="#加法操作-incr" class="headerlink" title="加法操作 | incr"></a>加法操作 | incr</h4><p>语法：<code>incr key number</code></p>
+<blockquote>
+<p>对数据向下取整</p>
+</blockquote>
+<h4 id="减法操作-decr"><a href="#减法操作-decr" class="headerlink" title="减法操作 | decr"></a>减法操作 | decr</h4><p>语法：<code>decr key number</code></p>
+<blockquote>
+<p>使用decr就可以模拟秒杀系统，比如一开始设置值为100 有效期为60秒</p>
+</blockquote>
+<h4 id="状态操作-stats"><a href="#状态操作-stats" class="headerlink" title="状态操作 | stats"></a>状态操作 | stats</h4><p>通过查看stats主要计算命中率<br><code>命中率 = get_hits/cmd_get</code>  自然是命中率越高越好，如果命中率很低，则说明缓存效率低，需要调整缓存的数据内容，一般项目命中率能够到70%-90%就算很好。如果内存不够用，先删除快过期的，再删除不常用的，由系统底层监控</p>
+<p><img src="http://7xwlfk.com1.z0.glb.clouddn.com/memcache_stats.png" alt="memcache_stats"></p>
+<h2 id="PHP操作Memcache"><a href="#PHP操作Memcache" class="headerlink" title="PHP操作Memcache"></a>PHP操作Memcache</h2><h3 id="安装扩展"><a href="#安装扩展" class="headerlink" title="安装扩展"></a>安装扩展</h3><p>通过phpinfo查看php.ini所在位置，PHP的版本号，及Thread Safety。</p>
+<blockquote>
+<p>根据以上信息选择对应版本，Enable 选择使用ts版本。否则使用nts版本，</p>
+</blockquote>
+<p>在php.ini中通过<code>extension_dir</code>查看扩展包所在路径</p>
+<blockquote>
+<p>将php_memcache.dll文件拷贝到扩展目录下<br>修改php.ini加入配置项：<code>extension = php_memcache.dll</code></p>
+</blockquote>
+<p>重启Apache，查看phpinfo() ，是否包含Memcache扩展模块</p>
+<h3 id="使用Memcache"><a href="#使用Memcache" class="headerlink" title="使用Memcache"></a>使用Memcache</h3><ol>
+<li>实例化memcache对象<br><code>$mem = new Memcache();</code></li>
+<li>与memcache服务器建立连接<br><code>$mem-&gt;connect(&#39;27.0.0.1&#39;,11211);</code></li>
+<li>向memcache中写入数据<br><code>$mem-&gt;set(&#39;name&#39;,&#39;uiste&#39;);</code></li>
+<li>查询数据<br><code>$res = $mem-&gt;get(&#39;name&#39;);</code></li>
+</ol>
+<h3 id="存储原理"><a href="#存储原理" class="headerlink" title="存储原理"></a>存储原理</h3><p>Memcache可以正常存储PHP的标量类型、符合类型、空类型，但不能存储资源类型。在Memcache中本身存储的是字符串，Memcache类的set方法在向Memcache写入数据时会先将数据序列化，在get获取数据后然后反序列化。</p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ol>
+<li>session写入Memcache中</li>
+<li>作为分布式存储系统</li>
+<li>作为缓存系统使用</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据库优化/" rel="tag"># 数据库优化</a>
+          
+            <a href="/tags/服务器优化/" rel="tag"># 服务器优化</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/20151116-2.html" rel="next" title="一键安装lnmp环境">
+                <i class="fa fa-chevron-left"></i> 一键安装lnmp环境
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/20151116-4.html" rel="prev" title="MySQL优化">
+                MySQL优化 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/default_avatar.png"
+                alt="uiste" />
+            
+              <p class="site-author-name" itemprop="name">uiste</p>
+              <p class="site-description motion-element" itemprop="description">Stay Hungry，Stay Foolish</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">122</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">66</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/uiste" target="_blank" title="GitHub"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/uiste" target="_blank" title="微博"><i class="fa fa-fw fa-globe"></i>微博</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.zhihu.com/people/uiste" target="_blank" title="知乎"><i class="fa fa-fw fa-globe"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.xiaomanyu.cn" title="Mandy画站" target="_blank">Mandy画站</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题与优化方案"><span class="nav-number">1.</span> <span class="nav-text">问题与优化方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#客户端与服务器之间的问题"><span class="nav-number">1.0.1.</span> <span class="nav-text">客户端与服务器之间的问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Apache性能问题"><span class="nav-number">1.0.2.</span> <span class="nav-text">Apache性能问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PHP引擎性能问题"><span class="nav-number">1.0.3.</span> <span class="nav-text">PHP引擎性能问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL性能问题"><span class="nav-number">1.0.4.</span> <span class="nav-text">MySQL性能问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化具体方法"><span class="nav-number">2.</span> <span class="nav-text">优化具体方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目承载的并发量"><span class="nav-number">3.</span> <span class="nav-text">项目承载的并发量</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Memcache"><span class="nav-number"></span> <span class="nav-text">Memcache</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么内存中的数据读写速度快"><span class="nav-number">1.1.</span> <span class="nav-text">为什么内存中的数据读写速度快</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#计算机数据运算流程"><span class="nav-number">1.1.1.</span> <span class="nav-text">计算机数据运算流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设计机制"><span class="nav-number">1.1.2.</span> <span class="nav-text">设计机制</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分布式存储"><span class="nav-number">1.2.</span> <span class="nav-text">分布式存储</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Memcache安装"><span class="nav-number">2.</span> <span class="nav-text">Memcache安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#windows安装启动"><span class="nav-number">2.1.</span> <span class="nav-text">windows安装启动</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装"><span class="nav-number">2.1.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动"><span class="nav-number">2.1.2.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用"><span class="nav-number">2.1.3.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux安装"><span class="nav-number">2.2.</span> <span class="nav-text">Linux安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#常用命令"><span class="nav-number">2.2.1.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#权限问题"><span class="nav-number">2.2.2.</span> <span class="nav-text">权限问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用操作命令"><span class="nav-number">2.3.</span> <span class="nav-text">常用操作命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#设置数据-set"><span class="nav-number">2.3.1.</span> <span class="nav-text">设置数据 | set</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取数据-get"><span class="nav-number">2.3.2.</span> <span class="nav-text">获取数据 | get</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加数据-add"><span class="nav-number">2.3.3.</span> <span class="nav-text">添加数据 | add</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除数据-delete"><span class="nav-number">2.3.4.</span> <span class="nav-text">删除数据 | delete</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除所有-flush-all"><span class="nav-number">2.3.5.</span> <span class="nav-text">删除所有 | flush_all</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#加法操作-incr"><span class="nav-number">2.3.6.</span> <span class="nav-text">加法操作 | incr</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#减法操作-decr"><span class="nav-number">2.3.7.</span> <span class="nav-text">减法操作 | decr</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#状态操作-stats"><span class="nav-number">2.3.8.</span> <span class="nav-text">状态操作 | stats</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP操作Memcache"><span class="nav-number">3.</span> <span class="nav-text">PHP操作Memcache</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装扩展"><span class="nav-number">3.1.</span> <span class="nav-text">安装扩展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Memcache"><span class="nav-number">3.2.</span> <span class="nav-text">使用Memcache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存储原理"><span class="nav-number">3.3.</span> <span class="nav-text">存储原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用场景"><span class="nav-number">4.</span> <span class="nav-text">应用场景</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">uiste</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+      <div>
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57838eee5e2620d0" async = "async" ></script>
+</div>
+
+      </div>
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

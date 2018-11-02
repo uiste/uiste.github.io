@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="思考：A页面中如何访问B页面中的变量包含文件get传递或post传递cookie：cookie是小的信息包。  Cookiecookie的原理浏览器—-http请求（无值）——–&amp;gt;服务器浏览器&amp;lt;—响应头中传递cookie——-服务器浏览器—-再次发送http请求（有值）–&amp;gt;服务器  请求头：客户端请求服务器的时候，告知服务器客户端的信息 响应头：服务器响应客户端的时候，告知客户">
+<meta name="keywords" content="PHP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="COOKIE 和 SESSION">
+<meta property="og:url" content="http://blog.uiste.com/2015/20150926-1.html">
+<meta property="og:site_name" content="uiste">
+<meta property="og:description" content="思考：A页面中如何访问B页面中的变量包含文件get传递或post传递cookie：cookie是小的信息包。  Cookiecookie的原理浏览器—-http请求（无值）——–&amp;gt;服务器浏览器&amp;lt;—响应头中传递cookie——-服务器浏览器—-再次发送http请求（有值）–&amp;gt;服务器  请求头：客户端请求服务器的时候，告知服务器客户端的信息 响应头：服务器响应客户端的时候，告知客户">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-19T01:57:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="COOKIE 和 SESSION">
+<meta name="twitter:description" content="思考：A页面中如何访问B页面中的变量包含文件get传递或post传递cookie：cookie是小的信息包。  Cookiecookie的原理浏览器—-http请求（无值）——–&amp;gt;服务器浏览器&amp;lt;—响应头中传递cookie——-服务器浏览器—-再次发送http请求（有值）–&amp;gt;服务器  请求头：客户端请求服务器的时候，告知服务器客户端的信息 响应头：服务器响应客户端的时候，告知客户">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="uiste" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://blog.uiste.com/2015/20150926-1.html"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>COOKIE 和 SESSION | uiste</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">uiste</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">uiste</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'aSf9eNpjToN3z8HppMAx','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    <!--  -->
+    
+    
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150926-1.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="uiste">
+      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="uiste">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">COOKIE 和 SESSION
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2015-09-26 19:31:59" itemprop="dateCreated datePublished" datetime="2015-09-26T19:31:59+08:00">2015-09-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-19 09:57:01" itemprop="dateModified" datetime="2018-10-19T09:57:01+08:00">2018-10-19</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>思考：A页面中如何访问B页面中的变量<br>包含文件<br>get传递或post传递<br>cookie：cookie是小的信息包。</p>
+</blockquote>
+<h1 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h1><h3 id="cookie的原理"><a href="#cookie的原理" class="headerlink" title="cookie的原理"></a>cookie的原理</h3><p>浏览器—-http请求（无值）——–&gt;服务器<br>浏览器&lt;—响应头中传递cookie——-服务器<br>浏览器—-再次发送http请求（有值）–&gt;服务器</p>
+<ol>
+<li><strong>请求头：客户端请求服务器的时候，告知服务器客户端的信息</strong></li>
+<li><strong>响应头：服务器响应客户端的时候，告知客户端服务器的信息</strong></li>
+</ol>
+<h3 id="长连接"><a href="#长连接" class="headerlink" title="长连接"></a>长连接</h3><p>在多个http请求之间，TCP连接不断开称为长连接，默认是5秒。<br>长连接过程中，可以建立多次<em>http请求</em>与<em>http响应</em></p>
+<h3 id="cookie保存在客户端"><a href="#cookie保存在客户端" class="headerlink" title="cookie保存在客户端"></a>cookie保存在客户端</h3><h3 id="设置cookie"><a href="#设置cookie" class="headerlink" title="设置cookie"></a>设置cookie</h3><p>语法：setcookie(名字,值,过期时间,有效目录,子域名)</p>
+<p><code>bool setcookie ( string $name [, string $value = &quot;&quot; [, int $expire = 0 [, string $path = &quot;&quot; [, string $domain = &quot;&quot; [, bool $secure = false [, bool $httponly = false ]]]]]] )</code></p>
+<h3 id="临时性cookie"><a href="#临时性cookie" class="headerlink" title="临时性cookie"></a>临时性cookie</h3><p>关闭浏览器cookie就消失</p>
+<h3 id="永久性cookie"><a href="#永久性cookie" class="headerlink" title="永久性cookie"></a>永久性cookie</h3><ul>
+<li>[ ] 下次自动登录    （案例）</li>
+</ul>
+<blockquote>
+<p>在临时性cookie的基础上加上一个过期时间就成了永久性cookie，过期时间是一个时间戳<br>永久性cookie保存在浏览器上，换个浏览器就不行了</p>
+</blockquote>
+<h3 id="cookie保存的数据类型"><a href="#cookie保存的数据类型" class="headerlink" title="cookie保存的数据类型"></a>cookie保存的数据类型</h3><p>cookie不能存放bool型数据，true=&gt;1 false=&gt;delete<br>cookie不能存放数组和对象<br><strong>cookie中只能存放字符串</strong></p>
+<h3 id="删除cookie"><a href="#删除cookie" class="headerlink" title="删除cookie"></a>删除cookie</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie:</span><br><span class="line">name=uiste; expires=Mon, 26-Sep-2015 12:07:11 GMT; Max-Age=100</span><br><span class="line">sex=man; expires=Mon, 26-Sep-2015 12:07:11 GMT; Max-Age=100</span><br><span class="line">age=24; expires=Mon, 26-Sep-2015 12:07:11 GMT; Max-Age=100</span><br><span class="line">name=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0</span><br><span class="line">sex=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0</span><br><span class="line">age=</span><br></pre></td></tr></table></figure>
+<h3 id="cookie支持下标"><a href="#cookie支持下标" class="headerlink" title="cookie支持下标"></a>cookie支持下标</h3><p>cookie在浏览器上没有数组的概念，只是浏览器请求到服务器，PHP将同名的变量转成数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">//cookie不支持数组，但是支持下标</span><br><span class="line">setcookie(&apos;stu[0]&apos;,&apos;tom&apos;);</span><br><span class="line">setcookie(&apos;stu[1]&apos;,&apos;berry&apos;);</span><br><span class="line">setcookie(&apos;stu[2]&apos;,&apos;ketty&apos;);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="cookie有效目录"><a href="#cookie有效目录" class="headerlink" title="cookie有效目录"></a>cookie有效目录</h3><p>默认情况下，cookie只能在当前目录和子级目录中有效<br>如果要在整个网站中有效，就要设置有效目录，‘/’表示整站有效<br><code>setcookie(&#39;name&#39;,&#39;tom&#39;,0,&#39;/&#39;)</code></p>
+<h3 id="cookie支持子域名"><a href="#cookie支持子域名" class="headerlink" title="cookie支持子域名"></a>cookie支持子域名</h3><p>默认情况下，cookie是区分子域名的。一个子域名就代替一个独立的服务器</p>
+<h3 id="cookie的缺点"><a href="#cookie的缺点" class="headerlink" title="cookie的缺点"></a>cookie的缺点</h3><ol>
+<li>信息保存在本地，安全性低</li>
+<li>只能保存字符串，不能保存数组和对象，可控性差</li>
+<li>数据保存在头信息中，增加请求时的数据负载</li>
+<li>一般浏览器对cookie的要求是不能高于4K</li>
+</ol>
+<h1 id="session-会话"><a href="#session-会话" class="headerlink" title="session(会话)"></a>session(会话)</h1><p>将数据存储到服务器端，每个客户一个空间，通过编号访问自己的数据</p>
+<ul>
+<li>第一次访问服务器，服务器给客户端分配一个编号</li>
+<li>通过编号来访问服务器保存的数据</li>
+<li>每个客户只能访问自己的数据<br><strong>session是基于cookie的技术</strong></li>
+</ul>
+<h3 id="session的操作"><a href="#session的操作" class="headerlink" title="session的操作"></a>session的操作</h3><ol>
+<li>要使用会话必须显示的开启会话，<code>session_start()</code>。默认情况下，会话不会自动开启。</li>
+<li>要自动开启会话，在<code>php.ini</code>文件中<code>session.auto_start=1</code>，把0改为1就自动开启了</li>
+<li>session_id():会话编号</li>
+<li>session_name():会话名称</li>
+<li>session可以保存除了资源以外的所有类型的数据</li>
+<li>重复开启会话会报错，可以通过<code>@</code>来屏蔽会话</li>
+</ol>
+<h3 id="session执行过程"><a href="#session执行过程" class="headerlink" title="session执行过程"></a>session执行过程</h3><ol>
+<li>使用<code>session_start()</code>从<code>session</code>仓库中加载已经存在的<code>session</code>变量</li>
+<li>第一次请求服务器，一个唯一的会话id存储到cookie响应头中</li>
+<li>在后面的请求中，会话id保存请求头中，服务器获取请求头的会话id，通过id获取会话的值</li>
+<li>页面执行完毕返回到客户端之前，将会话自动保存到服务器的session库中。下次浏览网页可以加载再次使用</li>
+</ol>
+<h3 id="session的配置"><a href="#session的配置" class="headerlink" title="session的配置"></a>session的配置</h3><ol>
+<li>session.save_path：指定session库的路径  </li>
+</ol>
+<hr>
+<p>session.save_path = “N;/path”, N表示通过N级目录来保存会话，N等于1，就是通过会话的第一个字母创建文件夹；N等于2表示通过两级目录创建文件夹，第一级是第一个字母，第二级是第二个字母。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">; 用于保存/取回数据的控制方式</span><br><span class="line">session.save_handler=files</span><br><span class="line">;     session.save_path = &quot;N;/path&quot;</span><br><span class="line">; 在 save_handler 设为文件时传给控制器的参数， 这是数据文件将保存的路径</span><br><span class="line">session.save_path=&quot;/Applications/XAMPP/xamppfiles/temp/&quot;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>session.name：设置会话名称</li>
+</ol>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">; Name of the session (used as cookie name).</span><br><span class="line">; http://php.net/session.name</span><br><span class="line">session.name=PHPSESSID</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>session.cookie_lifetime：保存会话编号的cookie有效时间</li>
+</ol>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">; Lifetime in seconds of cookie or, if 0, until browser is restarted.</span><br><span class="line">; http://php.net/session.cookie-lifetime</span><br><span class="line">session.cookie_lifetime=0</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>session.cookie_path：保存会话的cookie整站有效</li>
+</ol>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">; The path for which the cookie is valid.</span><br><span class="line">; http://php.net/session.cookie-path</span><br><span class="line">session.cookie_path=/</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>session.cookie_domain：当前域名有效</li>
+</ol>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">; The domain for which the cookie is valid.</span><br><span class="line">; http://php.net/session.cookie-domain</span><br><span class="line">session.cookie_domain=</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>session.save_handler = files：会话按文件格式保存</li>
+</ol>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">; Handler used to store/retrieve data.</span><br><span class="line">; http://php.net/session.save-handler</span><br><span class="line">session.save_handler=files</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>session.hash_function = 0：设置session会话的算法</li>
+</ol>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">; Select a hash function for use in generating session ids.</span><br><span class="line">; Possible Values </span><br><span class="line">;   0  (MD5 128 bits)</span><br><span class="line">;   1  (SHA-1 160 bits)</span><br><span class="line">; http://php.net/session.hash-function</span><br><span class="line">session.hash_function=0</span><br></pre></td></tr></table></figure>
+<ol start="8">
+<li>session.hash_bits_per_character = 5：每个字符占用的位数</li>
+</ol>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">; Define how many bits are stored in each character when converting</span><br><span class="line">; the binary hash data to something readable.</span><br><span class="line">; Possible values:</span><br><span class="line">;   4  (4 bits: 0-9, a-f)</span><br><span class="line">;   5  (5 bits: 0-9, a-v)</span><br><span class="line">;   6  (6 bits: 0-9, a-z, A-Z, &quot;-&quot;, &quot;,&quot;)</span><br><span class="line">; Default Value: 4</span><br><span class="line">; Development Value: 5</span><br><span class="line">; Production Value: 5</span><br><span class="line">; http://php.net/session.hash-bits-per-character</span><br><span class="line">session.hash_bits_per_character=5</span><br></pre></td></tr></table></figure>
+<ol start="9">
+<li>session.gc_maxlifetime = 1440：会话过期时间</li>
+</ol>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">; After this number of seconds, stored data will be seen as &apos;garbage&apos; and</span><br><span class="line">; cleaned up by the garbage collection process.</span><br><span class="line">; http://php.net/session.gc-maxlifetime</span><br><span class="line">session.gc_maxlifetime=1440</span><br></pre></td></tr></table></figure>
+<h3 id="session-destroy-：销毁会话"><a href="#session-destroy-：销毁会话" class="headerlink" title="session_destroy()：销毁会话"></a>session_destroy()：销毁会话</h3><ol>
+<li>删除储存介质中的文件</li>
+<li>执行此行，就不会执行会话写入操作了</li>
+</ol>
+<h1 id="session入库"><a href="#session入库" class="headerlink" title="session入库"></a>session入库</h1><h3 id="新建数据库"><a href="#新建数据库" class="headerlink" title="新建数据库"></a>新建数据库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">drop table if exists sess;</span><br><span class="line">create table sess(</span><br><span class="line">       sess_id varchar(32) primary key comment &apos;会话编号&apos;,</span><br><span class="line">       sess_value text comment &apos;会话的值&apos;,</span><br><span class="line">       sess_expires int not null comment &apos;会话产生时间&apos;</span><br><span class="line">)engine=innodb charset=utf8;</span><br></pre></td></tr></table></figure>
+<h3 id="session-set-save-handler-设置用户自定义会话存储函数"><a href="#session-set-save-handler-设置用户自定义会话存储函数" class="headerlink" title="session_set_save_handler()设置用户自定义会话存储函数"></a>session_set_save_handler()设置用户自定义会话存储函数</h3><p><code>bool session_set_save_handler ( callable $open , callable $close , callable $read , callable $write , callable $destroy , callable $gc [, callable $create_sid ] )</code></p>
+<ul>
+<li>open:开启会话</li>
+<li>close:关闭会话</li>
+<li>read:读取会话</li>
+<li>write:写入会话</li>
+<li>destroy:销毁会话</li>
+<li>gc:销毁会话</li>
+</ul>
+<p>执行session_destroy()的时候才调用destroy()函数</p>
+<blockquote>
+<p>为什么gc不执行?</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">; Defines the probability that the &apos;garbage collection&apos; process is started</span><br><span class="line">; on every session initialization. The probability is calculated by using</span><br><span class="line">; gc_probability/gc_divisor. Where session.gc_probability is the numerator</span><br><span class="line">; and gc_divisor is the denominator in the equation. Setting this value to 1</span><br><span class="line">; when the session.gc_divisor value is 100 will give you approximately a 1% chance</span><br><span class="line">; the gc will run on any give request.</span><br><span class="line">; Default Value: 1</span><br><span class="line">; Development Value: 1</span><br><span class="line">; Production Value: 1</span><br><span class="line">; http://php.net/session.gc-probability</span><br><span class="line">session.gc_probability=1</span><br><span class="line"></span><br><span class="line">; Defines the probability that the &apos;garbage collection&apos; process is started on every</span><br><span class="line">; session initialization. The probability is calculated by using the following equation: </span><br><span class="line">; gc_probability/gc_divisor. Where session.gc_probability is the numerator and</span><br><span class="line">; session.gc_divisor is the denominator in the equation. Setting this value to 1</span><br><span class="line">; when the session.gc_divisor value is 100 will give you approximately a 1% chance</span><br><span class="line">; the gc will run on any give request. Increasing this value to 1000 will give you</span><br><span class="line">; a 0.1% chance the gc will run on any give request. For high volume production servers,</span><br><span class="line">; this is a more efficient approach.</span><br><span class="line">; Default Value: 100</span><br><span class="line">; Development Value: 1000</span><br><span class="line">; Production Value: 1000</span><br><span class="line">; http://php.net/session.gc-divisor</span><br><span class="line">session.gc_divisor=1000</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>session.gc_probability=1   概率<br>session.gc_divisor=1000    除数<br>执行垃圾回收的概率是：1/1000</p>
+</blockquote>
+<h3 id="session入库-1"><a href="#session入库-1" class="headerlink" title="session入库"></a>session入库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">header(&apos;content-type:text/html;charset=utf-8&apos;);</span><br><span class="line">//开启会话</span><br><span class="line">function open() &#123;</span><br><span class="line">	mysql_connect(&apos;localhost&apos;,&apos;root&apos;,&apos;aa&apos;);</span><br><span class="line">	mysql_query(&apos;set names utf8&apos;);</span><br><span class="line">	mysql_query(&apos;use php5&apos;);</span><br><span class="line">&#125;</span><br><span class="line">//关闭会话</span><br><span class="line">function close() &#123;</span><br><span class="line">&#125;</span><br><span class="line">/**</span><br><span class="line">*读取会话</span><br><span class="line">*@param $sess_id string 会话编号</span><br><span class="line">*/</span><br><span class="line">function read($sess_id) &#123;</span><br><span class="line">	$sql=&quot;select sess_value from sess where sess_id=&apos;$sess_id&apos;&quot;;</span><br><span class="line">	$rs=mysql_query($sql);</span><br><span class="line">	if($rows=mysql_fetch_row($rs))</span><br><span class="line">		return $rows[0];</span><br><span class="line">	return &apos;&apos;;</span><br><span class="line">&#125;</span><br><span class="line">/**</span><br><span class="line">*写入会话</span><br><span class="line">*@param $sess_id string 会话编号</span><br><span class="line">*@param $sess_value string 会话值</span><br><span class="line">*/</span><br><span class="line">function write($sess_id,$sess_value) &#123;</span><br><span class="line">	$expires=time();</span><br><span class="line">	$sql=&quot;insert into sess values (&apos;$sess_id&apos;,&apos;$sess_value&apos;,$expires) on duplicate key update sess_value=&apos;$sess_value&apos;,sess_expires=$expires&quot;;</span><br><span class="line">	return mysql_query($sql);</span><br><span class="line">&#125;</span><br><span class="line">/**</span><br><span class="line">*销毁会话</span><br><span class="line">*/</span><br><span class="line">function destroy($sess_id) &#123;</span><br><span class="line">	$sql=&quot;delete from sess where sess_id=&apos;$sess_id&apos;&quot;;</span><br><span class="line">	return mysql_query($sql);</span><br><span class="line">&#125;</span><br><span class="line">/**</span><br><span class="line">*垃圾回收</span><br><span class="line">*超过生命周期的会话都是垃圾</span><br><span class="line">*/</span><br><span class="line">function gc($maxlifetime) &#123;</span><br><span class="line">	$time=time()-$maxlifetime;</span><br><span class="line">	$sql=&quot;delete from sess where sess_expires&lt;$time&quot;;</span><br><span class="line">	return mysql_query($sql);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//更改会话的存储</span><br><span class="line">session_set_save_handler(&apos;open&apos;,&apos;close&apos;,&apos;read&apos;,&apos;write&apos;,&apos;destroy&apos;,&apos;gc&apos;);</span><br><span class="line">session_start();</span><br><span class="line">$_SESSION[&apos;sex&apos;]=100;</span><br><span class="line">echo $_SESSION[&apos;sex&apos;];</span><br><span class="line">session_destroy();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<hr>
+<blockquote>
+<p>session_set_save_handler()必须放在session_start()前面才能起作用</p>
+</blockquote>
+<h1 id="COOKIE-与-SESSION的区别"><a href="#COOKIE-与-SESSION的区别" class="headerlink" title="COOKIE 与 SESSION的区别"></a>COOKIE 与 SESSION的区别</h1><p>cookie将键值存储在浏览器上<br>session将键存储在浏览器上，值存储在服务器上。</p>
+<blockquote>
+<p>cookie的可以被禁用的，禁用cookie，基于cookie的所有技术都无法使用。</p>
+</blockquote>
+<p>默认情况下，session是基于的cookie的，可以通过配置更改。</p>
+<p><code>session.use_trans_sid=1</code><br><code>session.use_only_cookies=0</code></p>
+<p>重启Apache会发现，会话编号不保存到cookie中，而是保存到get提交的URL中或表单的隐藏域中。</p>
+<blockquote>
+<p>已知session_set_save_handler()必须在session_start()前面开启，如果在php.ini中设置了session.auto_start = 1后，则session_set_save_handler()无效。如何处理？<br>在分布式部署文件中有两个指令来更改php.ini中的配置<br>php_flag：用来更改开关性质的配置<br>php_value：用来更改值性质的配置<br>php_flag session.auto_start 0<br>php_value session.gc_maxlifetime 10<br>将以上命令添置在.htaccess文件中</p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PHP/" rel="tag"># PHP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/20150924-2.html" rel="next" title="初识Linux">
+                <i class="fa fa-chevron-left"></i> 初识Linux
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/20150927-1.html" rel="prev" title="PHP-验证码图片排错">
+                PHP-验证码图片排错 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/default_avatar.png"
+                alt="uiste" />
+            
+              <p class="site-author-name" itemprop="name">uiste</p>
+              <p class="site-description motion-element" itemprop="description">Stay Hungry，Stay Foolish</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">122</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">66</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/uiste" target="_blank" title="GitHub"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/uiste" target="_blank" title="微博"><i class="fa fa-fw fa-globe"></i>微博</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.zhihu.com/people/uiste" target="_blank" title="知乎"><i class="fa fa-fw fa-globe"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.xiaomanyu.cn" title="Mandy画站" target="_blank">Mandy画站</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Cookie"><span class="nav-number">1.</span> <span class="nav-text">Cookie</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#cookie的原理"><span class="nav-number">1.0.1.</span> <span class="nav-text">cookie的原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#长连接"><span class="nav-number">1.0.2.</span> <span class="nav-text">长连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cookie保存在客户端"><span class="nav-number">1.0.3.</span> <span class="nav-text">cookie保存在客户端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置cookie"><span class="nav-number">1.0.4.</span> <span class="nav-text">设置cookie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#临时性cookie"><span class="nav-number">1.0.5.</span> <span class="nav-text">临时性cookie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#永久性cookie"><span class="nav-number">1.0.6.</span> <span class="nav-text">永久性cookie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cookie保存的数据类型"><span class="nav-number">1.0.7.</span> <span class="nav-text">cookie保存的数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除cookie"><span class="nav-number">1.0.8.</span> <span class="nav-text">删除cookie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cookie支持下标"><span class="nav-number">1.0.9.</span> <span class="nav-text">cookie支持下标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cookie有效目录"><span class="nav-number">1.0.10.</span> <span class="nav-text">cookie有效目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cookie支持子域名"><span class="nav-number">1.0.11.</span> <span class="nav-text">cookie支持子域名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cookie的缺点"><span class="nav-number">1.0.12.</span> <span class="nav-text">cookie的缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#session-会话"><span class="nav-number">2.</span> <span class="nav-text">session(会话)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#session的操作"><span class="nav-number">2.0.1.</span> <span class="nav-text">session的操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#session执行过程"><span class="nav-number">2.0.2.</span> <span class="nav-text">session执行过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#session的配置"><span class="nav-number">2.0.3.</span> <span class="nav-text">session的配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#session-destroy-：销毁会话"><span class="nav-number">2.0.4.</span> <span class="nav-text">session_destroy()：销毁会话</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#session入库"><span class="nav-number">3.</span> <span class="nav-text">session入库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#新建数据库"><span class="nav-number">3.0.1.</span> <span class="nav-text">新建数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#session-set-save-handler-设置用户自定义会话存储函数"><span class="nav-number">3.0.2.</span> <span class="nav-text">session_set_save_handler()设置用户自定义会话存储函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#session入库-1"><span class="nav-number">3.0.3.</span> <span class="nav-text">session入库</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#COOKIE-与-SESSION的区别"><span class="nav-number">4.</span> <span class="nav-text">COOKIE 与 SESSION的区别</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">uiste</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+      <div>
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57838eee5e2620d0" async = "async" ></script>
+</div>
+
+      </div>
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

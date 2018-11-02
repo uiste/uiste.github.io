@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="安装 项目所在目录：uiste:tp5.0 uiste$ composer require phpexcel/phpexcel  简单上手 实例化对象$objPHPExcel = new \PHPExcel();  获取活动sheet，设置sheet名字 12$objSheet = $objPHPExcel-&amp;gt;getActiveSheet(); $objSheet -&amp;gt;setTitle">
+<meta name="keywords" content="PHPExcel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Thinkphp5中使用PHPExcel">
+<meta property="og:url" content="http://blog.uiste.com/2017/20170404-1.html">
+<meta property="og:site_name" content="uiste">
+<meta property="og:description" content="安装 项目所在目录：uiste:tp5.0 uiste$ composer require phpexcel/phpexcel  简单上手 实例化对象$objPHPExcel = new \PHPExcel();  获取活动sheet，设置sheet名字 12$objSheet = $objPHPExcel-&amp;gt;getActiveSheet(); $objSheet -&amp;gt;setTitle">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-19T01:57:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Thinkphp5中使用PHPExcel">
+<meta name="twitter:description" content="安装 项目所在目录：uiste:tp5.0 uiste$ composer require phpexcel/phpexcel  简单上手 实例化对象$objPHPExcel = new \PHPExcel();  获取活动sheet，设置sheet名字 12$objSheet = $objPHPExcel-&amp;gt;getActiveSheet(); $objSheet -&amp;gt;setTitle">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="uiste" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://blog.uiste.com/2017/20170404-1.html"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Thinkphp5中使用PHPExcel | uiste</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">uiste</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">uiste</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'aSf9eNpjToN3z8HppMAx','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    <!--  -->
+    
+    
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2017/20170404-1.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="uiste">
+      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="uiste">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Thinkphp5中使用PHPExcel
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-04-04 14:29:16" itemprop="dateCreated datePublished" datetime="2017-04-04T14:29:16+08:00">2017-04-04</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-19 09:57:01" itemprop="dateModified" datetime="2018-10-19T09:57:01+08:00">2018-10-19</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ul>
+<li>项目所在目录：<br><code>uiste:tp5.0 uiste$ composer require phpexcel/phpexcel</code></li>
+</ul>
+<h2 id="简单上手"><a href="#简单上手" class="headerlink" title="简单上手"></a>简单上手</h2><ol>
+<li><p>实例化对象<br><code>$objPHPExcel = new \PHPExcel();</code></p>
+</li>
+<li><p>获取活动sheet，设置sheet名字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$objSheet = $objPHPExcel-&gt;getActiveSheet(); </span><br><span class="line">$objSheet -&gt;setTitle(&quot;demo&quot;);//可以给sheet设置名称为&quot;demo&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后就是在表格中写入数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//数据量大的时候使用第一种方法</span><br><span class="line">$objSheet-&gt;setCellValue(&quot;A1&quot;,&quot;姓名&quot;)-&gt;setCellValue(&quot;B1&quot;,&quot;分数&quot;);  </span><br><span class="line">$objSheet-&gt;setCellValue(&quot;A2&quot;,&quot;张三&quot;)-&gt;setCellValue(&quot;B2&quot;,&quot;100&quot;);  </span><br><span class="line">//数据量小的时候使用第二种方法</span><br><span class="line">$array = array(  </span><br><span class="line">    array(),  </span><br><span class="line">    array(&apos;姓名&apos;,&apos;分数&apos;),  </span><br><span class="line">    array(&apos;张三&apos;,&apos;60&apos;),  </span><br><span class="line">    array(&apos;李四&apos;,&apos;61&apos;),  </span><br><span class="line">    array(&apos;王五&apos;,&apos;62&apos;),  </span><br><span class="line">);  </span><br><span class="line">$objSheet -&gt; fromArray($array);//数据较大时，不建议使用此方法，建议使用setCellValue()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>保存写入的数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, &apos;Excel2007&apos;);//生成一个Excel2007文件  </span><br><span class="line">		$objWriter-&gt;save(&apos;/Users/uiste/www/tp5.0/public/test.xlsx&apos;);//保存文件</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="在浏览器上输出Excel"><a href="#在浏览器上输出Excel" class="headerlink" title="在浏览器上输出Excel"></a>在浏览器上输出Excel</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">$filename = &apos;student.xls&apos;;</span><br><span class="line">$type = &apos;Excel2007&apos;;</span><br><span class="line">$objPHPExcel = new \PHPExcel();</span><br><span class="line">for ($i=0; $i &lt;= 1; $i++) &#123;</span><br><span class="line">	// 如果sheet大于0  则创建一个新的sheet</span><br><span class="line">	if ($i&gt;0) &#123;  </span><br><span class="line">		$objPHPExcel-&gt;createSheet();</span><br><span class="line">	&#125;</span><br><span class="line">	$objPHPExcel-&gt;setActiveSheetIndex($i);//把当前创建的sheet设置为活动sheet</span><br><span class="line">	$objSheet = $objPHPExcel-&gt;getActiveSheet();//获得当前活动Sheet</span><br><span class="line">	$objSheet-&gt;setTitle(&quot;student&quot; . $i);</span><br><span class="line">	if($i==0)&#123;</span><br><span class="line">	$student = Db::name(&apos;student&apos;)-&gt;where([&apos;sex&apos;=&gt;10])-&gt;select();  </span><br><span class="line">	&#125;else&#123;  </span><br><span class="line">	$student = DB::name(&apos;student&apos;)-&gt;where(&apos;sex != 10&apos;)-&gt;select();  </span><br><span class="line">	&#125;</span><br><span class="line">	$objSheet-&gt;setCellValue(&apos;A1&apos;,&apos;序号&apos;)</span><br><span class="line">			 -&gt;setCellValue(&apos;B1&apos;,&apos;姓名&apos;)</span><br><span class="line">			 -&gt;setCellValue(&apos;C1&apos;,&apos;年龄&apos;)</span><br><span class="line">			 -&gt;setCellValue(&apos;D1&apos;,&apos;性别&apos;)</span><br><span class="line">			 -&gt;setCellValue(&apos;E1&apos;,&apos;创建时间&apos;)</span><br><span class="line">			 -&gt;setCellValue(&apos;F1&apos;,&apos;更新时间&apos;);  </span><br><span class="line">	$j = 2; // 从第二行开始写入</span><br><span class="line">	foreach ($student as $key =&gt; $value) &#123;</span><br><span class="line">		$objSheet-&gt;setCellValue(&apos;A&apos;.$j,$value[&apos;id&apos;])</span><br><span class="line">				 -&gt;setCellValue(&apos;B&apos;.$j,$value[&apos;name&apos;])</span><br><span class="line">				 -&gt;setCellValue(&apos;C&apos;.$j,$value[&apos;age&apos;])</span><br><span class="line">				 -&gt;setCellValue(&apos;D&apos;.$j,$value[&apos;sex&apos;])  </span><br><span class="line">				 -&gt;setCellValue(&apos;E&apos;.$j,$value[&apos;created_at&apos;])</span><br><span class="line">				 -&gt;setCellValue(&apos;F&apos;.$j,$value[&apos;updated_at&apos;]);  </span><br><span class="line">		$j++;</span><br><span class="line">	&#125;  </span><br><span class="line">&#125;</span><br><span class="line">$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel,&apos;Excel5&apos;);//生成excel文件</span><br><span class="line">//$objWriter-&gt;save($dir.&quot;/export_1.xls&quot;);//保存文件</span><br><span class="line">if($type==&quot;Excel5&quot;)&#123;</span><br><span class="line">	header(&apos;Content-Type: application/vnd.ms-excel&apos;);//告诉浏览器将要输出excel03文件</span><br><span class="line">&#125;else&#123;</span><br><span class="line">	header(&apos;Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet&apos;);//告诉浏览器数据excel07文件</span><br><span class="line">&#125;</span><br><span class="line">header(&apos;Content-Disposition: attachment;filename=&quot;&apos;.$filename.&apos;&quot;&apos;);//告诉浏览器将输出文件的名称</span><br><span class="line">header(&apos;Cache-Control: max-age=0&apos;);//禁止缓存</span><br><span class="line">$objWriter-&gt;save(&quot;php://output&quot;);</span><br></pre></td></tr></table></figure>
+<h2 id="读取指定Excel文件中的数据"><a href="#读取指定Excel文件中的数据" class="headerlink" title="读取指定Excel文件中的数据"></a>读取指定Excel文件中的数据</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">header(&quot;Content-Type:text/html;charset=utf-8&quot;);</span><br><span class="line">$filename=ROOT_PATH . &apos;public&apos; . DS . &quot;test.xlsx&quot;; // 读取文件</span><br><span class="line">$sheetName=array(&quot;demo&quot;); //只加载指定的sheet</span><br><span class="line">$rowStart = 1; //指定开始读取的行数</span><br><span class="line"></span><br><span class="line">$fileType=\PHPExcel_IOFactory::identify($filename);//自动获取文件的类型提供给phpexcel用</span><br><span class="line">$objReader=\PHPExcel_IOFactory::createReader($fileType);//获取文件读取操作对象</span><br><span class="line"></span><br><span class="line">$objReader-&gt;setLoadSheetsOnly($sheetName);//只加载指定的sheet</span><br><span class="line">$objPHPExcel=$objReader-&gt;load($filename);//加载文件</span><br><span class="line">/* 数据量小的时候使用 */</span><br><span class="line">/**$sheetCount=$objPHPExcel-&gt;getSheetCount();//获取excel文件里有多少个sheet</span><br><span class="line">for($i=0;$i&lt;$sheetCount;$i++)&#123;</span><br><span class="line">	$data=$objPHPExcel-&gt;getSheet($i)-&gt;toArray();//读取每个sheet里的数据 全部放入到数组中</span><br><span class="line">	print_r($data);</span><br><span class="line">&#125;**/</span><br><span class="line"></span><br><span class="line">/* 数据量大的时候使用 */</span><br><span class="line">foreach($objPHPExcel-&gt;getWorksheetIterator() as $sheet)&#123;//循环取sheet</span><br><span class="line">		foreach($sheet-&gt;getRowIterator() as $row)&#123;//逐行处理</span><br><span class="line">				if($row-&gt;getRowIndex()&lt;$rowStart)&#123;</span><br><span class="line">					continue;</span><br><span class="line">				&#125;</span><br><span class="line">				foreach($row-&gt;getCellIterator() as $cell)&#123;//逐列读取</span><br><span class="line">						$data=$cell-&gt;getValue();//获取单元格数据</span><br><span class="line">						echo $data.&quot; &quot;;</span><br><span class="line">				&#125;</span><br><span class="line">				echo &apos;&lt;br/&gt;&apos;;</span><br><span class="line">		&#125;</span><br><span class="line">		echo &apos;&lt;br/&gt;&apos;;</span><br><span class="line">&#125;</span><br><span class="line">exit;</span><br></pre></td></tr></table></figure>
+<h2 id="小案例-POST发送读取文件数据发送到服务器"><a href="#小案例-POST发送读取文件数据发送到服务器" class="headerlink" title="小案例-POST发送读取文件数据发送到服务器"></a>小案例-POST发送读取文件数据发送到服务器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">public function operate()</span><br><span class="line">&#123;</span><br><span class="line">	$filename=ROOT_PATH . &apos;public&apos; . DS . &quot;test.xlsx&quot;; // 读取文件</span><br><span class="line">	$sheetName=array(&apos;工作表2&apos;); //只加载指定的sheet</span><br><span class="line">	$rowStart = 1; //指定开始读取的行数</span><br><span class="line">	$url = &apos;http://www.test.com/history/study4/MVC_1/index.php?c=products&amp;a=add&apos;;</span><br><span class="line">	$receive = [&apos;proname&apos;,&apos;proguige&apos;,&apos;proprice&apos;,&apos;proamount&apos;,&apos;proimages&apos;,&apos;proweb&apos;]; // 定义接收方的数据下标</span><br><span class="line">	// 第一步读取文件</span><br><span class="line">	if (!$data = $this-&gt;_fileRead($filename, $sheetName, $rowStart)) &#123;</span><br><span class="line">		echo &apos;无法读取文件中的数据！！！&apos;;</span><br><span class="line">	&#125;</span><br><span class="line">	// dump($data);die;</span><br><span class="line">	// 第二步发送数据请求</span><br><span class="line">	foreach ($data as $sheet) &#123; // 工作表</span><br><span class="line">		foreach ($sheet as $key1 =&gt; $rows) &#123; // 工作表行</span><br><span class="line">			if (count($rows) != count($receive)) &#123;</span><br><span class="line">				echo &apos;表中数据列数与要发送的字段数不一致请核实！！！&apos;;die;</span><br><span class="line">			&#125;</span><br><span class="line">			$row = array();</span><br><span class="line">			foreach ($rows as $key =&gt; $cell) &#123; //单元格</span><br><span class="line">				$row[$receive[$key]] = $cell;</span><br><span class="line">			&#125;</span><br><span class="line">			if (!empty($row)) &#123;</span><br><span class="line">				// $url = &quot;http://localhost/web_services.php&quot;;</span><br><span class="line">				// $post_data = array (&quot;username&quot; =&gt; &quot;bob&quot;,&quot;key&quot; =&gt; &quot;12345&quot;);</span><br><span class="line">				$post_data = $row;</span><br><span class="line">				$ch = curl_init();</span><br><span class="line">				curl_setopt($ch, CURLOPT_URL, $url);</span><br><span class="line">				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);// post数据</span><br><span class="line">				curl_setopt($ch, CURLOPT_POST, 1);// post的变量</span><br><span class="line">				curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);</span><br><span class="line">				$output = curl_exec($ch);</span><br><span class="line">				curl_close($ch);</span><br><span class="line"></span><br><span class="line">				//打印获得的数据</span><br><span class="line">				if ($output) &#123;</span><br><span class="line">					echo &apos;第 &apos; . $key1+1 . &apos; 行录入成功！！！&apos; . &apos;&lt;br/&gt;&apos;;</span><br><span class="line">				&#125;else&#123;</span><br><span class="line">					echo &apos;第 &apos; . $key1+1 . &apos; 行录入失败！！！&apos; . &apos;&lt;br/&gt;&apos;;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	echo &apos;录入完成 ， 哈哈哈&lt;br&gt;&apos;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public function _fileRead($filename, $sheetName = [&apos;sheet1&apos;], $rowStart = 1)</span><br><span class="line">&#123;</span><br><span class="line">	header(&quot;Content-Type:text/html;charset=utf-8&quot;);</span><br><span class="line"></span><br><span class="line">	$fileType=\PHPExcel_IOFactory::identify($filename);//自动获取文件的类型提供给phpexcel用</span><br><span class="line">	$objReader=\PHPExcel_IOFactory::createReader($fileType);//获取文件读取操作对象</span><br><span class="line"></span><br><span class="line">	$objReader-&gt;setLoadSheetsOnly($sheetName);//只加载指定的sheet</span><br><span class="line">	$objPHPExcel=$objReader-&gt;load($filename);//加载文件</span><br><span class="line">	/* 数据量小的时候使用 */</span><br><span class="line">	$sheetCount=$objPHPExcel-&gt;getSheetCount();//获取excel文件里有多少个sheet</span><br><span class="line">	$data = array();</span><br><span class="line">	for($i=0;$i&lt;$sheetCount;$i++)&#123;</span><br><span class="line">		$data[$sheetName[$i]]=$objPHPExcel-&gt;getSheet($i)-&gt;toArray();//读取每个sheet里的数据 全部放入到数组中</span><br><span class="line">	&#125;</span><br><span class="line">	return $data;</span><br><span class="line">	</span><br><span class="line">	/* 数据量大的时候使用 */</span><br><span class="line">	// $data = array();</span><br><span class="line">	// foreach($objPHPExcel-&gt;getWorksheetIterator() as $sheet)&#123;//循环取sheet</span><br><span class="line">	// 		foreach($sheet-&gt;getRowIterator() as $row)&#123;//逐行处理</span><br><span class="line">	// 				if($row-&gt;getRowIndex()&lt;$rowStart)&#123;</span><br><span class="line">	// 					continue;</span><br><span class="line">	// 				&#125;</span><br><span class="line">	// 				foreach($row-&gt;getCellIterator() as $cell)&#123;//逐列读取</span><br><span class="line">	// 						$data=$cell-&gt;getValue();//获取单元格数据</span><br><span class="line">	// 						echo $data.&quot; &quot;;</span><br><span class="line">	// 				&#125;</span><br><span class="line">	// 				echo &apos;&lt;br/&gt;&apos;;</span><br><span class="line">	// 		&#125;</span><br><span class="line">	// 		echo &apos;&lt;br/&gt;&apos;;</span><br><span class="line">	// &#125;</span><br><span class="line">	exit;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>相关文章<br><a href="http://www.cnblogs.com/sweet521/p/5868672.html" target="_blank" rel="noopener">PHPExcel的使用</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PHPExcel/" rel="tag"># PHPExcel</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/20170319-2.html" rel="next" title="7个高级技巧帮助你释放大量Mac OS X硬盘空间">
+                <i class="fa fa-chevron-left"></i> 7个高级技巧帮助你释放大量Mac OS X硬盘空间
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/20170405-1.html" rel="prev" title="vagrant打造开发环境">
+                vagrant打造开发环境 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/default_avatar.png"
+                alt="uiste" />
+            
+              <p class="site-author-name" itemprop="name">uiste</p>
+              <p class="site-description motion-element" itemprop="description">Stay Hungry，Stay Foolish</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">122</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">66</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/uiste" target="_blank" title="GitHub"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/uiste" target="_blank" title="微博"><i class="fa fa-fw fa-globe"></i>微博</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.zhihu.com/people/uiste" target="_blank" title="知乎"><i class="fa fa-fw fa-globe"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.xiaomanyu.cn" title="Mandy画站" target="_blank">Mandy画站</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单上手"><span class="nav-number">2.</span> <span class="nav-text">简单上手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在浏览器上输出Excel"><span class="nav-number">3.</span> <span class="nav-text">在浏览器上输出Excel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读取指定Excel文件中的数据"><span class="nav-number">4.</span> <span class="nav-text">读取指定Excel文件中的数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小案例-POST发送读取文件数据发送到服务器"><span class="nav-number">5.</span> <span class="nav-text">小案例-POST发送读取文件数据发送到服务器</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">uiste</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+      <div>
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57838eee5e2620d0" async = "async" ></script>
+</div>
+
+      </div>
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

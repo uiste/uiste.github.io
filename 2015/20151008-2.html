@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="错误处理简介PHP独有的处理默认情况下，当错误发生的时候在浏览器上显示错误报告。可以使用操作符（@）来屏蔽语句生成的错误报告，注意@符号只对函数有用，对echo语句不起作用 错误级别按照错误的严重程度将错误划分为3种Notice：提示性错误Warning：警告性错误Fatal error：致命性错误  notice和warning级别错误后继续执行，error级别错误后终止执行  处理方式显示错误">
+<meta name="keywords" content="PHP错误,PHP异常">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP - 错误处理 | 异常处理">
+<meta property="og:url" content="http://blog.uiste.com/2015/20151008-2.html">
+<meta property="og:site_name" content="uiste">
+<meta property="og:description" content="错误处理简介PHP独有的处理默认情况下，当错误发生的时候在浏览器上显示错误报告。可以使用操作符（@）来屏蔽语句生成的错误报告，注意@符号只对函数有用，对echo语句不起作用 错误级别按照错误的严重程度将错误划分为3种Notice：提示性错误Warning：警告性错误Fatal error：致命性错误  notice和warning级别错误后继续执行，error级别错误后终止执行  处理方式显示错误">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-19T01:57:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PHP - 错误处理 | 异常处理">
+<meta name="twitter:description" content="错误处理简介PHP独有的处理默认情况下，当错误发生的时候在浏览器上显示错误报告。可以使用操作符（@）来屏蔽语句生成的错误报告，注意@符号只对函数有用，对echo语句不起作用 错误级别按照错误的严重程度将错误划分为3种Notice：提示性错误Warning：警告性错误Fatal error：致命性错误  notice和warning级别错误后继续执行，error级别错误后终止执行  处理方式显示错误">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="uiste" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://blog.uiste.com/2015/20151008-2.html"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>PHP - 错误处理 | 异常处理 | uiste</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">uiste</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">uiste</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'aSf9eNpjToN3z8HppMAx','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    <!--  -->
+    
+    
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151008-2.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="uiste">
+      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="uiste">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">PHP - 错误处理 | 异常处理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2015-10-08 23:47:19" itemprop="dateCreated datePublished" datetime="2015-10-08T23:47:19+08:00">2015-10-08</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-19 09:57:01" itemprop="dateModified" datetime="2018-10-19T09:57:01+08:00">2018-10-19</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="错误处理简介"><a href="#错误处理简介" class="headerlink" title="错误处理简介"></a>错误处理简介</h1><p><strong>PHP独有的处理</strong><br>默认情况下，当错误发生的时候在浏览器上显示错误报告。<br>可以使用操作符（@）来屏蔽语句生成的错误报告，注意@符号只对函数有用，对echo语句不起作用</p>
+<h3 id="错误级别"><a href="#错误级别" class="headerlink" title="错误级别"></a>错误级别</h3><p>按照错误的严重程度将错误划分为3种<br>Notice：提示性错误<br>Warning：警告性错误<br>Fatal error：致命性错误</p>
+<blockquote>
+<p>notice和warning级别错误后继续执行，error级别错误后终止执行</p>
+</blockquote>
+<h3 id="处理方式"><a href="#处理方式" class="headerlink" title="处理方式"></a>处理方式</h3><p>显示错误报告【默认】<br>记录错误日志<br>错误发生后交个自定义脚本去完成【比如，错误发生后发一个电子邮件】</p>
+<h3 id="错误触发"><a href="#错误触发" class="headerlink" title="错误触发"></a>错误触发</h3><p>PHP程序触发：PHP在运行的过程中，发现并触发错误。比如include、require等等。<br>由用户触发，通过trigger_error()来触发错误。<br>eg:定义年龄不能超过30，超过30即报错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$age = 30;</span><br><span class="line">if($age&gt;30)</span><br><span class="line">	trigger_error(&quot;age cannot over 30&quot;,E_USER_ERROR);</span><br></pre></td></tr></table></figure></p>
+<p>用户错误的级别，他们是常量,默认触发notice错误。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">;E_USER_ERROR	- user-generated error message</span><br><span class="line">;E_USER_WARNING - user-generated warning message</span><br><span class="line">;E_USER_NOTICE  - user-generated notice message</span><br></pre></td></tr></table></figure></p>
+<h3 id="实现错误处理"><a href="#实现错误处理" class="headerlink" title="实现错误处理"></a>实现错误处理</h3><h4 id="更改php配置有3种方法"><a href="#更改php配置有3种方法" class="headerlink" title="更改php配置有3种方法"></a>更改php配置有3种方法</h4><h5 id="在php-ini中更改"><a href="#在php-ini中更改" class="headerlink" title="在php.ini中更改"></a>在php.ini中更改</h5><p>所有的虚拟目录中有效</p>
+<h5 id="htaccess分布式部署文件"><a href="#htaccess分布式部署文件" class="headerlink" title=".htaccess分布式部署文件"></a>.htaccess分布式部署文件</h5><p>.htaccess通过php_flag和php_value 在某个虚拟目录，或某个目录有效.</p>
+<h5 id="ini-set-：某一个页面有效"><a href="#ini-set-：某一个页面有效" class="headerlink" title="ini_set()：某一个页面有效"></a>ini_set()：某一个页面有效</h5><p><code>ini_set(&#39;display_errors&#39;:&#39;on&#39;)</code> 开启错误显示<br><code>ini_set(&#39;display_errors&#39;:&#39;off&#39;)</code> 关闭错误显示</p>
+<h4 id="在浏览器上显示错误报告"><a href="#在浏览器上显示错误报告" class="headerlink" title="在浏览器上显示错误报告"></a>在浏览器上显示错误报告</h4><p><code>display_errors = On</code></p>
+<h4 id="在日志中显示错误报告"><a href="#在日志中显示错误报告" class="headerlink" title="在日志中显示错误报告"></a>在日志中显示错误报告</h4><p><code>log_errors = On</code><br>错误日志保存的地址<br><code>error_log = php_errors.log</code></p>
+<h4 id="用户自定义错误处理"><a href="#用户自定义错误处理" class="headerlink" title="用户自定义错误处理"></a>用户自定义错误处理</h4><p>默认情况下，一旦定义了错误处理函数，则错误报告和错误日志不再执行</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">error</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'这是自定义错误'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//注册错误处理函数</span></span><br><span class="line">set_error_handler(<span class="string">'error'</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在自定义错误处理函数中添加return false，则自定义错误处理后再交个PHP处理。</p>
+</blockquote>
+<p>应用：不同的级别使用不同错误处理<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">*<span class="doctag">@param</span> $level 错误级别</span></span><br><span class="line"><span class="comment">*<span class="doctag">@param</span> $msg	错误信息</span></span><br><span class="line"><span class="comment">*<span class="doctag">@param</span> $file	错误文件</span></span><br><span class="line"><span class="comment">*<span class="doctag">@param</span> $line	错误行号</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">error</span><span class="params">($level,$msg,$file,$line)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">switch</span>($level) &#123;</span><br><span class="line">		<span class="keyword">case</span> E_NOTICE:</span><br><span class="line">		<span class="keyword">case</span> E_USER_NOTICE:</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">'将错误信息屏蔽掉&lt;br&gt;'</span>;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> E_WARNING :</span><br><span class="line">		<span class="keyword">case</span> E_USER_WARNING:</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">'将错误信息记录到日志中&lt;br&gt;'</span>;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> E_ERROR:</span><br><span class="line">		<span class="keyword">case</span> E_USER_ERROR:</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">'给管理员发邮件&lt;br&gt;'</span>;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"错误信息：&#123;$msg&#125;&lt;br&gt;"</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"错误文件：&#123;$file&#125;&lt;br&gt;"</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"错误行号：&#123;$line&#125;"</span>;</span><br><span class="line">&#125;</span><br><span class="line">set_error_handler(<span class="string">'error'</span>);	<span class="comment">//注册错误处理函数</span></span><br><span class="line">header(<span class="string">'content-type:text/html;charset=utf-8'</span>);</span><br><span class="line"><span class="keyword">echo</span> $aa,<span class="string">'&lt;hr&gt;'</span>;</span><br><span class="line"><span class="keyword">include</span> <span class="string">'./aa.php'</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="指定显示错误级别"><a href="#指定显示错误级别" class="headerlink" title="指定显示错误级别"></a>指定显示错误级别</h3><p><code>;Error Level Constants:</code><br><code>error_reporting = E_ALL | E_STRICT</code><br>思考：为什么在php5.3中显示所有错误是E_ALL | E_STRICT？<br>答：在php5.3中，E_ALL不是表示所有错误，E_ALL | E_STRICT也表示所有错误。<br>在php5.4以上版本，E_ALL的错误都会报的。</p>
+<p>E_ALL:   111011111111111<br>E_STRICT:000100000000000</p>
+<p>例题：<br>只有PHP的notice才报错<br><code>ini_set(&#39;error_reporting&#39;,E_NOTICE);</code><br>只报PHP的notice和用户的notice<br><code>ini_set(&#39;error_reporting&#39;,E_NOTICE | E_USER_NOTICE);</code><br>系统的notice不报，其他全报<br><code>ini_set(&#39;error_reporting&#39;,(E_ALL | E_STRICT) &amp; ~E_NOTICE);</code></p>
+<blockquote>
+<p>~是按位取非，0变成1,1变成0。</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 自定义错误处理函数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span>  int $level 错误级别</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span>  string $msg   错误信息</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span>  string $file  错误文件名</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span>  int $line  错误行号</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> Bool        错误处理情况</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">error</span><span class="params">($level,$msg,$file,$line)</span></span>&#123;</span><br><span class="line">	<span class="keyword">switch</span> ($level) &#123;</span><br><span class="line">		<span class="keyword">case</span> E_NOTICE:</span><br><span class="line">		<span class="keyword">case</span> E_USER_NOTICE:</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">'将错误屏蔽'</span>;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> E_WARNING:</span><br><span class="line">		<span class="keyword">case</span> E_USER_WARNING:</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">'将错误记录在日志中&lt;br&gt;'</span>;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="comment">// case E_ERROR: //一般不设置，若报了该错误，程序将终止运行</span></span><br><span class="line">		<span class="keyword">case</span> E_USER_ERROR:</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">'将错误发送给管理员&lt;br&gt;'</span>;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'错误信息：'</span>.$msg,<span class="string">"&lt;br&gt;"</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'错误文件：'</span>.$file.<span class="string">"&lt;br&gt;"</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'错误行号：'</span>.$line,<span class="string">'&lt;br&gt;'</span>;</span><br><span class="line">	<span class="comment">// return false 自定义错误处理完毕后，交给计算机继续处理</span></span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 注册错误函数</span></span><br><span class="line">set_error_handler(<span class="string">'error'</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="项目中的错误处理"><a href="#项目中的错误处理" class="headerlink" title="项目中的错误处理"></a>项目中的错误处理</h1><p>项目开发的时候错误显示在浏览器上，不用记录在日志中<br>项目运行的时候错误记录在日志中，不显示在浏览器上</p>
+<ul>
+<li>php.ini  log_errors = on 开启错误日志</li>
+<li>php.ini  error_log = $log_path.$error_log;</li>
+</ul>
+<p>将项目的运行模式分为“开发模式（调试模式）”和“运行模式”</p>
+<ul>
+<li>在配置文件中，添加一个配置用来保存开发的模式</li>
+<li>在Application文件夹下新建Log文件夹，用来保存日志</li>
+<li>在Framework类中添加定义Log文件夹的路径常量</li>
+<li>在Framework类中定义错误处理的方法<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">initError</span><span class="params">()</span></span>&#123;</span><br><span class="line">	ini_set(<span class="string">'error_reporting'</span>, E_ALL | E_STRICT); <span class="comment">//报所有错误</span></span><br><span class="line">	<span class="keyword">if</span>($GLOBALS[<span class="string">'config'</span>][<span class="string">'app'</span>][<span class="string">'app_dubeg'</span>])&#123;<span class="comment">//开发模式</span></span><br><span class="line">		ini_set(<span class="string">'display_errors'</span>,<span class="string">'on'</span>); <span class="comment">//浏览器显示错误</span></span><br><span class="line">		ini_set(<span class="string">'log_errors'</span>,<span class="string">'off'</span>); <span class="comment">//不记录日志</span></span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		ini_set(<span class="string">'display_errors'</span>,<span class="string">'off'</span>); <span class="comment">//浏览器不显示错误</span></span><br><span class="line">		ini_set(<span class="string">'log_errors'</span>,<span class="string">'on'</span>); <span class="comment">//记录日志</span></span><br><span class="line">		$error_log = date(<span class="string">'Y-m-d'</span>).<span class="string">'.log'</span>;</span><br><span class="line">		ini_set(<span class="string">'error_log'</span>,LOG_PATH.$error_log);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h1><p>异常处理使用关键字：try、catch、throw</p>
+<ol>
+<li>try:用来监测代码</li>
+<li>thr ow：用来抛出异常</li>
+<li>catch：用来捕获异常</li>
+<li>Exception：PHP内置的异常类,是所有异常类的父类</li>
+</ol>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"en"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">	&lt;meta charset=<span class="string">"UTF-8"</span>&gt;</span><br><span class="line">	&lt;title&gt;Document&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">	<span class="meta">&lt;?php</span> </span><br><span class="line">		<span class="keyword">if</span>(<span class="keyword">isset</span>($_POST[<span class="string">'button'</span>]))&#123;</span><br><span class="line">			<span class="keyword">try</span>&#123;</span><br><span class="line">				$age = $_POST[<span class="string">'age'</span>];</span><br><span class="line">				<span class="keyword">if</span> ($age&lt;<span class="number">20</span> || $age&gt;<span class="number">30</span>) &#123;</span><br><span class="line">					<span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>(<span class="string">'年龄必须在20到30之间'</span>);<span class="comment">//抛出异常类</span></span><br><span class="line">					<span class="keyword">echo</span> <span class="string">'错误抛出后这里不会再执行了'</span>;</span><br><span class="line">				&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">					<span class="keyword">echo</span> <span class="string">'青春年少，用行动做一辈子不能被注定的事！'</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;<span class="keyword">catch</span>(<span class="keyword">Exception</span> $e)&#123;  <span class="comment">//数据类型约束，只能是Exception</span></span><br><span class="line">				<span class="comment">//catch 用来捕获错误</span></span><br><span class="line">				<span class="keyword">echo</span> <span class="string">'错误信息：'</span>.$e-&gt;getMessage().<span class="string">'&lt;br&gt;'</span>;</span><br><span class="line">				<span class="keyword">echo</span> <span class="string">'异常码：'</span>.$e-&gt;getCode().<span class="string">'&lt;br&gt;'</span>;</span><br><span class="line">				<span class="keyword">echo</span> <span class="string">'当前文件：'</span>.$e-&gt;getFile().<span class="string">'&lt;br&gt;'</span>;</span><br><span class="line">				<span class="keyword">echo</span> <span class="string">'异常行号：'</span>.$e-&gt;getLine().<span class="string">'&lt;br&gt;'</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	 <span class="meta">?&gt;</span></span><br><span class="line">	 &lt;form action=<span class="string">""</span> method=<span class="string">"post"</span>&gt;</span><br><span class="line">	 	请输入年龄：&lt;input type=<span class="string">"text"</span> name=<span class="string">"age"</span>&gt;&lt;br&gt;</span><br><span class="line">	 	&lt;input type=<span class="string">"submit"</span> name=<span class="string">"button"</span> value=<span class="string">"提交"</span>&gt;</span><br><span class="line">	 &lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PHP错误/" rel="tag"># PHP错误</a>
+          
+            <a href="/tags/PHP异常/" rel="tag"># PHP异常</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/20151008-1.html" rel="next" title="PHP - 文件上传 | 缩略图">
+                <i class="fa fa-chevron-left"></i> PHP - 文件上传 | 缩略图
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/20151009-1.html" rel="prev" title="PHP - MySQL 两表联查 | 显示不同类型">
+                PHP - MySQL 两表联查 | 显示不同类型 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/default_avatar.png"
+                alt="uiste" />
+            
+              <p class="site-author-name" itemprop="name">uiste</p>
+              <p class="site-description motion-element" itemprop="description">Stay Hungry，Stay Foolish</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">122</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">66</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/uiste" target="_blank" title="GitHub"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/uiste" target="_blank" title="微博"><i class="fa fa-fw fa-globe"></i>微博</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.zhihu.com/people/uiste" target="_blank" title="知乎"><i class="fa fa-fw fa-globe"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.xiaomanyu.cn" title="Mandy画站" target="_blank">Mandy画站</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#错误处理简介"><span class="nav-number">1.</span> <span class="nav-text">错误处理简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#错误级别"><span class="nav-number">1.0.1.</span> <span class="nav-text">错误级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理方式"><span class="nav-number">1.0.2.</span> <span class="nav-text">处理方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误触发"><span class="nav-number">1.0.3.</span> <span class="nav-text">错误触发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现错误处理"><span class="nav-number">1.0.4.</span> <span class="nav-text">实现错误处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#更改php配置有3种方法"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">更改php配置有3种方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#在php-ini中更改"><span class="nav-number">1.0.4.1.1.</span> <span class="nav-text">在php.ini中更改</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#htaccess分布式部署文件"><span class="nav-number">1.0.4.1.2.</span> <span class="nav-text">.htaccess分布式部署文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ini-set-：某一个页面有效"><span class="nav-number">1.0.4.1.3.</span> <span class="nav-text">ini_set()：某一个页面有效</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在浏览器上显示错误报告"><span class="nav-number">1.0.4.2.</span> <span class="nav-text">在浏览器上显示错误报告</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在日志中显示错误报告"><span class="nav-number">1.0.4.3.</span> <span class="nav-text">在日志中显示错误报告</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用户自定义错误处理"><span class="nav-number">1.0.4.4.</span> <span class="nav-text">用户自定义错误处理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指定显示错误级别"><span class="nav-number">1.0.5.</span> <span class="nav-text">指定显示错误级别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#项目中的错误处理"><span class="nav-number">2.</span> <span class="nav-text">项目中的错误处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#异常处理"><span class="nav-number">3.</span> <span class="nav-text">异常处理</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">uiste</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+      <div>
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57838eee5e2620d0" async = "async" ></script>
+</div>
+
+      </div>
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="文件上传 表单的enctype属性： application/x-www-fomr-urlencoded ：表示表单先服务器传输的文件数据。这是默认格式。(将表单的数据转成XML格式向服务器传输) multipart/form-data ：符合数据，告知浏览器表单中是符合数据（字符串，二进制文件） text/plain：用于向服务器传输大量文本，效率高，但时安全性低，用于发送邮件表示表单传输的数据">
+<meta name="keywords" content="PHP思想养成">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP - 文件上传 | 缩略图">
+<meta property="og:url" content="http://blog.uiste.com/2015/20151008-1.html">
+<meta property="og:site_name" content="uiste">
+<meta property="og:description" content="文件上传 表单的enctype属性： application/x-www-fomr-urlencoded ：表示表单先服务器传输的文件数据。这是默认格式。(将表单的数据转成XML格式向服务器传输) multipart/form-data ：符合数据，告知浏览器表单中是符合数据（字符串，二进制文件） text/plain：用于向服务器传输大量文本，效率高，但时安全性低，用于发送邮件表示表单传输的数据">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-19T01:57:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PHP - 文件上传 | 缩略图">
+<meta name="twitter:description" content="文件上传 表单的enctype属性： application/x-www-fomr-urlencoded ：表示表单先服务器传输的文件数据。这是默认格式。(将表单的数据转成XML格式向服务器传输) multipart/form-data ：符合数据，告知浏览器表单中是符合数据（字符串，二进制文件） text/plain：用于向服务器传输大量文本，效率高，但时安全性低，用于发送邮件表示表单传输的数据">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="uiste" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://blog.uiste.com/2015/20151008-1.html"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>PHP - 文件上传 | 缩略图 | uiste</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">uiste</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">uiste</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'aSf9eNpjToN3z8HppMAx','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    <!--  -->
+    
+    
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151008-1.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="uiste">
+      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="uiste">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">PHP - 文件上传 | 缩略图
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2015-10-08 23:46:01" itemprop="dateCreated datePublished" datetime="2015-10-08T23:46:01+08:00">2015-10-08</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-19 09:57:01" itemprop="dateModified" datetime="2018-10-19T09:57:01+08:00">2018-10-19</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h1><hr>
+<h3 id="表单的enctype属性："><a href="#表单的enctype属性：" class="headerlink" title="表单的enctype属性："></a>表单的enctype属性：</h3><ul>
+<li><code>application/x-www-fomr-urlencoded</code> ：表示表单先服务器传输的文件数据。这是默认格式。(将表单的数据转成XML格式向服务器传输)</li>
+<li><code>multipart/form-data</code> ：符合数据，告知浏览器表单中是符合数据（字符串，二进制文件）</li>
+<li><code>text/plain</code>：用于向服务器传输大量文本，效率高，但时安全性低，用于发送邮件<br>表示表单传输的数据类型</li>
+</ul>
+<p><strong>表单文件域</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">action</span>=<span class="string">""</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">""</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">name</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"上传"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="超全局变量"><a href="#超全局变量" class="headerlink" title="超全局变量"></a><strong>超全局变量</strong></h3><p><code>$_FILES</code><br><code>$_FILES[][&#39;name&#39;]</code> ：上传文件名<br><code>$_FILES[][&#39;size&#39;]</code>    ：文件上传的大小</p>
+<p><strong><code>$_FILES[][&#39;error&#39;]</code>    ：文件上传的错误号 0，1，2，3，4，6，7</strong></p>
+<blockquote>
+<p>UPLOAD_ERR_OK：值为 0，没有错误发生，文件上传成功。<br><code>UPLOAD_ERR_INI_SIZE</code> ： 值为 1，上传的文件超过了 php.ini 中 <code>upload_max_filesize</code> 选项限制的值。<br><code>UPLOAD_ERR_FORM_SIZE</code>：值为 2，上传文件的大小超过了 HTML 表单中 <code>MAX_FILE_SIZE</code> 选项指定的值。<code>&lt;input type=&#39;hidden&#39; name=&#39;MAX_FILE_SIZE&#39; value=&#39;2&#39;&gt;</code>,隐藏域必须在文件域前面才起作用。<br><code>UPLOAD_ERR_PARTIAL</code>：值为 3，文件只有部分被上传。<br><code>UPLOAD_ERR_NO_FILE</code>：值为 4，没有文件被上传。<br><code>UPLOAD_ERR_NO_TMP_DIR</code>：值为 6，找不到临时文件夹。PHP 4.3.10 和 PHP 5.0.3 引进。<br><code>UPLOAD_ERR_CANT_WRITE</code>：值为 7，文件写入失败。PHP 5.1.0 引进。</p>
+</blockquote>
+<p>补充：</p>
+<blockquote>
+<p>表单允许POST传输的最大值：<br><code>post_max_size = 8M</code></p>
+</blockquote>
+<p><strong><code>$_FILES[][&#39;type&#39;]</code>    ：上传文件格式，返回MIMIE格式 语法：类型/格式</strong><br><strong><code>$_FILES[][&#39;tmp&#39;]</code>    ：文件上传的临时目录</strong> </p>
+<blockquote>
+<p><code>upload_tmp_dir=&#39;F:\wamp\tmp&#39;</code>  临时目录地址</p>
+</blockquote>
+<p>php.ini 配置文件<br><code>file_uploads = On</code> 是否允许文件上传<br><code>max_file_uploads = 20</code> 同时最多允许上传20个文件</p>
+<h3 id="move-uploaded-file-移动上传文件"><a href="#move-uploaded-file-移动上传文件" class="headerlink" title="move_uploaded_file()移动上传文件"></a><strong>move_uploaded_file()移动上传文件</strong></h3><p><code>bool move_uploaded_file ( string $filename , string $destination )</code><br><code>$filename</code>：上传的文件的文件名。<br><code>$destination</code>：移动文件到这个位置。</p>
+<p><strong>常用函数</strong><br><code>bool is_uploaded_file ( string $filename )</code> — 判断文件是否是通过 HTTP POST 上传的<br><code>is_uploaded_file($_FILES[&#39;userfile&#39;][&#39;tmp_name&#39;])</code>：用来确保恶意的用户无法欺骗脚本去访问本不能访问的文件，例如 /etc/passwd</p>
+<p><strong>文件名截取</strong><br>方法一：<code>strrchr($filename,&#39;.&#39;);</code> 从最后出现的点截取到末尾<br>方法二：pathinfo($filename); 通过文件路径返回文件信息</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$path_parts = pathinfo(<span class="string">'/www/htdocs/inc/lib.inc.php'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> $path_parts[<span class="string">'dirname'</span>], <span class="string">"\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> $path_parts[<span class="string">'basename'</span>], <span class="string">"\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> $path_parts[<span class="string">'extension'</span>], <span class="string">"\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> $path_parts[<span class="string">'filename'</span>], <span class="string">"\n"</span>; <span class="comment">// since PHP 5.2.0</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">/www/htdocs/inc</span><br><span class="line">lib.inc.php</span><br><span class="line">php</span><br><span class="line">lib.inc</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上两种方法方法可以被伪装（强制修改文件扩展名）</p>
+</blockquote>
+<p>方法三：开启<code>fileinfo</code>扩展<code>extension_fileinfo.dll</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$finfo = finfo_open(FILEINFO_MIME); //创建finfo对象，用来匹配文件</span><br><span class="line">$info = finfo_file($finfo,&apos;F:/image.jpg&apos;);//通过对象匹配文件</span><br><span class="line">var_dump($info);//显示文件信息</span><br></pre></td></tr></table></figure>
+<p>文件上传注意事项：</p>
+<blockquote>
+<p>上传文件的大小限制（文件上传<code>upload_max_filesize</code>、post大小<code>post_max_size</code>、表单隐藏域<code>&lt;input type=&#39;hidden&#39; name=&#39;MAX_FILE_SIZE&#39; value=&#39;2&#39;&gt;</code>,文件域之前）<br>文件格式验证的三种方法：<br>路径截取、pathinfo、fileinfo</p>
+</blockquote>
+<h3 id="生成唯一文件名"><a href="#生成唯一文件名" class="headerlink" title="生成唯一文件名"></a>生成唯一文件名</h3><p>time().rand(100,999).strrchr($path,’.’);</p>
+<p>uniqid().strrchar($path,’.’);</p>
+<blockquote>
+<p><code>string uniqid ([ string $prefix = &quot;&quot; [, bool $more_entropy = false ]] )</code>,可选前缀<code>prefix</code>、基于当前时间微秒数的唯一ID。设置第二个参数<code>more_entropy</code>为<code>TRUE</code>，返回唯一ID更具唯一性。</p>
+</blockquote>
+<h3 id="优化文件上传"><a href="#优化文件上传" class="headerlink" title="优化文件上传"></a>优化文件上传</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">** +-------------------------------------------</span></span><br><span class="line"><span class="comment">** | Author: uiste [ JUST DO IT ]</span></span><br><span class="line"><span class="comment">** +-------------------------------------------</span></span><br><span class="line"><span class="comment">** | Date: 2015/10/8 Time: 19:50 </span></span><br><span class="line"><span class="comment">** +-------------------------------------------</span></span><br><span class="line"><span class="comment">** | Connection: &lt;blog.uiste.com&gt;</span></span><br><span class="line"><span class="comment">** +-------------------------------------------</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Class UploadLib 文件上传类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UploadLib</span></span>&#123;</span><br><span class="line">    <span class="comment">//保存操作获取的错误信息</span></span><br><span class="line">    <span class="keyword">private</span> $error;</span><br><span class="line">    <span class="comment">//外部调用文件上传的错误信息</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getError</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;error;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 文件上传优化类</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span>  array $file 文件上传获取的数组信息</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> string       上传文件的路径</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">upload</span><span class="params">($file)</span></span>&#123;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 验证错误信息，保存到私有属性中</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">if</span> ($file[<span class="string">'error'</span>]!==<span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">switch</span> ($file[<span class="string">'error'</span>]) &#123;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">                    <span class="keyword">$this</span>-&gt;error = <span class="string">"上传文件超过了配置文件中允许的最大值"</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">                    <span class="keyword">$this</span>-&gt;error = <span class="string">"上传文件超过了表单允许的最大值"</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">                    <span class="keyword">$this</span>-&gt;error = <span class="string">"只有部分文件上传，没有完全上传"</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">                    <span class="keyword">$this</span>-&gt;error = <span class="string">"没有文件被上传"</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">6</span>:</span><br><span class="line">                    <span class="keyword">$this</span>-&gt;error = <span class="string">"找不到临时文件"</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">7</span>:</span><br><span class="line">                    <span class="keyword">$this</span>-&gt;error = <span class="string">"文件写入失败"</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">default</span>:</span><br><span class="line">                    <span class="keyword">$this</span>-&gt;error = <span class="string">"其它未知错误"</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 验证文件类型</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> array $allow_types 允许上传的文件类型</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> resource $finfo MIME资源，用于finfo_file匹配需求</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> string $info 文件类型与编码信息的字符串</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> array $type_mime 截取mime文件类型</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        $allow_types = <span class="keyword">array</span>(<span class="string">"image/jpeg"</span>,<span class="string">"image/png"</span>,<span class="string">"image/gif"</span>);</span><br><span class="line">        $finfo = finfo_open(FILEINFO_MIME);</span><br><span class="line">        $info = finfo_file($finfo, $file[<span class="string">'tmp_name'</span>]);</span><br><span class="line">        $info_array = explode(<span class="string">';'</span>,$info);</span><br><span class="line">        $type_mime = $info_array[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">if</span> (!in_array($type_mime,$allow_types)) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;error = <span class="string">"文件类型错误，不能上传"</span>.$type_mime.<span class="string">"类型的文件"</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 验证文件类型</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> byte $file['size'] 上传文件的大小</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> byte $GLOBALS['config']['file']['allow_size'] 网站允许上传的文件大小</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">if</span> ($file[<span class="string">'size'</span>]&gt;$GLOBALS[<span class="string">'config'</span>][<span class="string">'file'</span>][<span class="string">'allow_size'</span>]) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;error = <span class="string">"上传文件大小是:"</span>.number_format($file[<span class="string">'size'</span>]/<span class="number">1024</span>/<span class="number">1024</span>,<span class="number">2</span>).<span class="string">"M;超过了网站允许的最大值:"</span>.number_format($GLOBALS[<span class="string">'config'</span>][<span class="string">'file'</span>][<span class="string">'allow_size'</span>]/<span class="number">1024</span>/<span class="number">1024</span>,<span class="number">2</span>).<span class="string">"M"</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 验证文件是否通过HTTP POST上传</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">if</span> (!is_uploaded_file($file[<span class="string">'tmp_name'</span>])) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;error = <span class="string">"非法上传文件，必须通过HTTP上传"</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 创建上传文件夹</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> array $type 拆分MIME类型文件类型与文件格式</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> string $folder_set 定义级联文件夹</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> string $folder_path 网站配置上传文件路径与级联路径后的全路径</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> string $file_name 上传文件重新生成的唯一文件名</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> string $file_path 文件全路径，包含文件名</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        $type = explode(<span class="string">'/'</span>, $type_mime);<span class="comment">//获取的文件类型与文件格式两个值</span></span><br><span class="line">        $folder_set = $type[<span class="number">0</span>].DS.$type[<span class="number">1</span>].DS.date(<span class="string">'Ym'</span>).DS;</span><br><span class="line">        $folder_path = $GLOBALS[<span class="string">'config'</span>][<span class="string">'file'</span>][<span class="string">'upload_path'</span>].DS.$folder_set;</span><br><span class="line">        $file_name = uniqid(<span class="string">''</span>,<span class="keyword">true</span>).<span class="string">'.'</span>.$type[<span class="number">1</span>];</span><br><span class="line">        $file_path = $folder_path.$file_name;</span><br><span class="line">        <span class="keyword">if</span> (!file_exists($folder_path)) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!mkdir($folder_path,<span class="number">0777</span>,<span class="keyword">true</span>)) &#123;</span><br><span class="line">                <span class="keyword">$this</span>-&gt;error = <span class="string">"上传文件夹创建失败"</span>;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//上传文件</span></span><br><span class="line">        <span class="keyword">if</span> (move_uploaded_file($file[<span class="string">'tmp_name'</span>], $file_path)) &#123;</span><br><span class="line">            <span class="keyword">return</span> $folder_set.$file_name;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;error = <span class="string">"文件上传失败"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="多文件上传"><a href="#多文件上传" class="headerlink" title="多文件上传"></a>多文件上传</h3><p>表单命名以数组的形式，接收到的数据，按相同的<strong>属性</strong>组成一个索引数组</p>
+<h1 id="缩略图"><a href="#缩略图" class="headerlink" title="缩略图"></a>缩略图</h1><hr>
+<p><code>bool imagecopyresampled ( resource $dst_image , resource $src_image , int $dst_x , int $dst_y , int $src_x , int $src_y , int $dst_w , int $dst_h , int $src_w , int $src_h )</code><br>重采样拷贝部分图像并调整大小</p>
+<blockquote>
+<p>dst_image：目标图象连接资源。<br>src_image：源图象连接资源。<br>dst_x：目标 X 坐标点。<br>dst_y：目标 Y 坐标点。<br>src_x：源的 X 坐标点。<br>src_y：源的 Y 坐标点。<br>dst_w：目标宽度。<br>dst_h：目标高度。<br>src_w：源图象的宽度。<br>src_h：源图象的高度</p>
+</blockquote>
+<h1 id="等比缩略图"><a href="#等比缩略图" class="headerlink" title="等比缩略图"></a>等比缩略图</h1><hr>
+<p>思想：按图的长宽比例进行比较，源图的比例大的为标准，短边进行等比压缩。</p>
+<blockquote>
+<p>压缩目标图边的长度=源图缩放边的长度*目标图标准边长度/源图标准边的长度</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">** +-------------------------------------------</span></span><br><span class="line"><span class="comment">** | Author: uiste [ JUST DO IT ]</span></span><br><span class="line"><span class="comment">** +-------------------------------------------</span></span><br><span class="line"><span class="comment">** | Date: 2015/10/8 Time: 19:50 </span></span><br><span class="line"><span class="comment">** +-------------------------------------------</span></span><br><span class="line"><span class="comment">** | Connection: &lt;blog.uiste.com&gt;</span></span><br><span class="line"><span class="comment">** +-------------------------------------------</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Class ThumbLib 生成缩略图</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThumbLib</span></span>&#123;</span><br><span class="line">    <span class="comment">//保存操作获取的错误信息</span></span><br><span class="line">    <span class="keyword">private</span> $error;</span><br><span class="line">    <span class="comment">//外部调用文件上传的错误信息</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getError</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;error;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 生成缩略图</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> string $src_path 源图路径资源</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> int $max_w 缩略图的最大宽度，若调用时不传递就直接使用配置文件的大小</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> int $max_h 缩略图的最大高度，同上</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> bool $is_ration 是否等比缩放</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> string $prefix 缩略图文件名前缀</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> string 返回缩略图路径</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">thumb</span><span class="params">($src_path,$max_w=<span class="string">''</span>,$max_h=<span class="string">''</span>,$is_ratio=true,$prefix=<span class="string">'small_'</span>)</span></span>&#123;</span><br><span class="line">        $max_w = $max_w!=<span class="string">''</span> ? $max_w : $GLOBALS[<span class="string">'config'</span>][<span class="string">'file'</span>][<span class="string">'thumb_w'</span>] ;</span><br><span class="line">        $max_h = $max_h!=<span class="string">''</span>	? $max_h : $GLOBALS[<span class="string">'config'</span>][<span class="string">'file'</span>][<span class="string">'thumb_h'</span>] ;</span><br><span class="line">        $ext = strtolower(strrchr($src_path,<span class="string">'.'</span>));<span class="comment">//获取文件的后缀</span></span><br><span class="line">        $type = <span class="string">''</span>;</span><br><span class="line">        <span class="keyword">switch</span> ($ext) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'.jpg'</span>:</span><br><span class="line">                $type = <span class="string">'jpeg'</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'.jpeg'</span>:</span><br><span class="line">                $type = <span class="string">'jpeg'</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'.png'</span>:</span><br><span class="line">                $type = <span class="string">'png'</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'.gif'</span>:</span><br><span class="line">                $type = <span class="string">'gif'</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">$this</span>-&gt;error = <span class="string">"不支持该文件类型"</span>.$ext;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        $open_fn = <span class="string">'imagecreatefrom'</span>.$type; <span class="comment">//拼接函数名</span></span><br><span class="line">        <span class="comment">// 创建缩略图画布</span></span><br><span class="line">        $dst_img = imagecreatetruecolor($max_w, $max_h);</span><br><span class="line">        <span class="comment">// 打开源图片资源</span></span><br><span class="line">        $src_path_all = $GLOBALS[<span class="string">'config'</span>][<span class="string">'file'</span>][<span class="string">'upload_path'</span>].DS.$src_path;</span><br><span class="line">        <span class="keyword">if</span>(!$src_img = $open_fn($src_path_all))&#123;</span><br><span class="line">           <span class="keyword">$this</span>-&gt;error = <span class="string">"源图路径错误或者不全"</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        $src_w = imagesx($src_img);</span><br><span class="line">        $src_h = imagesy($src_img);</span><br><span class="line">        <span class="keyword">if</span> ($is_ratio) &#123;</span><br><span class="line">            <span class="keyword">if</span> ($src_w/$src_h&gt;$max_w/$max_h) &#123;</span><br><span class="line">                <span class="comment">#若源图的宽度较长，则等比缩放高度</span></span><br><span class="line">                $dst_w = $max_w;</span><br><span class="line">                $dst_h = $dst_w*$src_h/$src_w;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="comment">#如源图的高度较长，则等比缩放宽度</span></span><br><span class="line">                $dst_h = $max_h;</span><br><span class="line">                $dst_w = $dst_h*$src_w/$src_h;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 求目标图的坐标</span></span><br><span class="line">        $dst_x = (int)(($max_w-$dst_w)/<span class="number">2</span>);</span><br><span class="line">        $dst_y = (int)(($max_h-$dst_h)/<span class="number">2</span>);</span><br><span class="line">        <span class="comment">// 生成缩略图</span></span><br><span class="line">        imagecopyresampled($dst_img, $src_img, $dst_x, $dst_y, <span class="number">0</span>, <span class="number">0</span>, $dst_w, $dst_h, $src_w, $src_h);</span><br><span class="line">        <span class="comment">// 保存缩略图</span></span><br><span class="line">        $folderpath = dirname($src_path);<span class="comment">//获取目录地址</span></span><br><span class="line">        $filename = basename($src_path); <span class="comment">//获取文件名</span></span><br><span class="line">        $small_path = $GLOBALS[<span class="string">'config'</span>][<span class="string">'file'</span>][<span class="string">'upload_path'</span>].DS.$folderpath.DS.$prefix.$filename; <span class="comment">//缩略图的全路径</span></span><br><span class="line">        $save_fn = <span class="string">'image'</span>.$type;</span><br><span class="line">        $save_fn($dst_img,$small_path);</span><br><span class="line">        <span class="comment">// 关闭资源</span></span><br><span class="line">        imagedestroy($src_img);</span><br><span class="line">        imagedestroy($dst_img);</span><br><span class="line">        <span class="comment">// 返回缩略图保存路径</span></span><br><span class="line">        <span class="keyword">return</span> $folderpath.DS.$prefix.$filename;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PHP思想养成/" rel="tag"># PHP思想养成</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/20151007-1.html" rel="next" title="PHP - 递归实现无限极联动">
+                <i class="fa fa-chevron-left"></i> PHP - 递归实现无限极联动
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/20151008-2.html" rel="prev" title="PHP - 错误处理 | 异常处理">
+                PHP - 错误处理 | 异常处理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/default_avatar.png"
+                alt="uiste" />
+            
+              <p class="site-author-name" itemprop="name">uiste</p>
+              <p class="site-description motion-element" itemprop="description">Stay Hungry，Stay Foolish</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">122</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">66</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/uiste" target="_blank" title="GitHub"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/uiste" target="_blank" title="微博"><i class="fa fa-fw fa-globe"></i>微博</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.zhihu.com/people/uiste" target="_blank" title="知乎"><i class="fa fa-fw fa-globe"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.xiaomanyu.cn" title="Mandy画站" target="_blank">Mandy画站</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#文件上传"><span class="nav-number">1.</span> <span class="nav-text">文件上传</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#表单的enctype属性："><span class="nav-number">1.0.1.</span> <span class="nav-text">表单的enctype属性：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#超全局变量"><span class="nav-number">1.0.2.</span> <span class="nav-text">超全局变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#move-uploaded-file-移动上传文件"><span class="nav-number">1.0.3.</span> <span class="nav-text">move_uploaded_file()移动上传文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成唯一文件名"><span class="nav-number">1.0.4.</span> <span class="nav-text">生成唯一文件名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优化文件上传"><span class="nav-number">1.0.5.</span> <span class="nav-text">优化文件上传</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多文件上传"><span class="nav-number">1.0.6.</span> <span class="nav-text">多文件上传</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#缩略图"><span class="nav-number">2.</span> <span class="nav-text">缩略图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#等比缩略图"><span class="nav-number">3.</span> <span class="nav-text">等比缩略图</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">uiste</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+      <div>
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57838eee5e2620d0" async = "async" ></script>
+</div>
+
+      </div>
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

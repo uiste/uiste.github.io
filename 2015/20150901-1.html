@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="实体和实体之间的关系一对多 1：N（多对一 N：1）主表中的一条记录对应从表中的多条记录 1、    主键和非主键之间的关系就能实现一对多。2、    一对多和多对一是一样的。  问题：几个一对多的关系？1、    客户和订单2、    省和市的关系3、    商品类别和商品  一对一（1:1）主表中的一条记录对应从表中的一条记录 主键和主键建关系就能实现一对一。  思考：一对一两个表完全可以用一">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL 数据库设计及步骤">
+<meta property="og:url" content="http://blog.uiste.com/2015/20150901-1.html">
+<meta property="og:site_name" content="uiste">
+<meta property="og:description" content="实体和实体之间的关系一对多 1：N（多对一 N：1）主表中的一条记录对应从表中的多条记录 1、    主键和非主键之间的关系就能实现一对多。2、    一对多和多对一是一样的。  问题：几个一对多的关系？1、    客户和订单2、    省和市的关系3、    商品类别和商品  一对一（1:1）主表中的一条记录对应从表中的一条记录 主键和主键建关系就能实现一对一。  思考：一对一两个表完全可以用一">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-19T01:57:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL 数据库设计及步骤">
+<meta name="twitter:description" content="实体和实体之间的关系一对多 1：N（多对一 N：1）主表中的一条记录对应从表中的多条记录 1、    主键和非主键之间的关系就能实现一对多。2、    一对多和多对一是一样的。  问题：几个一对多的关系？1、    客户和订单2、    省和市的关系3、    商品类别和商品  一对一（1:1）主表中的一条记录对应从表中的一条记录 主键和主键建关系就能实现一对一。  思考：一对一两个表完全可以用一">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="uiste" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://blog.uiste.com/2015/20150901-1.html"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>MySQL 数据库设计及步骤 | uiste</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">uiste</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">uiste</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'aSf9eNpjToN3z8HppMAx','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    <!--  -->
+    
+    
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150901-1.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="uiste">
+      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="uiste">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MySQL 数据库设计及步骤
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2015-09-01 17:18:51" itemprop="dateCreated datePublished" datetime="2015-09-01T17:18:51+08:00">2015-09-01</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-19 09:57:01" itemprop="dateModified" datetime="2018-10-19T09:57:01+08:00">2018-10-19</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="实体和实体之间的关系"><a href="#实体和实体之间的关系" class="headerlink" title="实体和实体之间的关系"></a>实体和实体之间的关系</h3><h4 id="一对多-1：N（多对一-N：1）"><a href="#一对多-1：N（多对一-N：1）" class="headerlink" title="一对多 1：N（多对一 N：1）"></a>一对多 1：N（多对一 N：1）</h4><p>主表中的一条记录对应从表中的多条记录</p>
+<p>1、    主键和非主键之间的关系就能实现一对多。<br>2、    一对多和多对一是一样的。</p>
+<blockquote>
+<p>问题：几个一对多的关系？<br>1、    客户和订单<br>2、    省和市的关系<br>3、    商品类别和商品</p>
+</blockquote>
+<h4 id="一对一（1-1）"><a href="#一对一（1-1）" class="headerlink" title="一对一（1:1）"></a>一对一（1:1）</h4><p>主表中的一条记录对应从表中的一条记录</p>
+<p><strong>主键和主键建关系就能实现一对一。</strong></p>
+<blockquote>
+<p>思考：一对一两个表完全可以用一个表实现，为什么还要分成两个表？<br>答：在字段数量很多情况下，数据量也就很大，每次查询都需要检索大量数据，这样效率低下。我们可以将所有字段分成两个部分，“常用字段”和“不常用字段”，这样对大部分查询者来说效率提高了。【表的垂直分割】</p>
+</blockquote>
+<h4 id="多对多（N：M）"><a href="#多对多（N：M）" class="headerlink" title="多对多（N：M）"></a>多对多（N：M）</h4><p>班级和讲师的关系<br>科目和学生的关系</p>
+<blockquote>
+<p>只要是多对多，必须有第三张关系表来保存关系</p>
+</blockquote>
+<h3 id="数据库设计的步骤"><a href="#数据库设计的步骤" class="headerlink" title="数据库设计的步骤"></a>数据库设计的步骤</h3><p>目的：<br>数据冗余、空间浪费—》节省数据的存储空间<br>内存空间浪费、数据不完整–》保证数据的完整性<br>数据更新与插入异常–》方便进行数据库应用系统的开发</p>
+<p><strong>需求分析=&gt;建模=&gt;模型转换=&gt;规范化</strong></p>
+<p>需求分析阶段：分析客户的业务和数据处理需求;<br>概要设计阶段：设计数据库的<strong>E-R模型图</strong>，确认需求信息的正确和完整;<br>详细设计阶段：将E-R图转换为多张表，进行逻辑设计，并应用数据库设计的三大范式进行审核;<br>代码编写阶段：选择具体数据库进行物理实现，并编写代码实现前端应用;<br>软件测试阶段：……<br>安装部署：……</p>
+<h4 id="数据库设计具体步骤"><a href="#数据库设计具体步骤" class="headerlink" title="数据库设计具体步骤"></a>数据库设计具体步骤</h4><p>1、    收集信息：与该系统有关人员进行交流、坐谈，充分理解数据库需要完成的任务<br>2、    标识对象（实体－Entity）标识数据库要管理的关键对象或实体<br>3、    标识每个实体的属性（Attribute）<br>4、    标识对象之间的关系（Relationship）</p>
+<p><strong>项目需求</strong><br>BBS论坛的基本功能：<br>1、<strong>用户</strong>注册和登录，后台数据库需要存放用户的注册信息和在线状态信息；<br>2、用户<strong>发贴</strong>，后台数据库需要存放贴子相关信息，如贴子内容、标题等；<br>3、用户可以对发帖进行回复【<strong>跟帖</strong>】；<br>4、论坛<strong>版块</strong>管理：后台数据库需要存放各个版块信息，如版主、版块名称、贴子数等；</p>
+<p><strong>标识实体</strong><br>实体一般是名词：<br><strong>用户</strong>：论坛普通用户、各版块的版主。<br>用户发的<strong>主贴</strong><br>用户发的<strong>跟贴</strong>（回贴）<br><strong>版块</strong>：论坛的各个版块信息</p>
+<p><strong>标识实体的属性</strong><br>论坛用户：<br>昵称、密码、邮件、生日、性别、等级、备注、注册日期、状态、积分<br>主贴：<br>发帖人、发帖表情、回复数量、标题、正文、发帖时间、点击数、状态<br>回帖：<br>帖子编号、回帖人、表情、标题、正文、回帖时间、点击数<br>板块：<br>板块名称、版主、本版格言、点击率、发帖数</p>
+<p><strong>标识实体和实体之间的关系</strong><br>一个版块有多个主贴<br>一个主贴有多个跟帖<br>一个用户可以管理多个版块<br>一个用户可以发多个主贴<br>一个用户可以回复多个跟帖</p>
+<h4 id="绘制E-R图"><a href="#绘制E-R图" class="headerlink" title="绘制E-R图"></a>绘制E-R图</h4><p>E-R（Entity－Relationship）实体关系图 </p>
+<p>E-R图的语法<br>方形：实体，一般是名词<br>椭圆：属性，一般是名词<br>菱形：关系，一般是动词</p>
+<p>将E-R图转成表<br>1、    实体转成表，属性转成字段<br>2、    如果没有合适的字段做主键，给表添加一个自动增长列做主键。</p>
+<h3 id="数据规范化"><a href="#数据规范化" class="headerlink" title="数据规范化"></a>数据规范化</h3><p>Codd博士定义了6个范式来规范化数据库，范式由小到大来约束，范式越高冗余越小，但表的个数也越多。实验证明，三范式是性价比最高的</p>
+<h4 id="第一范式确保每个字段不可再分"><a href="#第一范式确保每个字段不可再分" class="headerlink" title="第一范式确保每个字段不可再分"></a>第一范式确保每个字段不可再分</h4><p>说明：Address由country和city构成，将Address分成country和city。</p>
+<blockquote>
+<p>思考：地址包含省、市、县、地区是否需要拆分？<br>答：如果仅仅起地址的作用，不需要统计，可以不拆分；如果有按地区统计的功能需要拆分。<br>在实际项目中拆分!</p>
+</blockquote>
+<h4 id="第二范式：非键字段必须依赖于键字段"><a href="#第二范式：非键字段必须依赖于键字段" class="headerlink" title="第二范式：非键字段必须依赖于键字段"></a>第二范式：非键字段必须依赖于键字段</h4><p>一个表只能描述一件事<br>非键字段必须依赖于键字段</p>
+<h4 id="第三范式：消除传递依赖"><a href="#第三范式：消除传递依赖" class="headerlink" title="第三范式：消除传递依赖"></a>第三范式：消除传递依赖</h4><p>在所有的非键字段中，不能有传递依赖</p>
+<blockquote>
+<p>例如在非主键中，“学号”和”姓名“有依赖，将”姓名“删除<br>例如顾客编号依赖于顾客姓名<br>总分数依赖于语文和数学的分数<br>在非主键字段中，要消除传递依赖</p>
+</blockquote>
+<blockquote>
+<p>上面的设计不满足第三范式，但是高考分数表就是这样设计的，为什么？<br>答：高考分数峰值访问量非常大，这时候就是性能更重要。当性能和规范化冲突的时候，我们首选性能。这就是“反三范式”。</p>
+</blockquote>
+<h3 id="例题演练"><a href="#例题演练" class="headerlink" title="例题演练"></a>例题演练</h3><h4 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h4><p>假设某建筑公司要设计一个数据库。公司的业务规则概括说明如下：<br>1、公司承担多个工程项目，每一项工程有：工程号、工程名称、施工人员等<br>2、公司有多名职工，每一名职工有：职工号、姓名、性别、职务（工程师、技术员）等<br>3、公司按照工时和小时工资率支付工资，小时工资率由职工的职务决定（例如，技术员的小时工资率与工程师不同）</p>
+<h4 id="设计异常"><a href="#设计异常" class="headerlink" title="设计异常"></a>设计异常</h4><p>1、    插入异常：一个职工入职，由于“工程名称”不能为空，所以必须虚拟一个工程名称。<br>2、    更新异常：“李思岐”从“技术员”升级“工程师”，结果“小时工资率”没有从60调整到65。<br>3、    删除异常：“李思岐”和“葛宇洪”离职，将二人删除，结果把“临江饭店”这个工程也删除了。</p>
+<h4 id="优化表结构"><a href="#优化表结构" class="headerlink" title="优化表结构"></a>优化表结构</h4><p>工程表：工程号、项目名称<br>员工表：职工号、姓名、职务<br>职务表：职务、小时工资<br>工时表：工程号、职工号、工时</p>
+<h3 id="查询语句"><a href="#查询语句" class="headerlink" title="查询语句"></a>查询语句</h3><p>语法：<code>select [选项] 字段名 from 表名 [where 条件] [group by 分组] [having 条件] [order by 排序] [limit 限制]</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table student(</span><br><span class="line">    -&gt; id int auto_increment primary key,</span><br><span class="line">    -&gt; name char(16) not null,</span><br><span class="line">    -&gt; `语文` int(5),</span><br><span class="line">    -&gt; `数学` int(5)</span><br><span class="line">    -&gt; )charset=utf8;</span><br><span class="line">Query OK, 0 rows affected (0.03 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into student values(null,&apos;张宝&apos;,56,67),(null,&apos;李青霞&apos;,89,92),(null,&apos;兰丁丁&apos;,29,96);</span><br><span class="line">Query OK, 3 rows affected (0.01 sec)</span><br><span class="line">Records: 3  Duplicates: 0  Warnings: 0</span><br></pre></td></tr></table></figure>
+<h4 id="字段表达式"><a href="#字段表达式" class="headerlink" title="字段表达式"></a>字段表达式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 20;</span><br><span class="line">+----+</span><br><span class="line">| 20 |</span><br><span class="line">+----+</span><br><span class="line">| 20 |</span><br><span class="line">+----+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select 20*20;</span><br><span class="line">+-------+</span><br><span class="line">| 20*20 |</span><br><span class="line">+-------+</span><br><span class="line">|   400 |</span><br><span class="line">+-------+</span><br><span class="line">1 row in set (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select id,name,`语文`,`数学`,(`语文`+`数学`) from student;</span><br><span class="line">+----+-----------+--------+--------+---------------------+</span><br><span class="line">| id | name      | 语文   | 数学   | (`语文`+`数学`)     |</span><br><span class="line">+----+-----------+--------+--------+---------------------+</span><br><span class="line">|  1 | 张宝      |     56 |     67 |                 123 |</span><br><span class="line">|  2 | 李青霞    |     89 |     92 |                 181 |</span><br><span class="line">|  3 | 兰丁丁    |     29 |     96 |                 125 |</span><br><span class="line">+----+-----------+--------+--------+---------------------+</span><br><span class="line">3 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<p>时间戳</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select unix_timestamp();</span><br><span class="line">+------------------+</span><br><span class="line">| unix_timestamp() |</span><br><span class="line">+------------------+</span><br><span class="line">|       1472347068 |</span><br><span class="line">+------------------+</span><br><span class="line">1 row in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<p>随机数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select rand();</span><br><span class="line">+--------------------+</span><br><span class="line">| rand()             |</span><br><span class="line">+--------------------+</span><br><span class="line">| 0.8859497913028578 |</span><br><span class="line">+--------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>通过as给字段取别名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select unix_timestamp() as &apos;时间戳&apos;,rand() as &apos;随机数&apos;;</span><br><span class="line">+------------+--------------------+</span><br><span class="line">| 时间戳     | 随机数             |</span><br><span class="line">+------------+--------------------+</span><br><span class="line">| 1472347205 | 0.8530956766131294 |</span><br><span class="line">+------------+--------------------+</span><br><span class="line">1 row in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>as可以省略</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select unix_timestamp() &apos;时间戳&apos;,rand() &apos;随机数&apos;;</span><br><span class="line">+------------+--------------------+</span><br><span class="line">| 时间戳     | 随机数             |</span><br><span class="line">+------------+--------------------+</span><br><span class="line">| 1472347268 | 0.6076290398907187 |</span><br><span class="line">+------------+--------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<h4 id="from-子句"><a href="#from-子句" class="headerlink" title="from 子句"></a>from 子句</h4><p>from：来自，from后面跟的是数据源。数据源可以有多个。返回笛卡尔积(排列组合)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table teacher(</span><br><span class="line">    -&gt; id int auto_increment primary key,</span><br><span class="line">    -&gt; name char(16) not null,</span><br><span class="line">    -&gt; `评分` int(3) zerofill</span><br><span class="line">    -&gt; )charset=utf8;</span><br><span class="line">Query OK, 0 rows affected (0.03 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into teacher values (null,&apos;贾老师&apos;,98),(null,&apos;杜老师&apos;,59);</span><br><span class="line">Query OK, 2 rows affected (0.01 sec)</span><br><span class="line">Records: 2  Duplicates: 0  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from student,teacher;</span><br><span class="line">+----+-----------+--------+--------+----+-----------+--------+</span><br><span class="line">| id | name      | 语文   | 数学   | id | name      | 评分   |</span><br><span class="line">+----+-----------+--------+--------+----+-----------+--------+</span><br><span class="line">|  1 | 张宝      |     56 |     67 |  1 | 贾老师    |    098 |</span><br><span class="line">|  1 | 张宝      |     56 |     67 |  2 | 杜老师    |    059 |</span><br><span class="line">|  2 | 李青霞    |     89 |     92 |  1 | 贾老师    |    098 |</span><br><span class="line">|  2 | 李青霞    |     89 |     92 |  2 | 杜老师    |    059 |</span><br><span class="line">|  3 | 兰丁丁    |     29 |     96 |  1 | 贾老师    |    098 |</span><br><span class="line">|  3 | 兰丁丁    |     29 |     96 |  2 | 杜老师    |    059 |</span><br><span class="line">+----+-----------+--------+--------+----+-----------+--------+</span><br><span class="line">6 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>返回笛卡尔积</p>
+</blockquote>
+<p>可以通过as给表取别名(给表取别名，as可以省略)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select i.name,m.name from student as i,teacher as m;</span><br><span class="line">+-----------+-----------+</span><br><span class="line">| name      | name      |</span><br><span class="line">+-----------+-----------+</span><br><span class="line">| 张宝      | 贾老师    |</span><br><span class="line">| 张宝      | 杜老师    |</span><br><span class="line">| 李青霞    | 贾老师    |</span><br><span class="line">| 李青霞    | 杜老师    |</span><br><span class="line">| 兰丁丁    | 贾老师    |</span><br><span class="line">| 兰丁丁    | 杜老师    |</span><br><span class="line">+-----------+-----------+</span><br><span class="line">6 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<h4 id="dual表（伪表）"><a href="#dual表（伪表）" class="headerlink" title="dual表（伪表）"></a>dual表（伪表）</h4><p>dual表是一个伪表。在有些特定情况下，没有具体的表的参与，但是为了保证select语句的完整又必须要一个表名，这时候就使用伪表。<br>dual表是用来保证select语句的完整性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select 20*30 as `积` from dual;</span><br><span class="line">+-----+</span><br><span class="line">| 积  |</span><br><span class="line">+-----+</span><br><span class="line">| 600 |</span><br><span class="line">+-----+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from student where `语文`&gt;59;</span><br><span class="line">mysql&gt; select * from student where 1;	--返回所有数据</span><br><span class="line">mysql&gt; select * from student where 0;	--返回空</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>思考：数据库中的表是一个二维表，返回的结果是一张二维表，既然能在数据库的二维表中进行查询，能否在结果集的二维表上继续进行查询？<br>答：可以，使用having条件就是在结果集上继续进行筛选。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from student where name in (&apos;兰丁丁&apos;,&apos;张宝&apos;);</span><br><span class="line">+----+-----------+--------+--------+</span><br><span class="line">| id | name      | 语文   | 数学   |</span><br><span class="line">+----+-----------+--------+--------+</span><br><span class="line">|  1 | 张宝      |     56 |     67 |</span><br><span class="line">|  3 | 兰丁丁    |     29 |     96 |</span><br><span class="line">+----+-----------+--------+--------+</span><br><span class="line">2 rows in set (0.02 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>查询名字是兰丁丁和张宝的信息</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from teacher where name not in (&apos;杜老师&apos;);</span><br><span class="line">+----+-----------+--------+</span><br><span class="line">| id | name      | 评分   |</span><br><span class="line">+----+-----------+--------+</span><br><span class="line">|  1 | 贾老师    |    098 |</span><br><span class="line">+----+-----------+--------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>查询不包含杜老师的信息</p>
+</blockquote>
+<p>in：在…里面<br>not in：不在…里面</p>
+<h4 id="between…and-not-between…and"><a href="#between…and-not-between…and" class="headerlink" title="between…and|not between…and"></a>between…and|not between…and</h4><p>between…and：在…之间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from student where id between 2 and 3;</span><br><span class="line">+----+-----------+--------+--------+</span><br><span class="line">| id | name      | 语文   | 数学   |</span><br><span class="line">+----+-----------+--------+--------+</span><br><span class="line">|  2 | 李青霞    |     89 |     92 |</span><br><span class="line">|  3 | 兰丁丁    |     29 |     96 |</span><br><span class="line">+----+-----------+--------+--------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>id在2和之间包含2和3</p>
+</blockquote>
+<p>not between …and 不在…之间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from student where id not between 2 and 2;</span><br><span class="line">+----+-----------+--------+--------+</span><br><span class="line">| id | name      | 语文   | 数学   |</span><br><span class="line">+----+-----------+--------+--------+</span><br><span class="line">|  1 | 张宝      |     56 |     67 |</span><br><span class="line">|  3 | 兰丁丁    |     29 |     96 |</span><br><span class="line">+----+-----------+--------+--------+</span><br><span class="line">2 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>id不在2和2之间</p>
+</blockquote>
+<h4 id="is-null-is-not-null"><a href="#is-null-is-not-null" class="headerlink" title="is null | is not null"></a>is null | is not null</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; insert into student values (null,&apos;赵哥&apos;,null,89);</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line"></span><br><span class="line"> +----+--------+--------+--------+</span><br><span class="line">| id | name   | 语文   | 数学   |</span><br><span class="line">+----+--------+--------+--------+</span><br><span class="line">|  4 | 赵哥   |   NULL |     89 |</span><br><span class="line">+----+--------+--------+--------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>查询语文或数学为空的信息；</p>
+</blockquote>
+<p><strong>查询一个为空的字段不能用等于，必须用is null</strong></p>
+<h4 id="标量子查询"><a href="#标量子查询" class="headerlink" title="标量子查询"></a>标量子查询</h4><p>= ：结果就是一个字<br><code>select * from stu where id=(select id from class where name=&#39;jack&#39;);</code></p>
+<h4 id="列子查询"><a href="#列子查询" class="headerlink" title="列子查询"></a>列子查询</h4><p>in ：一个字段对应多个值<br><code>select * from stu where id in(select id from class where name in(&#39;php&#39;,&#39;java&#39;));</code></p>
+<h4 id="行子查询"><a href="#行子查询" class="headerlink" title="行子查询"></a>行子查询</h4><p>= ：n个字段名对n个值<br><code>select * from stu where(id,name)=(select id,name from class where name=&#39;php&#39;);</code></p>
+<h4 id="聚合函数"><a href="#聚合函数" class="headerlink" title="聚合函数"></a>聚合函数</h4><table>
+<thead>
+<tr>
+<th>聚合函数</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sum()</td>
+<td style="text-align:center">求和</td>
+</tr>
+<tr>
+<td>avg()</td>
+<td style="text-align:center">求平均值</td>
+</tr>
+<tr>
+<td>max()</td>
+<td style="text-align:center">求最大值</td>
+</tr>
+<tr>
+<td>min()</td>
+<td style="text-align:center">求最小值</td>
+</tr>
+<tr>
+<td>count()</td>
+<td style="text-align:center">求记录数</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select sum(`语文`) as `语文总分`,avg(`语文`) as `语文平均分`,max(`语文`) as `语文最高分`,min(`语文`) as `语文最低分`,count(*) as `总人数` from student;</span><br><span class="line">+--------------+-----------------+-----------------+-----------------+-----------+</span><br><span class="line">| 语文总分     | 语文平均分      | 语文最高分      | 语文最低分      | 总人数    |</span><br><span class="line">+--------------+-----------------+-----------------+-----------------+-----------+</span><br><span class="line">|          174 |         58.0000 |              89 |              29 |         4 |</span><br><span class="line">+--------------+-----------------+-----------------+-----------------+-----------+</span><br><span class="line">1 row in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<h4 id="通配符"><a href="#通配符" class="headerlink" title="通配符"></a>通配符</h4><table>
+<thead>
+<tr>
+<th>通配符</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_  [下划线]</td>
+<td style="text-align:center">表示任意一个字符</td>
+</tr>
+<tr>
+<td>%</td>
+<td style="text-align:center">表示任意字符</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>练习<br>1、满足“T_m”的有（A、C）<br>A：Tom        B：Toom        C：Tam        D：Tm    E：Tmo<br>2、满足“T_m_”的有（B、C）<br>A:Tmom    B:Tmmm    C:T1m2    D:Tmm    E:Tm<br>3、满足“张%”的是（A、B、C、D）<br>A:张三    B：张三丰    C：张牙舞爪        D：张        E：小张<br>4、满足“%诺基亚%”的是（A、B、C、D）<br>A：诺基亚2100   B：2100诺基亚    C：把我的诺基亚拿过来   D：诺基亚</p>
+</blockquote>
+<p><strong>如果要匹配6个字符，且已ing结尾则使用“___ing” 3个下划线</strong></p>
+<p>使用“\”转移特殊字符 “\%”;</p>
+<h4 id="模糊查询（like）"><a href="#模糊查询（like）" class="headerlink" title="模糊查询（like）"></a>模糊查询（like）</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from student where name like &apos;兰%&apos;;</span><br><span class="line">+----+-----------+--------+--------+</span><br><span class="line">| id | name      | 语文   | 数学   |</span><br><span class="line">+----+-----------+--------+--------+</span><br><span class="line">|  3 | 兰丁丁    |     29 |     96 |</span><br><span class="line">+----+-----------+--------+--------+</span><br><span class="line">1 row in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>查询兰姓小伙伴</p>
+</blockquote>
+<h4 id="group-by-【分组查询】"><a href="#group-by-【分组查询】" class="headerlink" title="group by 【分组查询】"></a>group by 【分组查询】</h4><p>将查询的结果分组，分组查询目的在于统计数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select id,name,sex,avg(`数学`) as `数学平均分数` from student group by sex;</span><br><span class="line">+----+-----------+------+--------------------+</span><br><span class="line">| id | name      | sex  | 数学平均分数       |</span><br><span class="line">+----+-----------+------+--------------------+</span><br><span class="line">|  2 | 李青霞    | 女   |            92.0000 |</span><br><span class="line">|  1 | 张宝      | 男   |            84.0000 |</span><br><span class="line">+----+-----------+------+--------------------+</span><br><span class="line">2 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>分组查询中，字段有普通字段会怎么样？<br>只显示分组后第一条记录的字段值</p>
+</blockquote>
+<blockquote>
+<p>注意内容插入的时候使用引号 ‘’ ，查询字段信息时使用 <code></code> ;</p>
+</blockquote>
+<p>通过group_concat()函数将同一组的值连接起来显示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select group_concat(id),group_concat(name),sex,avg(`语文`) as `语文平均分`,avg(`数学`) as `数学平均分` from student group by sex;</span><br><span class="line">+------------------+-------------------------+------+-----------------+-----------------+</span><br><span class="line">| group_concat(id) | group_concat(name)      | sex  | 语文平均分      | 数学平均分      |</span><br><span class="line">+------------------+-------------------------+------+-----------------+-----------------+</span><br><span class="line">| 2                | 李青霞                  | 女   |         89.0000 |         92.0000 |</span><br><span class="line">| 1,3,4            | 张宝,兰丁丁,赵哥        | 男   |         42.5000 |         84.0000 |</span><br><span class="line">+------------------+-------------------------+------+-----------------+-----------------+</span><br><span class="line">2 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<p>实现分组后按降序排列</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from student group by `语文` desc;</span><br><span class="line">+----+-----------+------+--------+--------+</span><br><span class="line">| id | name      | sex  | 语文   | 数学   |</span><br><span class="line">+----+-----------+------+--------+--------+</span><br><span class="line">|  2 | 李青霞    | 女   |     89 |     92 |</span><br><span class="line">|  1 | 张宝      | 男   |     56 |     67 |</span><br><span class="line">|  3 | 兰丁丁    | 男   |     29 |     96 |</span><br><span class="line">|  4 | 赵哥      | 男   |   NULL |     89 |</span><br><span class="line">+----+-----------+------+--------+--------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>分组后降序排列</p>
+</blockquote>
+<p>多列分组(注意：聚合函数*号的位置-&gt;count(*))</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select group_concat(name),sex,count(*) from student group by sex;</span><br><span class="line">+-------------------------+------+----------+</span><br><span class="line">| group_concat(name)      | sex  | count(*) |</span><br><span class="line">+-------------------------+------+----------+</span><br><span class="line">| 李青霞                  | 女   |        1 |</span><br><span class="line">| 张宝,兰丁丁,赵哥        | 男   |        3 |</span><br><span class="line">+-------------------------+------+----------+</span><br><span class="line">2 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<h4 id="回溯统计【with-rollup】"><a href="#回溯统计【with-rollup】" class="headerlink" title="回溯统计【with rollup】"></a>回溯统计【with rollup】</h4><p>在分组统计的基础上再进行相同的统计</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; update student set sex=null where id=3;</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line">Rows matched: 1  Changed: 1  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from student;</span><br><span class="line">+----+-----------+------+--------+--------+</span><br><span class="line">| id | name      | sex  | 语文   | 数学   |</span><br><span class="line">+----+-----------+------+--------+--------+</span><br><span class="line">|  1 | 张宝      | 男   |     56 |     67 |</span><br><span class="line">|  2 | 李青霞    | 女   |     89 |     92 |</span><br><span class="line">|  3 | 兰丁丁    | NULL |     29 |     96 |</span><br><span class="line">|  4 | 赵哥      | 男   |   NULL |     89 |</span><br><span class="line">+----+-----------+------+--------+--------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select group_concat(name),sex,count(*) from student group by sex with rollup;</span><br><span class="line">+-----------------------------------+------+----------+</span><br><span class="line">| group_concat(name)                | sex  | count(*) |</span><br><span class="line">+-----------------------------------+------+----------+</span><br><span class="line">| 兰丁丁                            | NULL |        1 |</span><br><span class="line">| 李青霞                            | 女   |        1 |</span><br><span class="line">| 张宝,赵哥                         | 男   |        2 |</span><br><span class="line">| 兰丁丁,李青霞,张宝,赵哥           | NULL |        4 |</span><br><span class="line">+-----------------------------------+------+----------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在分组统计的基础上再进行相同的统计</p>
+</blockquote>
+<h4 id="having条件"><a href="#having条件" class="headerlink" title="having条件"></a>having条件</h4><p><strong>having和where的区别：</strong><br><strong>where</strong>是对原始数据进行筛选，<strong>having</strong>是对记录集(结果集)进行筛选。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from student having `语文`&lt;59;</span><br><span class="line">+----+-----------+------+--------+--------+</span><br><span class="line">| id | name      | sex  | 语文   | 数学   |</span><br><span class="line">+----+-----------+------+--------+--------+</span><br><span class="line">|  1 | 张宝      | 男   |     56 |     67 |</span><br><span class="line">|  3 | 兰丁丁    | NULL |     29 |     96 |</span><br><span class="line">+----+-----------+------+--------+--------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select name from student where `数学`&gt;80;</span><br><span class="line">+-----------+</span><br><span class="line">| name      |</span><br><span class="line">+-----------+</span><br><span class="line">| 李青霞    |</span><br><span class="line">| 兰丁丁    |</span><br><span class="line">| 赵哥      |</span><br><span class="line">+-----------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select name from student having `数学`&gt;80;</span><br><span class="line">ERROR 1054 (42S22): Unknown column &apos;数学&apos; in &apos;having clause&apos;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>因为在表中查询，表中有 `数学` ，所以where可以查到结果，反之having是查询不到结果的；</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select group_concat(name),sex,count(*) as total from student group by sex having total&gt;1; </span><br><span class="line">+--------------------+------+-------+</span><br><span class="line">| group_concat(name) | sex  | total |</span><br><span class="line">+--------------------+------+-------+</span><br><span class="line">| 张宝,赵哥          | 男   |     2 |</span><br><span class="line">+--------------------+------+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>对select出的数据，使用having进行条件设置</p>
+</blockquote>
+<p>####【where子句】<br>    主要是用于根据一个条件表达式从硬盘上将数据读到内存中时筛选记录。<br>既然where根据条件表达式进行记录的筛选，where的运算符<br>=        判断两个值是否相等<br>=        判断n个字段与n个值是否相等</p>
+<h4 id="order-by排序"><a href="#order-by排序" class="headerlink" title="order by排序"></a>order by排序</h4><p><strong>asc：升序【默认】</strong><br><strong>desc：降序</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from student order by \`语文`;			--按语文升序</span><br><span class="line">mysql&gt; select * from student order by \`语文` asc;		--按语文升序</span><br><span class="line">mysql&gt; select * from student order by \`语文` desc;		--按语文降序</span><br></pre></td></tr></table></figure>
+<h4 id="limit"><a href="#limit" class="headerlink" title="limit"></a>limit</h4><p><code>语法：limit 起始位置，显示长度</code><br>起始位置可以省略，默认是从0开始</p>
+<p>找出班级总分前两名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select name,(`语文`+`数学`) as total from student order by (`语文`+`数学`) desc limit 2;</span><br><span class="line">+-----------+-------+</span><br><span class="line">| name      | total |</span><br><span class="line">+-----------+-------+</span><br><span class="line">| 李青霞    |   181 |</span><br><span class="line">| 兰丁丁    |   125 |</span><br><span class="line">+-----------+-------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<h4 id="查询语句中的选项"><a href="#查询语句中的选项" class="headerlink" title="查询语句中的选项"></a>查询语句中的选项</h4><p>查询语句中的选项有两个：<br>1、    all：显示所有数据 【默认】<br>2、    distinct：去除结果集中重复的数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select all sex from student;</span><br><span class="line">+------+</span><br><span class="line">| sex  |</span><br><span class="line">+------+</span><br><span class="line">| 男   |</span><br><span class="line">| 女   |</span><br><span class="line">| NULL |</span><br><span class="line">| 男   |</span><br><span class="line">+------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select distinct sex from student;</span><br><span class="line">+------+</span><br><span class="line">| sex  |</span><br><span class="line">+------+</span><br><span class="line">| 男   |</span><br><span class="line">| 女   |</span><br><span class="line">| NULL |</span><br><span class="line">+------+</span><br><span class="line">3 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<h3 id="insert…select…"><a href="#insert…select…" class="headerlink" title="insert…select…"></a>insert…select…</h3><p>选择一个表的数据插入到另外的表中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table stu_boy like student;</span><br><span class="line">Query OK, 0 rows affected (0.03 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into stu_boy select * from student where sex=&apos;男&apos;;</span><br><span class="line">Query OK, 2 rows affected (0.02 sec)</span><br><span class="line">Records: 2  Duplicates: 0  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from stu_boy;</span><br><span class="line">+----+--------+------+--------+--------+</span><br><span class="line">| id | name   | sex  | 语文   | 数学   |</span><br><span class="line">+----+--------+------+--------+--------+</span><br><span class="line">|  1 | 张宝   | 男   |     56 |     67 |</span><br><span class="line">|  4 | 赵哥   | 男   |   NULL |     89 |</span><br><span class="line">+----+--------+------+--------+--------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<h3 id="on-duplicate-key-update"><a href="#on-duplicate-key-update" class="headerlink" title="on duplicate key update"></a>on duplicate key update</h3><p>在插入数据的时候，如果插入的数据不满足主键约束或唯一约束则执行更新操作。<br>测试数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1	–创建表</span><br><span class="line">2	create table emp(</span><br><span class="line">3	id int primary key,</span><br><span class="line">4	name varchar(20) unique</span><br><span class="line">5	);</span><br><span class="line">6	– 插入测试数据</span><br><span class="line">7	insert into emp values (1,&apos;tom&apos;);</span><br></pre></td></tr></table></figure>
+<p><code>mysql&gt;insert into emp values (1,&#39;berry&#39;) on duplicate key update name=&#39;berry&#39;</code></p>
+<blockquote>
+<p>编号1和主键冲突，将name改成berry</p>
+</blockquote>
+<p><code>mysql&gt;insert into emp values (2,&#39;berry&#39;) on duplicate key update id=2;</code></p>
+<blockquote>
+<p>berry 和唯一键冲突，将id改为2</p>
+</blockquote>
+<h3 id="union"><a href="#union" class="headerlink" title="union"></a>union</h3><p>作用：将多个select语句结果集纵向联合起来<br>语法：<code>select 语句 union [选项] select 语句 union [选项] select 语句</code></p>
+<p>例题：查找上海的男生和北京的女生</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">--方法一：</span><br><span class="line">mysql&gt; select * from stu where (stuaddress=&apos;上海&apos; and stusex=&apos;男&apos;) or (stuaddress=&apos;北京&apos; and stusex=&apos;女&apos;);</span><br><span class="line"></span><br><span class="line">--方法二：</span><br><span class="line">mysql&gt; select * from stu where (stuaddress=&apos;上海&apos; and stusex=&apos;男&apos;) union select * from stu where (stuaddress=&apos;北京&apos; and stusex=&apos;女&apos;);</span><br></pre></td></tr></table></figure>
+<p>例题：联合多个表的数据<br><code>mysql&gt; select stuname from stu union select name from stu_info;</code></p>
+<p>例题：将多个表的数据插入到新表中<br><code>mysql&gt; create table stu2 like stu;        --创建和stu一样的表结构</code></p>
+<p>–将上海的男生和北京的女生插入到stu2表中</p>
+<p><code>insert into stu2 select * from stu where (stuaddress=&#39;上海&#39; and stusex=&#39;男&#39;) union select * from stu where (stuaddress=&#39;北京&#39; and stusex=&#39;女&#39;);</code></p>
+<h4 id="union的选项"><a href="#union的选项" class="headerlink" title="union的选项"></a>union的选项</h4><p>union的选项有两个<br>1、    all：显示所有数据<br>2、    distinct：去除重复的数据【默认】</p>
+<blockquote>
+<p>默认情况下，取出重复的记录<br>union all 显示联合的数据，不去重</p>
+</blockquote>
+<h4 id="union的注意事项"><a href="#union的注意事项" class="headerlink" title="union的注意事项"></a>union的注意事项</h4><ul>
+<li>union两边的select语句的字段个数必须一致</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select name from student union select name,sex from stu_boy;</span><br><span class="line">ERROR 1222 (21000): The used SELECT statements have a different number of columns</span><br></pre></td></tr></table></figure>
+<ul>
+<li>union两边的select语句的字段名可以不一致，最终按第一个select语句的字段名。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select id,name from student union select name,sex from stu_boy;</span><br><span class="line">+--------+-----------+</span><br><span class="line">| id     | name      |</span><br><span class="line">+--------+-----------+</span><br><span class="line">| 1      | 张宝      |</span><br><span class="line">| 2      | 李青霞    |</span><br><span class="line">| 3      | 兰丁丁    |</span><br><span class="line">| 4      | 赵哥      |</span><br><span class="line">| 张宝   | 男        |</span><br><span class="line">| 赵哥   | 男        |</span><br><span class="line">+--------+-----------+</span><br><span class="line">6 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>union两边的select语句中的数据类型可以不一致。</li>
+</ul>
+<h4 id="union和order-by一起使用"><a href="#union和order-by一起使用" class="headerlink" title="union和order by一起使用"></a>union和order by一起使用</h4><p>1、    每条select语句必须用括号括起来。<br>2、    每条select语句的order by必须配合limit才能生效。</p>
+<p>例题：男生按数学的降序，女生按语文的升序排列</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; (select * from student where sex=&apos;男&apos; order by 数学 desc limit 999) union (select * from student where sex=&apos;女&apos; order by 语文 asc limit 999);</span><br><span class="line">+----+-----------+------+--------+--------+</span><br><span class="line">| id | name      | sex  | 语文   | 数学   |</span><br><span class="line">+----+-----------+------+--------+--------+</span><br><span class="line">|  4 | 赵哥      | 男   |   NULL |     89 |</span><br><span class="line">|  1 | 张宝      | 男   |     56 |     67 |</span><br><span class="line">|  2 | 李青霞    | 女   |     89 |     92 |</span><br><span class="line">+----+-----------+------+--------+--------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/20150830-1.html" rel="next" title="MySQL 数据类型、列属性、数据完整性">
+                <i class="fa fa-chevron-left"></i> MySQL 数据类型、列属性、数据完整性
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/20150902-1.html" rel="prev" title="MySQL 多表查询、视图、事物、索引">
+                MySQL 多表查询、视图、事物、索引 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/default_avatar.png"
+                alt="uiste" />
+            
+              <p class="site-author-name" itemprop="name">uiste</p>
+              <p class="site-description motion-element" itemprop="description">Stay Hungry，Stay Foolish</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">122</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">66</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/uiste" target="_blank" title="GitHub"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/uiste" target="_blank" title="微博"><i class="fa fa-fw fa-globe"></i>微博</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.zhihu.com/people/uiste" target="_blank" title="知乎"><i class="fa fa-fw fa-globe"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.xiaomanyu.cn" title="Mandy画站" target="_blank">Mandy画站</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#实体和实体之间的关系"><span class="nav-number">1.</span> <span class="nav-text">实体和实体之间的关系</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一对多-1：N（多对一-N：1）"><span class="nav-number">1.1.</span> <span class="nav-text">一对多 1：N（多对一 N：1）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一对一（1-1）"><span class="nav-number">1.2.</span> <span class="nav-text">一对一（1:1）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多对多（N：M）"><span class="nav-number">1.3.</span> <span class="nav-text">多对多（N：M）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库设计的步骤"><span class="nav-number">2.</span> <span class="nav-text">数据库设计的步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据库设计具体步骤"><span class="nav-number">2.1.</span> <span class="nav-text">数据库设计具体步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#绘制E-R图"><span class="nav-number">2.2.</span> <span class="nav-text">绘制E-R图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据规范化"><span class="nav-number">3.</span> <span class="nav-text">数据规范化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一范式确保每个字段不可再分"><span class="nav-number">3.1.</span> <span class="nav-text">第一范式确保每个字段不可再分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二范式：非键字段必须依赖于键字段"><span class="nav-number">3.2.</span> <span class="nav-text">第二范式：非键字段必须依赖于键字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三范式：消除传递依赖"><span class="nav-number">3.3.</span> <span class="nav-text">第三范式：消除传递依赖</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例题演练"><span class="nav-number">4.</span> <span class="nav-text">例题演练</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#需求"><span class="nav-number">4.1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设计异常"><span class="nav-number">4.2.</span> <span class="nav-text">设计异常</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优化表结构"><span class="nav-number">4.3.</span> <span class="nav-text">优化表结构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询语句"><span class="nav-number">5.</span> <span class="nav-text">查询语句</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字段表达式"><span class="nav-number">5.1.</span> <span class="nav-text">字段表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#from-子句"><span class="nav-number">5.2.</span> <span class="nav-text">from 子句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dual表（伪表）"><span class="nav-number">5.3.</span> <span class="nav-text">dual表（伪表）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#between…and-not-between…and"><span class="nav-number">5.4.</span> <span class="nav-text">between…and|not between…and</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#is-null-is-not-null"><span class="nav-number">5.5.</span> <span class="nav-text">is null | is not null</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#标量子查询"><span class="nav-number">5.6.</span> <span class="nav-text">标量子查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#列子查询"><span class="nav-number">5.7.</span> <span class="nav-text">列子查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#行子查询"><span class="nav-number">5.8.</span> <span class="nav-text">行子查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#聚合函数"><span class="nav-number">5.9.</span> <span class="nav-text">聚合函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通配符"><span class="nav-number">5.10.</span> <span class="nav-text">通配符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模糊查询（like）"><span class="nav-number">5.11.</span> <span class="nav-text">模糊查询（like）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#group-by-【分组查询】"><span class="nav-number">5.12.</span> <span class="nav-text">group by 【分组查询】</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#回溯统计【with-rollup】"><span class="nav-number">5.13.</span> <span class="nav-text">回溯统计【with rollup】</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#having条件"><span class="nav-number">5.14.</span> <span class="nav-text">having条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#order-by排序"><span class="nav-number">5.15.</span> <span class="nav-text">order by排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#limit"><span class="nav-number">5.16.</span> <span class="nav-text">limit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询语句中的选项"><span class="nav-number">5.17.</span> <span class="nav-text">查询语句中的选项</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#insert…select…"><span class="nav-number">6.</span> <span class="nav-text">insert…select…</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#on-duplicate-key-update"><span class="nav-number">7.</span> <span class="nav-text">on duplicate key update</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#union"><span class="nav-number">8.</span> <span class="nav-text">union</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#union的选项"><span class="nav-number">8.1.</span> <span class="nav-text">union的选项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#union的注意事项"><span class="nav-number">8.2.</span> <span class="nav-text">union的注意事项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#union和order-by一起使用"><span class="nav-number">8.3.</span> <span class="nav-text">union和order by一起使用</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">uiste</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+      <div>
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57838eee5e2620d0" async = "async" ></script>
+</div>
+
+      </div>
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="SQL DML 和 DDL可以把 SQL 分为两个部分：数据操作语言 (DML) 和 数据定义语言 (DDL)。SQL (结构化查询语言)是用于执行查询的语法。但是 SQL 语言也包含用于更新、插入和删除记录的语法。查询和更新指令构成了 SQL 的 DML 部分：SELECT - 从数据库表中获取数据UPDATE - 更新数据库表中的数据DELETE - 从数据库表中删除数据INSERT INTO">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL 知识、数据库、数据表">
+<meta property="og:url" content="http://blog.uiste.com/2015/20150829-1.html">
+<meta property="og:site_name" content="uiste">
+<meta property="og:description" content="SQL DML 和 DDL可以把 SQL 分为两个部分：数据操作语言 (DML) 和 数据定义语言 (DDL)。SQL (结构化查询语言)是用于执行查询的语法。但是 SQL 语言也包含用于更新、插入和删除记录的语法。查询和更新指令构成了 SQL 的 DML 部分：SELECT - 从数据库表中获取数据UPDATE - 更新数据库表中的数据DELETE - 从数据库表中删除数据INSERT INTO">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-19T01:57:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL 知识、数据库、数据表">
+<meta name="twitter:description" content="SQL DML 和 DDL可以把 SQL 分为两个部分：数据操作语言 (DML) 和 数据定义语言 (DDL)。SQL (结构化查询语言)是用于执行查询的语法。但是 SQL 语言也包含用于更新、插入和删除记录的语法。查询和更新指令构成了 SQL 的 DML 部分：SELECT - 从数据库表中获取数据UPDATE - 更新数据库表中的数据DELETE - 从数据库表中删除数据INSERT INTO">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="uiste" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://blog.uiste.com/2015/20150829-1.html"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>MySQL 知识、数据库、数据表 | uiste</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">uiste</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">uiste</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'aSf9eNpjToN3z8HppMAx','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    <!--  -->
+    
+    
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150829-1.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="uiste">
+      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="uiste">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MySQL 知识、数据库、数据表
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2015-08-29 17:18:51" itemprop="dateCreated datePublished" datetime="2015-08-29T17:18:51+08:00">2015-08-29</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-19 09:57:01" itemprop="dateModified" datetime="2018-10-19T09:57:01+08:00">2018-10-19</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="SQL-DML-和-DDL"><a href="#SQL-DML-和-DDL" class="headerlink" title="SQL DML 和 DDL"></a>SQL DML 和 DDL</h3><p>可以把 SQL 分为两个部分：数据操作语言 (DML) 和 数据定义语言 (DDL)。<br>SQL (结构化查询语言)是用于执行查询的语法。但是 SQL 语言也包含用于更新、插入和删除记录的语法。<br>查询和更新指令构成了 SQL 的 DML 部分：<br>SELECT - 从数据库表中获取数据<br>UPDATE - 更新数据库表中的数据<br>DELETE - 从数据库表中删除数据<br>INSERT INTO - 向数据库表中插入数据<br>SQL 的数据定义语言 (DDL) 部分使我们有能力创建或删除表格。我们也可以定义索引（键），规定表之间的链接，以及施加表间的约束。<br>SQL 中最重要的 DDL 语句:<br>CREATE DATABASE - 创建新数据库<br>ALTER DATABASE - 修改数据库<br>CREATE TABLE - 创建新表<br>ALTER TABLE - 变更（改变）数据库表<br>DROP TABLE - 删除表<br>CREATE INDEX - 创建索引（搜索键）<br>DROP INDEX - 删除索引</p>
+<h3 id="数据库发展史"><a href="#数据库发展史" class="headerlink" title="数据库发展史"></a>数据库发展史</h3><p>文件系统-》层次模型-》网状模型-》关系型数据库<br>优点：解决了导航的问题、数据完整性得到了解决</p>
+<p>缺点：多表查询效率低<br>解决方法：使用NOSQL（非关系型数据库，Redis、mongodb等等），在数据库中按照键值对来存储。</p>
+<h3 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h3><p>结构化查询语言，标准SQL，也叫SQL-92</p>
+<p>access    微软    SQL<br>SQL Server    微软    T-SQL<br>Oracle    甲骨文    PL/SQL<br>MySQL    被甲骨文收购    MySQL</p>
+<h3 id="windows-服务开启"><a href="#windows-服务开启" class="headerlink" title="windows 服务开启"></a>windows 服务开启</h3><p>win+R    services.msc 打开服务面板<br>net start    查看已经开启的服务</p>
+<p><code>net start mysql</code>      启动服务<br><code>net stop mysql</code>     关闭服务</p>
+<h3 id="MySQL客户端连接服务器"><a href="#MySQL客户端连接服务器" class="headerlink" title="MySQL客户端连接服务器"></a>MySQL客户端连接服务器</h3><p>安装文件目录下的：<code>MySQL 5.5 Command Line Client</code><br>navicat 客户端<br>PHPmyadmin 客户端<br>设置环境变量后：<code>mysql  -hlocalhost  -uroot -proot  -P3306</code>   (如果MySQL服务器在本地，IP地址可以省略；如果MySQL服务器用的是3306端口，-P也是可以省略的)</p>
+<h3 id="退出登录"><a href="#退出登录" class="headerlink" title="退出登录"></a>退出登录</h3><p>exit;<br>quit;<br>\q;<br>MySQL中的命令后面要加分号，windows命令行的命令后面不用加分号</p>
+<h3 id="数据库基本概念"><a href="#数据库基本概念" class="headerlink" title="数据库基本概念"></a>数据库基本概念</h3><p>数据库：数据库中存放的是表，一个数据库中可以存放多个表<br>表：用来存放数据<br>关系：两个表的公共字段<br>行：记录，也是实体<br>列：字段，也是属性<br>表结构    行    列<br>表数据    记录    字段<br>面向对象    实体    属性</p>
+<blockquote>
+<p>表的冗余只能减少，不能杜绝</p>
+</blockquote>
+<p>数据完整性：正确的数据类型，准确的数据范围</p>
+<h3 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h3><h4 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h4><p><code>Mac xampp ：$ /Applications/XAMPP/xamppfiles/bin/mysql -hlocalhost -uroot -p -P3306</code><br>密码初始为空；</p>
+<h4 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h4><p>语法：<code>create database [if not exists] 数据名</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create database if not exists uiste;</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>问题一：</p>
+<blockquote>
+<p>如果创建的数据库已存在，就会报错<br>解决：创建数据库的时候判断一下数据库是否存在，如果不存在再创建</p>
+</blockquote>
+<p>问题二：</p>
+<blockquote>
+<p>如果数据库名是关键字和特殊字符要报错<br>解决：在特殊字符、关键字行加上反引号<br><code>create database `$@%`;</code></p>
+</blockquote>
+<p><strong>为了创建数据库时万无一失，我们可以在所有的数据库名上加上反引号</strong></p>
+<h4 id="MySQL数据库的目录"><a href="#MySQL数据库的目录" class="headerlink" title="MySQL数据库的目录"></a>MySQL数据库的目录</h4><p>数据库文件保存的路径在安装MySQL的时候就配置好。<br>也可以在<code>my.ini</code>配置文件中更改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#Path to the database root</span><br><span class="line">datadir = &quot;F:/wamp/mysql/Data/&quot;</span><br></pre></td></tr></table></figure>
+<p>Mac xampp 数据库文件夹：<br><code>/Applications /XAMPP/xamppfiles/var/mysql</code></p>
+<p>创建一个数据库，就对应一个文件夹，在文件夹中有一个db.opt文件。在此文件中设置数据库的字符集和校对集</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">default-character-set = utf8</span><br><span class="line">default-collation = utf_general_ci</span><br></pre></td></tr></table></figure>
+<h4 id="显示所有数据库【show-databases】"><a href="#显示所有数据库【show-databases】" class="headerlink" title="显示所有数据库【show databases】"></a>显示所有数据库【show databases】</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| cdcol              |</span><br><span class="line">| dedecms            |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">| phpmyadmin         |</span><br><span class="line">| test               |</span><br><span class="line">| uiste              |</span><br><span class="line">+--------------------+</span><br><span class="line">8 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>information_schema：存储了MySQL服务器管理数据库的信息。比如：数据库名、表、字段名、数据类型及访问权限等等<br>performance_schema：MySQL5.5新增的表，用来保存数据库服务器性能的参数<br>mysql：MySQL系统数据库，保存的登录用户名，密码，以及每个用户的权限等等<br>test：给用户学习和测试的数据库。</p>
+</blockquote>
+<h4 id="删除数据库"><a href="#删除数据库" class="headerlink" title="删除数据库"></a>删除数据库</h4><p>语法：<code>drop database [if exists] `数据库名`</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; drop database if exists uiste;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| cdcol              |</span><br><span class="line">| dedecms            |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">| phpmyadmin         |</span><br><span class="line">| test               |</span><br><span class="line">+--------------------+</span><br><span class="line">7 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>问题：</p>
+<blockquote>
+<p>如果删除的数据库不存在，会报错<br>解决：删除之前判断一下，如果存在就删除</p>
+</blockquote>
+<h4 id="显示创建数据库的语句"><a href="#显示创建数据库的语句" class="headerlink" title="显示创建数据库的语句"></a>显示创建数据库的语句</h4><p>语法：<code>show create database 数据库名</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show create database uiste;</span><br><span class="line">+----------+------------------------------------------------------------------+</span><br><span class="line">| Database | Create Database                                                  |</span><br><span class="line">+----------+------------------------------------------------------------------+</span><br><span class="line">| uiste    | CREATE DATABASE `uiste` /*!40100 DEFAULT CHARACTER SET latin1 */ |</span><br><span class="line">+----------+------------------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<h4 id="修改数据库字符编码"><a href="#修改数据库字符编码" class="headerlink" title="修改数据库字符编码"></a>修改数据库字符编码</h4><p>语法：<code>alter database `数据库名` charset=字符编码</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; alter database uiste charset=utf8;</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; show create database uiste;</span><br><span class="line">+----------+----------------------------------------------------------------+</span><br><span class="line">| Database | Create Database                                                |</span><br><span class="line">+----------+----------------------------------------------------------------+</span><br><span class="line">| uiste    | CREATE DATABASE `uiste` /*!40100 DEFAULT CHARACTER SET utf8 */ |</span><br><span class="line">+----------+----------------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<h4 id="选择数据库"><a href="#选择数据库" class="headerlink" title="选择数据库"></a>选择数据库</h4><p>语法：<code>use `数据库名</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; use uiste;</span><br><span class="line">Database changed</span><br></pre></td></tr></table></figure>
+<h3 id="表的操作"><a href="#表的操作" class="headerlink" title="表的操作"></a>表的操作</h3><h4 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">create table [if not exists] `表名`(</span><br><span class="line">	`字段名` 数据类型 [null|not null] [default] [auto_increment] [primary key] [comment],</span><br><span class="line">	字段名 数据类型 …</span><br><span class="line">)[engine=存储引擎] [charset=字符编码]</span><br><span class="line"></span><br><span class="line">null|not null		是否为空</span><br><span class="line">default:			默认值</span><br><span class="line">auto_increment	自动增长</span><br><span class="line">primary key		主键</span><br><span class="line">comment:			备注</span><br><span class="line">engine				引擎</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>表名和字段名如果用了关键字，要用反引号引起来。</p>
+</blockquote>
+<p>创建简单的表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table student(</span><br><span class="line">    -&gt; id int not null auto_increment primary key comment &apos;学生编号&apos;,</span><br><span class="line">    -&gt; name varchar(10) not null comment &apos;学生姓名&apos;,</span><br><span class="line">    -&gt; sex char(4) default &apos;男&apos;);</span><br><span class="line">Query OK, 0 rows affected (0.03 sec)</span><br></pre></td></tr></table></figure>
+<p>创建复杂的表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table `goods`(</span><br><span class="line">    -&gt; `id` int auto_increment primary key comment &apos;商品编号&apos;,</span><br><span class="line">    -&gt; `name` varchar(20) not null comment &apos;商品名称&apos;,</span><br><span class="line">    -&gt; `add` varchar(100) not null default &apos;地址不详&apos; comment &apos;商品产地&apos;</span><br><span class="line">    -&gt; )engine=innodb charset=utf8 comment &apos;商品表&apos;;</span><br><span class="line">Query OK, 0 rows affected (0.05 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>create table 数据库名.表名，用于给指定的数据库创建表</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table uiste.teacher(</span><br><span class="line">    -&gt; id int auto_increment primary key,</span><br><span class="line">    -&gt; name varchar(16) not null);</span><br><span class="line">Query OK, 0 rows affected (0.02 sec)</span><br></pre></td></tr></table></figure>
+<h4 id="数据表文件"><a href="#数据表文件" class="headerlink" title="数据表文件"></a>数据表文件</h4><ul>
+<li>一个数据库对应一个文件夹</li>
+<li>一个表对应一个或多个文件夹<br>引擎是myisam，一个表对应三个文件(不支持外键约束)<blockquote>
+<p>t1.frm  表结构<br>t1.MYD  表数据<br>t1.MYI  表索引<br>引擎是innodb,一个表对应一个表结构文件</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>所有的innodb引擎的数据统一的存放在data\ibdata1文件中。如果数据量很大，MySQL会自动的创建ibdata2，ibdata3，…，目的就是为了便于管理。</p>
+</blockquote>
+<p>constraint：约束</p>
+<h4 id="显示所有表"><a href="#显示所有表" class="headerlink" title="显示所有表"></a>显示所有表</h4><p>语法：<code>show tables;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show tables;</span><br><span class="line">+-----------------+</span><br><span class="line">| Tables_in_uiste |</span><br><span class="line">+-----------------+</span><br><span class="line">| student         |</span><br><span class="line">| teacher         |</span><br><span class="line">+-----------------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<h4 id="显示创建表的语句"><a href="#显示创建表的语句" class="headerlink" title="显示创建表的语句"></a>显示创建表的语句</h4><p>语法：<code>show create table `表名`</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show create table student;</span><br><span class="line">+---------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span><br><span class="line">| Table   | Create Table                                                                                                                                                                                                                           |</span><br><span class="line">+---------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span><br><span class="line">| student | CREATE TABLE `student` (</span><br><span class="line">  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT &apos;学生编号&apos;,</span><br><span class="line">  `name` varchar(10) NOT NULL COMMENT &apos;学生姓名&apos;,</span><br><span class="line">  `sex` char(4) DEFAULT &apos;男&apos;,</span><br><span class="line">  PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8          |</span><br><span class="line">+---------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span><br><span class="line">1 row in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<p><strong>将两个字段竖着排列</strong><br>语法：<code>show create table `表名`\G</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show create table student \G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">       Table: student</span><br><span class="line">Create Table: CREATE TABLE `student` (</span><br><span class="line">  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT &apos;学生编号&apos;,</span><br><span class="line">  `name` varchar(10) NOT NULL COMMENT &apos;学生姓名&apos;,</span><br><span class="line">  `sex` char(4) DEFAULT &apos;男&apos;,</span><br><span class="line">  PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<h4 id="查看表结构"><a href="#查看表结构" class="headerlink" title="查看表结构"></a>查看表结构</h4><p>语法：<code>desc[ribe] `表名`</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; desc student;</span><br><span class="line">+-------+-------------+------+-----+---------+----------------+</span><br><span class="line">| Field | Type        | Null | Key | Default | Extra          |</span><br><span class="line">+-------+-------------+------+-----+---------+----------------+</span><br><span class="line">| id    | int(11)     | NO   | PRI | NULL    | auto_increment |</span><br><span class="line">| name  | varchar(10) | NO   |     | NULL    |                |</span><br><span class="line">| sex   | char(4)     | YES  |     | 男      |                |</span><br><span class="line">+-------+-------------+------+-----+---------+----------------+</span><br><span class="line">3 rows in set (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; describe student;</span><br><span class="line">+-------+-------------+------+-----+---------+----------------+</span><br><span class="line">| Field | Type        | Null | Key | Default | Extra          |</span><br><span class="line">+-------+-------------+------+-----+---------+----------------+</span><br><span class="line">| id    | int(11)     | NO   | PRI | NULL    | auto_increment |</span><br><span class="line">| name  | varchar(10) | NO   |     | NULL    |                |</span><br><span class="line">| sex   | char(4)     | YES  |     | 男      |                |</span><br><span class="line">+-------+-------------+------+-----+---------+----------------+</span><br><span class="line">3 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>desc 是 describe 的简写</p>
+</blockquote>
+<h4 id="复制表"><a href="#复制表" class="headerlink" title="复制表"></a>复制表</h4><p>语法一：<code>create table 新表 select 字段 from 旧表</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table student2 select * from student;</span><br><span class="line">Query OK, 0 rows affected (0.02 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>特点：不能复制父表的键，能够复制父表的数据</p>
+</blockquote>
+<p>语法二：create table 新表 like 旧表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table student3 like student;</span><br><span class="line">Query OK, 0 rows affected (0.03 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>特点：只能复制表结构，不能复制表数据</p>
+</blockquote>
+<h4 id="删除表"><a href="#删除表" class="headerlink" title="删除表"></a>删除表</h4><p>语法：<code>drop table [if exists] 表1，表2,…</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; drop table if exists student2;</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果删除一个不存在的表就会报错，删除的时候可以判断一下，存在就删除</p>
+</blockquote>
+<p>可以一次删除多个表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; drop tables if exists student2,student3;</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br></pre></td></tr></table></figure>
+<h4 id="修改表"><a href="#修改表" class="headerlink" title="修改表"></a>修改表</h4><p>语法：<code>alter table 表名</code></p>
+<h5 id="添加字段"><a href="#添加字段" class="headerlink" title="添加字段"></a>添加字段</h5><p>语法：<code>alter table 表名add [column] 字段名 数据类型 [位置]</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; alter table student add age int(8) after name;</span><br><span class="line">Query OK, 0 rows affected (0.20 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>默认字段放在表的最后<br>添加 <code>first</code> 字段放在表的第一位<br>添加 <code>after name</code> 放在 name 字段之后</p>
+</blockquote>
+<h5 id="删除字段"><a href="#删除字段" class="headerlink" title="删除字段"></a>删除字段</h5><p>语法：<code>alter table 表 drop [column] 字段名</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; alter table student drop age;</span><br><span class="line">Query OK, 0 rows affected (0.05 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br></pre></td></tr></table></figure>
+<h5 id="修改字段-改名"><a href="#修改字段-改名" class="headerlink" title="修改字段(改名)"></a>修改字段(改名)</h5><p>语法：<code>alter table 表 change [column] 原字段名 新字段名 数据类型 …</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; alter table student change sex age int(8);</span><br><span class="line">Query OK, 0 rows affected (0.32 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br></pre></td></tr></table></figure>
+<p>同时修改多个字段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; alter table student change age myage int(8) comment &apos;我的学生年龄&apos;,change name myname varchar(16) not null comment &apos;我的学生姓名&apos;;</span><br><span class="line">Query OK, 0 rows affected (0.04 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br></pre></td></tr></table></figure>
+<h5 id="修改字段（不改名）"><a href="#修改字段（不改名）" class="headerlink" title="修改字段（不改名）"></a>修改字段（不改名）</h5><p>语法：<code>alter table 表 modify 字段名 字段属性…</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; alter table student modify myage int(3) not null default 18 comment &apos;如果你没 有设置年龄，我就是永远的18岁&apos;;</span><br><span class="line">Query OK, 0 rows affected (0.02 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>只更改字段属性</p>
+</blockquote>
+<h5 id="修改引擎"><a href="#修改引擎" class="headerlink" title="修改引擎"></a>修改引擎</h5><p>语法：<code>alter table 表名 engine=引擎名</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; alter table student engine=myisam;</span><br><span class="line">Query OK, 0 rows affected (0.18 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br></pre></td></tr></table></figure>
+<h5 id="修改表名"><a href="#修改表名" class="headerlink" title="修改表名"></a>修改表名</h5><p>语法：<code>alter table 表名 rename to 新表名</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; alter table student rename to student2;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+<h5 id="将表移动到其他数据库"><a href="#将表移动到其他数据库" class="headerlink" title="将表移动到其他数据库"></a>将表移动到其他数据库</h5><p>语法：<code>alter table 表名 rename to 数据库名.数据表名</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table student2 rename to test.student3;</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br></pre></td></tr></table></figure>
+<h4 id="数据操作"><a href="#数据操作" class="headerlink" title="数据操作"></a>数据操作</h4><h5 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h5><p>语法：<code>insert into 表名 (字段名, 字段名,…) values (值1, 值1,…)</code></p>
+<ul>
+<li>插入一条数据</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; insert into student (id,name,age) values (1,&apos;小兰&apos;,25);</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ol>
+<li>插入字段名的顺序和数据库字段名的顺序可以不一致</li>
+<li>插入值的个数、顺序必须和插入字段名的个数、顺序要一致</li>
+</ol>
+</blockquote>
+<ul>
+<li>简写方式：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; insert into student values (2,&apos;杜总&apos;,24);</span><br><span class="line">Query OK, 1 row affected (0.02 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ol start="3">
+<li>自动增长列，可以直接插入null。</li>
+</ol>
+</blockquote>
+<ul>
+<li>插入默认值和空值</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; insert into student values (null,&apos;张宝&apos;,null);</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>自动增长列，可以直接插入null<br>default关键字用来插入默认值，null用来插入空值</p>
+</blockquote>
+<ul>
+<li>插入多条数据</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; insert into student values (null,&apos;小张&apos;,18),(null,&apos;圆哥&apos;,18);</span><br><span class="line">Query OK, 2 rows affected (0.00 sec)</span><br><span class="line">Records: 2  Duplicates: 0  Warnings: 0</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用insert…set…插入数据</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; insert into student set name=&apos;赵哥&apos;,age=54;</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br></pre></td></tr></table></figure>
+<h5 id="更新数据"><a href="#更新数据" class="headerlink" title="更新数据"></a>更新数据</h5><p>语法：<code>update 表名 set 字段=值 [where 条件] [order by 排序] [limit 限制]</code></p>
+<ul>
+<li>将id为三的年龄改为30</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; update student set age=30 where id=3;</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line">Rows matched: 1  Changed: 1  Warnings: 0</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>需要更改多个内容的时候将需要变更的内容用逗号连接；</p>
+</blockquote>
+<ul>
+<li>将id 从大到小数前3名的学生年龄改为16岁</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; update student set age=16 order by id desc limit 3;</span><br><span class="line">Query OK, 3 rows affected (0.01 sec)</span><br><span class="line">Rows matched: 3  Changed: 3  Warnings: 0</span><br></pre></td></tr></table></figure>
+<h5 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h5><p>语法：<code>delete from 表名 [where 条件] [order by 排序] [limit 限制]</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; delete from student where id=9;</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>删除id &lt;=7;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; delete from student where id&lt;=7;</span><br><span class="line">Query OK, 7 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>清空表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; delete from student;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>清空表：truncate table 表名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; truncate table student;</span><br><span class="line">Query OK, 0 rows affected (0.02 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>delete from 表和truncate table 表区别？<br>delete from 表：遍历表记录，一条一条的删除<br>truncate table：将原表销毁，再创建一个同结构的新表。就清空表而言，这种方法效率高。</p>
+</blockquote>
+<h4 id="字符集"><a href="#字符集" class="headerlink" title="字符集"></a>字符集</h4><p>字符集：字符在保存和传输时对应的二进制编码集合</p>
+<h5 id="数据存储时使用字符集"><a href="#数据存储时使用字符集" class="headerlink" title="数据存储时使用字符集"></a>数据存储时使用字符集</h5><p>MySQL可以在服务器上、数据库、表、字段上设置字符集</p>
+<blockquote>
+<p>脚下留心：一般在数据库和表上设置字符集，每个字段设置字符集太麻烦。</p>
+</blockquote>
+<h5 id="数据传输时使用字符集"><a href="#数据传输时使用字符集" class="headerlink" title="数据传输时使用字符集"></a>数据传输时使用字符集</h5><p>发现：在插入数据的时候，如果有中文会报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; insert into student values (null,&apos;李白&apos;);</span><br><span class="line">ERROR 1366 (HY000):Incorrect string value :&apos;\xC0\xEE\xB0\xD7&apos; for column &apos;name&apos;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>分析：客户端编码和服务器连接层编码必须一致，如果不一致就会报错。</p>
+</blockquote>
+<p>查看客户端的字符编码</p>
+<blockquote>
+<p>客户端发送某种编码给服务器，由客户端决定<br>客户端编码不能改变<br>客户端右键——属性——选项——可以查看当前客户端的字符编码（GBK）</p>
+</blockquote>
+<p>查看服务器的字符编码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &apos;character_set_%&apos;;</span><br><span class="line">+--------------------------+------------------------------------------------+</span><br><span class="line">| Variable_name            | Value                                          |</span><br><span class="line">+--------------------------+------------------------------------------------+</span><br><span class="line">| character_set_client     | utf8                                           |</span><br><span class="line">| character_set_connection | utf8                                           |</span><br><span class="line">| character_set_database   | utf8                                           |</span><br><span class="line">| character_set_filesystem | binary                                         |</span><br><span class="line">| character_set_results    | utf8                                           |</span><br><span class="line">| character_set_server     | latin1                                         |</span><br><span class="line">| character_set_system     | utf8                                           |</span><br><span class="line">| character_sets_dir       | /Applications/XAMPP/xamppfiles/share/charsets/ |</span><br><span class="line">+--------------------------+------------------------------------------------+</span><br><span class="line">8 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>解决：只要将服务器的编码设置成gbk就可以解决</p>
+</blockquote>
+<p>测试：插入中文<br>查询：插入中文</p>
+<p>原因：结果返回的是utf8，客户端用gbk来解析，所以乱码<br>解决：服务器按gbk返回即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;set character_set_results=gbk;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>查询：结果</p>
+<blockquote>
+<p>总结：客户端编码、<code>character_set_client</code>、<code>character_set_results</code>三个编码的值一致即可操作中文。<br>多学一招：我们只要设置<code>“set names 字符编码”</code>，就可以更改<code>character_set_client</code>、<code>character_set_results</code>的值。</p>
+</blockquote>
+<h5 id="查看所有字符集"><a href="#查看所有字符集" class="headerlink" title="查看所有字符集"></a>查看所有字符集</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">mysql&gt; show character set;</span><br><span class="line">+----------+-----------------------------+---------------------+--------+</span><br><span class="line">| Charset  | Description                 | Default collation   | Maxlen |</span><br><span class="line">+----------+-----------------------------+---------------------+--------+</span><br><span class="line">| big5     | Big5 Traditional Chinese    | big5_chinese_ci     |      2 |</span><br><span class="line">| dec8     | DEC West European           | dec8_swedish_ci     |      1 |</span><br><span class="line">| cp850    | DOS West European           | cp850_general_ci    |      1 |</span><br><span class="line">| hp8      | HP West European            | hp8_english_ci      |      1 |</span><br><span class="line">| koi8r    | KOI8-R Relcom Russian       | koi8r_general_ci    |      1 |</span><br><span class="line">| latin1   | cp1252 West European        | latin1_swedish_ci   |      1 |</span><br><span class="line">| latin2   | ISO 8859-2 Central European | latin2_general_ci   |      1 |</span><br><span class="line">| swe7     | 7bit Swedish                | swe7_swedish_ci     |      1 |</span><br><span class="line">| ascii    | US ASCII                    | ascii_general_ci    |      1 |</span><br><span class="line">| ujis     | EUC-JP Japanese             | ujis_japanese_ci    |      3 |</span><br><span class="line">| sjis     | Shift-JIS Japanese          | sjis_japanese_ci    |      2 |</span><br><span class="line">| hebrew   | ISO 8859-8 Hebrew           | hebrew_general_ci   |      1 |</span><br><span class="line">| tis620   | TIS620 Thai                 | tis620_thai_ci      |      1 |</span><br><span class="line">| euckr    | EUC-KR Korean               | euckr_korean_ci     |      2 |</span><br><span class="line">| koi8u    | KOI8-U Ukrainian            | koi8u_general_ci    |      1 |</span><br><span class="line">| gb2312   | GB2312 Simplified Chinese   | gb2312_chinese_ci   |      2 |</span><br><span class="line">| greek    | ISO 8859-7 Greek            | greek_general_ci    |      1 |</span><br><span class="line">| cp1250   | Windows Central European    | cp1250_general_ci   |      1 |</span><br><span class="line">| gbk      | GBK Simplified Chinese      | gbk_chinese_ci      |      2 |</span><br><span class="line">| latin5   | ISO 8859-9 Turkish          | latin5_turkish_ci   |      1 |</span><br><span class="line">| armscii8 | ARMSCII-8 Armenian          | armscii8_general_ci |      1 |</span><br><span class="line">| utf8     | UTF-8 Unicode               | utf8_general_ci     |      3 |</span><br><span class="line">| ucs2     | UCS-2 Unicode               | ucs2_general_ci     |      2 |</span><br><span class="line">| cp866    | DOS Russian                 | cp866_general_ci    |      1 |</span><br><span class="line">| keybcs2  | DOS Kamenicky Czech-Slovak  | keybcs2_general_ci  |      1 |</span><br><span class="line">| macce    | Mac Central European        | macce_general_ci    |      1 |</span><br><span class="line">| macroman | Mac West European           | macroman_general_ci |      1 |</span><br><span class="line">| cp852    | DOS Central European        | cp852_general_ci    |      1 |</span><br><span class="line">| latin7   | ISO 8859-13 Baltic          | latin7_general_ci   |      1 |</span><br><span class="line">| utf8mb4  | UTF-8 Unicode               | utf8mb4_general_ci  |      4 |</span><br><span class="line">| cp1251   | Windows Cyrillic            | cp1251_general_ci   |      1 |</span><br><span class="line">| utf16    | UTF-16 Unicode              | utf16_general_ci    |      4 |</span><br><span class="line">| utf16le  | UTF-16LE Unicode            | utf16le_general_ci  |      4 |</span><br><span class="line">| cp1256   | Windows Arabic              | cp1256_general_ci   |      1 |</span><br><span class="line">| cp1257   | Windows Baltic              | cp1257_general_ci   |      1 |</span><br><span class="line">| utf32    | UTF-32 Unicode              | utf32_general_ci    |      4 |</span><br><span class="line">| binary   | Binary pseudo charset       | binary              |      1 |</span><br><span class="line">| geostd8  | GEOSTD8 Georgian            | geostd8_general_ci  |      1 |</span><br><span class="line">| cp932    | SJIS for Windows Japanese   | cp932_japanese_ci   |      2 |</span><br><span class="line">| eucjpms  | UJIS for Windows Japanese   | eucjpms_japanese_ci |      3 |</span><br><span class="line">+----------+-----------------------------+---------------------+--------+</span><br><span class="line">40 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<h4 id="校对集"><a href="#校对集" class="headerlink" title="校对集"></a>校对集</h4><p>在某种特定的字符集下，字符和字符的大小关系。比如a和B的大小关系：如果不区分大小写a&lt;B；如果区分大小写a&gt;B。<br>脚下留心：不同的校对集他们的比较结果是不一样的<br>语法：<code>collate=校对集</code><br>创建两个表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">create table stu1(</span><br><span class="line">name varchar(20)</span><br><span class="line">)charset=utf8 collate=utf8_general_ci;</span><br><span class="line"></span><br><span class="line">create table stu2(</span><br><span class="line">name varchar(20)</span><br><span class="line">)charset=utf8 collate=utf8_bin;</span><br><span class="line">–插入测试数据</span><br><span class="line">insert into stu1 values (&apos;a&apos;),(&apos;B&apos;);</span><br><span class="line">insert into stu2 values (&apos;a&apos;),(&apos;B&apos;);</span><br></pre></td></tr></table></figure>
+<p>测试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from stu1 order by name;</span><br><span class="line">+------+</span><br><span class="line">| name |</span><br><span class="line">+------+</span><br><span class="line">| a    |</span><br><span class="line">| B    |</span><br><span class="line">+------+</span><br><span class="line">2 rows in set (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from stu2 order by name;</span><br><span class="line">+------+</span><br><span class="line">| name |</span><br><span class="line">+------+</span><br><span class="line">| B    |</span><br><span class="line">| a    |</span><br><span class="line">+------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>校对集的规则：<br>1、_bin:按二进制编码进行比较<br>2、_ci:不区分大小写进行比较</p>
+<p><strong>查看所有的校对集</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show collation;</span><br><span class="line">+--------------------------+----------+-----+---------+----------+---------+</span><br><span class="line">| Collation                | Charset  | Id  | Default | Compiled | Sortlen |</span><br><span class="line">+--------------------------+----------+-----+---------+----------+---------+</span><br><span class="line">| big5_chinese_ci          | big5     |   1 | Yes     | Yes      |       1 |</span><br><span class="line">| big5_bin                 | big5     |  84 |         | Yes      |       1 |</span><br><span class="line">| dec8_swedish_ci          | dec8     |   3 | Yes     | Yes      |       1 |</span><br><span class="line">| dec8_bin                 | dec8     |  69 |         | Yes      |       1 |</span><br><span class="line"></span><br><span class="line">此处省略200多行...</span><br></pre></td></tr></table></figure>
+<p><a href="http://oamgu5mjf.bkt.clouddn.com/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C.docx" target="_blank" rel="noopener">常用操作命令文件下载</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/20150828-1.html" rel="next" title="php数组比较-usort">
+                <i class="fa fa-chevron-left"></i> php数组比较-usort
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/20150830-1.html" rel="prev" title="MySQL 数据类型、列属性、数据完整性">
+                MySQL 数据类型、列属性、数据完整性 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/default_avatar.png"
+                alt="uiste" />
+            
+              <p class="site-author-name" itemprop="name">uiste</p>
+              <p class="site-description motion-element" itemprop="description">Stay Hungry，Stay Foolish</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">122</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">66</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/uiste" target="_blank" title="GitHub"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/uiste" target="_blank" title="微博"><i class="fa fa-fw fa-globe"></i>微博</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.zhihu.com/people/uiste" target="_blank" title="知乎"><i class="fa fa-fw fa-globe"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.xiaomanyu.cn" title="Mandy画站" target="_blank">Mandy画站</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL-DML-和-DDL"><span class="nav-number">1.</span> <span class="nav-text">SQL DML 和 DDL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库发展史"><span class="nav-number">2.</span> <span class="nav-text">数据库发展史</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL"><span class="nav-number">3.</span> <span class="nav-text">SQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#windows-服务开启"><span class="nav-number">4.</span> <span class="nav-text">windows 服务开启</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL客户端连接服务器"><span class="nav-number">5.</span> <span class="nav-text">MySQL客户端连接服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#退出登录"><span class="nav-number">6.</span> <span class="nav-text">退出登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库基本概念"><span class="nav-number">7.</span> <span class="nav-text">数据库基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库操作"><span class="nav-number">8.</span> <span class="nav-text">数据库操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#连接数据库"><span class="nav-number">8.1.</span> <span class="nav-text">连接数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建数据库"><span class="nav-number">8.2.</span> <span class="nav-text">创建数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL数据库的目录"><span class="nav-number">8.3.</span> <span class="nav-text">MySQL数据库的目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#显示所有数据库【show-databases】"><span class="nav-number">8.4.</span> <span class="nav-text">显示所有数据库【show databases】</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除数据库"><span class="nav-number">8.5.</span> <span class="nav-text">删除数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#显示创建数据库的语句"><span class="nav-number">8.6.</span> <span class="nav-text">显示创建数据库的语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改数据库字符编码"><span class="nav-number">8.7.</span> <span class="nav-text">修改数据库字符编码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#选择数据库"><span class="nav-number">8.8.</span> <span class="nav-text">选择数据库</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#表的操作"><span class="nav-number">9.</span> <span class="nav-text">表的操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建表"><span class="nav-number">9.1.</span> <span class="nav-text">创建表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据表文件"><span class="nav-number">9.2.</span> <span class="nav-text">数据表文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#显示所有表"><span class="nav-number">9.3.</span> <span class="nav-text">显示所有表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#显示创建表的语句"><span class="nav-number">9.4.</span> <span class="nav-text">显示创建表的语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看表结构"><span class="nav-number">9.5.</span> <span class="nav-text">查看表结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#复制表"><span class="nav-number">9.6.</span> <span class="nav-text">复制表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除表"><span class="nav-number">9.7.</span> <span class="nav-text">删除表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改表"><span class="nav-number">9.8.</span> <span class="nav-text">修改表</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#添加字段"><span class="nav-number">9.8.1.</span> <span class="nav-text">添加字段</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#删除字段"><span class="nav-number">9.8.2.</span> <span class="nav-text">删除字段</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#修改字段-改名"><span class="nav-number">9.8.3.</span> <span class="nav-text">修改字段(改名)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#修改字段（不改名）"><span class="nav-number">9.8.4.</span> <span class="nav-text">修改字段（不改名）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#修改引擎"><span class="nav-number">9.8.5.</span> <span class="nav-text">修改引擎</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#修改表名"><span class="nav-number">9.8.6.</span> <span class="nav-text">修改表名</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#将表移动到其他数据库"><span class="nav-number">9.8.7.</span> <span class="nav-text">将表移动到其他数据库</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据操作"><span class="nav-number">9.9.</span> <span class="nav-text">数据操作</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#插入数据"><span class="nav-number">9.9.1.</span> <span class="nav-text">插入数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#更新数据"><span class="nav-number">9.9.2.</span> <span class="nav-text">更新数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#删除数据"><span class="nav-number">9.9.3.</span> <span class="nav-text">删除数据</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字符集"><span class="nav-number">9.10.</span> <span class="nav-text">字符集</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#数据存储时使用字符集"><span class="nav-number">9.10.1.</span> <span class="nav-text">数据存储时使用字符集</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#数据传输时使用字符集"><span class="nav-number">9.10.2.</span> <span class="nav-text">数据传输时使用字符集</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#查看所有字符集"><span class="nav-number">9.10.3.</span> <span class="nav-text">查看所有字符集</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#校对集"><span class="nav-number">9.11.</span> <span class="nav-text">校对集</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">uiste</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+      <div>
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57838eee5e2620d0" async = "async" ></script>
+</div>
+
+      </div>
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

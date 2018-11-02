@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="查询语句select 【select选项】|*|字段列表|字段名 【as】 字段别名 from 表名 【as】表别名 【where子句】【group by子句】【having子句】【order by子句】【limit子句】说明：【where子句】【group by子句】【having子句】【order by子句】【limit子句】五子句，可以随意的组合，但无论如何组合，五子句的顺序一定要按语法的顺">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL 数据库常见查询">
+<meta property="og:url" content="http://blog.uiste.com/2015/20150903-2.html">
+<meta property="og:site_name" content="uiste">
+<meta property="og:description" content="查询语句select 【select选项】|*|字段列表|字段名 【as】 字段别名 from 表名 【as】表别名 【where子句】【group by子句】【having子句】【order by子句】【limit子句】说明：【where子句】【group by子句】【having子句】【order by子句】【limit子句】五子句，可以随意的组合，但无论如何组合，五子句的顺序一定要按语法的顺">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-19T01:57:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL 数据库常见查询">
+<meta name="twitter:description" content="查询语句select 【select选项】|*|字段列表|字段名 【as】 字段别名 from 表名 【as】表别名 【where子句】【group by子句】【having子句】【order by子句】【limit子句】说明：【where子句】【group by子句】【having子句】【order by子句】【limit子句】五子句，可以随意的组合，但无论如何组合，五子句的顺序一定要按语法的顺">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="uiste" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://blog.uiste.com/2015/20150903-2.html"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>MySQL 数据库常见查询 | uiste</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">uiste</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">uiste</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'aSf9eNpjToN3z8HppMAx','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    <!--  -->
+    
+    
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150903-2.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="uiste">
+      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="uiste">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MySQL 数据库常见查询
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2015-09-03 17:18:51" itemprop="dateCreated datePublished" datetime="2015-09-03T17:18:51+08:00">2015-09-03</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-19 09:57:01" itemprop="dateModified" datetime="2018-10-19T09:57:01+08:00">2018-10-19</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="查询语句"><a href="#查询语句" class="headerlink" title="查询语句"></a>查询语句</h3><p><code>select 【select选项】|*|字段列表|字段名 【as】 字段别名 from 表名 【as】表别名 【where子句】【group by子句】【having子句】【order by子句】【limit子句】</code><br>说明：<br>【where子句】【group by子句】【having子句】【order by子句】【limit子句】五子句，可以随意的组合，但无论如何组合，五子句的顺序一定要按语法的顺序书写。<br><em>王狗和欧丽</em></p>
+<h4 id="where子句"><a href="#where子句" class="headerlink" title="where子句"></a>where子句</h4><p>where后面跟的是条件，在数据源中进行筛选</p>
+<h5 id="in-not-in"><a href="#in-not-in" class="headerlink" title="in | not in"></a>in | not in</h5><p><code>..where 字段 in(&#39;北京&#39;,&#39;上海&#39;);</code></p>
+<h5 id="between…and-not-between…and"><a href="#between…and-not-between…and" class="headerlink" title="between…and|not between…and"></a>between…and|not between…and</h5><p><code>..where 字段 between 25 and 28;</code></p>
+<h5 id="is-null-is-not-null"><a href="#is-null-is-not-null" class="headerlink" title="is null | is not null"></a>is null | is not null</h5><p><code>..where 字段1 is null or 字段2 is null;</code></p>
+<h5 id="模糊查询（like）"><a href="#模糊查询（like）" class="headerlink" title="模糊查询（like）"></a>模糊查询（like）</h5><p><code>..where 字段 like &#39;%永%&#39;;</code><br><code>..where 字段 like &#39;character\_set\_%&#39;;</code></p>
+<h4 id="group-分组查询"><a href="#group-分组查询" class="headerlink" title="group 分组查询"></a>group 分组查询</h4><h5 id="group-by-【分组查询】"><a href="#group-by-【分组查询】" class="headerlink" title="group by 【分组查询】"></a>group by 【分组查询】</h5><p><code>..group by 字段;</code></p>
+<h5 id="回溯统计【with-rollup】"><a href="#回溯统计【with-rollup】" class="headerlink" title="回溯统计【with rollup】"></a>回溯统计【with rollup】</h5><p><code>..group by 字段 with rollup;</code></p>
+<h4 id="having条件"><a href="#having条件" class="headerlink" title="having条件"></a>having条件</h4><p>where是对原始数据进行筛选，having是对记录集(结果集)进行筛选<br><code>select stusex,count(*) total from stu group by stusex having total&gt;3;</code></p>
+<h4 id="order-by排序"><a href="#order-by排序" class="headerlink" title="order by排序"></a>order by排序</h4><p>asc：升序【默认】<br>desc：降序<br><code>..from 表名 order by 字段 desc;</code></p>
+<h4 id="limit-限制"><a href="#limit-限制" class="headerlink" title="limit 限制"></a>limit 限制</h4><p>语法：limit 起始位置，显示长度<br>起始位置可以省略，默认是从0开始<br><code>..from 表名 order by 字段 desc limit 0,3;</code></p>
+<h4 id="查询选项条件"><a href="#查询选项条件" class="headerlink" title="查询选项条件"></a>查询选项条件</h4><p>all：显示所有数据<br><code>select all 字段 from 表名;</code><br>distinct：去除结果集中重复的数据<br><code>select distinct 字段 from 表名;</code></p>
+<h4 id="insert…select…-复制表"><a href="#insert…select…-复制表" class="headerlink" title="insert…select…(复制表)"></a>insert…select…(复制表)</h4><p>创建一个和stu一样结构的表stu1<br><code>create table stu1 like stu;</code><br>将上海的学生插入stu1表中<br><code>insert into stu1 select * from stu where stuaddress=&#39;上海&#39;;</code></p>
+<h4 id="on-duplicate-key-update"><a href="#on-duplicate-key-update" class="headerlink" title="on duplicate key update"></a>on duplicate key update</h4><p>在插入数据的时候，如果插入的数据不满足主键约束或唯一约束则执行更新操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">– 创建表</span><br><span class="line">create table emp(</span><br><span class="line">id int primary key,</span><br><span class="line">name varchar(20) unique</span><br><span class="line">);</span><br><span class="line">– 插入测试数据</span><br><span class="line">insert into emp values (1,&apos;tom&apos;);</span><br><span class="line">- 测试数据</span><br><span class="line">mysql&gt;insert into emp values (1,&apos;berry&apos;) on duplicate key update name=&apos;berry&apos;;</span><br><span class="line">mysql&gt;insert into emp values (2,&apos;berry&apos;) on duplicate key update id=2;</span><br><span class="line">mysql&gt;insert into emp values (2,&apos;tom&apos;) on duplicate key update id=2,name=&apos;tom&apos;;</span><br></pre></td></tr></table></figure>
+<h3 id="几个关键词"><a href="#几个关键词" class="headerlink" title="几个关键词"></a>几个关键词</h3><p>distinct：去除select结果集中重复的数据<br>engine=innodb或myisam 存储引擎<br>    innodb：5.5版本以上，引擎支持事务安全（提供：commit、rollback功能），且支持外键<br>    在data目录创建一个<code>.frm</code>的表结构文件，数据文件与索引文件，被保存在data目录的ibdata1文件中<br>    myisam引擎中：<code>.frm</code>结构文件 <code>.MYD</code>数据文件 <code>.MYI</code>索引文件<br>charset :字符集<br>collate :校对集<br>with rollup :回溯统计<br>dual :表（伪表）-&gt;from dual </p>
+<h3 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h3><p>select 嵌套 select 子句必须使用括号括起来，同时起个别名</p>
+<h3 id="union-纵向联合"><a href="#union-纵向联合" class="headerlink" title="union 纵向联合"></a>union 纵向联合</h3><p>作用：将多个select语句结果集纵向联合起来<br>语法：select 语句 union [选项] select 语句 union [选项] select 语句<br><code>select stuname from stu union [all | distinct] select stuname from stu1;</code></p>
+<blockquote>
+<p>小常识大问题，字段相关用反斜线 <code></code> ，属性内容相关用引号 ‘’;</p>
+</blockquote>
+<h3 id="主键删除"><a href="#主键删除" class="headerlink" title="主键删除"></a>主键删除</h3><p>auto_increment一定是一个int系列的主键或唯一键</p>
+<p>修改主键是不需要增加primary key<br><code>alter table 表名 modify id int auo_increment;</code><br>不是<code>alter table 表名 modify id int auo_increment primary key;</code></p>
+<p>由于unique是一种索引，删除时使用固定语法<br><code>alter table 表名 drop index 唯一键名</code></p>
+<blockquote>
+<p>唯一键名默认是字段名</p>
+</blockquote>
+<h3 id="MySQL约束"><a href="#MySQL约束" class="headerlink" title="MySQL约束"></a>MySQL约束</h3><p>MySQL约束存在<code>information_schema</code> 数据库的<code>table_constraints</code> 中，可以通过该表查询约束信息；<br>约束主要完成对数据的检验，保证数据库数据的完整；如果有相互依赖数据，保证该数据不被删除。</p>
+<p>常用五类约束：<br>not null：非空约束，指定某列不能为空<br>unique：唯一 约束，指定某列和几列组合的数据不能重复<br>primary key：主键约束，指定某列的数据不能重复唯一<br>foreign key：外键，指定该列记录属于主表中的一条记录，参照另一条数据<br>check：检查，指定一个表达式，用于检验指定数据（MySQL不支持check约束，但可以使用，没有任何效果）</p>
+<blockquote>
+<p>虽然唯一约束不允许出现重复的值，但是可以为多个null，同一个表可以有多个唯一约束，多个列组合的约束</p>
+</blockquote>
+<p>MySQL会给唯一约束的列上默认创建一个唯一索引。<br>MySQL中 auto_increment 必须是主键，但主键不一定是自动增长的</p>
+<h3 id="Mac-使用XAMPP配置SQL-model"><a href="#Mac-使用XAMPP配置SQL-model" class="headerlink" title="Mac 使用XAMPP配置SQL-model"></a>Mac 使用XAMPP配置SQL-model</h3><p>松散模式与严格模式</p>
+<p>问题：使用枚举类型，可以插入未列举选项为空字符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table test(</span><br><span class="line">    -&gt; id int auto_increment primary key,</span><br><span class="line">    -&gt; sex enum(&apos;M&apos;,&apos;W&apos;,&apos;no&apos;)</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.05 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into test values (1,&apos;A&apos;);</span><br><span class="line">Query OK, 1 row affected, 1 warning (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from test;</span><br><span class="line">+----+------+</span><br><span class="line">| id | sex  |</span><br><span class="line">+----+------+</span><br><span class="line">|  1 |      |</span><br><span class="line">+----+------+</span><br><span class="line">1 row in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<p>进程解决方案如下(单次解决)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &apos;%sql%%&apos;;</span><br><span class="line">+---------------------------+------------------------+</span><br><span class="line">| Variable_name             | Value                  |</span><br><span class="line">+---------------------------+------------------------+</span><br><span class="line">| slave_sql_verify_checksum | ON                     |</span><br><span class="line">| sql_auto_is_null          | OFF                    |</span><br><span class="line">| sql_big_selects           | ON                     |</span><br><span class="line">| sql_buffer_result         | OFF                    |</span><br><span class="line">| sql_log_bin               | ON                     |</span><br><span class="line">| sql_log_off               | OFF                    |</span><br><span class="line">| sql_mode                  | NO_ENGINE_SUBSTITUTION |</span><br><span class="line">| sql_notes                 | ON                     |</span><br><span class="line">| sql_quote_show_create     | ON                     |</span><br><span class="line">| sql_safe_updates          | OFF                    |</span><br><span class="line">| sql_select_limit          | 18446744073709551615   |</span><br><span class="line">| sql_slave_skip_counter    | 0                      |</span><br><span class="line">| sql_warnings              | OFF                    |</span><br><span class="line">+---------------------------+------------------------+</span><br><span class="line">13 rows in set (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; set sql_mode=&apos;STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION&apos;;</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &apos;%sql%%&apos;;</span><br><span class="line">+---------------------------+----------------------------------------------------------------+</span><br><span class="line">| Variable_name             | Value                                                          |</span><br><span class="line">+---------------------------+----------------------------------------------------------------+</span><br><span class="line">| slave_sql_verify_checksum | ON                                                             |</span><br><span class="line">| sql_auto_is_null          | OFF                                                            |</span><br><span class="line">| sql_big_selects           | ON                                                             |</span><br><span class="line">| sql_buffer_result         | OFF                                                            |</span><br><span class="line">| sql_log_bin               | ON                                                             |</span><br><span class="line">| sql_log_off               | OFF                                                            |</span><br><span class="line">| sql_mode                  | STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION |</span><br><span class="line">| sql_notes                 | ON                                                             |</span><br><span class="line">| sql_quote_show_create     | ON                                                             |</span><br><span class="line">| sql_safe_updates          | OFF                                                            |</span><br><span class="line">| sql_select_limit          | 18446744073709551615                                           |</span><br><span class="line">| sql_slave_skip_counter    | 0                                                              |</span><br><span class="line">| sql_warnings              | OFF                                                            |</span><br><span class="line">+---------------------------+----------------------------------------------------------------+</span><br><span class="line">13 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; desc test;</span><br><span class="line">+-------+--------------------+------+-----+---------+----------------+</span><br><span class="line">| Field | Type               | Null | Key | Default | Extra          |</span><br><span class="line">+-------+--------------------+------+-----+---------+----------------+</span><br><span class="line">| id    | int(11)            | NO   | PRI | NULL    | auto_increment |</span><br><span class="line">| sex   | enum(&apos;M&apos;,&apos;W&apos;,&apos;no&apos;) | YES  |     | NULL    |                |</span><br><span class="line">+-------+--------------------+------+-----+---------+----------------+</span><br><span class="line">2 rows in set (0.02 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into test value (null,&apos;k&apos;);</span><br><span class="line">ERROR 1265 (01000): Data truncated for column &apos;sex&apos; at row 1</span><br></pre></td></tr></table></figure>
+<hr>
+<p>补充优化知识：</p>
+<h3 id="第一部分"><a href="#第一部分" class="headerlink" title="第一部分"></a>第一部分</h3><p>字段创建<br>索引<br>引擎-事物回滚-innodb:金融</p>
+<h3 id="第二部分"><a href="#第二部分" class="headerlink" title="第二部分"></a>第二部分</h3><p>语句优化 使用较少的条件过滤结果</p>
+<h3 id="第三部分"><a href="#第三部分" class="headerlink" title="第三部分"></a>第三部分</h3><p>分区</p>
+<h3 id="第四部分"><a href="#第四部分" class="headerlink" title="第四部分"></a>第四部分</h3><p>mysql 事物、视图</p>
+<h3 id="第五部分"><a href="#第五部分" class="headerlink" title="第五部分"></a>第五部分</h3><p>PDO数据层</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/20150902-2.html" rel="next" title="MySQL 多表查询、备份、账户权限">
+                <i class="fa fa-chevron-left"></i> MySQL 多表查询、备份、账户权限
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/20150904-1.html" rel="prev" title="PHP操作数据库">
+                PHP操作数据库 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/default_avatar.png"
+                alt="uiste" />
+            
+              <p class="site-author-name" itemprop="name">uiste</p>
+              <p class="site-description motion-element" itemprop="description">Stay Hungry，Stay Foolish</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">122</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">66</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/uiste" target="_blank" title="GitHub"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/uiste" target="_blank" title="微博"><i class="fa fa-fw fa-globe"></i>微博</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.zhihu.com/people/uiste" target="_blank" title="知乎"><i class="fa fa-fw fa-globe"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.xiaomanyu.cn" title="Mandy画站" target="_blank">Mandy画站</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#查询语句"><span class="nav-number">1.</span> <span class="nav-text">查询语句</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#where子句"><span class="nav-number">1.1.</span> <span class="nav-text">where子句</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#in-not-in"><span class="nav-number">1.1.1.</span> <span class="nav-text">in | not in</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#between…and-not-between…and"><span class="nav-number">1.1.2.</span> <span class="nav-text">between…and|not between…and</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#is-null-is-not-null"><span class="nav-number">1.1.3.</span> <span class="nav-text">is null | is not null</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#模糊查询（like）"><span class="nav-number">1.1.4.</span> <span class="nav-text">模糊查询（like）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#group-分组查询"><span class="nav-number">1.2.</span> <span class="nav-text">group 分组查询</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#group-by-【分组查询】"><span class="nav-number">1.2.1.</span> <span class="nav-text">group by 【分组查询】</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#回溯统计【with-rollup】"><span class="nav-number">1.2.2.</span> <span class="nav-text">回溯统计【with rollup】</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#having条件"><span class="nav-number">1.3.</span> <span class="nav-text">having条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#order-by排序"><span class="nav-number">1.4.</span> <span class="nav-text">order by排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#limit-限制"><span class="nav-number">1.5.</span> <span class="nav-text">limit 限制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询选项条件"><span class="nav-number">1.6.</span> <span class="nav-text">查询选项条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#insert…select…-复制表"><span class="nav-number">1.7.</span> <span class="nav-text">insert…select…(复制表)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#on-duplicate-key-update"><span class="nav-number">1.8.</span> <span class="nav-text">on duplicate key update</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#几个关键词"><span class="nav-number">2.</span> <span class="nav-text">几个关键词</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意："><span class="nav-number">3.</span> <span class="nav-text">注意：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#union-纵向联合"><span class="nav-number">4.</span> <span class="nav-text">union 纵向联合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主键删除"><span class="nav-number">5.</span> <span class="nav-text">主键删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL约束"><span class="nav-number">6.</span> <span class="nav-text">MySQL约束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mac-使用XAMPP配置SQL-model"><span class="nav-number">7.</span> <span class="nav-text">Mac 使用XAMPP配置SQL-model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第一部分"><span class="nav-number">8.</span> <span class="nav-text">第一部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二部分"><span class="nav-number">9.</span> <span class="nav-text">第二部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三部分"><span class="nav-number">10.</span> <span class="nav-text">第三部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四部分"><span class="nav-number">11.</span> <span class="nav-text">第四部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第五部分"><span class="nav-number">12.</span> <span class="nav-text">第五部分</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">uiste</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+      <div>
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57838eee5e2620d0" async = "async" ></script>
+</div>
+
+      </div>
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

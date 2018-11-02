@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="反射、PDO反射反射是指获取类、方法、属性、参数、注释等封闭信息的方法。主要用来了解类方法、等内部的代码，反射是通过一系列的类实现的。反射：Reflection  ReflectionClass 报告类中的信息ReflectionFunction 报告函数的信息RefectionException 报告异常类RefectionMethod 报告方法中的信息  123456&amp;lt;?phpecho">
+<meta name="keywords" content="反射,PDO">
+<meta property="og:type" content="article">
+<meta property="og:title" content="反射 | PDO">
+<meta property="og:url" content="http://blog.uiste.com/2015/20151018-1.html">
+<meta property="og:site_name" content="uiste">
+<meta property="og:description" content="反射、PDO反射反射是指获取类、方法、属性、参数、注释等封闭信息的方法。主要用来了解类方法、等内部的代码，反射是通过一系列的类实现的。反射：Reflection  ReflectionClass 报告类中的信息ReflectionFunction 报告函数的信息RefectionException 报告异常类RefectionMethod 报告方法中的信息  123456&amp;lt;?phpecho">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-19T01:57:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="反射 | PDO">
+<meta name="twitter:description" content="反射、PDO反射反射是指获取类、方法、属性、参数、注释等封闭信息的方法。主要用来了解类方法、等内部的代码，反射是通过一系列的类实现的。反射：Reflection  ReflectionClass 报告类中的信息ReflectionFunction 报告函数的信息RefectionException 报告异常类RefectionMethod 报告方法中的信息  123456&amp;lt;?phpecho">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="uiste" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://blog.uiste.com/2015/20151018-1.html"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>反射 | PDO | uiste</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">uiste</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">uiste</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'aSf9eNpjToN3z8HppMAx','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    <!--  -->
+    
+    
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151018-1.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="uiste">
+      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="uiste">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">反射 | PDO
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2015-10-18 20:52:51" itemprop="dateCreated datePublished" datetime="2015-10-18T20:52:51+08:00">2015-10-18</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-19 09:57:01" itemprop="dateModified" datetime="2018-10-19T09:57:01+08:00">2018-10-19</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="反射、PDO"><a href="#反射、PDO" class="headerlink" title="反射、PDO"></a>反射、PDO</h1><h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><p>反射是指获取类、方法、属性、参数、注释等封闭信息的方法。<br>主要用来了解类方法、等内部的代码，反射是通过一系列的类实现的。<br>反射：Reflection</p>
+<blockquote>
+<p>ReflectionClass 报告类中的信息<br>ReflectionFunction 报告函数的信息<br>RefectionException 报告异常类<br>RefectionMethod 报告方法中的信息</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">'&lt;pre&gt;'</span>;</span><br><span class="line">ReflectionClass::export(<span class="string">'Exception'</span>);</span><br><span class="line"></span><br><span class="line">ReflectionClass::export(<span class="string">'stdClass'</span>); <span class="comment">//所有类的父类</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="通过反射获取类中的属性、方法、常量"><a href="#通过反射获取类中的属性、方法、常量" class="headerlink" title="通过反射获取类中的属性、方法、常量"></a>通过反射获取类中的属性、方法、常量</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Student&#123;</span><br><span class="line">	const PI=3.14;</span><br><span class="line">	private $name;</span><br><span class="line">	public static $national=&apos;中国&apos;：</span><br><span class="line">	public function show()&#123;</span><br><span class="line">		echo &apos;aa&apos;;</span><br><span class="line">	&#125;</span><br><span class="line">	public static function test()&#123;</span><br><span class="line">		echo &apos;bb&apos;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//通过反射获取类的信息</span><br><span class="line">//实例化反射对象</span><br><span class="line">$reflection new ReflectionClass(&apos;Student&apos;);//反射Student类的信息</span><br><span class="line">$consts = $reflection-&gt;getConstants();//获取所有常量</span><br><span class="line">$props = $reflection-&gt;getProperties();//获取所有属性</span><br><span class="line">$methods = $reflection-&gt;getMethods();//获取所有方法</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>自定义修改的类，方便修改</p>
+</blockquote>
+<h2 id="通过反射获取代理类的对象"><a href="#通过反射获取代理类的对象" class="headerlink" title="通过反射获取代理类的对象"></a>通过反射获取代理类的对象</h2><p>通过调用反射类的newInstance()对象，返回反射</p>
+<p><code>$reflection = new ReflectionClass(&#39;Student&#39;);</code><br><code>$str $reflection-&gt;newInstance();</code>  //返回类的实例</p>
+<h2 id="反射可以通过反向代理来调用方法"><a href="#反射可以通过反向代理来调用方法" class="headerlink" title="反射可以通过反向代理来调用方法"></a>反射可以通过<code>反向代理</code>来调用方法</h2><h3 id="正向代理"><a href="#正向代理" class="headerlink" title="正向代理"></a>正向代理</h3><p>在运行过程中，如果感知到代理服务器存在就是正向代理。（比如：从局域网进入到外网）</p>
+<h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><p>在运行过程中，不能感受到代理服务器存在。（比如京东、淘宝，服务器的请求分发我们是不知道的）</p>
+<ol>
+<li>通过ReflectionMethod的invoke()反向调用</li>
+<li>如果反向调用的是静态方法，invoke()参数为null<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> $name;</span><br><span class="line">	<span class="keyword">public</span>  __construct($name)&#123;</span><br><span class="line">		<span class="keyword">$this</span>-&gt;name = $name;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span>  <span class="function"><span class="keyword">function</span> <span class="title">show</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="keyword">$this</span>-&gt;name,<span class="string">'&lt;br&gt;'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'i am a boy!&lt;br&gt;'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$reflection = <span class="keyword">new</span> ReflectionClass(<span class="string">'Student'</span>);<span class="comment">//反射Student类的信息</span></span><br><span class="line">$stu = $reflection-&gt;new Instance(<span class="string">'tom'</span>);<span class="comment">//实例化Student对象，并传递参数</span></span><br><span class="line">$method = <span class="keyword">new</span> ReflectionMethod(<span class="string">'Student'</span>,<span class="string">'show'</span>);<span class="comment">//获取关于show()方法的信息</span></span><br><span class="line">$method-&gt;invoke($stu);<span class="comment">//方向代理调用</span></span><br><span class="line">$method = <span class="keyword">new</span> Reflection(<span class="string">'Student'</span>,<span class="string">'test'</span>);</span><br><span class="line">$method-&gt;invoke(<span class="keyword">NULL</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p>反射是为了了解系统类或不知道内部结构的类而使用</p>
+</blockquote>
+<h1 id="PDO"><a href="#PDO" class="headerlink" title="PDO"></a>PDO</h1><h2 id="连接MySQL的方法"><a href="#连接MySQL的方法" class="headerlink" title="连接MySQL的方法"></a>连接MySQL的方法</h2><p>方法一：<code>mysql_*组</code> 开启<code>extension = php_mysql.dll</code>扩展<br><code>mysql_connect(&#39;localhost&#39;,&#39;root&#39;,&#39;aa&#39;);</code>  //链接<br>方法二：<code>mysqli_*组</code>开启<code>extension = php_mysqli.dll</code>扩展<br><code>$link = mysqli_connect(&#39;localhost&#39;,&#39;root&#39;,&#39;aa&#39;,&#39;data&#39;);</code></p>
+<blockquote>
+<p>mysqli是mysql的升级版</p>
+</blockquote>
+<h2 id="PDO简介"><a href="#PDO简介" class="headerlink" title="PDO简介"></a>PDO简介</h2><p>PDO（PHP data object） PHP数据对象,PDO也是PHP内置的一组类（有三个），在与PDO相关的三个类中提供了一组访问数据库的轻量级，一致性的接口，无论使用什么数据库，都可以通过一致性的接口。操作数据库。<br>PDO是PHP5以上才支持的特性<br>开启相应拓展<code>extension =  php_pdo_xxx.dll</code></p>
+<h2 id="PDO的核心类：PDO、PDOStatement、PDOException"><a href="#PDO的核心类：PDO、PDOStatement、PDOException" class="headerlink" title="PDO的核心类：PDO、PDOStatement、PDOException"></a>PDO的核心类：PDO、PDOStatement、PDOException</h2><ol>
+<li>PDO：表示PHP程序和数据库直接的一个连接</li>
+<li>PDOStatement：表示一条SQL处理语句，在该语句执行完成时，会返回执行结果</li>
+<li>PDOException：表示PDO产生的异常<h2 id="实例化PDO对象"><a href="#实例化PDO对象" class="headerlink" title="实例化PDO对象"></a>实例化PDO对象</h2><h3 id="dsn-data-source-name-数据源名称"><a href="#dsn-data-source-name-数据源名称" class="headerlink" title="(dsn data source name) 数据源名称"></a>(dsn data source name) 数据源名称</h3>dsn 的组成结构：<code>$dsn = 数据库类型:host=主机地址;port=端口号;dbname=数据库;charset=字符编码;</code><br>语法：<code>$pdo = new PDO($dsn,数据库用户名,数据库密码);</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$dsn = &apos;mysql:host=127.0.0.1;port=3306;dbname=php6;charset=utf8&apos;;</span><br><span class="line">$pdo = new PDO($dsn,&apos;root&apos;,&apos;aa&apos;);</span><br><span class="line">var_dump($pdo);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p>本地主机可以省略，端口号是默认值时可以省略，dbname也是可以省略的，如果dbname省略，表示连接上服务器当时没有选择数据库。<br>但是数据库类型(<code>mysql:</code>)不可以省略<br><strong><em>数据库类型必须小写</em></strong></p>
+</blockquote>
+<h2 id="使用PDO对象"><a href="#使用PDO对象" class="headerlink" title="使用PDO对象"></a>使用PDO对象</h2><p>$pdo-&gt;exec();执行数据操作语句，执行成功返回受影响的记录数，否则返回false；<br>$pdo-&gt;query();//数据查询语句，返回PDOStatement对象</p>
+<h3 id="操作数据"><a href="#操作数据" class="headerlink" title="操作数据"></a>操作数据</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$dsn = <span class="string">"mysql:host=127.0.0.1;port=3306;dbname=php06;charset=utf8"</span>;</span><br><span class="line">$pdo = <span class="keyword">new</span> PDO($dsn,<span class="string">'root'</span>,<span class="string">'aa'</span>);</span><br><span class="line">$sql = <span class="string">"insert into admin values(2,'aa','aa',0,0)"</span>;</span><br><span class="line">$rs = $pdo-&gt;exec($sql);</span><br><span class="line"><span class="keyword">if</span>($rs)</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'插入成功&lt;br&gt;生成的编号是：'</span>.$pdo-&gt;lastInsertId();</span><br><span class="line"><span class="keyword">elseif</span>($rs===<span class="number">0</span>)</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'没有数据变化'</span>;</span><br><span class="line"><span class="keyword">elseif</span>($rs===<span class="keyword">false</span>)&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'SQL语句执行失败'</span>;</span><br><span class="line">	$error = $pdo-&gt;errorInfo();</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'错误码：'</span>.$pdo-&gt;errorCode(),<span class="string">'&lt;br&gt;'</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'错误信息：'</span>.$error[<span class="number">2</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="查询数据"><a href="#查询数据" class="headerlink" title="查询数据"></a>查询数据</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$dsn = <span class="string">'mysqy:host=127.0.0.1;port=3306;dbname=php06;charset=utf8'</span>;</span><br><span class="line">$pdo = <span class="keyword">new</span> PDO($dsn,<span class="string">'root'</span>,<span class="string">'aa'</span>);</span><br><span class="line">$sql = <span class="string">"select * from admin"</span>;</span><br><span class="line">$stmt = $pdo-&gt;query($sql);<span class="comment">//返回PDOStatement对象</span></span><br><span class="line"><span class="comment">//数据输出,array();</span></span><br><span class="line">$rows = $stmt-&gt;fetch();</span><br><span class="line">$rows = $stmt-&gt;fetch(PDO::FETCH_BOTH);<span class="comment">//同上</span></span><br><span class="line">$rows = $stmt-&gt;fetch(PDO::FETCH_ASSOC);<span class="comment">//匹配成关联数组</span></span><br><span class="line">$rows = $stmt-&gt;fetch(PDO::FETCH_NUM);<span class="comment">//匹配成索引数组</span></span><br><span class="line">$rows = $stmt-&gt;fetch(PDO::FETCH_OBJ);<span class="comment">//匹配成对象</span></span><br><span class="line"><span class="comment">/*************************************/</span></span><br><span class="line">$rs = $stmt-&gt;fetchALL();<span class="comment">//匹配所有数据</span></span><br><span class="line">$rs = $stmt-&gt;fetchALL(PDO::FETCH_ASSOC);<span class="comment">//匹配所有数据为关联数组</span></span><br><span class="line"><span class="comment">/*************************************/</span></span><br><span class="line"><span class="keyword">echo</span> $stmt-&gt;rowCount(),<span class="string">'&lt;br&gt;'</span>;<span class="comment">//获取总行数</span></span><br><span class="line"><span class="keyword">echo</span> $stmt-&gt;columnCount(),<span class="string">'&lt;br&gt;'</span>;<span class="comment">//获取总列数</span></span><br><span class="line"><span class="comment">/*************************************/</span></span><br><span class="line"><span class="comment">//获取一条数据，匹配成类的对象</span></span><br><span class="line">$obj = $stmt-&gt;fetchObject();</span><br><span class="line">var_dump($obj);<span class="comment">//PHP顶级父类stdClass类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;&#125;</span><br><span class="line">$obj = $stmt-&gt;fetchObject(<span class="string">'Person'</span>);</span><br><span class="line"><span class="comment">/*************************************/</span></span><br><span class="line">$col = $stmt-&gt;fetchColumn();<span class="comment">//匹配某一行的第0列</span></span><br><span class="line">$col = $stmt-&gt;fetchCOlumn(<span class="number">1</span>);<span class="comment">//匹配某一行的第1列</span></span><br><span class="line"><span class="comment">/*************************************/</span></span><br><span class="line"><span class="comment">//将列绑定到变量上，绑定列的时候，列的编号是从1开始</span></span><br><span class="line">$stmt-&gt;bindColumn(<span class="number">1</span>,$id);<span class="comment">//将第一列绑定到$id变量上</span></span><br><span class="line">$stmt-&gt;bindColumn(<span class="number">2</span>,$admin);<span class="comment">//bindColumn('admin',$admin);将admin列绑定到$admin变量上</span></span><br><span class="line">$stmt-&gt;fetch();</span><br><span class="line"><span class="keyword">echo</span> $id,<span class="string">'-'</span>,$admin;</span><br><span class="line">$stmt-&gt;fetch();</span><br><span class="line"><span class="keyword">echo</span> $id,<span class="string">'-'</span>,$admin;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上测试，均为单行或单模块测试。其它位注释状态</p>
+</blockquote>
+<p>脚下留心</p>
+<blockquote>
+<p>可以通过列的索引和列的名称来绑定到变量上<br>绑定列和变量的时候，列的索引从1开始</p>
+</blockquote>
+<h3 id="取出全部数据"><a href="#取出全部数据" class="headerlink" title="取出全部数据"></a>取出全部数据</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//通过循环获取所以数据</span></span><br><span class="line"><span class="keyword">while</span>($rows = $stmt-&gt;fetch(PDO::FETCH_ASSOC))&#123;</span><br><span class="line">	<span class="keyword">echo</span> $rows[<span class="string">'id'</span>],<span class="string">'-'</span>,$rows[<span class="string">'admin'</span>],<span class="string">'&lt;br&gt;'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//通过内置迭代器遍历</span></span><br><span class="line"><span class="keyword">foreach</span>($stmt <span class="keyword">as</span> $rows)&#123;</span><br><span class="line">	<span class="keyword">echo</span> $rows[<span class="string">'id'</span>],<span class="string">'-'</span>,$rows[<span class="string">'admin'</span>],<span class="string">'&lt;br&gt;'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="PDO事物处理"><a href="#PDO事物处理" class="headerlink" title="PDO事物处理"></a>PDO事物处理</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$pdo-&gt;beginTransaction();<span class="comment">//开启事务模式</span></span><br><span class="line"><span class="keyword">echo</span> $pdo-&gt;exec(<span class="string">"insert into admin values(null,'11','11',0,0)"</span>);</span><br><span class="line"><span class="keyword">echo</span> $pdo-&gt;lastInsertId();</span><br><span class="line">$pdo-&gt;rollBack(); <span class="comment">//回滚事务</span></span><br><span class="line">$pdo-&gt;commit();<span class="comment">//提交事务</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="预处理语句"><a href="#预处理语句" class="headerlink" title="预处理语句"></a>预处理语句</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$sql = <span class="string">"insert into admin values(null,?,?,0,0)"</span>;<span class="comment">//?是占位符</span></span><br><span class="line">$stmt = $pdo-&gt;prepare($sql);<span class="comment">//返回PDOStatement对象</span></span><br><span class="line"><span class="comment">//执行预处理语句</span></span><br><span class="line">$stu = <span class="keyword">array</span>(</span><br><span class="line">	<span class="keyword">array</span>(<span class="string">'aa'</span>,<span class="string">'aa'</span>),</span><br><span class="line">	<span class="keyword">array</span>(<span class="string">'bb'</span>,<span class="string">'bb'</span>)</span><br><span class="line">);</span><br><span class="line"><span class="comment">/**********************************/</span></span><br><span class="line"><span class="comment">//绑定参数并执行（方法一）</span></span><br><span class="line"><span class="keyword">foreach</span>($stu <span class="keyword">as</span> $s)&#123;</span><br><span class="line">	$stmt-&gt;bindValue(<span class="number">1</span>,$s[<span class="number">0</span>]);</span><br><span class="line">	$stmt-&gt;bindValue(<span class="number">2</span>,$s[<span class="number">1</span>]);</span><br><span class="line">	$stmt-&gt;execute();<span class="comment">//返回bool值</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**********************************/</span></span><br><span class="line"><span class="comment">//绑定参数并执行（方法二）</span></span><br><span class="line"><span class="keyword">foreach</span>($stu <span class="keyword">as</span> $s)&#123;</span><br><span class="line">	$stmt-&gt;bindParam(<span class="number">1</span>,$s[<span class="number">0</span>]);</span><br><span class="line">	$stmt-&gt;bindParam(<span class="number">2</span>,$s[<span class="number">1</span>]);</span><br><span class="line">	$stmt-&gt;execute();<span class="comment">//返回bool值</span></span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**********************************/</span></span><br><span class="line"><span class="comment">//绑定参数并执行（方法三）</span></span><br><span class="line"><span class="keyword">foreach</span>($stu <span class="keyword">as</span> $s)&#123;</span><br><span class="line">	$stmt-&gt;execute($s);<span class="comment">//返回bool值</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>词法分析—&gt;语法分析-&gt;编译-&gt;执行<br>如果一个sql语句要被多次执行，词法分析、语法分析、编译会多次执行，这样效率低下。<br>使用预处理语句，对预处理语句编译后传递不同的参数即可。</p>
+</blockquote>
+<p>bindParam 与 bindValue 的区别</p>
+<blockquote>
+<p>bindParam第二个参数是取地址，所以只能传递变量<br>bindValue第二个参数可以传递值也可以传递变量</p>
+</blockquote>
+<p>直接给预处理传递数组的时候要注意</p>
+<blockquote>
+<p>数组中值的个数和顺序要和占位符的顺序一致</p>
+</blockquote>
+<h3 id="参数占位符"><a href="#参数占位符" class="headerlink" title="参数占位符"></a>参数占位符</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$sql = <span class="string">"insert into admin values(null,:p1,:p2,0,0)"</span>;<span class="comment">//参数占位符</span></span><br><span class="line">$stmt-&gt;$pdo-&gt;prepare($sql)<span class="comment">//预处理语句</span></span><br><span class="line"><span class="comment">//执行预处理语句</span></span><br><span class="line">$stu = <span class="keyword">array</span>(</span><br><span class="line">	<span class="keyword">array</span>(<span class="string">'aa'</span>,<span class="string">'aa'</span>),</span><br><span class="line">	<span class="keyword">array</span>(<span class="string">'bb'</span>,<span class="string">'bb'</span>)<span class="number">8</span></span><br><span class="line">);</span><br><span class="line"><span class="keyword">foreach</span>($stu <span class="keyword">as</span> $s)&#123;</span><br><span class="line">	$stmt-&gt;bindParam(<span class="string">':p1'</span>,$s[<span class="number">0</span>]);</span><br><span class="line">	$stmt-&gt;bindParam(<span class="string">':p2'</span>,$s[<span class="number">1</span>]);</span><br><span class="line">	$stmt-&gt;execute();</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="PDO-属性"><a href="#PDO-属性" class="headerlink" title="PDO 属性"></a>PDO 属性</h3><p><code>$pdo-&gt;setAttribute(键,值)；//设置PDO属性</code><br><code>$pdo-&gt;getAttribute(键,值)；//获取PDO属性</code><br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$dsn = <span class="string">'mysql:dbname=php6'</span>;</span><br><span class="line">$pdo = <span class="keyword">new</span> PDO($dsn,<span class="string">'root'</span>,<span class="string">'aa'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> $pdo-&gt;getAttribute(PDO::ATTR_AUTOCOMMIT);<span class="comment">//自动提交 </span></span><br><span class="line">$pdo-&gt;setAttribute(PDO::ATTR_CASE,PDO::CASE::UPPER);<span class="comment">//强制将列明转换为大写</span></span><br><span class="line">$pdo-&gt;setAttribute(PDO::ATTR_ERRORMODE,PDO::ERRMODE_WARNING);<span class="comment">//错误报告为警告模式</span></span><br><span class="line"></span><br><span class="line">$stmt = $pdo-&gt;query(<span class="string">'select * from admin'</span>);</span><br><span class="line">$rows = $stmt-&gt;fetch(PDO::FETCH_ASSOC);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'&lt;pre&gt;'</span>;</span><br><span class="line">var_dump($rows);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="PDO异常抛出"><a href="#PDO异常抛出" class="headerlink" title="PDO异常抛出"></a>PDO异常抛出</h3><p>PDO 会自动抛出异常<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">	$dsn = <span class="string">'mysql:dbname=php6'</span>;</span><br><span class="line">	$pdo = <span class="keyword">new</span> PDO($dsn,<span class="string">'root'</span>,<span class="string">'aa'</span>);<span class="comment">//PDO会自动抛出异常</span></span><br><span class="line">	$pdo -&gt; setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);<span class="comment">//有错误就抛出异常</span></span><br><span class="line">	$stmt = $pdo-&gt;query(<span class="string">'select * from admin'</span>);</span><br><span class="line">	var_dump($Stmt-fetch());</span><br><span class="line">	$age =<span class="number">60</span>;</span><br><span class="line">	<span class="keyword">if</span>($age&gt;<span class="number">30</span>)</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> PDOException(<span class="string">'年龄不能超过30'</span>);</span><br><span class="line">&#125;<span class="keyword">catch</span>(PDOException $e)&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'错误信息：'</span>.$e-&gt;getmessage(),<span class="string">'&lt;br&gt;'</span>;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'错误行号：'</span>.$e-&gt;getLine(),<span class="string">'&lt;br&gt;'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="单例模式实现MyPDO类的封装"><a href="#单例模式实现MyPDO类的封装" class="headerlink" title="单例模式实现MyPDO类的封装"></a>单例模式实现MyPDO类的封装</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyPDO</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> $type;<span class="comment">//数据库类型</span></span><br><span class="line">    <span class="keyword">private</span> $host;<span class="comment">//主机地址</span></span><br><span class="line">    <span class="keyword">private</span> $port;<span class="comment">//端口号</span></span><br><span class="line">    <span class="keyword">private</span> $dbname;<span class="comment">//数据库名</span></span><br><span class="line">    <span class="keyword">private</span> $charset;<span class="comment">//字符编码</span></span><br><span class="line">    <span class="keyword">private</span> $user;<span class="comment">//数据库用户名</span></span><br><span class="line">    <span class="keyword">private</span> $pwd;<span class="comment">//数据库密码</span></span><br><span class="line">    <span class="keyword">private</span> $pdo;<span class="comment">//PDO对象</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> $instance;<span class="comment">//当前类的实例</span></span><br><span class="line">    <span class="comment">//使用的构造函数用来阻止在类的外部实例化</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($param)</span></span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;initParam($param);</span><br><span class="line">        <span class="keyword">$this</span>-&gt;initPDO();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//私有的__clone()用来阻止在类的外部克隆对象</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">__clone</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    <span class="comment">//公有的静态方法用来获取当前类的实例</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">getInstance</span><span class="params">($param=array<span class="params">()</span>)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!<span class="keyword">self</span>::$instance <span class="keyword">instanceof</span> <span class="keyword">self</span>)</span><br><span class="line">            <span class="keyword">self</span>::$instance = <span class="keyword">new</span> <span class="keyword">self</span>($param);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span>::$instance;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//初始化成员变量</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">initParam</span><span class="params">($param)</span></span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;type = <span class="keyword">isset</span>($param[<span class="string">'type'</span>])?$param[<span class="string">'type'</span>]:<span class="string">'mysql'</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;host = <span class="keyword">isset</span>($param[<span class="string">'host'</span>])?$param[<span class="string">'host'</span>]:<span class="string">'localhost'</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;port = <span class="keyword">isset</span>($param[<span class="string">'port'</span>])?$param[<span class="string">'port'</span>]:<span class="string">'3306'</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;dbname = <span class="keyword">isset</span>($param[<span class="string">'dbname'</span>])?$param[<span class="string">'dbname'</span>]:<span class="string">'uiste'</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;charset = <span class="keyword">isset</span>($param[<span class="string">'charset'</span>])?$param[<span class="string">'charset'</span>]:<span class="string">'utf8'</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;user = <span class="keyword">isset</span>($param[<span class="string">'user'</span>])?$param[<span class="string">'user'</span>]:<span class="string">'root'</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;pwd = <span class="keyword">isset</span>($param[<span class="string">'pwd'</span>])?$param[<span class="string">'pwd'</span>]:<span class="string">'123456'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//创建PDO对象</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">initPDO</span><span class="params">()</span></span>&#123;</span><br><span class="line">        $dsn = <span class="string">"&#123;$this-&gt;type&#125;:host=&#123;$this-&gt;host&#125;;port=&#123;$this-&gt;port&#125;;dbname=&#123;$this-&gt;dbname&#125;;charset=&#123;$this-&gt;charset&#125;"</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;pdo = <span class="keyword">new</span> PDO($dsn,<span class="keyword">$this</span>-&gt;user,<span class="keyword">$this</span>-&gt;pwd);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//执行sql语句,返回PDOStatement对象</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">getPDOStatement</span><span class="params">($sql)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;pdo-&gt;query($sql);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//判断匹配的类型</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">getFetchType</span><span class="params">($type)</span></span>&#123;</span><br><span class="line">        $allow_type = <span class="keyword">array</span>(<span class="string">'assoc'</span>,<span class="string">'num'</span>,<span class="string">'both'</span>);</span><br><span class="line">        <span class="keyword">if</span>(!in_array($type,$allow_type))</span><br><span class="line">            $type=<span class="string">'assoc'</span>;</span><br><span class="line">        <span class="keyword">switch</span>($type)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'assoc'</span>:</span><br><span class="line">                <span class="keyword">return</span> PDO::FETCH_ASSOC;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'num'</span>:</span><br><span class="line">                <span class="keyword">return</span> PDO::FETCH_NUM;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'both'</span>:</span><br><span class="line">                <span class="keyword">return</span> PDO::FETCH_BOTH;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//获取所有记录，返回二位数组</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getAll</span><span class="params">($sql,$type=<span class="string">'assoc'</span>)</span></span>&#123;</span><br><span class="line">        $stmt = <span class="keyword">$this</span>-&gt;getPDOStatement($sql);</span><br><span class="line">        $fetch_type = <span class="keyword">$this</span>-&gt;getFetchType($type);</span><br><span class="line">        <span class="keyword">return</span> $stmt-&gt;fetchAll($fetch_type);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getOne</span><span class="params">($sql,$type=<span class="string">'assoc'</span>)</span></span>&#123;</span><br><span class="line">        $stmt = <span class="keyword">$this</span>-&gt;getPDOStatement($sql);</span><br><span class="line">        $fetch_type = <span class="keyword">$this</span>-&gt;getFetchType($type);</span><br><span class="line">        <span class="keyword">return</span> $stmt-&gt;fetchAll($fetch_type);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getColumn</span><span class="params">($sql)</span></span>&#123;</span><br><span class="line">        $stmt = <span class="keyword">$this</span>-&gt;getPDOStatement($sql);</span><br><span class="line">        <span class="keyword">return</span> $stmt-&gt;fetColumn();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//数据库增、删、改,返回受影响的行数</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">exec</span><span class="params">($sql)</span></span>&#123;</span><br><span class="line">        $result = <span class="keyword">$this</span>-&gt;pdo-&gt;exec($sql);</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">false</span>!==$result)</span><br><span class="line">            <span class="keyword">return</span> $result;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">        	$errorinfo_arr = <span class="keyword">$this</span>-&gt;pdo-&gt;errorInfo();</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">'SQL 语句执行失败&lt;br&gt;'</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">'Error SQL：'</span>.$sql.<span class="string">'&lt;br&gt;'</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">'SQLSTATE error code：'</span>.$errorinfo_arr[<span class="number">0</span>].<span class="string">'&lt;br&gt;'</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">'Driver-specific error code：'</span>.$errorinfo_arr[<span class="number">1</span>].<span class="string">'&lt;br&gt;'</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">'Driver-specific error message：'</span>.$errorinfo_arr[<span class="number">2</span>].<span class="string">'&lt;br&gt;'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<hr>
+<ol>
+<li>PDO的作用<br>PHP数据对象，内置的一组类（有三个），在与PDO相关的三个类中提供了一组访问数据库的轻量级，一致性的接口，无论使用什么数据库，都可以通过一致性的接口，操作数据库。</li>
+<li>PDO的加载<br>PDO是PHP5以上才支持的特性<br>需要开启相应拓展<code>extension =  php_pdo_xxx.dll</code></li>
+<li>PDO技术中的PDO对象<br>dsn 的组成结构：<code>$dsn = 数据库类型:host=主机地址;port=端口号;dbname=数据库;charset=字符编码;</code><br>语法：<code>$pdo = new PDO($dsn,数据库用户名,数据库密码);</code></li>
+<li>PDO技术中的PDOStatement对象<br>代表一条预处理语句，并在该语句被执行后代表一个相关的结果集。<br><code>PDOStatement::bindColumn</code> — 绑定一列到一个 PHP 变量<br><code>PDOStatement::bindParam</code> — 绑定一个参数到指定的变量名<br><code>PDOStatement::bindValue</code> — 把一个值绑定到一个参数<br><code>PDOStatement::closeCursor</code> — 关闭游标，使语句能再次被执行。<br><code>PDOStatement::columnCount</code> — 返回结果集中的列数<br><code>PDOStatement::debugDumpParams</code> — 打印一条 SQL 预处理命令<br><code>PDOStatement::errorCode</code> — 获取跟上一次语句句柄操作相关的 SQLSTATE<br><code>PDOStatement::errorInfo</code> — 获取跟上一次语句句柄操作相关的扩展错误信息<br><code>PDOStatement::execute</code> — 执行一条预处理语句<br><code>PDOStatement::fetch</code> — 从结果集中获取下一行<br><code>PDOStatement::fetchAll</code> — 返回一个包含结果集中所有行的数组<br><code>PDOStatement::fetchColumn</code> — 从结果集中的下一行返回单独的一列。<br><code>PDOStatement::fetchObject</code> — 获取下一行并作为一个对象返回。<br><code>PDOStatement::getAttribute</code> — 检索一个语句属性<br><code>PDOStatement::getColumnMeta</code> — 返回结果集中一列的元数据<br><code>PDOStatement::nextRowset</code> — 在一个多行集语句句柄中推进到下一个行集<br><code>PDOStatement::rowCount</code> — 返回受上一个 SQL 语句影响的行数<br><code>PDOStatement::setAttribute</code> — 设置一个语句属性<br><code>PDOStatement::setFetchMode</code> — 为语句设置默认的获取模式。</li>
+<li>PDO技术中的PDOException对象<br>代表一个由 PDO 产生的错误。在自己的代码不应抛出一个 PDOException 异常</li>
+<li>PDO的操作——插入操作<br>$pdo-&gt;exec();   //执行数据操作语句，执行成功返回受影响的记录数，否则返回false。</li>
+<li>掌握PDO的操作——写操作<br>？？？</li>
+<li>掌握PDO的操作——查询操作<br>$pdo-&gt;query();  //数据查询语句，返回PDOStatement对象</li>
+<li>掌握PDO的事务操作<br>$pdo-&gt;beginTransaction(); //开启事务<br>$pdo-&gt;rollBack(); //回滚事务<br>$pdo-&gt;commit();//提交事务</li>
+<li>掌握PDO的预处理</li>
+</ol>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$dsn=<span class="string">'mysql:host=localhost;port=3306;dbname=php6;charset=utf8'</span>;</span><br><span class="line">$pdo=<span class="keyword">new</span> PDO($dsn,<span class="string">'root'</span>,<span class="string">'aa'</span>);</span><br><span class="line"><span class="comment">//预处理语句</span></span><br><span class="line">$sql=<span class="string">"insert into admin values (null,?,?,0,0)"</span>; <span class="comment">//?是占位符</span></span><br><span class="line">$stmt=$pdo-&gt;prepare($sql);  <span class="comment">//返回PDOStatement对象</span></span><br><span class="line"><span class="comment">//执行预处理语句</span></span><br><span class="line">$stu=<span class="keyword">array</span>(</span><br><span class="line">    <span class="keyword">array</span>(<span class="string">'aa'</span>,<span class="string">'aa'</span>),</span><br><span class="line">    <span class="keyword">array</span>(<span class="string">'bb'</span>,<span class="string">'bb'</span>)</span><br><span class="line">);</span><br><span class="line"><span class="comment">//绑定参数并执行（方法一）</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">foreach($stu as $s)&#123;</span></span><br><span class="line"><span class="comment">    $stmt-&gt;bindValue(1, $s[0]);</span></span><br><span class="line"><span class="comment">    $stmt-&gt;bindValue(2, $s[1]);</span></span><br><span class="line"><span class="comment">    $stmt-&gt;execute();   //返回bool值</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">//绑定参数并执行（方法二）</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">foreach($stu as $s)&#123;</span></span><br><span class="line"><span class="comment">    $stmt-&gt;bindParam(1, $s[0]);</span></span><br><span class="line"><span class="comment">    $stmt-&gt;bindParam(2, $s[1]);</span></span><br><span class="line"><span class="comment">    $stmt-&gt;execute();   //返回bool值</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">//绑定参数并执行（方法三）,直接传递数组</span></span><br><span class="line"><span class="keyword">foreach</span>($stu <span class="keyword">as</span> $s)&#123;</span><br><span class="line">    $stmt-&gt;execute($s);   <span class="comment">//返回bool值</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$sql=<span class="string">"insert into admin values (null,:p1,:p2,0,0)"</span>; <span class="comment">//参数占位符</span></span><br><span class="line"><span class="keyword">foreach</span> ($stu <span class="keyword">as</span> $s)&#123;</span><br><span class="line">    $stmt-&gt;bindParam(<span class="string">':p1'</span>, $s[<span class="number">0</span>]); <span class="comment">//绑定参数</span></span><br><span class="line">    $stmt-&gt;bindParam(<span class="string">':p2'</span>, $s[<span class="number">1</span>]);</span><br><span class="line">    $stmt-&gt;execute();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="11">
+<li>PDO的属性操作<br>$pdo-&gt;getAttribute(键)：获取PDO属性<br>$pdo-&gt;getAttribute(键)：获取PDO属性</li>
+<li>PDO的异常处理机制<br>PDO会自动抛出异常，其他的地方不能自动抛出<br>$pdo-&gt;setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);设置为自动抛出异常</li>
+</ol>
+<h1 id="总"><a href="#总" class="headerlink" title="总"></a>总</h1><p>反射：获取类中方法、属性、参数、注释等封闭信息的方法<br>发射的父类（reflection）<br>ReflectionClass:export()：反射出类的内部结构<br>getMethods()：获取所有方法、getProterties()：获取所有属性<br>getConstants()：获取常量<br>通过反射类可以创建代理类的对象  newInstance()<br>发射通过反向代理调用对象的方法<br>PDO（PHP data object）提供了一组一致性的接口，用来访问不同的数据库。<br>要使用pdo之前必须开启pdo扩展<br>PDO核心类<br>PDO：表示PHP和数据库的链接对象<br>PDOStatement类，PDO执行sql语句返回的结果<br>PDOException：PDO异常<br>实例化PDO:<br>$dsn=’mysql:host=主机;port=端口号;dbname=数据库名;charset=字符编码’<br>PDO($dsn,用户名,密码)<br>脚下留心：数据类型要小写<br>使用PDO<br>$pdo-&gt;exec()：执行数据操作语句，返回的受影响的记录数或false<br>$pdo-&gt;query()：执行数据查询语句，返回的是PDOStatement对象<br>$pdo-&gt;lastInsertId()：获取生成的id编号<br>获取PDOStatement对象中的数据<br>$pdo-&gt;fetch()：获取一条数据<br>$pdo-&gt;fetchAll()：获取所有数据<br>$pdo-&gt;fetchColumn()：获取列<br>$pdo-&gt;fetchObject()：获取一行数据，并匹配成对象<br>$pdo-&gt;rowCount()：总行数<br>$pdo-&gt;columnCount()：总列数<br>$pdo-&gt;bindColumn()：将列绑定到变量上<br>匹配的类型：<br>PDO::FETCH_BOTH<br>PDO::FETCH_ASSOC<br>PDO::FETCH_NUM<br>PDO事务<br>$pdo-&gt;beginTransaction()<br>$pdo-&gt;rollback()<br>$pdo-&gt;commit()<br>预处理<br>$pdo-&gt;prepare()<br>位置占位符（？）<br>参数占位符（:参数名）<br>绑定参数<br>bindValue()<br>bindParam()<br>操作数据<br>$pdo-&gt;getAttribute()<br>$pdo-&gt;setAttribute()<br>异常处理<br>默认情况下，如果有错误就报错，不会抛出异常，设置如下语句使得自动抛出异常：$pdo-&gt;setAttribute(PDO::ERRMODE,PDO::ERRMODE_EXCEPTION)</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/反射/" rel="tag"># 反射</a>
+          
+            <a href="/tags/PDO/" rel="tag"># PDO</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/20151017-3.html" rel="next" title="数据库设计-商城购物系统">
+                <i class="fa fa-chevron-left"></i> 数据库设计-商城购物系统
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/20151018-2.html" rel="prev" title="命名空间">
+                命名空间 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/default_avatar.png"
+                alt="uiste" />
+            
+              <p class="site-author-name" itemprop="name">uiste</p>
+              <p class="site-description motion-element" itemprop="description">Stay Hungry，Stay Foolish</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">122</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">66</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/uiste" target="_blank" title="GitHub"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/uiste" target="_blank" title="微博"><i class="fa fa-fw fa-globe"></i>微博</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.zhihu.com/people/uiste" target="_blank" title="知乎"><i class="fa fa-fw fa-globe"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.xiaomanyu.cn" title="Mandy画站" target="_blank">Mandy画站</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#反射、PDO"><span class="nav-number">1.</span> <span class="nav-text">反射、PDO</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#反射"><span class="nav-number">1.1.</span> <span class="nav-text">反射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过反射获取类中的属性、方法、常量"><span class="nav-number">1.2.</span> <span class="nav-text">通过反射获取类中的属性、方法、常量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过反射获取代理类的对象"><span class="nav-number">1.3.</span> <span class="nav-text">通过反射获取代理类的对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反射可以通过反向代理来调用方法"><span class="nav-number">1.4.</span> <span class="nav-text">反射可以通过反向代理来调用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#正向代理"><span class="nav-number">1.4.1.</span> <span class="nav-text">正向代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反向代理"><span class="nav-number">1.4.2.</span> <span class="nav-text">反向代理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PDO"><span class="nav-number">2.</span> <span class="nav-text">PDO</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#连接MySQL的方法"><span class="nav-number">2.1.</span> <span class="nav-text">连接MySQL的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PDO简介"><span class="nav-number">2.2.</span> <span class="nav-text">PDO简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PDO的核心类：PDO、PDOStatement、PDOException"><span class="nav-number">2.3.</span> <span class="nav-text">PDO的核心类：PDO、PDOStatement、PDOException</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例化PDO对象"><span class="nav-number">2.4.</span> <span class="nav-text">实例化PDO对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dsn-data-source-name-数据源名称"><span class="nav-number">2.4.1.</span> <span class="nav-text">(dsn data source name) 数据源名称</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用PDO对象"><span class="nav-number">2.5.</span> <span class="nav-text">使用PDO对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#操作数据"><span class="nav-number">2.5.1.</span> <span class="nav-text">操作数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询数据"><span class="nav-number">2.5.2.</span> <span class="nav-text">查询数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#取出全部数据"><span class="nav-number">2.5.3.</span> <span class="nav-text">取出全部数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PDO事物处理"><span class="nav-number">2.5.4.</span> <span class="nav-text">PDO事物处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#预处理语句"><span class="nav-number">2.5.5.</span> <span class="nav-text">预处理语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数占位符"><span class="nav-number">2.5.6.</span> <span class="nav-text">参数占位符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PDO-属性"><span class="nav-number">2.5.7.</span> <span class="nav-text">PDO 属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PDO异常抛出"><span class="nav-number">2.5.8.</span> <span class="nav-text">PDO异常抛出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单例模式实现MyPDO类的封装"><span class="nav-number">2.6.</span> <span class="nav-text">单例模式实现MyPDO类的封装</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总"><span class="nav-number">3.</span> <span class="nav-text">总</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">uiste</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+      <div>
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57838eee5e2620d0" async = "async" ></script>
+</div>
+
+      </div>
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

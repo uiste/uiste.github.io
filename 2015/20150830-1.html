@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="数据类型数据类型——值类型整型   整型 占用字节 范围 范围     tinyint 1 -2^7~2^7-1 -128~127   smallint 2 -2^15~2^15-1 -32768~32767   mediumint 3 -2^23~2^23-1 -8388608~8388607   int 4 -2^31~2^31-1 -2147483648~2147483647   bigin">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL 数据类型、列属性、数据完整性">
+<meta property="og:url" content="http://blog.uiste.com/2015/20150830-1.html">
+<meta property="og:site_name" content="uiste">
+<meta property="og:description" content="数据类型数据类型——值类型整型   整型 占用字节 范围 范围     tinyint 1 -2^7~2^7-1 -128~127   smallint 2 -2^15~2^15-1 -32768~32767   mediumint 3 -2^23~2^23-1 -8388608~8388607   int 4 -2^31~2^31-1 -2147483648~2147483647   bigin">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-19T01:57:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL 数据类型、列属性、数据完整性">
+<meta name="twitter:description" content="数据类型数据类型——值类型整型   整型 占用字节 范围 范围     tinyint 1 -2^7~2^7-1 -128~127   smallint 2 -2^15~2^15-1 -32768~32767   mediumint 3 -2^23~2^23-1 -8388608~8388607   int 4 -2^31~2^31-1 -2147483648~2147483647   bigin">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="uiste" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://blog.uiste.com/2015/20150830-1.html"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>MySQL 数据类型、列属性、数据完整性 | uiste</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">uiste</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">uiste</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'aSf9eNpjToN3z8HppMAx','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    <!--  -->
+    
+    
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150830-1.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="uiste">
+      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="uiste">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MySQL 数据类型、列属性、数据完整性
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2015-08-30 17:18:51" itemprop="dateCreated datePublished" datetime="2015-08-30T17:18:51+08:00">2015-08-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-19 09:57:01" itemprop="dateModified" datetime="2018-10-19T09:57:01+08:00">2018-10-19</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><h4 id="数据类型——值类型"><a href="#数据类型——值类型" class="headerlink" title="数据类型——值类型"></a>数据类型——值类型</h4><h5 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h5><table>
+<thead>
+<tr>
+<th>整型</th>
+<th style="text-align:center">占用字节</th>
+<th style="text-align:center">范围</th>
+<th style="text-align:center">范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tinyint</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">-2^7~2^7-1</td>
+<td style="text-align:center">-128~127</td>
+</tr>
+<tr>
+<td>smallint</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">-2^15~2^15-1</td>
+<td style="text-align:center">-32768~32767</td>
+</tr>
+<tr>
+<td>mediumint</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">-2^23~2^23-1</td>
+<td style="text-align:center">-8388608~8388607</td>
+</tr>
+<tr>
+<td>int</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">-2^31~2^31-1</td>
+<td style="text-align:center">-2147483648~2147483647</td>
+</tr>
+<tr>
+<td>bigint</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">-2^63~2^63-1</td>
+<td style="text-align:center">-</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>一个字节=8位，8位就是8个二进制数</p>
+</blockquote>
+<ul>
+<li>整型支持显示宽度：最小的显示位数，比如int(5)，如果数值的位数小于5位，前面加上前导0。比如输入12，显示00012；大于5位就不添加前导0</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; describe student;</span><br><span class="line">+-------+--------------------------+------+-----+---------+----------------+</span><br><span class="line">| Field | Type                     | Null | Key | Default | Extra          |</span><br><span class="line">+-------+--------------------------+------+-----+---------+----------------+</span><br><span class="line">| id    | int(11)                  | NO   | PRI | NULL    | auto_increment |</span><br><span class="line">| name  | char(1)                  | YES  |     | NULL    |                |</span><br><span class="line">| num   | int(8) unsigned zerofill | YES  |     | NULL    |                |</span><br><span class="line">+-------+--------------------------+------+-----+---------+----------------+</span><br><span class="line">3 rows in set (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from student;</span><br><span class="line">+----+------+------------+</span><br><span class="line">| id | name | num        |</span><br><span class="line">+----+------+------------+</span><br><span class="line">|  1 | a    |   00002485 |</span><br><span class="line">|  2 | b    |   03678928 |</span><br><span class="line">|  3 | c    | 1234567890 |</span><br><span class="line">+----+------+------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>脚下留心：必须结合zerofill才起作用<br>显示宽度不决定显示范围，只是在数值不够指定位数时用0做前导</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; alter table student add num2 tinyint;</span><br><span class="line">Query OK, 0 rows affected (0.05 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into student values (null,&apos;d&apos;,&apos;1&apos;,128);</span><br><span class="line">Query OK, 1 row affected, 1 warning (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from student;</span><br><span class="line">+----+------+------------+------+</span><br><span class="line">| id | name | num        | num2 |</span><br><span class="line">+----+------+------------+------+</span><br><span class="line">|  1 | a    |   00002485 | NULL |</span><br><span class="line">|  2 | b    |   03678928 | NULL |</span><br><span class="line">|  3 | c    | 1234567890 | NULL |</span><br><span class="line">|  4 | d    |   00000001 |  127 |</span><br><span class="line">+----+------+------------+------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>超出最大范围会有警告提示，同时值保存最大范围值</p>
+</blockquote>
+<ul>
+<li>无符号整数（unsigned）：无符号数没有负数，正数部分是有符号的两倍</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; insert into student values (null,666);</span><br><span class="line">Query OK, 1 row affected, 1 warning (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from student;</span><br><span class="line">+----+------+</span><br><span class="line">| id | num  |</span><br><span class="line">+----+------+</span><br><span class="line">|  7 |  255 |</span><br><span class="line">+----+------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<h5 id="浮点型（保存近似值小数）"><a href="#浮点型（保存近似值小数）" class="headerlink" title="浮点型（保存近似值小数）"></a>浮点型（保存近似值小数）</h5><table>
+<thead>
+<tr>
+<th>浮点型</th>
+<th style="text-align:center">占用字节</th>
+<th style="text-align:center">范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>float（单精度）</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">-3.4E+38~3.4E+38</td>
+</tr>
+<tr>
+<td>double（双精度）</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">-1.8E+308~1.8E+308</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>浮点数声明:  float(M,D)   double(M,D)<br>M：总位数<br>D：小数位数</li>
+</ul>
+<blockquote>
+<p>浮点数也是支持显示宽度和无符号数</p>
+</blockquote>
+<ul>
+<li>浮点数支持科学计数法<br><code>insert into uiste values (5E2,4E-1);</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; insert into student values (null,5E2,4E-1);</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from student;</span><br><span class="line">+----+--------------+------+</span><br><span class="line">| id | num1         | num2 |</span><br><span class="line">+----+--------------+------+</span><br><span class="line">|  7 |         NULL | NULL |</span><br><span class="line">|  8 | 000000000500 | 00.4 |</span><br><span class="line">+----+--------------+------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>浮点的精度可能会丢失【指的是小数】<br><code>insert into uiste values (99.999999999);</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; insert into student values (null,9.99999999999999,1.1111111111111);</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from student;</span><br><span class="line">+----+--------------+------+</span><br><span class="line">| id | num1         | num2 |</span><br><span class="line">+----+--------------+------+</span><br><span class="line">|  7 |         NULL | NULL |</span><br><span class="line">|  8 | 000000000500 | 00.4 |</span><br><span class="line">|  9 | 000000000010 | 01.1 |</span><br><span class="line">+----+--------------+------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>小数部分如果超过D的限制会四舍五入，整数部分不能超过M-D的限制</p>
+</blockquote>
+<ul>
+<li>定点数<br>语法：decimal(M,D)</li>
+</ul>
+<blockquote>
+<p>定点数是变长的，大致每9个数字用4个字节来存储。定点数之所以能保存精确的小数，因为整数和小数是分开存储的。占用的资源比浮点数要多。<br>定点数和浮点数都支持显示宽度和无符号数</p>
+</blockquote>
+<h4 id="数据类型——字符型"><a href="#数据类型——字符型" class="headerlink" title="数据类型——字符型"></a>数据类型——字符型</h4><table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>char(L)</td>
+<td style="text-align:center">定长</td>
+</tr>
+<tr>
+<td>varchar(L)</td>
+<td style="text-align:center">变长</td>
+</tr>
+<tr>
+<td>tinytext</td>
+<td style="text-align:center">2^8-1=255</td>
+</tr>
+<tr>
+<td>text</td>
+<td style="text-align:center">2^16-1=65535</td>
+</tr>
+<tr>
+<td>mediumtext</td>
+<td style="text-align:center">2^24-1</td>
+</tr>
+<tr>
+<td>longtext</td>
+<td style="text-align:center">2^32-1</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>char(10)和varchar(10)的区别？<br>答：相同点：它们最多只能保存10个字符；<br>不同点：char不回收富余的字符，varchar会回收富余的字符。<br>char效率高，浪费空间，varchar节省空间，效率比char低。</p>
+</blockquote>
+<blockquote>
+<p>char的最大长度是255。varchar理论长度是65535字节,实际根本达不到。具体长度与字符编码有关</p>
+</blockquote>
+<blockquote>
+<p>大块文本（text）不计算在总长度中,一个大块文本只占用10个字节来保存文本的地址。</p>
+</blockquote>
+<h4 id="数据类型——枚举（enum）"><a href="#数据类型——枚举（enum）" class="headerlink" title="数据类型——枚举（enum）"></a>数据类型——枚举（enum）</h4><p>从集合中选择一个数据（单选）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create database uiste charset=utf8;</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; create table student(</span><br><span class="line">    -&gt; name varchar(20),</span><br><span class="line">    -&gt; sex enum(&apos;男&apos;,&apos;女&apos;,&apos;保密&apos;)</span><br><span class="line">    -&gt; )charset=utf8;</span><br><span class="line">Query OK, 0 rows affected (0.02 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into student values (&apos;杜敏&apos;,&apos;男&apos;);</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into student values (&apos;钟程程&apos;,&apos;男或女&apos;);</span><br><span class="line">Query OK, 1 row affected, 1 warning (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from student;</span><br><span class="line">+-----------+------+</span><br><span class="line">| name      | sex  |</span><br><span class="line">+-----------+------+</span><br><span class="line">| 杜敏      | 男   |</span><br><span class="line">| 钟程程    |      |</span><br><span class="line">+-----------+------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用枚举进行数据选择的时候，没有屏蔽错误信息只是提示了警告信息</p>
+</blockquote>
+<blockquote>
+<p>MySQL的枚举类型是通过整数来管理的，第一个值是1，第二个值是2，以此类推<br>既然枚举在数据库内部存储的是整数，那么可以直接插入数字</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select sex+0 from student;</span><br><span class="line">+-------+</span><br><span class="line">| sex+0 |</span><br><span class="line">+-------+</span><br><span class="line">|     1 |</span><br><span class="line">|     0 |</span><br><span class="line">+-------+</span><br><span class="line">2 rows in set (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into student values (&apos;赵哥&apos;,2);</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from student;</span><br><span class="line">+-----------+------+</span><br><span class="line">| name      | sex  |</span><br><span class="line">+-----------+------+</span><br><span class="line">| 杜敏      | 男   |</span><br><span class="line">| 钟程程    |      |</span><br><span class="line">| 赵哥      | 女   |</span><br><span class="line">+-----------+------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p><strong>枚举的优点：</strong><br>1、    运行速度快（数字比字符串运算速度快）<br>2、    限制数据<br>3、    节省空间</p>
+<blockquote>
+<p>已知枚举占用2个字节，请问最多有多少个枚举值？<br>答：2个字节=16位，可以保存216个数字（0-65535），枚举是从1开始，所以枚举最多可以有65535个枚举值</p>
+</blockquote>
+<h4 id="数据类型——集合（set"><a href="#数据类型——集合（set" class="headerlink" title="数据类型——集合（set)"></a>数据类型——集合（set)</h4><p>从集合中选择一些数据（多选）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table student(</span><br><span class="line">    -&gt; name char,</span><br><span class="line">    -&gt; hobby set(&apos;看书&apos;,&apos;玩游戏&apos;,&apos;敲代码&apos;,&apos;看电视&apos;)</span><br><span class="line">    -&gt; )charset=utf8;</span><br><span class="line">Query OK, 0 rows affected (0.03 sec)</span><br></pre></td></tr></table></figure>
+<p>插入集合的值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; insert into student values (&apos;杜敏&apos;,&apos;玩游戏&apos;);</span><br><span class="line">Query OK, 1 row affected, 1 warning (0.01 sec)</span><br><span class="line">mysql&gt; insert into student values (&apos;小兰&apos;,&apos;看书,敲代码&apos;);</span><br><span class="line">Query OK, 1 row affected, 1 warning (0.01 sec)</span><br><span class="line">mysql&gt; insert into student values (&apos;兰&apos;,&apos;敲代码,看书&apos;);</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from student;</span><br><span class="line">+------+------------------+</span><br><span class="line">| name | hobby            |</span><br><span class="line">+------+------------------+</span><br><span class="line">| 杜   | 玩游戏           |</span><br><span class="line">| 小   | 看书,敲代码      |</span><br><span class="line">| 兰   | 看书,敲代码      |</span><br><span class="line">+------+------------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>插入的顺序不一样，但是显示的顺序是一样的</p>
+</blockquote>
+<blockquote>
+<p>集合和枚举一样，每个集合的元素都分配一个固定的值，分配的方式从左往右按2的0、1、2、…次方</p>
+</blockquote>
+<p>如果是多选，他们的关系是按位或<br>按位与：相同的位上都是1，结果才为1，只要有一个为0，结果为0。<br>按位或：相同的位上只要有一个为1结果就是1。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select hobby+0 from student;</span><br><span class="line">+---------+</span><br><span class="line">| hobby+0 |</span><br><span class="line">+---------+</span><br><span class="line">|       2 |</span><br><span class="line">|       5 |</span><br><span class="line">|       5 |</span><br><span class="line">+---------+</span><br><span class="line">3 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>思考：已知集合占用8个字节，最多可以表示几个选项？<br>答：8个字节=64位，一个位表示1个选项，最多可以表示64个选项。</p>
+</blockquote>
+<h4 id="数据类型——日期类型"><a href="#数据类型——日期类型" class="headerlink" title="数据类型——日期类型"></a>数据类型——日期类型</h4><table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>datetime</td>
+<td style="text-align:center">日期时间，占用8个字节</td>
+</tr>
+<tr>
+<td>date</td>
+<td style="text-align:center">日期</td>
+</tr>
+<tr>
+<td>time</td>
+<td style="text-align:center">时间</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td style="text-align:center">时间戳   占用4个字节</td>
+</tr>
+<tr>
+<td>year</td>
+<td style="text-align:center">年份   占用1个字节</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>datetime    格式：年-月-日 小时:分钟:秒</li>
+</ul>
+<p>测试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; insert into test10 values (&apos;2015-6-24 15:15:15&apos;);	--正确</span><br><span class="line">mysql&gt; insert into test10 values (&apos;100-6-24 15:15:15&apos;);		--正确</span><br><span class="line">mysql&gt; insert into test10 values (&apos;9999-6-24 15:15:15&apos;);	--正确</span><br><span class="line">mysql&gt; insert into test10 values (&apos;10000-6-24 15:15:15&apos;);	--错误</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>datetime保存范围是：1~9999年</p>
+</blockquote>
+<ul>
+<li>timestamp：时间戳</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; insert into test11 values (&apos;2015-6-24 15:15:15&apos;);	--正确的</span><br><span class="line">mysql&gt; insert into test11 values (&apos;1969-12-31 23:59:59&apos;);	--超过范围</span><br><span class="line">mysql&gt; insert into test11 values (&apos;2038-01-19 11:14:08&apos;);	--超出范围</span><br><span class="line">mysql&gt; insert into test11 values (&apos;2038-01-19 11:14:07&apos;);	--正确</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>datetime类型timestamp类型在表现上是一样的。他们的区别：<br>datetime是从1到9999，而timestamp从1970年~2038年，2038年01月19日11:14:07秒以后就超出timestamp范围了。</p>
+</blockquote>
+<ul>
+<li><p>year<br>因为只占用1个字节，最多只能表示255个年份，范围是1901-2155之间的年份</p>
+</li>
+<li><p>time<br>表示时间或时间间隔，范围是-838:59:59~838:59:59</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; insert into test13 values (12:12:12);	--正确</span><br><span class="line">mysql&gt; insert into test13 values (&apos;212:12:12&apos;);	--正确</span><br><span class="line">mysql&gt; insert into test13 values (&apos;-838:59:59&apos;);--正确</span><br><span class="line">mysql&gt; insert into test13 values (&apos;838:59:59&apos;);	--正确</span><br><span class="line">mysql&gt; insert into test13 values (&apos;839:00:00&apos;);	--错误</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>time支持以天的方式插入</p>
+</blockquote>
+<p><code>insert into student values (&#39;10 12:12:12&#39;);</code></p>
+<h4 id="数据类型——boolean"><a href="#数据类型——boolean" class="headerlink" title="数据类型——boolean"></a>数据类型——boolean</h4><p>MySQL不支持boolean类型，true和false在数据库中对应1和0。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table test1(</span><br><span class="line">    -&gt; `field` boolean</span><br><span class="line">    -&gt; )charset=utf8;</span><br><span class="line">Query OK, 0 rows affected (0.03 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; describe test1;</span><br><span class="line">+-------+------------+------+-----+---------+-------+</span><br><span class="line">| Field | Type       | Null | Key | Default | Extra |</span><br><span class="line">+-------+------------+------+-----+---------+-------+</span><br><span class="line">| field | tinyint(1) | YES  |     | NULL    |       |</span><br><span class="line">+-------+------------+------+-----+---------+-------+</span><br><span class="line">1 row in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<h4 id="创建数据表的数据类型"><a href="#创建数据表的数据类型" class="headerlink" title="创建数据表的数据类型"></a>创建数据表的数据类型</h4><blockquote>
+<p>手机号码一般使用什么数据类型存储?            char<br>性别一般使用什么数据类型存储?                char    enum<br>年龄信息一般使用什么数据类型存储?            tinyint<br>照片信息一般使用什么数据类型存储?            binary(二进制)<br>薪水一般使用什么数据类型存储?                decimal</p>
+</blockquote>
+<p><strong>一个字段到底选数字还是字符，取决于有没有计算的可能，如果没有计算的可能即使是数字也要用字符类型，比如手机号、QQ号，…</strong></p>
+<h3 id="列属性-是否为空-null-not-null"><a href="#列属性-是否为空-null-not-null" class="headerlink" title="列属性-是否为空(null | not null)"></a>列属性-是否为空(null | not null)</h3><p>null：可以为空<br>not null：不可以为空</p>
+<h4 id="列属性——默认值（default）"><a href="#列属性——默认值（default）" class="headerlink" title="列属性——默认值（default）"></a>列属性——默认值（default）</h4><blockquote>
+<p>如果一个字段没有插入值，可以默认插入一个指定的值<br>没有插入的字段插入默认值<br>default关键字用来插入默认值</p>
+</blockquote>
+<h4 id="列属性——自动增长（auto-increment）"><a href="#列属性——自动增长（auto-increment）" class="headerlink" title="列属性——自动增长（auto_increment）"></a>列属性——自动增长（auto_increment）</h4><p>字段的值从1开始，每次递增1，特点就在字段中的数据不可能重复，适合为记录生成唯一的id</p>
+<blockquote>
+<p>在MySQL中，auto_increment必须是主键。但是主键不一定是自动增长的</p>
+</blockquote>
+<p><strong>既然从1开始，每次递增1，所以一般自动增长都是无符号整数</strong></p>
+<blockquote>
+<p>如果要给自动增长列插入数据，使用null关键字。<br>自动增长列上的数据被删除，默认情况下此记录的编号不再使用。</p>
+</blockquote>
+<blockquote>
+<p>思考题：在一个自动增长列上，插入三行，删除两行，插入三行，删除两行，插入三行，删除两行，再插入一个记录编号是多少？<br>答：编号从10开始。删除记录与自动增长的编号没有关系</p>
+</blockquote>
+<h4 id="列属性——主键（primary-key）"><a href="#列属性——主键（primary-key）" class="headerlink" title="列属性——主键（primary key）"></a>列属性——主键（primary key）</h4><p>主键：唯一标识表中记录的一个或一组列<br>主键的特点：不能重复，不能为空<br>一个表只能有一个主键，主键可以有多个字段组成</p>
+<p>主键的作用：</p>
+<ul>
+<li>保证数据完整性</li>
+<li>加快查询速度</li>
+</ul>
+<h5 id="添加主键：方法一【创建表的时候添加主键】"><a href="#添加主键：方法一【创建表的时候添加主键】" class="headerlink" title="添加主键：方法一【创建表的时候添加主键】"></a>添加主键：方法一【创建表的时候添加主键】</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table stu(</span><br><span class="line">    -&gt; id int primary key,</span><br><span class="line">    -&gt; name varchar(20)</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+<h5 id="添加主键：方法二【创建表的时候添加主键】"><a href="#添加主键：方法二【创建表的时候添加主键】" class="headerlink" title="添加主键：方法二【创建表的时候添加主键】"></a>添加主键：方法二【创建表的时候添加主键】</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table stu(</span><br><span class="line">    -&gt; id int,</span><br><span class="line">    -&gt; name varchar(20),</span><br><span class="line">    -&gt; primary key(id)</span><br><span class="line">    -&gt; );</span><br></pre></td></tr></table></figure>
+<h5 id="添加主键：方法三【更改表的时候添加主键】"><a href="#添加主键：方法三【更改表的时候添加主键】" class="headerlink" title="添加主键：方法三【更改表的时候添加主键】"></a>添加主键：方法三【更改表的时候添加主键】</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table stu(</span><br><span class="line">    -&gt; id int,</span><br><span class="line">    -&gt; name varchar(20)</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; alter table stu add primary key (id)</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br></pre></td></tr></table></figure>
+<h5 id="查看主键"><a href="#查看主键" class="headerlink" title="查看主键"></a>查看主键</h5><p><code>mysql&gt;desc stu;</code></p>
+<h5 id="创建组合键"><a href="#创建组合键" class="headerlink" title="创建组合键"></a>创建组合键</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table stu(</span><br><span class="line">    -&gt; id int,</span><br><span class="line">    -&gt; name varchar(20),</span><br><span class="line">    -&gt; primary key(id,name)</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>也可以通过更改表的方式来创建组合键<br>alter table stu add primary key(id,name)</p>
+</blockquote>
+<h5 id="删除主键"><a href="#删除主键" class="headerlink" title="删除主键"></a>删除主键</h5><p><code>mysql&gt;alter table stu drop primary key;</code></p>
+<h5 id="选择主键的原则"><a href="#选择主键的原则" class="headerlink" title="选择主键的原则"></a>选择主键的原则</h5><p>1、    最少性：尽量选择一个字段做主键<br>2、    稳定性：尽量选择更新少的列做主键<br>3、    尽量选择数字型的列做主键</p>
+<h5 id="主键思考题"><a href="#主键思考题" class="headerlink" title="主键思考题"></a>主键思考题</h5><blockquote>
+<p>在主键列输入的数值，允许为空吗?                不能为空<br>一个表可以有多个主键吗?                            不能<br>在一个学校数据库中，如果一个学校内允许重名的学员，但是一个班级内不允许学员重名，可以组合班级和姓名两个字段一起来作为主键吗？可以<br>标识列（自动增长列）允许为字符数据类型吗？        不允许<br>表中没有合适的列作为主键怎么办？                添加一个自动增长列<br>   如果标识列A的初始值为1，增长量为1，则输入三行数据以后，再删除两行，下次再输入数据行的时候，标识值从多少开始？  从4开始</p>
+</blockquote>
+<h4 id="列属性——唯一键"><a href="#列属性——唯一键" class="headerlink" title="列属性——唯一键"></a>列属性——唯一键</h4><p>特点：不能重复，可以为空<br>一个表可以有多个唯一键<br>作用：<br>1、    保证数据完整性<br>2、    加快数据访问</p>
+<h5 id="添加唯一键【创建表的时候添加唯一键】"><a href="#添加唯一键【创建表的时候添加唯一键】" class="headerlink" title="添加唯一键【创建表的时候添加唯一键】"></a>添加唯一键【创建表的时候添加唯一键】</h5><p>unique key<br>unique </p>
+<h5 id="添加唯一键【创建表的时候添加唯一键】-1"><a href="#添加唯一键【创建表的时候添加唯一键】-1" class="headerlink" title="添加唯一键【创建表的时候添加唯一键】"></a>添加唯一键【创建表的时候添加唯一键】</h5><p>unique key(stuname)<br>unique(stuadd)</p>
+<h5 id="设置名字的唯一键"><a href="#设置名字的唯一键" class="headerlink" title="设置名字的唯一键"></a>设置名字的唯一键</h5><p><code>unique key `name` (`stuname`)</code><br>name：唯一键名字<br>stuname：字段名字</p>
+<h5 id="添加唯一键【修改表的时候添加唯一键】"><a href="#添加唯一键【修改表的时候添加唯一键】" class="headerlink" title="添加唯一键【修改表的时候添加唯一键】"></a>添加唯一键【修改表的时候添加唯一键】</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table stu(</span><br><span class="line">    -&gt; id int primary key,</span><br><span class="line">    -&gt; stuname varchar(20),</span><br><span class="line">    -&gt; stuadd varchar(100)</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>添加唯一键</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; alter table stu add unique key(stuname);   --key可以省略</span><br><span class="line">mysql&gt; alter table stu add unique (stuadd);</span><br></pre></td></tr></table></figure>
+<p>一次添加多个唯一键<br><code>mysql&gt;alter table stu add unique(stuname),add unique(stuadd);</code></p>
+<h5 id="查看唯一键"><a href="#查看唯一键" class="headerlink" title="查看唯一键"></a>查看唯一键</h5><p><code>mysql&gt;show create talbe stu\G</code></p>
+<h5 id="添加组合唯一键"><a href="#添加组合唯一键" class="headerlink" title="添加组合唯一键"></a>添加组合唯一键</h5><h5 id="删除唯一键"><a href="#删除唯一键" class="headerlink" title="删除唯一键"></a>删除唯一键</h5><p>通过唯一键的名字来删除唯一键<br>语法：<code>alter table 表名 drop index 唯一键名称</code><br><code>mysql&gt;alter talbe stu drop index stuname;</code></p>
+<h5 id="列属性——备注（comment）"><a href="#列属性——备注（comment）" class="headerlink" title="列属性——备注（comment）"></a>列属性——备注（comment）</h5><h5 id="SQL注释"><a href="#SQL注释" class="headerlink" title="SQL注释"></a>SQL注释</h5><p>单行注释：–或#<br>多行注释：/<em>    </em>/</p>
+<h4 id="数据完整性"><a href="#数据完整性" class="headerlink" title="数据完整性"></a>数据完整性</h4><h5 id="保证实体完整性"><a href="#保证实体完整性" class="headerlink" title="保证实体完整性"></a>保证实体完整性</h5><p>1、    主键约束<br>2、    唯一约束<br>3、    自动增长列</p>
+<h5 id="保证域完整性"><a href="#保证域完整性" class="headerlink" title="保证域完整性"></a>保证域完整性</h5><p>1、    数据类型约束<br>2、    非空约束<br>3、    默认值约束</p>
+<h5 id="保证引用完整性"><a href="#保证引用完整性" class="headerlink" title="保证引用完整性"></a>保证引用完整性</h5><p>1、外键约束：从表中的公共字段是主表的外键</p>
+<h5 id="保证自定义完整性"><a href="#保证自定义完整性" class="headerlink" title="保证自定义完整性"></a>保证自定义完整性</h5><p>1、    存储过程<br>2、    触发器</p>
+<h5 id="主表和从表"><a href="#主表和从表" class="headerlink" title="主表和从表"></a>主表和从表</h5><p>两个表建立关系（两个表只要有公共字段就有关系），一个表称为主表，一个表称为从表。<br>外键约束可以实现：<br>1、    主表中没有的从表中不允许插入<br>2、    从表中有的主表中不允许删除<br>3、    不能更改主表中的值而导致从表中的记录孤立存在。<br>4、    先删除从表，再删除主表</p>
+<h4 id="外键（foreign-key）"><a href="#外键（foreign-key）" class="headerlink" title="外键（foreign key）"></a>外键（foreign key）</h4><p>1、    外键：从表中的公共字段，公共字段的名字可以不一样，但是数据类型必须一样。<br>2、    外键约束用来保证引用完整性</p>
+<h5 id="添加外键"><a href="#添加外键" class="headerlink" title="添加外键"></a>添加外键</h5><p><strong>foreign key (id) references stuinfo(stuno);</strong><br>方法一：创建表的时候添加外键</p>
+<p>references：参照</p>
+<p>测试：</p>
+<ul>
+<li>主表中没有的，从表中不允许插入</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">先插主表，在插从表</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into stuinfo values (1,&apos;tom&apos;);</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line">mysql&gt; insert into stumarks values (1,77);</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>从表中有的，主表中不能删除</p>
+</li>
+<li><p>不能更改主表的数据后使得从表的数据孤立</p>
+</li>
+</ul>
+<p>方法二：修改表的时候添加外键<br>语法：<code>alter table stumarks add foreign key (id) references stuinfo(stuno);</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table stuinfo(</span><br><span class="line">    -&gt; stuno char(4) primary key,</span><br><span class="line">    -&gt; stuname varchar(20) not null</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; create table stumarks(</span><br><span class="line">    -&gt; id char(4) primary key,</span><br><span class="line">    -&gt; score int</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; alter table stumarks add foreign key (id) references stuinfo(stuno);</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>要创建外键必须是innodb引擎，myisam不支持外键约束</p>
+</blockquote>
+<p><strong>创建外键的时候，给外键取名</strong><br><code>alter table stumarks add constraint `FK1` foreign key(id) references stuinfo(stuno);</code></p>
+<blockquote>
+<p>constraint：约束</p>
+</blockquote>
+<h5 id="删除外键"><a href="#删除外键" class="headerlink" title="删除外键"></a>删除外键</h5><p>通过外键的名字删除外键<br>语法：<code>alter table 表名 drop foreign key `外键名`</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;alter talbe stumarks drop foreign key `FK1`</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果要在某个字段上添加外键约束，改字段必须要有索引才可以。如果该字段已经存在索引，则直接使用，否则MySQL自动生成索引。</p>
+</blockquote>
+<h5 id="外键操作"><a href="#外键操作" class="headerlink" title="外键操作"></a>外键操作</h5><p>1、    严格操作（前面讲的是严格操作）<br>2、    置空操作（set null）：如果主表记录删除或更新，从表置空<br>3、    级联操作（cascade）：如果主表记录删除或更新，从表级联</p>
+<blockquote>
+<p>一般来说：主表删除的时候，从表置空操作，主表更新的时候，从表级联操作。<br>语法：foreign key(外键) references 主表(关键字段) [主表删除时候的动作] [主表更新时候的动作]</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table stumarks(</span><br><span class="line">    -&gt; id int auto_increment primary key,</span><br><span class="line">    -&gt; stuno char(4),</span><br><span class="line">    -&gt; stuscore tinyint(3),</span><br><span class="line">    -&gt; foreign key(stuno) references stuinfo(stuno) on delete set null on update cascade</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.03 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">--错误案例--</span><br><span class="line">create table stuinfo(</span><br><span class="line">stuno char(4) primary key,</span><br><span class="line">stuname varchar(20) not null</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">create table stumarks(</span><br><span class="line">id char(4) primary key,</span><br><span class="line">score int</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">alter table stumarks add constraint FK1 foreign key (id) references stuinfo(stuno) on delete set null on update cascade;</span><br><span class="line"></span><br><span class="line">--正确案例--</span><br><span class="line">create table stuinfo(</span><br><span class="line">stuno char(4) primary key,</span><br><span class="line">stuname varchar(20) not null</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">create table stumarks(</span><br><span class="line">id1 char(4) primary key,</span><br><span class="line">id char(4),</span><br><span class="line">score int</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">alter table stumarks add constraint FK1 foreign key (id) references stuinfo(stuno) on delete set null on update cascade;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用alter修改表 去创建外键时，是否不能够同时指定制空约束和级联约束？<br>主键不能set null ,所以外键表中新增主键，将外键作为非主键，此问题与alter的设置无关<br><code>foreign key (stuno) references stuinfo(stuno) on delete set null on update cascade;</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table stuinfo(</span><br><span class="line">    -&gt; stuno char(4) primary key,</span><br><span class="line">    -&gt; stuname varchar(20) not null</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.02 sec)</span><br><span class="line">//主键与非主键之间的关系，主键是不能set null的，所有使用非主键作为外键</span><br><span class="line">mysql&gt; create table stumarks(</span><br><span class="line">    -&gt; id int auto_increment primary key,</span><br><span class="line">    -&gt; stuno char(4),</span><br><span class="line">	    -&gt; score int,</span><br><span class="line">	    -&gt; foreign key (stuno) references stuinfo(stuno) on delete set null on update cascade</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into stuinfo values (&apos;1001&apos;,&apos;tom&apos;),(&apos;1002&apos;,&apos;berry&apos;);</span><br><span class="line">Query OK, 2 rows affected (0.00 sec)</span><br><span class="line">Records: 2  Duplicates: 0  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into stumarks values (null,&apos;1001&apos;,88),(null,&apos;1002&apos;,99);</span><br><span class="line">Query OK, 2 rows affected (0.00 sec)</span><br><span class="line">Records: 2  Duplicates: 0  Warnings: 0</span><br><span class="line">mysql&gt; select * from stumarks;</span><br><span class="line">+----+-------+-------+</span><br><span class="line">| id | stuno | score |</span><br><span class="line">+----+-------+-------+</span><br><span class="line">|  1 | 1001  |    88 |</span><br><span class="line">|  2 | 1002  |    99 |</span><br><span class="line">+----+-------+-------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from stuinfo;</span><br><span class="line">+-------+---------+</span><br><span class="line">| stuno | stuname |</span><br><span class="line">+-------+---------+</span><br><span class="line">| 1001  | tom     |</span><br><span class="line">| 1002  | berry   |</span><br><span class="line">+-------+---------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; delete from stuinfo where stuno=&apos;1001&apos;;</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from stumarks;</span><br><span class="line">+----+-------+-------+</span><br><span class="line">| id | stuno | score |</span><br><span class="line">+----+-------+-------+</span><br><span class="line">|  1 | NULL  |    88 |</span><br><span class="line">|  2 | 1002  |    99 |</span><br><span class="line">+----+-------+-------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; update stuinfo set stuno=&apos;1003&apos; where stuno=&apos;1002&apos;;</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line">Rows matched: 1  Changed: 1  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from stumarks;</span><br><span class="line">+----+-------+-------+</span><br><span class="line">| id | stuno | score |</span><br><span class="line">+----+-------+-------+</span><br><span class="line">|  1 | NULL  |    88 |</span><br><span class="line">|  2 | 1003  |    99 |</span><br><span class="line">+----+-------+-------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<h3 id="再来一戳，外键级联"><a href="#再来一戳，外键级联" class="headerlink" title="再来一戳，外键级联"></a>再来一戳，外键级联</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE stumarks DROP FOREIGN KEY `FK1`;</span><br><span class="line"></span><br><span class="line">DROP TABLE</span><br><span class="line">IF EXISTS stuinfo;</span><br><span class="line"></span><br><span class="line">DROP TABLE</span><br><span class="line">IF EXISTS stumarks;</span><br><span class="line"></span><br><span class="line">CREATE TABLE stuinfo(</span><br><span class="line">    stuno CHAR(4) PRIMARY KEY ,</span><br><span class="line">    stuname VARCHAR(10)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">CREATE TABLE stumarks(</span><br><span class="line">    id INT auto_increment PRIMARY KEY ,</span><br><span class="line">    stuno CHAR(4) UNIQUE KEY,</span><br><span class="line">    stuscore TINYINT(3) ,</span><br><span class="line">    CONSTRAINT `FK1` FOREIGN KEY(stuno) REFERENCES stuinfo(stuno) ON DELETE</span><br><span class="line">SET NULL ON UPDATE CASCADE</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>经验总结：设置级联外键由于 on delete set null 的原因不能设置外键为主键，解决外键数据完整的方法是给外键增加为一件 unique key;</p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/20150829-1.html" rel="next" title="MySQL 知识、数据库、数据表">
+                <i class="fa fa-chevron-left"></i> MySQL 知识、数据库、数据表
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/20150901-1.html" rel="prev" title="MySQL 数据库设计及步骤">
+                MySQL 数据库设计及步骤 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/default_avatar.png"
+                alt="uiste" />
+            
+              <p class="site-author-name" itemprop="name">uiste</p>
+              <p class="site-description motion-element" itemprop="description">Stay Hungry，Stay Foolish</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">122</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">66</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/uiste" target="_blank" title="GitHub"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/uiste" target="_blank" title="微博"><i class="fa fa-fw fa-globe"></i>微博</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.zhihu.com/people/uiste" target="_blank" title="知乎"><i class="fa fa-fw fa-globe"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.xiaomanyu.cn" title="Mandy画站" target="_blank">Mandy画站</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据类型"><span class="nav-number">1.</span> <span class="nav-text">数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据类型——值类型"><span class="nav-number">1.1.</span> <span class="nav-text">数据类型——值类型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#整型"><span class="nav-number">1.1.1.</span> <span class="nav-text">整型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#浮点型（保存近似值小数）"><span class="nav-number">1.1.2.</span> <span class="nav-text">浮点型（保存近似值小数）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据类型——字符型"><span class="nav-number">1.2.</span> <span class="nav-text">数据类型——字符型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据类型——枚举（enum）"><span class="nav-number">1.3.</span> <span class="nav-text">数据类型——枚举（enum）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据类型——集合（set"><span class="nav-number">1.4.</span> <span class="nav-text">数据类型——集合（set)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据类型——日期类型"><span class="nav-number">1.5.</span> <span class="nav-text">数据类型——日期类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据类型——boolean"><span class="nav-number">1.6.</span> <span class="nav-text">数据类型——boolean</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建数据表的数据类型"><span class="nav-number">1.7.</span> <span class="nav-text">创建数据表的数据类型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列属性-是否为空-null-not-null"><span class="nav-number">2.</span> <span class="nav-text">列属性-是否为空(null | not null)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#列属性——默认值（default）"><span class="nav-number">2.1.</span> <span class="nav-text">列属性——默认值（default）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#列属性——自动增长（auto-increment）"><span class="nav-number">2.2.</span> <span class="nav-text">列属性——自动增长（auto_increment）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#列属性——主键（primary-key）"><span class="nav-number">2.3.</span> <span class="nav-text">列属性——主键（primary key）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#添加主键：方法一【创建表的时候添加主键】"><span class="nav-number">2.3.1.</span> <span class="nav-text">添加主键：方法一【创建表的时候添加主键】</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#添加主键：方法二【创建表的时候添加主键】"><span class="nav-number">2.3.2.</span> <span class="nav-text">添加主键：方法二【创建表的时候添加主键】</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#添加主键：方法三【更改表的时候添加主键】"><span class="nav-number">2.3.3.</span> <span class="nav-text">添加主键：方法三【更改表的时候添加主键】</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#查看主键"><span class="nav-number">2.3.4.</span> <span class="nav-text">查看主键</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#创建组合键"><span class="nav-number">2.3.5.</span> <span class="nav-text">创建组合键</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#删除主键"><span class="nav-number">2.3.6.</span> <span class="nav-text">删除主键</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#选择主键的原则"><span class="nav-number">2.3.7.</span> <span class="nav-text">选择主键的原则</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#主键思考题"><span class="nav-number">2.3.8.</span> <span class="nav-text">主键思考题</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#列属性——唯一键"><span class="nav-number">2.4.</span> <span class="nav-text">列属性——唯一键</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#添加唯一键【创建表的时候添加唯一键】"><span class="nav-number">2.4.1.</span> <span class="nav-text">添加唯一键【创建表的时候添加唯一键】</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#添加唯一键【创建表的时候添加唯一键】-1"><span class="nav-number">2.4.2.</span> <span class="nav-text">添加唯一键【创建表的时候添加唯一键】</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#设置名字的唯一键"><span class="nav-number">2.4.3.</span> <span class="nav-text">设置名字的唯一键</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#添加唯一键【修改表的时候添加唯一键】"><span class="nav-number">2.4.4.</span> <span class="nav-text">添加唯一键【修改表的时候添加唯一键】</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#查看唯一键"><span class="nav-number">2.4.5.</span> <span class="nav-text">查看唯一键</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#添加组合唯一键"><span class="nav-number">2.4.6.</span> <span class="nav-text">添加组合唯一键</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#删除唯一键"><span class="nav-number">2.4.7.</span> <span class="nav-text">删除唯一键</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#列属性——备注（comment）"><span class="nav-number">2.4.8.</span> <span class="nav-text">列属性——备注（comment）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SQL注释"><span class="nav-number">2.4.9.</span> <span class="nav-text">SQL注释</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据完整性"><span class="nav-number">2.5.</span> <span class="nav-text">数据完整性</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#保证实体完整性"><span class="nav-number">2.5.1.</span> <span class="nav-text">保证实体完整性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#保证域完整性"><span class="nav-number">2.5.2.</span> <span class="nav-text">保证域完整性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#保证引用完整性"><span class="nav-number">2.5.3.</span> <span class="nav-text">保证引用完整性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#保证自定义完整性"><span class="nav-number">2.5.4.</span> <span class="nav-text">保证自定义完整性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#主表和从表"><span class="nav-number">2.5.5.</span> <span class="nav-text">主表和从表</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#外键（foreign-key）"><span class="nav-number">2.6.</span> <span class="nav-text">外键（foreign key）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#添加外键"><span class="nav-number">2.6.1.</span> <span class="nav-text">添加外键</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#删除外键"><span class="nav-number">2.6.2.</span> <span class="nav-text">删除外键</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#外键操作"><span class="nav-number">2.6.3.</span> <span class="nav-text">外键操作</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#再来一戳，外键级联"><span class="nav-number">3.</span> <span class="nav-text">再来一戳，外键级联</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">uiste</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+      <div>
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57838eee5e2620d0" async = "async" ></script>
+</div>
+
+      </div>
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

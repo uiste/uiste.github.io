@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本章是需要熟记的函数，使用的时候有问题查手册 操作数组的函数is_array()判断一个变量是否是一个数组，返回是一个布尔型，如果是数组返回真，如果不是数组，返回假 array_search()查找一个值是否正在一个数组中，返回的是以键名语法：$arr = array_search(&amp;#39;3&amp;#39;,$arr);  array_search()查找值区分大小写，不区分数据类型，如果出现同值问">
+<meta name="keywords" content="PHP核心编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php数组、字符串">
+<meta property="og:url" content="http://blog.uiste.com/2015/20150827-1.html">
+<meta property="og:site_name" content="uiste">
+<meta property="og:description" content="本章是需要熟记的函数，使用的时候有问题查手册 操作数组的函数is_array()判断一个变量是否是一个数组，返回是一个布尔型，如果是数组返回真，如果不是数组，返回假 array_search()查找一个值是否正在一个数组中，返回的是以键名语法：$arr = array_search(&amp;#39;3&amp;#39;,$arr);  array_search()查找值区分大小写，不区分数据类型，如果出现同值问">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-19T01:57:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="php数组、字符串">
+<meta name="twitter:description" content="本章是需要熟记的函数，使用的时候有问题查手册 操作数组的函数is_array()判断一个变量是否是一个数组，返回是一个布尔型，如果是数组返回真，如果不是数组，返回假 array_search()查找一个值是否正在一个数组中，返回的是以键名语法：$arr = array_search(&amp;#39;3&amp;#39;,$arr);  array_search()查找值区分大小写，不区分数据类型，如果出现同值问">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="uiste" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://blog.uiste.com/2015/20150827-1.html"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>php数组、字符串 | uiste</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">uiste</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">uiste</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'aSf9eNpjToN3z8HppMAx','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    <!--  -->
+    
+    
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150827-1.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="uiste">
+      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="uiste">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">php数组、字符串
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2015-08-27 17:18:51" itemprop="dateCreated datePublished" datetime="2015-08-27T17:18:51+08:00">2015-08-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-19 09:57:01" itemprop="dateModified" datetime="2018-10-19T09:57:01+08:00">2018-10-19</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>本章是需要熟记的函数，使用的时候有问题查手册</strong></p>
+<h3 id="操作数组的函数"><a href="#操作数组的函数" class="headerlink" title="操作数组的函数"></a>操作数组的函数</h3><h4 id="is-array"><a href="#is-array" class="headerlink" title="is_array()"></a>is_array()</h4><p>判断一个变量是否是一个数组，返回是一个布尔型，如果是数组返回真，如果不是数组，返回假</p>
+<h4 id="array-search"><a href="#array-search" class="headerlink" title="array_search()"></a>array_search()</h4><p>查找一个值是否正在一个数组中，返回的是以键名<br>语法：<code>$arr = array_search(&#39;3&#39;,$arr);</code></p>
+<blockquote>
+<p>array_search()查找值区分大小写，不区分数据类型，如果出现同值问题，取前面第一个下标。<br>第三个参数如果是true则区分数据类型<code>$arr = array_search(&#39;3&#39;,$arr,true);</code></p>
+</blockquote>
+<h3 id="操作键值的函数"><a href="#操作键值的函数" class="headerlink" title="操作键值的函数"></a>操作键值的函数</h3><h4 id="array-keys"><a href="#array-keys" class="headerlink" title="array_keys()"></a>array_keys()</h4><p>获取数组中的所有下标，以一个索引数组的模式返回<br>语法：<code>$arr2 = array_keys($arr);</code></p>
+<blockquote>
+<p>获取的数组，下标从0开始依次递增</p>
+</blockquote>
+<h4 id="array-values"><a href="#array-values" class="headerlink" title="array_values()"></a>array_values()</h4><p>获取数组中的所有值，以一个索引数组的模式返回<br>语法：<code>$arr3 = array_values($arr);</code></p>
+<blockquote>
+<p>如果值是一个数组，也同样将这个数组当成以值赋值给数组</p>
+</blockquote>
+<h4 id="array-combine"><a href="#array-combine" class="headerlink" title="array_combine()"></a>array_combine()</h4><p>将两个数组的值合并成一个数组，第一个数组是下标，第二个数组是值<br>语法：<code>$arr4 = array_combine($arr1,$arr2);</code></p>
+<blockquote>
+<p>返回的数据类型是一个数组。两个数组参数的元素个数必须要一一对应</p>
+</blockquote>
+<h4 id="in-array"><a href="#in-array" class="headerlink" title="in_array()"></a>in_array()</h4><p>查找数组中的某一个值是否存在<br>语法：<code>var_dump(in_array(&#39;a&#39;,$arr));</code></p>
+<blockquote>
+<p>in_array查找是区分大小写的，并且默认不区分数据类型，如果想让他区分数据类型，将第三个参数修改为true即可；<br>第一个参数是需要查找的值，第二个参数是查找的数组，返回的结果是一个布尔值<br>而array_search返回的是一个键名</p>
+</blockquote>
+<h4 id="array-key-exists"><a href="#array-key-exists" class="headerlink" title="array_key_exists()"></a>array_key_exists()</h4><p>查找一个键是否在某个数组中<br>语法：<code>var_dump(array_key_exists(&#39;1&#39;,$arr));</code></p>
+<blockquote>
+<p>第一个参数是需要查找的下标，第二个参数是需要寻找的数组，返回的结果是一个boolean型<br>本身就不区分数据类型，没有第三个参数；</p>
+</blockquote>
+<h4 id="isset"><a href="#isset" class="headerlink" title="isset()"></a>isset()</h4><p>判断一个变量是否已经被定义，如果没有被定义或者值为null返回的结果是false<br>语法：<code>var_dump(isset($arr[&#39;b&#39;]));</code></p>
+<blockquote>
+<p>isset()和array_key_exists的区别，如果下标对应的值为空。isset返回的结果是false，array_key_exists返回的结果是true</p>
+</blockquote>
+<h3 id="合并和拆分字符、数组的函数"><a href="#合并和拆分字符、数组的函数" class="headerlink" title="合并和拆分字符、数组的函数"></a>合并和拆分字符、数组的函数</h3><h4 id="implode"><a href="#implode" class="headerlink" title="implode()"></a>implode()</h4><p>将一个数组里面的元素合并成一个字符串<br>语法：<code>$str = implode(&#39;&#39;,$arr);</code></p>
+<blockquote>
+<p>两个参数，第一个是元素值和值之间连接的符号（第一个可以不写），第二个参数是你需要遍历的数组。join()就是implode别名函数</p>
+</blockquote>
+<h4 id="explode"><a href="#explode" class="headerlink" title="explode()"></a>explode()</h4><p>将一个字符串拆分成一个数组<br>语法：<code>$arr = explode(&#39;a&#39;,$str);</code></p>
+<blockquote>
+<p>两个参数，第一个是拆分字符串的标志，第二个参数是需要拆分的字符串</p>
+</blockquote>
+<p>语法：<code>$arr = explode(&#39;a&#39;,$str,3);</code></p>
+<blockquote>
+<p>如果第三个元素是正整数，分割成三个部分，最后一个元素会将包含剩下的所有的包含<br>如果第三个原始是负整数，则会将最后的3个元素抛弃，</p>
+</blockquote>
+<h3 id="数组的交并差"><a href="#数组的交并差" class="headerlink" title="数组的交并差"></a>数组的交并差</h3><h4 id="array-merge"><a href="#array-merge" class="headerlink" title="array_merge()"></a>array_merge()</h4><p>合并两个数组：array_merge(数组1,数组2)<br>语法：<code>$arr = array_merge(range(0,9),range(&#39;a&#39;,&#39;z&#39;));</code></p>
+<blockquote>
+<p>array_merge如果合并两个数字下标的数组，会将数字重新从0进行组合。<br>array_merge如果合并两个字符串下标的数组，后面的值会将前面的值覆盖。<br>array_merge合并两个数组，先从第一个数组开始合并，然后在合并第二个数组。</p>
+</blockquote>
+<h4 id="array-diff"><a href="#array-diff" class="headerlink" title="array_diff()"></a>array_diff()</h4><p>计算数组差值<br>语法：<code>array array_diff ( array $array1 , array $array2 [, array $... ] )</code></p>
+<blockquote>
+<p>对比返回在 array1 中但是不在 array2 及任何其它参数数组中的值。<br>返回一个数组，该数组包括了所有在 array1 中但是不在任何其它参数数组中的值。注意键名保留不变</p>
+</blockquote>
+<h4 id="array-intersect"><a href="#array-intersect" class="headerlink" title="array_intersect()"></a>array_intersect()</h4><p>计算数组的交集<br>语法：<code>array array_intersect ( array $array1 , array $array2 [, array $ ... ] )</code></p>
+<blockquote>
+<p>array_intersect() 返回一个数组，该数组包含了所有在 array1 中也同时出现在所有其它参数数组中的值。注意键名保留不变。</p>
+</blockquote>
+<h3 id="函数遍历数组"><a href="#函数遍历数组" class="headerlink" title="函数遍历数组"></a>函数遍历数组</h3><p>回调函数是由计算机自己去调用php中的函数</p>
+<h4 id="array-map"><a href="#array-map" class="headerlink" title="array_map()"></a>array_map()</h4><p>将回调函数作用到给定数组的单元上<br>语法：<code>array array_map ( callable $callback , array $arr1 [, array $... ] )</code><br>语法： array_map(‘函数名’,数组名)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//使用系统函数，调用数组</span><br><span class="line">$arr=array(10,-12,46,-9,-45);</span><br><span class="line">$arr2 = array_map(&apos;abs&apos;,$arr);</span><br><span class="line">var_dump($arr2);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//使用自身定义的函数，调用数组</span><br><span class="line">$arr=array(10,-12,46,-9,-45);</span><br><span class="line">fucntion fn($num)&#123;</span><br><span class="line">	$num+=10;</span><br><span class="line">	return $num;</span><br><span class="line">&#125;</span><br><span class="line">$arr2 = array_map(&apos;fn&apos;,$arr);</span><br><span class="line">var_dump($arr2);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//使用匿名函数，调用数组</span><br><span class="line">$arr=array(10,-12,46,-9,-45);</span><br><span class="line">$arr2 = array_map(function($name)&#123;return &apos;hello&apos;.$name;&#125;,$arr);</span><br><span class="line">var_dump($arr2);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>结果将所有数字转换为正数；</p>
+</blockquote>
+<blockquote>
+<ol>
+<li><code>array_map()</code>返回一个数组，该数组包含了 arr1 中的所有单元经过 callback 作用过之后的单元。callback 接受的参数数目应该和传递给 array_map() 函数的数组数目一致。</li>
+<li>array_map去回调我们自己定义好的函数</li>
+<li>除了第一个参数直接写函数名的方法以外，我们也可以直接写一个匿名函数，达到回调函数的功能</li>
+<li>如果第一个参数的值为null，则会把后面的数组的每一个值取出来进行拼接，合并成一个新的数组</li>
+</ol>
+</blockquote>
+<h4 id="array-walk"><a href="#array-walk" class="headerlink" title="array_walk()"></a>array_walk()</h4><p>功能类似于遍历数组，可以同时获取数组里面的值和下标</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$arr = array(&apos;name&apos;=&gt;&apos;张无忌&apos;,&apos;age&apos;=&gt;528,&apos;sex&apos;=&apos;男&apos;);</span><br><span class="line">function fn($value,$key)&#123;</span><br><span class="line">	echo $key.&apos;-&apos;.$value.&apos;&lt;br&gt;&apos;;</span><br><span class="line">&#125;</span><br><span class="line">$arr2 = array_walk($arr,&apos;fn&apos;);</span><br></pre></td></tr></table></figure>
+<p>可以分别获取下标和值，进行计算。如果函数只写一个参数，则获取的是数组里面的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$arr2 = array_walk($arr,function($value,$key)&#123;</span><br><span class="line">	echo $key.&apos;-&gt;&apos;.$value,&apos;&lt;br&gt;&apos;;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>array_walk同样支持匿名函数的用法</p>
+</blockquote>
+<ul>
+<li><p>接触最多的回调函数还是<code>array_map()，array_walk()</code>用的次数相对于而言，比较少。</p>
+</li>
+<li><p>array_walk第一个参数写的数组名，第二个参数写的才是调用的数组<br>array_walk返回的结果只会是一个布尔型的结果，如果array_walk执行成功返回的记过就是true，如果array_walk执行失败，返回的救过就是false，他不会生成一个新的数组；</p>
+</li>
+</ul>
+<h3 id="栈和队列"><a href="#栈和队列" class="headerlink" title="栈和队列"></a>栈和队列</h3><p>栈的特点就是先进后出，后进先出。<br>队列的特点就是先进先出，后进后出。</p>
+<h4 id="array-push"><a href="#array-push" class="headerlink" title="array_push()"></a>array_push()</h4><p>第一个参数是需要放置的数组，后面的参数是需要放置的元素</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$arr = array();</span><br><span class="line">array_push($arr,&apos;a&apos;);</span><br><span class="line">array_push($arr,&apos;b&apos;,&apos;c&apos;,&apos;d&apos;);</span><br><span class="line">print_r($arr);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>一次性可以放置多个元素</p>
+</blockquote>
+<h4 id="array-pop"><a href="#array-pop" class="headerlink" title="array_pop()"></a>array_pop()</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$arr = array();</span><br><span class="line">array_push($arr,&apos;a&apos;);</span><br><span class="line">array_push($arr,&apos;b&apos;,&apos;c&apos;,&apos;d&apos;);</span><br><span class="line">array_pop($arr);</span><br><span class="line">array_pop($arr);</span><br><span class="line">print_r($arr);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>出栈一次只能出一个元素。d和c后进的元素，先被拿出来了</p>
+</blockquote>
+<p>返回结果：mexd,溢出的元素</p>
+<h4 id="array-shift"><a href="#array-shift" class="headerlink" title="array_shift()"></a>array_shift()</h4><p>出队列</p>
+<blockquote>
+<p>思考：unset和arr_shift有什么区别？<br>答案：使用array_shift去移除一个元素，那个其他的元素位置会往前移一位，保持数据完整性；但是unset删除一个元素，下标也会被删除</p>
+</blockquote>
+<h4 id="array-unshift"><a href="#array-unshift" class="headerlink" title="array_unshift()"></a>array_unshift()</h4><p>就是在数组的第一个位置插入一个元素。</p>
+<blockquote>
+<p>往数组里面第一个元素的位置放置一个元素。</p>
+</blockquote>
+<blockquote>
+<p>栈和队列的优点：栈和队列都是有效保证数据的完整性；</p>
+</blockquote>
+<h3 id="数组的排序"><a href="#数组的排序" class="headerlink" title="数组的排序"></a>数组的排序</h3><h4 id="sort"><a href="#sort" class="headerlink" title="sort()"></a>sort()</h4><p>按照数值值得大小进行排序。从小到大的顺序</p>
+<blockquote>
+<p>将原有的下标丢弃，从0开始依次递增</p>
+</blockquote>
+<h4 id="rsort"><a href="#rsort" class="headerlink" title="rsort()"></a>rsort()</h4><p>按照数组的数值进行排序，从大到小的顺序。</p>
+<blockquote>
+<p>也是将原有的下标丢弃，从0开始依次递增</p>
+</blockquote>
+<h4 id="asort"><a href="#asort" class="headerlink" title="asort()"></a>asort()</h4><p>按照数组的数值进行排序，从小到大排序，但是会保留下标</p>
+<h4 id="arsort"><a href="#arsort" class="headerlink" title="arsort()"></a>arsort()</h4><p>按照数组的数值进行排序，从大到小排序，但是会保留下标</p>
+<h4 id="ksort"><a href="#ksort" class="headerlink" title="ksort()"></a>ksort()</h4><p>按照数组的下标顺序进行排序。从小到大进行排序</p>
+<h4 id="krsort"><a href="#krsort" class="headerlink" title="krsort()"></a>krsort()</h4><p>按照数组的下标顺序进行排序，从大到小进行排序</p>
+<h4 id="natsort"><a href="#natsort" class="headerlink" title="natsort()"></a>natsort()</h4><p>自然排序</p>
+<blockquote>
+<p>将字符串整体进行排序，而sort会挨个字符进行比较，然后进行排序</p>
+</blockquote>
+<h4 id="usort"><a href="#usort" class="headerlink" title="usort()"></a>usort()</h4><p>自定义排序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$arr = array(</span><br><span class="line">	array(&apos;name&apos;=&gt;&apos;jack&apos;,&apos;math&apos;=&gt;78,&apos;age&apos;=&gt;56),</span><br><span class="line">	array(&apos;name&apos;=&gt;&apos;rose&apos;,&apos;math&apos;=&gt;98,&apos;age&apos;=&gt;14),</span><br><span class="line">	array(&apos;name&apos;=&gt;&apos;jame&apos;,&apos;math&apos;=&gt;56,&apos;age&apos;=&gt;67),</span><br><span class="line">	array(&apos;name&apos;=&gt;&apos;uiste&apos;,&apos;math&apos;=&gt;45,&apos;age&apos;=&gt;24)</span><br><span class="line">	);</span><br><span class="line">usort($arr,function($num1,$num2)&#123;</span><br><span class="line">	if ($num1[&apos;age&apos;]&gt;$num2[&apos;age&apos;]) &#123;</span><br><span class="line">		return 1;</span><br><span class="line">	&#125;elseif ($num1[&apos;age&apos;]&lt;$num2[&apos;age&apos;]) &#123;</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;else&#123;</span><br><span class="line">		return 0;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">echo &quot;&lt;pre&gt;&quot;;</span><br><span class="line">print_r($arr);</span><br><span class="line">echo &quot;&lt;/pre&gt;&quot;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在第一个参数小于，等于或大于第二个参数时，该比较函数必须相应地返回一个小于，等于或大于0的整数。</p>
+</blockquote>
+<p>如果return -1则值放在前面<br>如果 return 1 则值放在后面<br>如果 return 0 则值的位置不发生变化</p>
+<h3 id="关于字符串的函数"><a href="#关于字符串的函数" class="headerlink" title="关于字符串的函数"></a>关于字符串的函数</h3><h4 id=""><a href="#" class="headerlink" title="[]"></a>[]</h4><p>字符串可以理解成字符的合计。</p>
+<blockquote>
+<p>所以，[]就是获取字符串中的某一个字符</p>
+</blockquote>
+<h4 id="strlen"><a href="#strlen" class="headerlink" title="strlen()"></a>strlen()</h4><p>获取字符串的长度</p>
+<blockquote>
+<p>获取长度的单位是字节,中文下的感叹号也被分解为三个字节；空格也在空间</p>
+</blockquote>
+<h4 id="trim"><a href="#trim" class="headerlink" title="trim()"></a>trim()</h4><p>去除两边的空格</p>
+<h4 id="rtrim"><a href="#rtrim" class="headerlink" title="rtrim()"></a>rtrim()</h4><p>除去右边的空格</p>
+<h4 id="ltrim"><a href="#ltrim" class="headerlink" title="ltrim()"></a>ltrim()</h4><p>去除左边的空格</p>
+<h4 id="strpos"><a href="#strpos" class="headerlink" title="strpos()"></a>strpos()</h4><p>获取字符串某个字符的位置<br>语法：<code>strpos($str,&#39;b&#39;);</code></p>
+<blockquote>
+<p>获取某个字符首次出现的位置。如果后面加上第三个参数，代表字符串从某个位置开始往后去寻找。如果没写第三个参数，则第三个参数默认为0</p>
+</blockquote>
+<p>语法：<code>strpos($str,&#39;b&#39;,3);</code></p>
+<blockquote>
+<p>参数为3，则是从字符串第4个位置开始去寻找</p>
+</blockquote>
+<h4 id="strrpos"><a href="#strrpos" class="headerlink" title="strrpos()"></a>strrpos()</h4><p>获取某个字符出现的最后一个位置<br>语法：<code>var_dump(strrpo($str,&#39;b&#39;,2));</code></p>
+<blockquote>
+<p>从右往左查找，第三个参数代表最终查找到某个字符结束。找到返回下标，找不到返回false;</p>
+</blockquote>
+<h4 id="str-repeat"><a href="#str-repeat" class="headerlink" title="str_repeat()"></a>str_repeat()</h4><p>将某个字符串重复多少次</p>
+<blockquote>
+<p>第一个参数是需要重复的字符串，第二个参数重复的次数；</p>
+</blockquote>
+<h4 id="chr"><a href="#chr" class="headerlink" title="chr()"></a>chr()</h4><p>将一个数字转换成ASCII码</p>
+<h4 id="ord"><a href="#ord" class="headerlink" title="ord()"></a>ord()</h4><p>将一个ASCII转换成对应的数字</p>
+<h4 id="substr"><a href="#substr" class="headerlink" title="substr()"></a>substr()</h4><p>截取某个字符串<br>语法：<code>substr($str,3);</code></p>
+<blockquote>
+<p>从下标为3的字符开始，一直截取到结束</p>
+</blockquote>
+<p>语法：<code>substr($str,3,4);</code></p>
+<blockquote>
+<p>从下标为3的字符开始，截取4个字符</p>
+</blockquote>
+<p>语法：<code>substr($str,3,-3);</code></p>
+<blockquote>
+<p>从下标为3的字符开始截取，舍去最后三个字符</p>
+</blockquote>
+<p>语法：<code>substr($str,-4,2);</code></p>
+<blockquote>
+<p>从右往左数4个字符开始截取，截取2个</p>
+</blockquote>
+<p>语法：<code>substr($str,-5,-2);</code></p>
+<blockquote>
+<p>从右往左数第五个字符开始截取，截取到倒数第二位终止</p>
+</blockquote>
+<h4 id="strchr"><a href="#strchr" class="headerlink" title="strchr()"></a>strchr()</h4><p>从某个字符开始截取<br>语法：<code>strchr($str,&#39;c&#39;);</code></p>
+<blockquote>
+<p>从左往右第一个c开始截取到最后（区分大小写）</p>
+</blockquote>
+<blockquote>
+<p>strstr()的功能和strchr()的功能一模一样，只不过名称不同</p>
+</blockquote>
+<h4 id="stristr"><a href="#stristr" class="headerlink" title="stristr()"></a>stristr()</h4><p>也是从某个字符开始截取，但是不区分大小写</p>
+<h4 id="strrchr"><a href="#strrchr" class="headerlink" title="strrchr()"></a>strrchr()</h4><p>从某个字符最后出现的位置开始往后截取</p>
+<blockquote>
+<p>可以非常方便的获取文件的后缀名</p>
+</blockquote>
+<h4 id="str-replace"><a href="#str-replace" class="headerlink" title="str_replace()"></a>str_replace()</h4><p>语法：<code>str_replace(替换前的字符串，替换后的字符串，需要替换的字符串)</code></p>
+<h4 id="str-split"><a href="#str-split" class="headerlink" title="str_split()"></a>str_split()</h4><p>分割字符串，生成一个数组</p>
+<blockquote>
+<p>第一个参数是一个字符串，第二个参数代表以几个字节进行拆分<br>explode是以字符进行拆分的</p>
+</blockquote>
+<h4 id="str-pad"><a href="#str-pad" class="headerlink" title="str_pad()"></a>str_pad()</h4><p>填充字符串</p>
+<blockquote>
+<p>四个参数组成，第一个是填充的字符串，第二个是长度，第三个是填充物，第四个是左，右，两边填充</p>
+</blockquote>
+<h4 id="strtolower"><a href="#strtolower" class="headerlink" title="strtolower()"></a>strtolower()</h4><p>将一个字符串转换成全小写</p>
+<h4 id="strtoupper"><a href="#strtoupper" class="headerlink" title="strtoupper()"></a>strtoupper()</h4><p>将一个字符串转换成全大写</p>
+<h4 id="nl2br"><a href="#nl2br" class="headerlink" title="nl2br()"></a>nl2br()</h4><p>将\n转换成<br></p>
+<h4 id="htmlspecialchars"><a href="#htmlspecialchars" class="headerlink" title="htmlspecialchars():"></a>htmlspecialchars():</h4><p>将标签当成普通文本输出</p>
+<h4 id="urlencode"><a href="#urlencode" class="headerlink" title="urlencode()"></a>urlencode()</h4><p>可以将字符串进行加密</p>
+<h4 id="urldecode"><a href="#urldecode" class="headerlink" title="urldecode()"></a>urldecode()</h4><p>可以将加密好的字符串进行解码</p>
+<h3 id="多字符处理函数"><a href="#多字符处理函数" class="headerlink" title="多字符处理函数"></a>多字符处理函数</h3><p>多字符处理函数，不是php默认的开启模式，需要通过配置php.ini进行操作</p>
+<blockquote>
+<p>extension=php_mbstring.dll</p>
+</blockquote>
+<h4 id="mb-strlen"><a href="#mb-strlen" class="headerlink" title="mb_strlen()"></a>mb_strlen()</h4><p>获取字符的长度</p>
+<blockquote>
+<p>第一个参数是我们需要获取的字符串，第二个参数是选择的编码格式</p>
+</blockquote>
+<h4 id="mb-internal-encoding"><a href="#mb-internal-encoding" class="headerlink" title="mb_internal_encoding()"></a>mb_internal_encoding()</h4><ul>
+<li>获取当前的编码格式（不加参数）</li>
+<li>修改当前的编码模式（增加参数）</li>
+</ul>
+<h4 id="mb-strpos"><a href="#mb-strpos" class="headerlink" title="mb_strpos()"></a>mb_strpos()</h4><p>查找当前某个字符的位置</p>
+<h4 id="mb-substr"><a href="#mb-substr" class="headerlink" title="mb_substr()"></a>mb_substr()</h4><p>截取字符</p>
+<h4 id="iconv"><a href="#iconv" class="headerlink" title="iconv()"></a>iconv()</h4><p>转换格式</p>
+<blockquote>
+<p>里面三个参数，第一个是当前的编码，第二个是转换后的编码，第三个是需要转换的字符串</p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PHP核心编程/" rel="tag"># PHP核心编程</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/20150826-1.html" rel="next" title="php数组相关">
+                <i class="fa fa-chevron-left"></i> php数组相关
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/20150828-1.html" rel="prev" title="php数组比较-usort">
+                php数组比较-usort <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/default_avatar.png"
+                alt="uiste" />
+            
+              <p class="site-author-name" itemprop="name">uiste</p>
+              <p class="site-description motion-element" itemprop="description">Stay Hungry，Stay Foolish</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">122</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">66</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/uiste" target="_blank" title="GitHub"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/uiste" target="_blank" title="微博"><i class="fa fa-fw fa-globe"></i>微博</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.zhihu.com/people/uiste" target="_blank" title="知乎"><i class="fa fa-fw fa-globe"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.xiaomanyu.cn" title="Mandy画站" target="_blank">Mandy画站</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#操作数组的函数"><span class="nav-number">1.</span> <span class="nav-text">操作数组的函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#is-array"><span class="nav-number">1.1.</span> <span class="nav-text">is_array()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#array-search"><span class="nav-number">1.2.</span> <span class="nav-text">array_search()</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作键值的函数"><span class="nav-number">2.</span> <span class="nav-text">操作键值的函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#array-keys"><span class="nav-number">2.1.</span> <span class="nav-text">array_keys()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#array-values"><span class="nav-number">2.2.</span> <span class="nav-text">array_values()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#array-combine"><span class="nav-number">2.3.</span> <span class="nav-text">array_combine()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#in-array"><span class="nav-number">2.4.</span> <span class="nav-text">in_array()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#array-key-exists"><span class="nav-number">2.5.</span> <span class="nav-text">array_key_exists()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#isset"><span class="nav-number">2.6.</span> <span class="nav-text">isset()</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#合并和拆分字符、数组的函数"><span class="nav-number">3.</span> <span class="nav-text">合并和拆分字符、数组的函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#implode"><span class="nav-number">3.1.</span> <span class="nav-text">implode()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#explode"><span class="nav-number">3.2.</span> <span class="nav-text">explode()</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组的交并差"><span class="nav-number">4.</span> <span class="nav-text">数组的交并差</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#array-merge"><span class="nav-number">4.1.</span> <span class="nav-text">array_merge()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#array-diff"><span class="nav-number">4.2.</span> <span class="nav-text">array_diff()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#array-intersect"><span class="nav-number">4.3.</span> <span class="nav-text">array_intersect()</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数遍历数组"><span class="nav-number">5.</span> <span class="nav-text">函数遍历数组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#array-map"><span class="nav-number">5.1.</span> <span class="nav-text">array_map()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#array-walk"><span class="nav-number">5.2.</span> <span class="nav-text">array_walk()</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#栈和队列"><span class="nav-number">6.</span> <span class="nav-text">栈和队列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#array-push"><span class="nav-number">6.1.</span> <span class="nav-text">array_push()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#array-pop"><span class="nav-number">6.2.</span> <span class="nav-text">array_pop()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#array-shift"><span class="nav-number">6.3.</span> <span class="nav-text">array_shift()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#array-unshift"><span class="nav-number">6.4.</span> <span class="nav-text">array_unshift()</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组的排序"><span class="nav-number">7.</span> <span class="nav-text">数组的排序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sort"><span class="nav-number">7.1.</span> <span class="nav-text">sort()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rsort"><span class="nav-number">7.2.</span> <span class="nav-text">rsort()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#asort"><span class="nav-number">7.3.</span> <span class="nav-text">asort()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#arsort"><span class="nav-number">7.4.</span> <span class="nav-text">arsort()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ksort"><span class="nav-number">7.5.</span> <span class="nav-text">ksort()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#krsort"><span class="nav-number">7.6.</span> <span class="nav-text">krsort()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#natsort"><span class="nav-number">7.7.</span> <span class="nav-text">natsort()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#usort"><span class="nav-number">7.8.</span> <span class="nav-text">usort()</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于字符串的函数"><span class="nav-number">8.</span> <span class="nav-text">关于字符串的函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#"><span class="nav-number">8.1.</span> <span class="nav-text">[]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#strlen"><span class="nav-number">8.2.</span> <span class="nav-text">strlen()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#trim"><span class="nav-number">8.3.</span> <span class="nav-text">trim()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rtrim"><span class="nav-number">8.4.</span> <span class="nav-text">rtrim()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ltrim"><span class="nav-number">8.5.</span> <span class="nav-text">ltrim()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#strpos"><span class="nav-number">8.6.</span> <span class="nav-text">strpos()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#strrpos"><span class="nav-number">8.7.</span> <span class="nav-text">strrpos()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#str-repeat"><span class="nav-number">8.8.</span> <span class="nav-text">str_repeat()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#chr"><span class="nav-number">8.9.</span> <span class="nav-text">chr()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ord"><span class="nav-number">8.10.</span> <span class="nav-text">ord()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#substr"><span class="nav-number">8.11.</span> <span class="nav-text">substr()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#strchr"><span class="nav-number">8.12.</span> <span class="nav-text">strchr()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#stristr"><span class="nav-number">8.13.</span> <span class="nav-text">stristr()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#strrchr"><span class="nav-number">8.14.</span> <span class="nav-text">strrchr()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#str-replace"><span class="nav-number">8.15.</span> <span class="nav-text">str_replace()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#str-split"><span class="nav-number">8.16.</span> <span class="nav-text">str_split()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#str-pad"><span class="nav-number">8.17.</span> <span class="nav-text">str_pad()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#strtolower"><span class="nav-number">8.18.</span> <span class="nav-text">strtolower()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#strtoupper"><span class="nav-number">8.19.</span> <span class="nav-text">strtoupper()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nl2br"><span class="nav-number">8.20.</span> <span class="nav-text">nl2br()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#htmlspecialchars"><span class="nav-number">8.21.</span> <span class="nav-text">htmlspecialchars():</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#urlencode"><span class="nav-number">8.22.</span> <span class="nav-text">urlencode()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#urldecode"><span class="nav-number">8.23.</span> <span class="nav-text">urldecode()</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多字符处理函数"><span class="nav-number">9.</span> <span class="nav-text">多字符处理函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#mb-strlen"><span class="nav-number">9.1.</span> <span class="nav-text">mb_strlen()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mb-internal-encoding"><span class="nav-number">9.2.</span> <span class="nav-text">mb_internal_encoding()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mb-strpos"><span class="nav-number">9.3.</span> <span class="nav-text">mb_strpos()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mb-substr"><span class="nav-number">9.4.</span> <span class="nav-text">mb_substr()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#iconv"><span class="nav-number">9.5.</span> <span class="nav-text">iconv()</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">uiste</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+      <div>
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57838eee5e2620d0" async = "async" ></script>
+</div>
+
+      </div>
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
