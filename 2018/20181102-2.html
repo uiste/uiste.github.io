@@ -107,7 +107,7 @@
 <meta property="og:site_name" content="uiste">
 <meta property="og:description" content="因为安全原因远程服务器的数据库不允许本地直接访问，又没有开启访问IP白名单时，可以通过隧道代理访问。Windows系统通过xsheel可以设置隧道代理。Mac只需要运行如下命令  123ssh -p 22  -i ~/.ssh/id_rsa -fNL 代理端口:代理IP:转发原端口 用户名@远程服务器IPssh -p 22  -i ~/.ssh/id_rsa -fNL 3308:127.0.0.">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-11-02T07:58:06.000Z">
+<meta property="og:updated_time" content="2018-11-03T00:13:03.743Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac配置远程服务器隧道代理">
 <meta name="twitter:description" content="因为安全原因远程服务器的数据库不允许本地直接访问，又没有开启访问IP白名单时，可以通过隧道代理访问。Windows系统通过xsheel可以设置隧道代理。Mac只需要运行如下命令  123ssh -p 22  -i ~/.ssh/id_rsa -fNL 代理端口:代理IP:转发原端口 用户名@远程服务器IPssh -p 22  -i ~/.ssh/id_rsa -fNL 3308:127.0.0.">
@@ -366,12 +366,24 @@
                 
               
 
-              <time title="创建时间：2018-11-02 15:44:54 / 修改时间：15:58:06" itemprop="dateCreated datePublished" datetime="2018-11-02T15:44:54+08:00">2018-11-02</time>
+              <time title="创建时间：2018-11-02 15:44:54" itemprop="dateCreated datePublished" datetime="2018-11-02T15:44:54+08:00">2018-11-02</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-11-03 08:13:03" itemprop="dateModified" datetime="2018-11-03T08:13:03+08:00">2018-11-03</time>
               
             
           </span>
@@ -408,6 +420,10 @@
 <p>因为安全原因远程服务器的数据库不允许本地直接访问，又没有开启访问IP白名单时，可以通过隧道代理访问。Windows系统通过xsheel可以设置隧道代理。Mac只需要运行如下命令</p>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh -p 22  -i ~/.ssh/id_rsa -fNL 代理端口:代理IP:转发原端口 用户名@远程服务器IP</span><br><span class="line"></span><br><span class="line">ssh -p 22  -i ~/.ssh/id_rsa -fNL 3308:127.0.0.1:3306 root@118.xx.xxx.xx</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh -p &#123;ssh_port&#125; -i &#123;rsa_file&#125; -fNL &#123;local_port&#125;:&#123;mysql_ip&#125;:&#123;mysql_port&#125; </span><br><span class="line">&#123;ssh_user&#125;@&#123;ssh_ip&#125;</span><br><span class="line">ssh -p 22  -i ./id_rsa_jump -fNL 33060:mysql_ip:3306 jump@jump_ip   # 实例</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-p {ssh_port}: 指定跳板机器的ssh服务的端口<br>-i {rsa_file}:指定连接跳板机的ssh公钥，由跳板机的ssh服务端生成，如果不指定公钥或者公钥验证失败则会弹出密码进行登录。<br>-f:需进行ssh认证<br>-N:只进行端口转发，不执行命令<br>-L:指定连接服务的格式 [bind_address:]port:host:hostport<br>{local_port}：本地监听的端口<br>{mysql_ip}：转发到的mysql的ip或域名<br>{mysql_port}：转发到的mysql的端口<br>{ssh_port}：跳板机的<br>{ssh_user}：跳板机的ssh用户名(如果为rsa登录，则ras对应的用户名和ssh_user一致)<br>{ssh_ip}：跳板机的ip或域名<br>检查是否启动成功<br>netstat  -aon|findstr  “33060”  #存在对应的监听则启动成功 如果要关闭则kill<br>连接mysql<br>ip:127.0.0.1<br>port:33060</p>
+</blockquote>
 
       
     </div>
