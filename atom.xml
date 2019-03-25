@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.uiste.com/"/>
-  <updated>2018-11-02T07:58:06.000Z</updated>
+  <updated>2019-03-25T07:15:24.301Z</updated>
   <id>http://blog.uiste.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>PHP 7.2 升级后 Yii2 升级</title>
+    <link href="http://blog.uiste.com/2019/20190325-1.html"/>
+    <id>http://blog.uiste.com/2019/20190325-1.html</id>
+    <published>2019-03-25T07:03:44.000Z</published>
+    <updated>2019-03-25T07:15:24.301Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><blockquote><p>PHP升级7.2后，Yii 2.0.12 版本由于类命名约束问题会产生如下问题：</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Fatal error: Cannot use &apos;Object&apos; as class name as it is reserved in /Users/uiste/www/my_project/mike-app/vendor/yiisoft/yii2/base/Object.php on line 77</span><br></pre></td></tr></table></figure><h2 id="升级方法"><a href="#升级方法" class="headerlink" title="升级方法"></a>升级方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">➜  mike-app git:(version-update) composer install</span><br><span class="line">Loading composer repositories with package information</span><br><span class="line">Installing dependencies (including require-dev) from lock file</span><br><span class="line">Nothing to install or update</span><br><span class="line">Generating autoload files</span><br><span class="line">➜  mike-app git:(version-update) composer global require &quot;fxp/composer-asset-plugin:^1.4.1&quot;</span><br><span class="line">Changed current directory to /Users/uiste/.composer</span><br><span class="line">./composer.json has been updated</span><br><span class="line">Loading composer repositories with package information</span><br><span class="line">Updating dependencies (including require-dev)</span><br><span class="line">Package operations: 0 installs, 1 update, 0 removals</span><br><span class="line">  - Updating fxp/composer-asset-plugin (v1.2.2 =&gt; v1.4.4): Downloading (100%)         </span><br><span class="line">Writing lock file</span><br><span class="line">Generating autoload files</span><br><span class="line">➜  mike-app git:(version-update) composer update yiisoft/yii2 yiisoft/yii2-composer bower-asset/jquery.inputmask</span><br><span class="line">The &quot;extra.asset-installer-paths&quot; option is deprecated, use the &quot;config.fxp-asset.installer-paths&quot; option</span><br><span class="line">Loading composer repositories with package information</span><br><span class="line">Updating dependencies (including require-dev)                                                                                                                     GitHub API limit (60 calls/hr) is exhausted, could not fetch https://api.github.com/repos/RobinHerbots/Inputmask/contents/bower.json?ref=4.x. Create a GitHub OAuth token to go over the API rate limit. You can also wait until 2019-03-25 07:52:25 for the rate limit to reset.</span><br><span class="line"></span><br><span class="line">Head to https://github.com/settings/tokens/new?scopes=repo&amp;description=Composer+on+uiste+2019-03-25+0657</span><br><span class="line">to retrieve a token. It will be stored in &quot;/Users/uiste/.composer/auth.json&quot; for future use by Composer.</span><br><span class="line">Token (hidden):</span><br></pre></td></tr></table></figure><blockquote><p>浏览器打开：<a href="https://github.com/settings/tokens/new?scopes=repo&amp;description=Composer+on+localhost.localdomain+2019-03-25+1945" target="_blank" rel="noopener">https://github.com/settings/tokens/new?scopes=repo&amp;description=Composer+on+localhost.localdomain+2019-03-25+1945</a><br>登录github账号 生成token ，在命令行输入即可 token</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;问题&quot;&gt;&lt;a href=&quot;#问题&quot; class=&quot;headerlink&quot; title=&quot;问题&quot;&gt;&lt;/a&gt;问题&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;PHP升级7.2后，Yii 2.0.12 版本由于类命名约束问题会产生如下问题：&lt;/p&gt;
+&lt;/blockquote
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Mac 配置ssh 免密登录</title>
@@ -429,29 +452,6 @@
       
       
         &lt;h2 id=&quot;原因&quot;&gt;&lt;a href=&quot;#原因&quot; class=&quot;headerlink&quot; title=&quot;原因&quot;&gt;&lt;/a&gt;原因&lt;/h2&gt;&lt;p&gt;因为最近工作的原因,断了学习成长的一个节奏，想着还是做个记录。虽然暂更博客内容的时间不长，却在这短暂的时间有所迷失了自己的方向，麻木的生活，
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Html Body 莫名加上&#39;MacOSX ATTRV&#39;原因及解决</title>
-    <link href="http://blog.uiste.com/2016/20161113-1.html"/>
-    <id>http://blog.uiste.com/2016/20161113-1.html</id>
-    <published>2016-11-12T17:35:21.000Z</published>
-    <updated>2018-10-19T01:57:01.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>前言</p><p>今天上传项目时是由Mac tar打包上传到Linux服务器解包的，部署完成后访问页面发现页面的Body之前都被加入了</p><p><code>Mac OS X     2��ATTRV(D��-�-com.apple.quarantineq/0000;4c9151bf;Fir</code><br>一行奇怪的字符。</p><p>Mac环境解决方案</p><p>Google后发现Mac解决方案</p><p><code>xattr -r -d com.apple.quarantine file-path</code><br>原文地址<code>http://entropytc.com/got-com-apple-quarantine-problems/</code></p><blockquote><p>不过在Linux下没有xattr命令，就去Linux目录下ls -a发现每个文件都被克隆了一个.<em>开头的文件，由于检查过原始文件并未遭到改动，果然删除这些.</em>开头文件即解决了问题</p></blockquote><p>Linux解决方案 - 批量删除._开头文件</p><p><code>find ./ -name &quot;._*&quot; -exec rm -f {} \;</code></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;前言&lt;/p&gt;
-&lt;p&gt;今天上传项目时是由Mac tar打包上传到Linux服务器解包的，部署完成后访问页面发现页面的Body之前都被加入了&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;Mac OS X     2��ATTRV(D��-�-com.apple.quarantineq/0
       
     
     </summary>
