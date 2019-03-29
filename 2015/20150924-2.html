@@ -15,10 +15,10 @@
 
 
 <html class="theme-next mist use-motion" lang="zh-CN">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -32,8 +32,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -56,9 +56,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css">
 
 
 
@@ -117,12 +117,12 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="uiste" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="uiste" type="application/atom+xml">
 
 
 
 
-  <link rel="canonical" href="http://blog.uiste.com/2015/20150924-2.html"/>
+  <link rel="canonical" href="http://blog.uiste.com/2015/20150924-2.html">
 
 
 
@@ -222,7 +222,7 @@
           
           <li class="menu-item menu-item-home">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
   </li>
         
         
@@ -230,7 +230,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
   </li>
         
         
@@ -238,17 +238,17 @@
           
           <li class="menu-item menu-item-about">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
   </li>
 
       
       
         <li class="menu-item menu-item-search">
           
-            <a href="javascript:;" class="st-search-show-outputs">
+            <a href="javascript:;" class="popup-trigger">
           
             
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
         </li>
       
     </ul>
@@ -262,18 +262,20 @@
   
     <div class="site-search">
       
-  <form class="site-search-form">
-  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
-</form>
-
-<script type="text/javascript">
-  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
-    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
-    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
-  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
-
-  _st('install', 'aSf9eNpjToN3z8HppMAx','2.0.0');
-</script>
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
 
 
 
@@ -414,7 +416,7 @@
         <h2 id="Linux目录结构"><a href="#Linux目录结构" class="headerlink" title="Linux目录结构"></a>Linux目录结构</h2><p>bin 和 sbin  ：存放命令的<br>/dev        ：存放外设文件<br>/etc        ：存放配置文件<br>/home       ：普通用户的家目录(主目录)<br>/root       ：超级管理员的家目录<br>/mnt        ：挂载点<br>/usr        ：安装程序<br>/var        ：相当于D、E盘，用来存储一些文件站点</p>
 <h2 id="Linux常用命令"><a href="#Linux常用命令" class="headerlink" title="Linux常用命令"></a>Linux常用命令</h2><p>passwd    更改密码<br>ls    、ls -al *.png    查看目录中的内容<br>cd    进入目录<br>exit    退出当前工作环境<br>pwd    获取当前工作目录<br>su或su -    获取管理员权限<br>su - uiste    获取普通用户的权限<br>runlevel    获取运行级别<br>init N    改变运行等级<br>startx 和init5    启动图形化界面<br>clear    清空终端</p>
 <h2 id="Linux命令格式"><a href="#Linux命令格式" class="headerlink" title="Linux命令格式"></a>Linux命令格式</h2><p>语法：名利 [-选项] 参数<br>Linux 命令是区分大小写的</p>
-<h2 id="查看文件的详细信息-ls-al"><a href="#查看文件的详细信息-ls-al" class="headerlink" title="查看文件的详细信息(ls -al)"></a>查看文件的详细信息(ls -al)</h2><p>-a  显示所有文件<br>-l  显示详细信息<br><img src="media/14746901645222/14746929569559.jpg" alt=""><br>pwd    显示当前目录<br>ls    显示当前目录的文件<br>ls -l    列出文件的详细信息<br>ls -a    列出所有文件，包括隐藏文件<br>ls -al    后面是查询选择，查询选项是没有先后顺序的</p>
+<h2 id="查看文件的详细信息-ls-al"><a href="#查看文件的详细信息-ls-al" class="headerlink" title="查看文件的详细信息(ls -al)"></a>查看文件的详细信息(ls -al)</h2><p>-a  显示所有文件<br>-l  显示详细信息<br><img src="media/14746901645222/14746929569559.jpg" alt><br>pwd    显示当前目录<br>ls    显示当前目录的文件<br>ls -l    列出文件的详细信息<br>ls -a    列出所有文件，包括隐藏文件<br>ls -al    后面是查询选择，查询选项是没有先后顺序的</p>
 <h2 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h2><p>dir             显示当前目录的所有文件<br>who am  i       显示登录的用户名<br>whoami          显示当前使用谁的权限<br>exit  、q        退出权限系统<br>halt            关闭计算机<br>power off       关闭计算机<br>reboot          重启计算机<br>man             查看帮助文档 manual<br>–help、-help    调用命令的注释帮助</p>
 <h2 id="显示目录所占磁盘容量-du"><a href="#显示目录所占磁盘容量-du" class="headerlink" title="显示目录所占磁盘容量(du)"></a>显示目录所占磁盘容量(du)</h2><p>du file/dir 显示文件或文件夹的容量，单位是KB，如果是文件夹显示文件夹中每个文件额大小和总大小<br>du -s dir 显示文件夹的总大小，不显示文件夹中文件大小<br>du -h file/dir 用友好的方式显示容量</p>
 <h2 id="改变工作目录-cd"><a href="#改变工作目录-cd" class="headerlink" title="改变工作目录(cd)"></a>改变工作目录(cd)</h2><p>语法：cd 目录</p>
@@ -986,9 +988,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image"
-                src="/images/default_avatar.png"
-                alt="uiste" />
+              <img class="site-author-image" itemprop="image" src="/images/default_avatar.png" alt="uiste">
             
               <p class="site-author-name" itemprop="name">uiste</p>
               <p class="site-description motion-element" itemprop="description">Stay Hungry，Stay Foolish</p>
@@ -1332,7 +1332,7 @@
       <div>
         <!-- Go to www.addthis.com/dashboard to customize your tools -->
 <div class="addthis_inline_share_toolbox">
-  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57838eee5e2620d0" async = "async" ></script>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57838eee5e2620d0" async="async"></script>
 </div>
 
       </div>

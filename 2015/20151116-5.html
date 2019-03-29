@@ -15,10 +15,10 @@
 
 
 <html class="theme-next mist use-motion" lang="zh-CN">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -32,8 +32,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -56,9 +56,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css">
 
 
 
@@ -118,12 +118,12 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="uiste" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="uiste" type="application/atom+xml">
 
 
 
 
-  <link rel="canonical" href="http://blog.uiste.com/2015/20151116-5.html"/>
+  <link rel="canonical" href="http://blog.uiste.com/2015/20151116-5.html">
 
 
 
@@ -223,7 +223,7 @@
           
           <li class="menu-item menu-item-home">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
   </li>
         
         
@@ -231,7 +231,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
   </li>
         
         
@@ -239,17 +239,17 @@
           
           <li class="menu-item menu-item-about">
     <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
   </li>
 
       
       
         <li class="menu-item menu-item-search">
           
-            <a href="javascript:;" class="st-search-show-outputs">
+            <a href="javascript:;" class="popup-trigger">
           
             
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
         </li>
       
     </ul>
@@ -263,18 +263,20 @@
   
     <div class="site-search">
       
-  <form class="site-search-form">
-  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
-</form>
-
-<script type="text/javascript">
-  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
-    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
-    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
-  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
-
-  _st('install', 'aSf9eNpjToN3z8HppMAx','2.0.0');
-</script>
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
 
 
 
@@ -420,7 +422,7 @@
 <li>移动：<code>uiste:~ uiste$ cd downloads</code></li>
 <li>解压：<code>uiste:local uiste$ sudo tar -zxf redis-3.2.5.tar.gz</code></li>
 <li>进入：<code>uiste:local uiste$ cd redis-3.2.5</code></li>
-<li>测试编译：<code>uiste:redis-3.2.5 uiste$ sudo make test</code><br><img src="http://7xwlfk.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-11-16%2002.16.34.png" alt=""></li>
+<li>测试编译：<code>uiste:redis-3.2.5 uiste$ sudo make test</code><br><img src="http://7xwlfk.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-11-16%2002.16.34.png" alt></li>
 <li><p>安装：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">uiste:redis-3.2.5 uiste$ sudo make install</span><br><span class="line">Password:</span><br><span class="line">cd src &amp;&amp; /Applications/Xcode.app/Contents/Developer/usr/bin/make install</span><br><span class="line">    INSTALL redis-sentinel</span><br><span class="line">    CC redis-cli.o</span><br><span class="line">    LINK redis-cli</span><br><span class="line">    CC redis-benchmark.o</span><br><span class="line">    LINK redis-benchmark</span><br><span class="line">    INSTALL redis-check-rdb</span><br><span class="line"></span><br><span class="line">Hint: It&apos;s a good idea to run &apos;make test&apos; ;)</span><br><span class="line"></span><br><span class="line">    INSTALL install</span><br><span class="line">    INSTALL install</span><br><span class="line">    INSTALL install</span><br><span class="line">    INSTALL install</span><br><span class="line">    INSTALL install</span><br><span class="line">uiste:redis-3.2.5 uiste$</span><br></pre></td></tr></table></figure>
 </li>
@@ -430,7 +432,7 @@
 <p>编辑过后，将配置文件移动到 /usr/local/etc 目录下<br><code>uiste:redis-3.2.5 uiste$ sudo mv redis.conf /usr/local/etc</code></p>
 <ol start="8">
 <li><p>启动<br><code>uiste:redis-3.2.5 uiste$ /usr/local/bin/redis-server /usr/local/etc/redis.conf</code></p>
-<p>服务启动成功画面：<br><img src="http://7xwlfk.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-11-16%2002.33.10.png" alt=""></p>
+<p>服务启动成功画面：<br><img src="http://7xwlfk.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-11-16%2002.33.10.png" alt></p>
 </li>
 <li><p>测试连通性</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">uiste:~ uiste$ cd /usr/local/bin</span><br><span class="line">uiste:bin uiste$ ./redis-cli</span><br><span class="line">127.0.0.1:6379&gt; set name uiste</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get name</span><br><span class="line">&quot;uiste&quot;</span><br></pre></td></tr></table></figure>
@@ -561,9 +563,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image"
-                src="/images/default_avatar.png"
-                alt="uiste" />
+              <img class="site-author-image" itemprop="image" src="/images/default_avatar.png" alt="uiste">
             
               <p class="site-author-name" itemprop="name">uiste</p>
               <p class="site-description motion-element" itemprop="description">Stay Hungry，Stay Foolish</p>
@@ -907,7 +907,7 @@
       <div>
         <!-- Go to www.addthis.com/dashboard to customize your tools -->
 <div class="addthis_inline_share_toolbox">
-  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57838eee5e2620d0" async = "async" ></script>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57838eee5e2620d0" async="async"></script>
 </div>
 
       </div>
