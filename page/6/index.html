@@ -542,7 +542,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-10-19 09:57:01" itemprop="dateModified" datetime="2018-10-19T09:57:01+08:00">2018-10-19</time>
+                <time title="修改时间：2019-03-29 11:54:09" itemprop="dateModified" datetime="2019-03-29T11:54:09+08:00">2019-03-29</time>
               
             
           </span>
@@ -579,12 +579,14 @@
           
           前言
 今天上传项目时是由Mac tar打包上传到Linux服务器解包的，部署完成后访问页面发现页面的Body之前都被加入了
-Mac OS X     2��ATTRV(D��-�-com.apple.quarantineq/0000;4c9151bf;Fir一行奇怪的字符。
+一行奇怪的字符。
 Mac环境解决方案
 Google后发现Mac解决方案
 xattr -r -d com.apple.quarantine file-path原文地址http://entropytc.com/got-com-apple-quarantine-problems/
 
-不过在Linux下没有xattr命令，就去Linux目录
+不过在Linux下没有xattr命令，就去Linux目录下ls -a发现每个文件都被克隆了一个.开头的文件，由于检查过原始文件并未遭到改动，果然删除这些.开头文件即解决了问题
+
+Linux解决方案 
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1784,7 +1786,7 @@ register_globals = Off如果这个配置选项打开之后，会出现很大的�
 
                   // select top N slices in content
 
-                  var upperBound = parseInt('');
+                  var upperBound = parseInt('1');
                   if (upperBound >= 0) {
                     slicesOfContent = slicesOfContent.slice(0, upperBound);
                   }
@@ -1851,7 +1853,7 @@ register_globals = Off如果这个配置选项打开之后，会出现很大的�
             }
           }
 
-          if ('auto' === '') {
+          if ('auto' === 'auto') {
             input.addEventListener('input', inputEventFunction);
           } else {
             $('.search-icon').click(inputEventFunction);

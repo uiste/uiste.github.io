@@ -1804,7 +1804,7 @@ Laravel 会自动在每一位用户的 session 中放置随机的 token ，这�
 
                   // select top N slices in content
 
-                  var upperBound = parseInt('');
+                  var upperBound = parseInt('1');
                   if (upperBound >= 0) {
                     slicesOfContent = slicesOfContent.slice(0, upperBound);
                   }
@@ -1871,7 +1871,7 @@ Laravel 会自动在每一位用户的 session 中放置随机的 token ，这�
             }
           }
 
-          if ('auto' === '') {
+          if ('auto' === 'auto') {
             input.addEventListener('input', inputEventFunction);
           } else {
             $('.search-icon').click(inputEventFunction);

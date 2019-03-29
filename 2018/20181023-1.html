@@ -1166,7 +1166,7 @@ chmod -R 644 /home/www/.ssh/authorized_keys
 
                   // select top N slices in content
 
-                  var upperBound = parseInt('');
+                  var upperBound = parseInt('1');
                   if (upperBound >= 0) {
                     slicesOfContent = slicesOfContent.slice(0, upperBound);
                   }
@@ -1233,7 +1233,7 @@ chmod -R 644 /home/www/.ssh/authorized_keys
             }
           }
 
-          if ('auto' === '') {
+          if ('auto' === 'auto') {
             input.addEventListener('input', inputEventFunction);
           } else {
             $('.search-icon').click(inputEventFunction);

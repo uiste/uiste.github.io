@@ -1872,7 +1872,7 @@ sleep()sleep后面有一个参数，代表程序延迟多少秒后继续执行�
 
                   // select top N slices in content
 
-                  var upperBound = parseInt('');
+                  var upperBound = parseInt('1');
                   if (upperBound >= 0) {
                     slicesOfContent = slicesOfContent.slice(0, upperBound);
                   }
@@ -1939,7 +1939,7 @@ sleep()sleep后面有一个参数，代表程序延迟多少秒后继续执行�
             }
           }
 
-          if ('auto' === '') {
+          if ('auto' === 'auto') {
             input.addEventListener('input', inputEventFunction);
           } else {
             $('.search-icon').click(inputEventFunction);

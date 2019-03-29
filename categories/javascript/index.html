@@ -103,7 +103,7 @@
   <meta name="description" content="Stay Hungry，Stay Foolish">
 <meta property="og:type" content="website">
 <meta property="og:title" content="uiste">
-<meta property="og:url" content="http://blog.uiste.com/categories/javascript/index.html">
+<meta property="og:url" content="http://blog.uiste.com/categories/JavaScript/index.html">
 <meta property="og:site_name" content="uiste">
 <meta property="og:description" content="Stay Hungry，Stay Foolish">
 <meta property="og:locale" content="zh-CN">
@@ -118,7 +118,7 @@
 
 
 
-  <link rel="canonical" href="http://blog.uiste.com/categories/javascript/">
+  <link rel="canonical" href="http://blog.uiste.com/categories/JavaScript/">
 
 
 
@@ -128,7 +128,7 @@
   };
 </script>
 
-  <title>分类: javascript | uiste</title>
+  <title>分类: JavaScript | uiste</title>
   
 
 
@@ -324,7 +324,7 @@
 
     <div id="posts" class="posts-collapse">
       <div class="collection-title">
-        <h2>javascript<small>分类</small>
+        <h2>JavaScript<small>分类</small>
         </h2>
       </div>
 
@@ -336,42 +336,16 @@
 
       <h3 class="post-title">
         
-            <a class="post-title-link" href="/2015/20150818-1.html" itemprop="url">
+            <a class="post-title-link" href="/2015/20150817-1.html" itemprop="url">
               
-                <span itemprop="name">js思想养成-光标定位</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2015-08-18T15:36:20+08:00" content="2015-08-18">
-          08-18
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2015/20150817-2.html" itemprop="url">
-              
-                <span itemprop="name">js基础知识点</span>
+                <span itemprop="name">图片轮播</span>
               
             </a>
         
       </h3>
 
       <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2015-08-17T17:44:45+08:00" content="2015-08-17">
+        <time class="post-time" itemprop="dateCreated" datetime="2015-08-17T16:31:54+08:00" content="2015-08-17">
           08-17
         </time>
       </div>
@@ -1051,7 +1025,7 @@
 
                   // select top N slices in content
 
-                  var upperBound = parseInt('');
+                  var upperBound = parseInt('1');
                   if (upperBound >= 0) {
                     slicesOfContent = slicesOfContent.slice(0, upperBound);
                   }
@@ -1118,7 +1092,7 @@
             }
           }
 
-          if ('auto' === '') {
+          if ('auto' === 'auto') {
             input.addEventListener('input', inputEventFunction);
           } else {
             $('.search-icon').click(inputEventFunction);
@@ -1140,6 +1114,55 @@
 
     // handle and trigger popup window;
     $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+click(function(e) {
       e.stopPropagation();
       if (isfetched === false) {
         searchFunc(path, 'local-search-input', 'local-search-result');

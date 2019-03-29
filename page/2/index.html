@@ -1722,7 +1722,7 @@ PHP升级7.2后，Yii 2.0.12 版本由于类命名约束问题会产生如下问
 
                   // select top N slices in content
 
-                  var upperBound = parseInt('');
+                  var upperBound = parseInt('1');
                   if (upperBound >= 0) {
                     slicesOfContent = slicesOfContent.slice(0, upperBound);
                   }
@@ -1789,7 +1789,7 @@ PHP升级7.2后，Yii 2.0.12 版本由于类命名约束问题会产生如下问
             }
           }
 
-          if ('auto' === '') {
+          if ('auto' === 'auto') {
             input.addEventListener('input', inputEventFunction);
           } else {
             $('.search-icon').click(inputEventFunction);

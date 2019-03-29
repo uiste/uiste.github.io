@@ -1888,7 +1888,7 @@ bin:里面都是一些apache可执行文件httpd.exe，apacheMonitor.exehtdocs:�
 
                   // select top N slices in content
 
-                  var upperBound = parseInt('');
+                  var upperBound = parseInt('1');
                   if (upperBound >= 0) {
                     slicesOfContent = slicesOfContent.slice(0, upperBound);
                   }
@@ -1955,7 +1955,7 @@ bin:里面都是一些apache可执行文件httpd.exe，apacheMonitor.exehtdocs:�
             }
           }
 
-          if ('auto' === '') {
+          if ('auto' === 'auto') {
             input.addEventListener('input', inputEventFunction);
           } else {
             $('.search-icon').click(inputEventFunction);

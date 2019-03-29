@@ -100,17 +100,17 @@
 
 
 
-  <meta name="description" content="前言 今天上传项目时是由Mac tar打包上传到Linux服务器解包的，部署完成后访问页面发现页面的Body之前都被加入了 Mac OS X     2��ATTRV(D��-�-com.apple.quarantineq/0000;4c9151bf;Fir一行奇怪的字符。 Mac环境解决方案 Google后发现Mac解决方案 xattr -r -d com.apple.quarantin">
+  <meta name="description" content="前言 今天上传项目时是由Mac tar打包上传到Linux服务器解包的，部署完成后访问页面发现页面的Body之前都被加入了 一行奇怪的字符。 Mac环境解决方案 Google后发现Mac解决方案 xattr -r -d com.apple.quarantine file-path原文地址http://entropytc.com/got-com-apple-quarantine-problems/">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Html Body 莫名加上&#39;MacOSX ATTRV&#39;原因及解决">
 <meta property="og:url" content="http://blog.uiste.com/2016/20161113-1.html">
 <meta property="og:site_name" content="uiste">
-<meta property="og:description" content="前言 今天上传项目时是由Mac tar打包上传到Linux服务器解包的，部署完成后访问页面发现页面的Body之前都被加入了 Mac OS X     2��ATTRV(D��-�-com.apple.quarantineq/0000;4c9151bf;Fir一行奇怪的字符。 Mac环境解决方案 Google后发现Mac解决方案 xattr -r -d com.apple.quarantin">
+<meta property="og:description" content="前言 今天上传项目时是由Mac tar打包上传到Linux服务器解包的，部署完成后访问页面发现页面的Body之前都被加入了 一行奇怪的字符。 Mac环境解决方案 Google后发现Mac解决方案 xattr -r -d com.apple.quarantine file-path原文地址http://entropytc.com/got-com-apple-quarantine-problems/">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-19T01:57:01.000Z">
+<meta property="og:updated_time" content="2019-03-29T03:54:09.074Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Html Body 莫名加上&#39;MacOSX ATTRV&#39;原因及解决">
-<meta name="twitter:description" content="前言 今天上传项目时是由Mac tar打包上传到Linux服务器解包的，部署完成后访问页面发现页面的Body之前都被加入了 Mac OS X     2��ATTRV(D��-�-com.apple.quarantineq/0000;4c9151bf;Fir一行奇怪的字符。 Mac环境解决方案 Google后发现Mac解决方案 xattr -r -d com.apple.quarantin">
+<meta name="twitter:description" content="前言 今天上传项目时是由Mac tar打包上传到Linux服务器解包的，部署完成后访问页面发现页面的Body之前都被加入了 一行奇怪的字符。 Mac环境解决方案 Google后发现Mac解决方案 xattr -r -d com.apple.quarantine file-path原文地址http://entropytc.com/got-com-apple-quarantine-problems/">
 
 
 
@@ -377,7 +377,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-10-19 09:57:01" itemprop="dateModified" datetime="2018-10-19T09:57:01+08:00">2018-10-19</time>
+                <time title="修改时间：2019-03-29 11:54:09" itemprop="dateModified" datetime="2019-03-29T11:54:09+08:00">2019-03-29</time>
               
             
           </span>
@@ -412,7 +412,7 @@
       
         <p>前言</p>
 <p>今天上传项目时是由Mac tar打包上传到Linux服务器解包的，部署完成后访问页面发现页面的Body之前都被加入了</p>
-<p><code>Mac OS X     2��ATTRV(D��-�-com.apple.quarantineq/0000;4c9151bf;Fir</code><br>一行奇怪的字符。</p>
+<p>一行奇怪的字符。</p>
 <p>Mac环境解决方案</p>
 <p>Google后发现Mac解决方案</p>
 <p><code>xattr -r -d com.apple.quarantine file-path</code><br>原文地址<code>http://entropytc.com/got-com-apple-quarantine-problems/</code></p>
@@ -1146,7 +1146,7 @@
 
                   // select top N slices in content
 
-                  var upperBound = parseInt('');
+                  var upperBound = parseInt('1');
                   if (upperBound >= 0) {
                     slicesOfContent = slicesOfContent.slice(0, upperBound);
                   }
@@ -1213,7 +1213,7 @@
             }
           }
 
-          if ('auto' === '') {
+          if ('auto' === 'auto') {
             input.addEventListener('input', inputEventFunction);
           } else {
             $('.search-icon').click(inputEventFunction);

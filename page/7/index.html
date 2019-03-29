@@ -1781,7 +1781,7 @@ cache.php12345678910111213141516171819202122232425262728293031323334353637383940
 
                   // select top N slices in content
 
-                  var upperBound = parseInt('');
+                  var upperBound = parseInt('1');
                   if (upperBound >= 0) {
                     slicesOfContent = slicesOfContent.slice(0, upperBound);
                   }
@@ -1848,7 +1848,7 @@ cache.php12345678910111213141516171819202122232425262728293031323334353637383940
             }
           }
 
-          if ('auto' === '') {
+          if ('auto' === 'auto') {
             input.addEventListener('input', inputEventFunction);
           } else {
             $('.search-icon').click(inputEventFunction);
