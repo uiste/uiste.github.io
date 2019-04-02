@@ -100,21 +100,17 @@
 
 
 
-  <meta name="description" content="目录结构 配置选项 php.iniextension=php_openssl.dllextension=php_mbstring.dllextension=php_pdo_mysql.dll  修改默认首页 server.php =&amp;gt; index.php DirectoryIndex server.php 修改入口文件：DocumentRoot &amp;quot;.../public&amp;quot;">
-<meta name="keywords" content="Laravel">
+  <meta name="description" content="精神指南：找到容易变化的地方，独立出来 策略模式用不同的类 + 相同的方法 实现不同的策略行为 观察者模式被观察者绑定多个观察者的类 指定事件完成时，循环触发不同观察者的相同方法PHP SPL 中 SplObserveer SplSubject SplObjectStorage 装饰模式单例模式适配器模式工厂模式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Laravel 开发前奏">
-<meta property="og:url" content="http://blog.uiste.com/2015/20151112-2.html">
+<meta property="og:title" content="设计模式">
+<meta property="og:url" content="http://blog.uiste.com/2018/20180403-1.html">
 <meta property="og:site_name" content="uiste">
-<meta property="og:description" content="目录结构 配置选项 php.iniextension=php_openssl.dllextension=php_mbstring.dllextension=php_pdo_mysql.dll  修改默认首页 server.php =&amp;gt; index.php DirectoryIndex server.php 修改入口文件：DocumentRoot &amp;quot;.../public&amp;quot;">
+<meta property="og:description" content="精神指南：找到容易变化的地方，独立出来 策略模式用不同的类 + 相同的方法 实现不同的策略行为 观察者模式被观察者绑定多个观察者的类 指定事件完成时，循环触发不同观察者的相同方法PHP SPL 中 SplObserveer SplSubject SplObjectStorage 装饰模式单例模式适配器模式工厂模式">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://7xwlfk.com1.z0.glb.clouddn.com/6.laravel5.2_1.png">
-<meta property="og:image" content="http://7xwlfk.com1.z0.glb.clouddn.com/route_resource.png">
-<meta property="og:updated_time" content="2018-10-19T01:57:01.000Z">
+<meta property="og:updated_time" content="2019-04-02T10:11:05.881Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Laravel 开发前奏">
-<meta name="twitter:description" content="目录结构 配置选项 php.iniextension=php_openssl.dllextension=php_mbstring.dllextension=php_pdo_mysql.dll  修改默认首页 server.php =&amp;gt; index.php DirectoryIndex server.php 修改入口文件：DocumentRoot &amp;quot;.../public&amp;quot;">
-<meta name="twitter:image" content="http://7xwlfk.com1.z0.glb.clouddn.com/6.laravel5.2_1.png">
+<meta name="twitter:title" content="设计模式">
+<meta name="twitter:description" content="精神指南：找到容易变化的地方，独立出来 策略模式用不同的类 + 相同的方法 实现不同的策略行为 观察者模式被观察者绑定多个观察者的类 指定事件完成时，循环触发不同观察者的相同方法PHP SPL 中 SplObserveer SplSubject SplObjectStorage 装饰模式单例模式适配器模式工厂模式">
 
 
 
@@ -123,7 +119,7 @@
 
 
 
-  <link rel="canonical" href="http://blog.uiste.com/2015/20151112-2.html">
+  <link rel="canonical" href="http://blog.uiste.com/2018/20180403-1.html">
 
 
 
@@ -133,7 +129,7 @@
   };
 </script>
 
-  <title>Laravel 开发前奏 | uiste</title>
+  <title>设计模式 | uiste</title>
   
 
 
@@ -322,7 +318,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151112-2.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2018/20180403-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -339,7 +335,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Laravel 开发前奏
+          <h2 class="post-title" itemprop="name headline">设计模式
               
             
           </h2>
@@ -364,7 +360,7 @@
                 
               
 
-              <time title="创建时间：2015-11-12 16:55:57" itemprop="dateCreated datePublished" datetime="2015-11-12T16:55:57+08:00">2015-11-12</time>
+              <time title="创建时间：2018-04-03 12:13:29" itemprop="dateCreated datePublished" datetime="2018-04-03T12:13:29+08:00">2018-04-03</time>
             
 
             
@@ -398,79 +394,10 @@
       
 
       
-        <h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><p><img src="http://7xwlfk.com1.z0.glb.clouddn.com/6.laravel5.2_1.png" alt="目录结构"></p>
-<h2 id="配置选项"><a href="#配置选项" class="headerlink" title="配置选项"></a>配置选项</h2><blockquote>
-<p>php.ini<br><code>extension=php_openssl.dll</code><br><code>extension=php_mbstring.dll</code><br><code>extension=php_pdo_mysql.dll</code></p>
-</blockquote>
-<h2 id="修改默认首页"><a href="#修改默认首页" class="headerlink" title="修改默认首页"></a>修改默认首页</h2><ul>
-<li>server.php =&gt; index.php</li>
-<li>DirectoryIndex server.php</li>
-<li>修改入口文件：<code>DocumentRoot &quot;.../public&quot;</code><blockquote>
-<p>需要服务器支持修改入口文件或者子目录可以绑定域名</p>
-</blockquote>
-</li>
-</ul>
-<p>将伪静态配置文件<code>.htaccess</code>移动到项目根目录</p>
-<h2 id="基础路由"><a href="#基础路由" class="headerlink" title="基础路由"></a>基础路由</h2><p>• Route::get($uri, $callback);<br>• Route::post($uri, $callback);<br>• Route::put($uri, $callback);<br>• Route::patch($uri, $callback);<br>• Route::delete($uri, $callback);<br>• Route::options($uri, $callback);<br>• Route::match([‘get’, ‘post’], ‘/‘, $callback);<br>• Route::any(‘foo’, $callback);</p>
-<h3 id="参数限定"><a href="#参数限定" class="headerlink" title="参数限定"></a>参数限定</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Route::get(&apos;user/&#123;name&#125;&apos;, function($name)</span><br><span class="line">&#123;</span><br><span class="line">    //</span><br><span class="line">&#125;)</span><br><span class="line">-&gt;where(&apos;name&apos;, &apos;[A-Za-z]+&apos;);</span><br><span class="line"></span><br><span class="line">Route::get(&apos;user/&#123;id&#125;/&#123;name&#125;&apos;, function($id, $name)</span><br><span class="line">&#123;</span><br><span class="line">    //</span><br><span class="line">&#125;)</span><br><span class="line">-&gt;where([&apos;id&apos; =&gt; &apos;[0-9]+&apos;, &apos;name&apos; =&gt; &apos;[a-z]+&apos;])</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>postman插件<br>路由参数不能使用<code>-</code>,需要使用<code>_</code>进行替换</p>
-</blockquote>
-<h2 id="基础控制器"><a href="#基础控制器" class="headerlink" title="基础控制器"></a>基础控制器</h2><p>laravel 控制器没有像ThinkPHP 那种参数访问控制器的方法，所有的控制器访问都需要通过路由进行设置</p>
-<ol>
-<li>手动创建路由与控制器相对繁琐</li>
-<li><p>使用Atrisan方法创建</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uiste:blog uiste$ php artisan make:controller HomeController</span><br><span class="line">Controller created successfully.</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>控制器分文件夹</p>
-<blockquote>
-<p>命名空间<br>路由使用 <code>\</code> </p>
-</blockquote>
-</li>
-</ol>
-<h2 id="高级路由"><a href="#高级路由" class="headerlink" title="高级路由"></a>高级路由</h2><h3 id="路由命名"><a href="#路由命名" class="headerlink" title="路由命名"></a>路由命名</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Route::get(&apos;/index&apos;, [&apos;as&apos;=&gt;&apos;index&apos;,function()&#123;</span><br><span class="line">    echo route(&apos;index&apos;);</span><br><span class="line">&#125;]);</span><br><span class="line">//简单的命名方法</span><br><span class="line">---</span><br><span class="line">http://www.blog.com/index</span><br></pre></td></tr></table></figure>
-<p>控制路由命名<br><code>Route::get(&#39;/index&#39;, [&#39;uses&#39;=&gt;&#39;Admin\IndexController@index&#39;,&#39;as&#39;=&gt;&#39;index&#39;]);</code><br><code>Route::get(&#39;/index&#39;, &#39;Admin\IndexController@index&#39;)-&gt;name(&#39;index&#39;);</code><br><code>return route(&#39;index&#39;);//控制器调用</code></p>
-<h3 id="路由分组"><a href="#路由分组" class="headerlink" title="路由分组"></a>路由分组</h3><p>将相同的路由放在一起，便于统一的管理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Route::get(&apos;admin/index&apos;, &apos;Admin\IndexController@index&apos;)-&gt;name(&apos;index&apos;);</span><br><span class="line">Route::get(&apos;admin/login&apos;, &apos;Admin\IndexController@login&apos;)-&gt;name(&apos;login&apos;);</span><br></pre></td></tr></table></figure></p>
-<p>使用group对平台及命名空间进行分组方式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Route::group([&apos;prefix&apos;=&gt;&apos;admin&apos;,&apos;namespace&apos;=&gt;&apos;Admin&apos;],function()&#123;</span><br><span class="line">    Route::get(&apos;index&apos;, &apos;IndexController@index&apos;)-&gt;name(&apos;index&apos;);</span><br><span class="line">    Route::get(&apos;login&apos;, &apos;IndexController@login&apos;)-&gt;name(&apos;login&apos;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<p>Terminal中显示路由列表<br><code>uiste:blog uiste$ php artisan route:list</code></p>
-<p>RESTfun 资源路由控制器<br>资源路由设置，优点：一条路由生成多种路由规则<br><code>Route::resource(&#39;article&#39;,&#39;ArticleController&#39;);</code></p>
-<p><img src="http://7xwlfk.com1.z0.glb.clouddn.com/route_resource.png" alt="route_resource"></p>
-<h3 id="Middleware中间件"><a href="#Middleware中间件" class="headerlink" title="Middleware中间件"></a>Middleware中间件</h3><p>HTTP 中间件提供一个方便的机制来过滤进入应用程序的 HTTP 请求。<br>Laravel 框架已经内置一些中间件，包括维护、身份验证、CSRF 保护，等等。所有的中间件都位于 app/Http/Middleware 目录内。</p>
-<p>自定义路由中间件<code>app\Htp\Kernel.php</code></p>
-<ol>
-<li><p>kernel.php中定义中间件名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">protected $routeMiddleware = [</span><br><span class="line">	&apos;admin.login&apos; =&gt; \App\Http\Middleware\AdminLogin::class,</span><br><span class="line">];</span><br><span class="line">//后台登录中间件，AdminLogin中间件名</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用Artisan创建中间件<br><code>uiste:blog uiste$ php artisan make:middleware AdminLogin</code></p>
-</li>
-<li><p>routes.php定义路由规则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Route::group([&apos;middleware&apos; =&gt; [&apos;web&apos;,&apos;admin.login&apos;]], function () &#123;</span><br><span class="line">    Route::get(&apos;test&apos;,function()&#123;</span><br><span class="line">        echo &apos;test a middleware&apos;;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>书写中间件条件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public function handle($request, Closure $next)</span><br><span class="line">&#123;</span><br><span class="line">    if(session(&apos;admin&apos;))</span><br><span class="line">        return redirect(&apos;admin/login&apos;);</span><br><span class="line">    return $next($request);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<blockquote>
-<p>使用<code>web</code>中间件，才能使用session</p>
-</blockquote>
-<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><p>方法一：<code>return view(&#39;greeting&#39;)-&gt;with(&#39;name&#39;, &#39;Victoria&#39;);</code></p>
-<blockquote>
-<p>使用：$name; 可以多个with一同使用</p>
-</blockquote>
-<p>方法二：<code>return = view(&#39;greeting&#39;, $data);</code></p>
-<p>方法三：<code>return view(&#39;greeting&#39;,compact(&#39;data&#39;,&#39;title&#39;));</code></p>
-<h2 id="模板引擎"><a href="#模板引擎" class="headerlink" title="模板引擎"></a>模板引擎</h2><p>blade模板引擎 基础用法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">• &#123;&#123; $name &#125;&#125;</span><br><span class="line">• @&#123;&#123; $name &#125;&#125; 					使用@符屏蔽语法解析</span><br><span class="line">• &#123;&#123; $name or &apos;Default&apos; &#125;&#125; 		使用or设置默认值</span><br><span class="line">• &#123;&#123; isset($name) ? $name : &apos;Default&apos; &#125;&#125;</span><br><span class="line">• &#123;!! $str !!&#125; 					算感叹号代表htmlspecialchars_decode()</span><br></pre></td></tr></table></figure></p>
-<h2 id="Blade模板引擎-流程控制"><a href="#Blade模板引擎-流程控制" class="headerlink" title="Blade模板引擎 流程控制"></a>Blade模板引擎 流程控制</h2><p>有开始标志就要有结束标志<br>• @if<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@if($data[&apos;score&apos;]&lt;60)</span><br><span class="line">    不及格</span><br><span class="line">    @else</span><br><span class="line">    及格</span><br><span class="line">    @endif</span><br></pre></td></tr></table></figure></p>
-<p>• @unless       除非，用法同if<br>• @for<br>• @foreach<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@foreach($data[&apos;article&apos;] as $v)</span><br><span class="line">    &#123;&#123; $v &#125;&#125;</span><br><span class="line">    @endforeach</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-<p>• @forelse      是foreach的补充<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@forelse($data[&apos;article&apos;] as $v)</span><br><span class="line">    $v</span><br><span class="line">    @empty</span><br><span class="line">    没有数据</span><br><span class="line">    @endforelse</span><br></pre></td></tr></table></figure></p>
-<p>• @while<br>以上基本流程控制可以嵌套</p>
-<h2 id="Blade模板引擎-子视图"><a href="#Blade模板引擎-子视图" class="headerlink" title="Blade模板引擎 子视图"></a>Blade模板引擎 子视图</h2><p>• @include(common.header)<br>• @include(common.name’, [‘some’ =&gt; ‘data’])<br>• @extends(‘layouts.master’)<br>• @yield(‘content’)<br>• @section(‘content’)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">头文件</span><br><span class="line">@section(&apos;content&apos;)</span><br><span class="line">&lt;p&gt;父类模板文件中的内容&lt;/p&gt;</span><br><span class="line">@show</span><br><span class="line">脚文件</span><br></pre></td></tr></table></figure></p>
-<p>子视图文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@extends(&apos;layouts.home&apos;)</span><br><span class="line">@section(&apos;content&apos;)</span><br><span class="line">    @parent</span><br><span class="line">    替换的内容</span><br><span class="line">    @section(&apos;content&apos;)</span><br></pre></td></tr></table></figure></p>
-<h2 id="读取配置项"><a href="#读取配置项" class="headerlink" title="读取配置项"></a>读取配置项</h2><p><code>echo config(&#39;database.connections.mysql.prefix&#39;);</code><br><code>echo config(&#39;app.debug&#39;);</code></p>
-<h2 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$pdo = DB :: connection()-&gt;getPdo();</span><br><span class="line">dd($pdo); //dd函数打印并终止程序继续运行</span><br></pre></td></tr></table></figure>
-<p>数据表操作<br>• DB::table(‘user’)-&gt;get();<br>• DB::table(‘user’)-&gt;where(‘user’,1)-&gt;get();</p>
-<h2 id="模型创建"><a href="#模型创建" class="headerlink" title="模型创建"></a>模型创建</h2><p>• php artisan make:model User<br>数据表操作<br>• protected $table=”user”;<br>• protected $primaryKey = ‘user_id’;<br>• public $timestamps = false;       //禁止默认时间戳</p>
-
+        <p>精神指南：找到容易变化的地方，独立出来</p>
+<h1 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h1><p>用不同的类 + 相同的方法 实现不同的策略行为</p>
+<h1 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h1><p>被观察者绑定多个观察者的类 指定事件完成时，循环触发不同观察者的相同方法<br>PHP SPL 中 SplObserveer SplSubject SplObjectStorage</p>
+<h1 id="装饰模式"><a href="#装饰模式" class="headerlink" title="装饰模式"></a>装饰模式</h1><h1 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h1><h1 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h1><h1 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h1>
       
     </div>
 
@@ -488,12 +415,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/Laravel/" rel="tag"># Laravel</a>
-          
-        </div>
-      
 
       
       
@@ -503,8 +424,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/20151112-1.html" rel="next" title="Hexo 扩展工具">
-                <i class="fa fa-chevron-left"></i> Hexo 扩展工具
+              <a href="/2018/20180402-3.html" rel="next" title="Mysql高级-存储引擎、驱动、索引、优化">
+                <i class="fa fa-chevron-left"></i> Mysql高级-存储引擎、驱动、索引、优化
               </a>
             
           </div>
@@ -513,8 +434,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/20151112-3.html" rel="prev" title="Laravel 开发记录1">
-                Laravel 开发记录1 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/20180404-1.html" rel="prev" title="大规模网站开发技术">
+                大规模网站开发技术 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -847,7 +768,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目录结构"><span class="nav-number">1.</span> <span class="nav-text">目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置选项"><span class="nav-number">2.</span> <span class="nav-text">配置选项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改默认首页"><span class="nav-number">3.</span> <span class="nav-text">修改默认首页</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础路由"><span class="nav-number">4.</span> <span class="nav-text">基础路由</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参数限定"><span class="nav-number">4.1.</span> <span class="nav-text">参数限定</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础控制器"><span class="nav-number">5.</span> <span class="nav-text">基础控制器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高级路由"><span class="nav-number">6.</span> <span class="nav-text">高级路由</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#路由命名"><span class="nav-number">6.1.</span> <span class="nav-text">路由命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#路由分组"><span class="nav-number">6.2.</span> <span class="nav-text">路由分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Middleware中间件"><span class="nav-number">6.3.</span> <span class="nav-text">Middleware中间件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#视图"><span class="nav-number">7.</span> <span class="nav-text">视图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模板引擎"><span class="nav-number">8.</span> <span class="nav-text">模板引擎</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Blade模板引擎-流程控制"><span class="nav-number">9.</span> <span class="nav-text">Blade模板引擎 流程控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Blade模板引擎-子视图"><span class="nav-number">10.</span> <span class="nav-text">Blade模板引擎 子视图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读取配置项"><span class="nav-number">11.</span> <span class="nav-text">读取配置项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#连接数据库"><span class="nav-number">12.</span> <span class="nav-text">连接数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型创建"><span class="nav-number">13.</span> <span class="nav-text">模型创建</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#策略模式"><span class="nav-number">1.</span> <span class="nav-text">策略模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#观察者模式"><span class="nav-number">2.</span> <span class="nav-text">观察者模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#装饰模式"><span class="nav-number">3.</span> <span class="nav-text">装饰模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#单例模式"><span class="nav-number">4.</span> <span class="nav-text">单例模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#适配器模式"><span class="nav-number">5.</span> <span class="nav-text">适配器模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工厂模式"><span class="nav-number">6.</span> <span class="nav-text">工厂模式</span></a></li></ol></div>
             
 
           </div>
