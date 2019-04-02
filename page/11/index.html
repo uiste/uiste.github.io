@@ -318,7 +318,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151117-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151120-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -337,8 +337,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20151117-1.html" itemprop="url">
-                  使用yum快速搭建LAMP环境
+                <a class="post-title-link" href="/2015/20151120-1.html" itemprop="url">
+                  Nginx 负载均衡
                 </a>
               
             
@@ -364,7 +364,7 @@
                 
               
 
-              <time title="创建时间：2015-11-17 00:09:29" itemprop="dateCreated datePublished" datetime="2015-11-17T00:09:29+08:00">2015-11-17</time>
+              <time title="创建时间：2015-11-20 01:49:13" itemprop="dateCreated datePublished" datetime="2015-11-20T01:49:13+08:00">2015-11-20</time>
             
 
             
@@ -416,21 +416,13 @@
       
         
           
-          yum 源配置
-挂载光驱
-配置yum源
-
-
-创建挂载点：[root@localhost mnt]# mkdir /mnt/cdrom
-挂载系统安装光盘：
-12[root@localhost mnt]# mount /dev/cdrom /mnt/cdrommount: block device /dev/sr0 is write-protected, mounting read-only
-
-配置本地yum源
-12345678[root@localhost mnt]# cd /etc/yum.repos.d/[root@localhost yum.repos.d]# ll总用量 16-rw-r-
+          Nginx与Apache的区别Apache：扩展模块众多，功能强大，并发性能表现一般Nginx：功能相对于Apache较少，但并发性能特别好。异步非阻塞方式
+环境搭建Linux网络配置1234ONBOOT=yesBOOTPROTO=staticIPADDR=192.168.34.102NETMASK=255.255.255.0
+yum源软件安装1234567891011121314[root@localhost ~]# mkdir /mnt/cdrom[root@localhost ~]# mount /dev/cdrom /mnt/cdrom/[root@localhost ~]# cd /
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20151117-1.html#more" rel="contents">
+            <a class="btn" href="/2015/20151120-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -486,7 +478,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151116-5.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151119-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -505,8 +497,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20151116-5.html" itemprop="url">
-                  MAMP 安装 Memcache | redis
+                <a class="post-title-link" href="/2015/20151119-1.html" itemprop="url">
+                  Memcache 分布式缓存
                 </a>
               
             
@@ -532,7 +524,7 @@
                 
               
 
-              <time title="创建时间：2015-11-16 02:36:19" itemprop="dateCreated datePublished" datetime="2015-11-16T02:36:19+08:00">2015-11-16</time>
+              <time title="创建时间：2015-11-19 02:36:19" itemprop="dateCreated datePublished" datetime="2015-11-19T02:36:19+08:00">2015-11-19</time>
             
 
             
@@ -584,21 +576,12 @@
       
         
           
-          Memcachehttps://github.com/uiste/PHP_Class_Library/tree/master/php-memcached
-参考文章：
-Redis一.下载安装
-
-下载：http://redis.io/
-移动：uiste:~ uiste$ cd downloads
-解压：uiste:local uiste$ sudo tar -zxf redis-3.2.5.tar.gz
-进入：uiste:local uiste$ cd redis-3.2.5
-测试编译：uiste:redis-3.2.5 uiste$ sudo make test
-安装：
-123456789101
+          概念Memcache是一套分布式高速缓存系统，分布式是说你可以在多台服务器上安装Memcache服务，这样可以达到一个很好的集群效果，高速是因为Memcache所有的数据都是保存在内存中的，读取速度比存储在硬盘中的数据快的多。Memcache的作用，但应用访问量特别大的时候，数据库的访问量也特别大。Memcache就是在应用与数据库之间的一个缓冲层。第一次读取数据库之后就可以保存到Memcache中，之后可以优先通过Memcache访问Memcache可以理解为只有一张表的数据库，只有两个字段，分别是主键key和字段
+Memcache是非持久化储存，一定要保存对数据的存储要求并不是特别高，即使
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20151116-5.html#more" rel="contents">
+            <a class="btn" href="/2015/20151119-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -654,7 +637,7 @@ Redis一.下载安装
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151116-4.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151119-2.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -673,8 +656,8 @@ Redis一.下载安装
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20151116-4.html" itemprop="url">
-                  MySQL优化
+                <a class="post-title-link" href="/2015/20151119-2.html" itemprop="url">
+                  Redis
                 </a>
               
             
@@ -700,7 +683,7 @@ Redis一.下载安装
                 
               
 
-              <time title="创建时间：2015-11-16 01:45:13" itemprop="dateCreated datePublished" datetime="2015-11-16T01:45:13+08:00">2015-11-16</time>
+              <time title="创建时间：2015-11-19 01:49:13" itemprop="dateCreated datePublished" datetime="2015-11-19T01:49:13+08:00">2015-11-19</time>
             
 
             
@@ -752,20 +735,16 @@ Redis一.下载安装
       
         
           
-          MySQL优化着手点
-存储层（数据）：存储引擎、列类型、范式规范（三范式与逆范式）myisam查询速度快，但不支持事务
-设计层（单台服务器）：索引、缓存、分区索引：主键、唯一键、普通键、外键约束缓存：表结构与表数据没有发生变化时，MySQL会将第一次查询的结果缓存到内存中分区：
-架构层（多台服务器）：读写分离或者分布式
-
-语句层：更合适的sql语句select 具体字段与（*），黄金索引
-
-
-存储引擎MySQL中的数据是通过各种不同的技术（格式）存储在文件（或者内存）中的。技术和本身的特性就称为“存储引擎”
-每一种技术都使用不同的存储机制、索引技巧、锁定水平并且最终提供广泛的不同的功能和能力。
+          redis是一个基于内存的键值对的数据库。支持5中数据类型其中包括字符串，链表，哈希，无序集合、有序集合。并且支持数据持久化操作(保证数据安全，在服务器重启之后，会自动的将数据还原到内存中)
+安装
+解压[root@localhost redis]# tar -zxvf redis-2.6.14.tar.gz
+安装[root@localhost redis-2.6.14]# make &amp;&amp; make install
+创建软件目录[root@localhost redis-2.6.14]# mkdir /usr/local/redis
+复制服务到软件目录[root@localhos
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20151116-4.html#more" rel="contents">
+            <a class="btn" href="/2015/20151119-2.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -821,7 +800,7 @@ Redis一.下载安装
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151116-3.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151119-3.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -840,8 +819,8 @@ Redis一.下载安装
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20151116-3.html" itemprop="url">
-                  大型项目优化
+                <a class="post-title-link" href="/2015/20151119-3.html" itemprop="url">
+                  Mongodb
                 </a>
               
             
@@ -867,7 +846,7 @@ Redis一.下载安装
                 
               
 
-              <time title="创建时间：2015-11-16 01:45:06" itemprop="dateCreated datePublished" datetime="2015-11-16T01:45:06+08:00">2015-11-16</time>
+              <time title="创建时间：2015-11-19 01:46:13" itemprop="dateCreated datePublished" datetime="2015-11-19T01:46:13+08:00">2015-11-19</time>
             
 
             
@@ -919,14 +898,38 @@ Redis一.下载安装
       
         
           
-          问题与优化方案客户端与服务器之间的问题描述：由于客户端跟服务器之间的网络不同，导致信号传输缓慢解决：使用多线路服务器（运维处理）
-Apache性能问题描述：Apache在并发访问情况下，表现很一般并发：在同一秒中有多少个用户在访问，一般来说并发达到100就特别到了解决：使用负载均衡技术（服务器架构）
-PHP引擎性能问题描述：PHP代码整个解析效率根据引擎不一样，速度不一样解决：1、代码优化    2、更换引擎
-MySQL性能问题描述：同样MySQL在并发请求比较高的情况下会故障，并发过高MySQL服务器会处于宕机状态。工具：bin/mysqlslap压力测试工具mysqlslap.exe -a
+          NOSQL：非关系型数据库
+特性
+读写速度特别快
+
+原因内存映射机制：先将数据写入内存，写入完成后通过异步方式将内存中的数据写入文档中查询部分使用频率较高的数据还停留在内存中。所需空间特别大
+
+
+数据无规则
+
+每一条数据都可以随意添加减少属性
+
+
+支持主从复制
+
+支持主从复制实现数据同步，故可以实现读写分离。自带监察模式，主服务器出现问题，自动在从如曲奇中选择一个服务器作为主服务器
+
+
+支持数据分片
+
+支持分布式存储
+
+
+不受SQL注入影响
+
+
+适合储存的数据由于mongodb不支持事务处理，因此不适合存储业务逻辑比较强的数据适合存储数据量比较大，当时价值比较低的数据
+Linux安装
+解压进入
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20151116-3.html#more" rel="contents">
+            <a class="btn" href="/2015/20151119-3.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -982,7 +985,7 @@ MySQL性能问题描述：同样MySQL在并发请求比较高的情况下会故�
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151116-2.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151118-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -1001,8 +1004,8 @@ MySQL性能问题描述：同样MySQL在并发请求比较高的情况下会故�
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20151116-2.html" itemprop="url">
-                  一键安装lnmp环境
+                <a class="post-title-link" href="/2015/20151118-1.html" itemprop="url">
+                  MySQL架构 | 多种方式登录
                 </a>
               
             
@@ -1028,7 +1031,7 @@ MySQL性能问题描述：同样MySQL在并发请求比较高的情况下会故�
                 
               
 
-              <time title="创建时间：2015-11-16 01:42:10" itemprop="dateCreated datePublished" datetime="2015-11-16T01:42:10+08:00">2015-11-16</time>
+              <time title="创建时间：2015-11-18 02:36:19" itemprop="dateCreated datePublished" datetime="2015-11-18T02:36:19+08:00">2015-11-18</time>
             
 
             
@@ -1080,12 +1083,22 @@ MySQL性能问题描述：同样MySQL在并发请求比较高的情况下会故�
       
         
           
-          一键安装lnmp环境1.使用putty或类似的SSH工具登陆VPS或服务器
-2.下载并安装LNMP一键安装包安装LNMP执行:wget -c http://soft.vpser.net/lnmp/lnmp1.3-full.tar.gztar zxvf lnmp1.3-full.tar.gzcd lnmp1.3-full./install.sh lnmp默认安装lnmp可不写，如需要安装LNMPA或LAMP，将./install.sh 后面的参数替换为lnmpa或lamp即可按上述命令执行后，会出现如下提示lnmp-1.3-install-1.png需要设置MySQL的root密码（不输入直接回
+          集群由一组服务器相互独立的服务器，构建的高性能与可靠性的服务器架构
+MySQL读写分离主从复制是读写分离的基础
+主从复制原理
+主服务器将修改的SQL语句写入到二进制（bin）日志中
+从服务器中的IO线程通过授权账号读取二进制日志，将信息写入到中继日志中（relay）
+从服务器中的SQL线程读取中继日志中的数据，然后将SQL语句执行，还原主服务器中的数据
+
+实现主从复制
+开启主服务器的二进制日志centos yum 安装MySQL配置文件路径：
+123log-bin=mysql-binbinlog_format=mixedserver-id=101
+
+重启主服务器MySQLservice mys
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20151116-2.html#more" rel="contents">
+            <a class="btn" href="/2015/20151118-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1130,7 +1143,7 @@ MySQL性能问题描述：同样MySQL在并发请求比较高的情况下会故�
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1175,7 +1188,7 @@ MySQL性能问题描述：同样MySQL在并发请求比较高的情况下会故�
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">137</span>
+                    <span class="site-state-item-count">142</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

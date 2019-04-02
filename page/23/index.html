@@ -318,7 +318,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150827-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150902-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -337,8 +337,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20150827-1.html" itemprop="url">
-                  php数组、字符串
+                <a class="post-title-link" href="/2015/20150902-1.html" itemprop="url">
+                  MySQL 多表查询、视图、事物、索引
                 </a>
               
             
@@ -364,7 +364,7 @@
                 
               
 
-              <time title="创建时间：2015-08-27 17:18:51" itemprop="dateCreated datePublished" datetime="2015-08-27T17:18:51+08:00">2015-08-27</time>
+              <time title="创建时间：2015-09-02 17:18:51" itemprop="dateCreated datePublished" datetime="2015-09-02T17:18:51+08:00">2015-09-02</time>
             
 
             
@@ -398,7 +398,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
 
                 
                 
@@ -434,17 +434,16 @@
       
         
           
-          本章是需要熟记的函数，使用的时候有问题查手册
-操作数组的函数is_array()判断一个变量是否是一个数组，返回是一个布尔型，如果是数组返回真，如果不是数组，返回假
-array_search()查找一个值是否正在一个数组中，返回的是以键名语法：$arr = array_search(&#39;3&#39;,$arr);
+          多表查询分类需求：在设计数据表时，那么将现实中的一个实体设计为一个表，但在查询数据时，很多时候会将具有关系的不同实体表中的数据一同取出来。语法：    select * from 表A,表B 【where 子句】说明：    从多个表中获取where子句的匹配条件进行获取数据    如果省略where子句，那么得到的结果是一个笛卡尔积笛卡尔积：    得到的结果集的记录数是：两个表的记录数的乘积    字段数：两个表的字段数的和
+union联合查询注意：
 
-array_search()查找值区分大小写，不区分数据类型，如果出现同值问题，取前面第一个下标。第三个参数如果是true则区分数据类型$arr = array_search(&#39;3&#39;,$arr,true);
+对同一个表的不同的部分进行不同的操作一般用于对比较大的表进行分表存储，联合查询
 
-操作键值的函数array_keys()获取数组中的
+1234567891011121314151617181
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20150827-1.html#more" rel="contents">
+            <a class="btn" href="/2015/20150902-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -500,7 +499,7 @@ array_search()查找值区分大小写，不区分数据类型，如果出现同
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150826-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150901-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -519,8 +518,8 @@ array_search()查找值区分大小写，不区分数据类型，如果出现同
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20150826-1.html" itemprop="url">
-                  php数组相关
+                <a class="post-title-link" href="/2015/20150901-1.html" itemprop="url">
+                  MySQL 数据库设计及步骤
                 </a>
               
             
@@ -546,7 +545,7 @@ array_search()查找值区分大小写，不区分数据类型，如果出现同
                 
               
 
-              <time title="创建时间：2015-08-26 17:18:51" itemprop="dateCreated datePublished" datetime="2015-08-26T17:18:51+08:00">2015-08-26</time>
+              <time title="创建时间：2015-09-01 17:18:51" itemprop="dateCreated datePublished" datetime="2015-09-01T17:18:51+08:00">2015-09-01</time>
             
 
             
@@ -580,7 +579,7 @@ array_search()查找值区分大小写，不区分数据类型，如果出现同
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
 
                 
                 
@@ -616,17 +615,19 @@ array_search()查找值区分大小写，不区分数据类型，如果出现同
       
         
           
-          
-复习：匿名函数use用法：将外部和匿名函数处于同一级的变量引用到匿名函数的内部，引用的变量和外部的变量是一个值传递的关系。如果需要引用传址，则在usb变量前加&amp;符号
+          实体和实体之间的关系一对多 1：N（多对一 N：1）主表中的一条记录对应从表中的多条记录
+1、    主键和非主键之间的关系就能实现一对多。2、    一对多和多对一是一样的。
 
-迭代
-单单从思想的角度上看，递归和迭代没有谁优谁劣，都是一样的，就和大家偏文科偏理科一样，但是，从代码的角度上来看，无疑是迭代的思想更加具有效率，所以建议大家以后去多用迭代的思想去解决问题。
+问题：几个一对多的关系？1、    客户和订单2、    省和市的关系3、    商品类别和商品
 
-数组不是所有关联数组都是字符串下标$arr = array(1110=&gt;&#39;刘德华&#39;,1111=&gt;&#39;金城武&#39;);不是所有数组都是整形下标$arr = array(&#39;a&#39;=
+一对一（1:1）主表中的一条记录对应从表中的一条记录
+主键和主键建关系就能实现一对一。
+
+思考：一对一两个表完全可以用一个表实现，为什么还要分成两个表？答：在字段数量很多情况下，数据量也就很大，每次查询都需要检索大量数据，这样效率低下。我们可以将所有字段分成两个部分，“常用字段”和“不常用字段”，这样对大部分查询者来说
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20150826-1.html#more" rel="contents">
+            <a class="btn" href="/2015/20150901-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -682,7 +683,7 @@ array_search()查找值区分大小写，不区分数据类型，如果出现同
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150824-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150830-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -701,8 +702,8 @@ array_search()查找值区分大小写，不区分数据类型，如果出现同
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20150824-1.html" itemprop="url">
-                  php函数基础
+                <a class="post-title-link" href="/2015/20150830-1.html" itemprop="url">
+                  MySQL 数据类型、列属性、数据完整性
                 </a>
               
             
@@ -728,7 +729,7 @@ array_search()查找值区分大小写，不区分数据类型，如果出现同
                 
               
 
-              <time title="创建时间：2015-08-24 17:18:51" itemprop="dateCreated datePublished" datetime="2015-08-24T17:18:51+08:00">2015-08-24</time>
+              <time title="创建时间：2015-08-30 17:18:51" itemprop="dateCreated datePublished" datetime="2015-08-30T17:18:51+08:00">2015-08-30</time>
             
 
             
@@ -762,7 +763,7 @@ array_search()查找值区分大小写，不区分数据类型，如果出现同
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
 
                 
                 
@@ -798,19 +799,57 @@ array_search()查找值区分大小写，不区分数据类型，如果出现同
       
         
           
-          return
-中断文件的功能：终止的仅仅是当前return所在的文件，而不是终止整个程序。
-返回值
-return返回结果，可以是一个变量，所以，同样支持值传递和引用传递两种方法，如果使用引用传递，则在函数名的前面加上一个&amp;
+          数据类型数据类型——值类型整型
 
-exit()/die()exit()和die()的功能一模一样，他们就是一个功能的两种叫法。作用是终止程序。
-sleep()sleep后面有一个参数，代表程序延迟多少秒后继续执行。
-函数调用时间代码是先进行解析再执行里面的语句，解析阶段已经预先给function开辟了空间，所以执行阶段调用函数时，可以将调用函数放在函数声明之前。
-可变函数可以用一个变量来存放函数名
+
+整型
+占用字节
+范围
+范围
+
+
+
+
+tinyint
+1
+-2^7~2^7-1
+-128~127
+
+
+smallint
+2
+-2^15~2^15-1
+-32768~32767
+
+
+mediumint
+3
+-2^23~2^23-1
+-8388608~8388607
+
+
+int
+4
+-2^31~2^31-1
+-2147483648~2147483647
+
+
+bigint
+8
+-2^63~2^63-1
+-
+
+
+
+
+一个字节=8位，8位就是8个二进制数
+
+
+整型支持显示宽度：最小的显示位数，比如int(5)，如果数值的位数小于5位，前面加上前导0。比如输入12，显示0
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20150824-1.html#more" rel="contents">
+            <a class="btn" href="/2015/20150830-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -866,7 +905,7 @@ sleep()sleep后面有一个参数，代表程序延迟多少秒后继续执行�
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150823-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150829-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -885,8 +924,8 @@ sleep()sleep后面有一个参数，代表程序延迟多少秒后继续执行�
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20150823-1.html" itemprop="url">
-                  php基础语法-数据类型、运算符、分支结构、包含文件
+                <a class="post-title-link" href="/2015/20150829-1.html" itemprop="url">
+                  MySQL 知识、数据库、数据表
                 </a>
               
             
@@ -912,7 +951,7 @@ sleep()sleep后面有一个参数，代表程序延迟多少秒后继续执行�
                 
               
 
-              <time title="创建时间：2015-08-23 21:03:06" itemprop="dateCreated datePublished" datetime="2015-08-23T21:03:06+08:00">2015-08-23</time>
+              <time title="创建时间：2015-08-29 17:18:51" itemprop="dateCreated datePublished" datetime="2015-08-29T17:18:51+08:00">2015-08-29</time>
             
 
             
@@ -946,7 +985,7 @@ sleep()sleep后面有一个参数，代表程序延迟多少秒后继续执行�
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
 
                 
                 
@@ -982,14 +1021,11 @@ sleep()sleep后面有一个参数，代表程序延迟多少秒后继续执行�
       
         
           
-          ASCII编码ASCII码一共有128个，一个ASCII编码占用1个字节，也就是8位。所以我们书写字符串的时候，一个字母占用1个字节。ASCII编码全部都是连续的，比如A是65，B是66，C，67。ASCII编码小写字母比大写字母大32。比如A是65，小写a是97。
-chr()   :    将一个数字转换成对应的ASCII码的字符。ord()     :    将一个ASCII码的字符转换成相对应的数
-\num   就是将八进制的num转换成ascii编码\xnum  就是将十六进制的num转换成ascii编码
-布尔型数字：0、0.0、0.00 等0数都是false字符串：”0”、” “空字
+          SQL DML 和 DDL可以把 SQL 分为两个部分：数据操作语言 (DML) 和 数据定义语言 (DDL)。SQL (结构化查询语言)是用于执行查询的语法。但是 SQL 语言也包含用于更新、插入和删除记录的语法。查询和更新指令构成了 SQL 的 DML 部分：SELECT - 从数据库表中获取数据UPDATE - 更新数据库表中的数据DELETE - 从数据库表中删除数据INSERT INTO - 向数据库表中插入数据SQL 的数据定义语言 (DDL) 部分使我们有能力创建或删除表格。我们也可以定义索引（键），规定表之间的链接，以及施加表间的约束。SQL 中最重要的 DDL 语句:CREA
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20150823-1.html#more" rel="contents">
+            <a class="btn" href="/2015/20150829-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1045,7 +1081,7 @@ chr()   :    将一个数字转换成对应的ASCII码的字符。ord()     :   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150822-2.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150828-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -1064,8 +1100,8 @@ chr()   :    将一个数字转换成对应的ASCII码的字符。ord()     :   
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20150822-2.html" itemprop="url">
-                  PHP思想养成-打印菱形
+                <a class="post-title-link" href="/2015/20150828-1.html" itemprop="url">
+                  php数组比较-usort
                 </a>
               
             
@@ -1091,7 +1127,7 @@ chr()   :    将一个数字转换成对应的ASCII码的字符。ord()     :   
                 
               
 
-              <time title="创建时间：2015-08-22 16:47:09" itemprop="dateCreated datePublished" datetime="2015-08-22T16:47:09+08:00">2015-08-22</time>
+              <time title="创建时间：2015-08-28 16:07:47" itemprop="dateCreated datePublished" datetime="2015-08-28T16:07:47+08:00">2015-08-28</time>
             
 
             
@@ -1161,14 +1197,12 @@ chr()   :    将一个数字转换成对应的ASCII码的字符。ord()     :   
       
         
           
-          
-拿出一张纸画个图，站在代码外面的世界，分析一下功能实现的步骤，再讲思想转换成代码
-
-1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465&lt;?php header("content-type:text/html;charset=utf-8");// PHP打印菱形的两种方法，备注的信息由于定义层数是从0开始，所以思想与代码有略微区别// copyright ：uisteecho "方法一：通过判定半个
+          usort()、getdate()自定义排序，书写一个函数，对数组里面的元素大小两两进行比较，如果return -1，则将大的放在前面，如果return 1，则将大的放在后面。
+123456789101112131415161718192021&lt;?php $arr5 = array(		array('name'=&gt;'jack','age'=&gt;24,'sex'=&gt;'man'),		array('name'=&gt;'rose','age'=&gt;38,'sex'=&gt;'wom'),		array('name'=&gt;'lucy','age'=&gt;16,'sex
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20150822-2.html#more" rel="contents">
+            <a class="btn" href="/2015/20150828-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1213,7 +1247,7 @@ chr()   :    将一个数字转换成对应的ASCII码的字符。ord()     :   
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/22/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/">24</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/24/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/22/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/">24</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/24/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1258,7 +1292,7 @@ chr()   :    将一个数字转换成对应的ASCII码的字符。ord()     :   
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">137</span>
+                    <span class="site-state-item-count">142</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

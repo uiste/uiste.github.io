@@ -318,7 +318,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2016/20161015-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2017/20170319-2.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -337,8 +337,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/20161015-1.html" itemprop="url">
-                  在 Group by 之内(前)实现 Order by 排序
+                <a class="post-title-link" href="/2017/20170319-2.html" itemprop="url">
+                  7个高级技巧帮助你释放大量Mac OS X硬盘空间
                 </a>
               
             
@@ -364,7 +364,7 @@
                 
               
 
-              <time title="创建时间：2016-10-15 01:35:21" itemprop="dateCreated datePublished" datetime="2016-10-15T01:35:21+08:00">2016-10-15</time>
+              <time title="创建时间：2017-03-19 12:12:04" itemprop="dateCreated datePublished" datetime="2017-03-19T12:12:04+08:00">2017-03-19</time>
             
 
             
@@ -416,15 +416,14 @@
       
         
           
-          发现问题统计功能需求时，比如统计某 APP 在一小时内最后一笔交易的时间点，测试后发现数据实为该小时内的第一笔交易。
-SQL 语句示例
-1234567SELECT appid, created_timeFROM orderWHERE paid = 1      AND created_time &gt;= &apos;2016-01-26 17:00:00&apos;      AND created_time &lt; &apos;2016-01-26 18:00:00&apos;GROUP BY appidORDER BY created_time DESC;
-
-执行后发现实际 ORDER
+          硬盘空间用尽是一件很让人头疼的事情，尤其是MacBook Air等设备上的固态硬盘可用的储存空间很少。下面为大家介绍7个高级技巧来释放大量的硬盘空间，当然这些高级技巧更改了系统功能和文件，必须通过使用命令行实现，还需要使用rm或rf这样的危险命令，所以Mac OS X新手还是要谨慎尝试。
+1：禁用SafeSleep休眠模式——能节省出4GB-16GB空间
+Screen Shot 2013-05-11 at 3.57.34 AM.jpg
+下面的命令可以关闭OS X原生的休眠功能，也就是SafeSleep。这种休眠模式当Mac休眠或者没电池时会将内存中的内容储存在硬盘上的sleepimage文件上
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/20161015-1.html#more" rel="contents">
+            <a class="btn" href="/2017/20170319-2.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -480,7 +479,7 @@ SQL 语句示例
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2016/20161010-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2017/20170319-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -499,8 +498,8 @@ SQL 语句示例
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/20161010-1.html" itemprop="url">
-                  连接SSH时出现UNPROTECTED PRIVATE KEY FILE
+                <a class="post-title-link" href="/2017/20170319-1.html" itemprop="url">
+                  mac如何查看隐藏文件夹？苹果mac显示隐藏文件夹方法和命令介绍
                 </a>
               
             
@@ -526,7 +525,7 @@ SQL 语句示例
                 
               
 
-              <time title="创建时间：2016-10-10 01:35:21" itemprop="dateCreated datePublished" datetime="2016-10-10T01:35:21+08:00">2016-10-10</time>
+              <time title="创建时间：2017-03-19 12:11:58" itemprop="dateCreated datePublished" datetime="2017-03-19T12:11:58+08:00">2017-03-19</time>
             
 
             
@@ -578,178 +577,11 @@ SQL 语句示例
       
         
           
-          原因
-使用密钥连接 SSH 时提示 WARNING: UNPROTECTED PRIVATE KEY FILE，找到原因是由于之前重新配置了 ~/.ssh 目录权限，导致密钥能够通过其他用户访问。所以将密钥或者 .ssh 目录权限设置为仅当前用户具有访问权限即可解决。若提示 Bad owner or permissions, 也可以通过下述方案解决。
-
-解决方案
-sudo chown -R uiste:staff .sshsudo chmod -R 700 .ssh
-
-
-          
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/20161010-1.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2016/20160523-2.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="uiste">
-      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
-      <meta itemprop="image" content="/images/default_avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="uiste">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/20160523-2.html" itemprop="url">
-                  PHP开发安全问题总结
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2016-05-23 01:35:21" itemprop="dateCreated datePublished" datetime="2016-05-23T01:35:21+08:00">2016-05-23</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-10-19 09:57:01" itemprop="dateModified" datetime="2018-10-19T09:57:01+08:00">2018-10-19</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          安全保护一般性要点不相信表单对于一般的Javascript前台验证，由于无法得知用户的行为，例如关闭了浏览器的javascript引擎，这样通过POST恶意数据到服务器。需要在服务器端进行验证，对每个php脚本验证传递到的数据，防止XSS攻击和SQL注入
-不相信用户要假设你的网站接收的每一条数据都是存在恶意代码的，存在隐藏的威胁，要对每一条数据都进行清理
-关闭全局变量在php.ini文件中进行以下配置：
-register_globals = Off如果这个配置选项打开之后，会出现很大的安全隐患。例如有一个process.php的脚本文件，会将接收到的数据插入到数据库，接收用户输入数据的表单可能
+          很多时候，无论是Windows还是Mac OS系统一些重要的文件夹和文件都是要被隐藏起来的，以防止用户因为误操作修改或者删除而导致系统或者软件的损坏。但是很多时候我们Mac用户，也需要修改隐藏的文件，才能实现一些操作。所以这个时候我们就需要将隐藏的文件或者文件夹显示出来。那么Mac系统怎么显示隐藏的文件夹和文件呢？或者说Mac显示隐藏文件好文件夹的命令是什么呢？命令方式最简单，键入如下两行命令你就可以实现对文件的现实和隐藏功能了。这个时候肯定会有童鞋问：“在哪里敲命令呢？”，Launchpad——其他——终端，打开之后就可以键入命令了。显示：defaults write com.apple.f
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/20160523-2.html#more" rel="contents">
+            <a class="btn" href="/2017/20170319-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -805,7 +637,7 @@ register_globals = Off如果这个配置选项打开之后，会出现很大的�
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2016/20160523-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2017/20170226-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -824,8 +656,8 @@ register_globals = Off如果这个配置选项打开之后，会出现很大的�
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/20160523-1.html" itemprop="url">
-                  PHP网站常见安全漏洞及防御方法
+                <a class="post-title-link" href="/2017/20170226-1.html" itemprop="url">
+                  Yii2.0 对数据库 查询的一些简单的操作
                 </a>
               
             
@@ -851,7 +683,7 @@ register_globals = Off如果这个配置选项打开之后，会出现很大的�
                 
               
 
-              <time title="创建时间：2016-05-23 01:32:50" itemprop="dateCreated datePublished" datetime="2016-05-23T01:32:50+08:00">2016-05-23</time>
+              <time title="创建时间：2017-02-26 20:06:41" itemprop="dateCreated datePublished" datetime="2017-02-26T20:06:41+08:00">2017-02-26</time>
             
 
             
@@ -903,13 +735,14 @@ register_globals = Off如果这个配置选项打开之后，会出现很大的�
       
         
           
-          常见PHP网站安全漏洞对于PHP的漏洞，目前常见的漏洞有五种。分别是Session文件漏洞、SQL注入漏洞、脚本命令执行漏洞、全局变量漏洞和文件漏洞。这里分别对这些漏洞进行简要的介绍。
-session文件漏洞Session攻击是黑客最常用到的攻击手段之一。当一个用户访问某一个网站时，为了免客户每进人一个页面都要输人账号和密码，PHP设置了Session和Cookie用于方便用户的使用和访向。
-SQL注入漏洞在进行网站开发的时候，程序员由于对用户输人数据缺乏全面判断或者过滤不严导致服务器执行一些恶意信息，比如用户信息查询等。黑客可以根据恶意程序返回的结果获取相应的信息。这就是月行胃的SQL注入漏
+          1： 此方法返回 [&#39;name&#39; =&gt; &#39;daxia&#39;] 的所有数据；
+User::find()-&gt;where([&#39;name&#39; =&gt; &#39;daxia&#39;])-&gt;all();2： 此方法返回 [&#39;name&#39; =&gt; &#39;daxia&#39;]的一条数据
+User::find()-&gt;where([&#39;name&#39; =&gt; &#39;daxia&#39;])-&gt;one();3： 在条件name的基础上，额外添加另一个条件sex
+User::find()-&gt;w
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/20160523-1.html#more" rel="contents">
+            <a class="btn" href="/2017/20170226-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -965,7 +798,7 @@ SQL注入漏洞在进行网站开发的时候，程序员由于对用户输人�
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2016/20160522-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2017/20170225-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -984,8 +817,8 @@ SQL注入漏洞在进行网站开发的时候，程序员由于对用户输人�
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/20160522-1.html" itemprop="url">
-                  服务器架构
+                <a class="post-title-link" href="/2017/20170225-1.html" itemprop="url">
+                  阶段性搬砖总结
                 </a>
               
             
@@ -1011,7 +844,7 @@ SQL注入漏洞在进行网站开发的时候，程序员由于对用户输人�
                 
               
 
-              <time title="创建时间：2016-05-22 01:57:39" itemprop="dateCreated datePublished" datetime="2016-05-22T01:57:39+08:00">2016-05-22</time>
+              <time title="创建时间：2017-02-25 20:09:53" itemprop="dateCreated datePublished" datetime="2017-02-25T20:09:53+08:00">2017-02-25</time>
             
 
             
@@ -1063,12 +896,181 @@ SQL注入漏洞在进行网站开发的时候，程序员由于对用户输人�
       
         
           
-          
+          原因因为最近工作的原因,断了学习成长的一个节奏，想着还是做个记录。虽然暂更博客内容的时间不长，却在这短暂的时间有所迷失了自己的方向，麻木的生活，重复的工作，好像一把机械性的操手。沉浸与思考之后，又自我感觉忧虑。
+也许一辈子都不能做成什么大事，还是希望能做好这一件小事。
+以后静心学习，慢一点，稳一点，走好脚下的路…
 
           
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/20160522-1.html#more" rel="contents">
+            <a class="btn" href="/2017/20170225-1.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2016/20161113-1.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="uiste">
+      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="uiste">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/20161113-1.html" itemprop="url">
+                  Html Body 莫名加上'MacOSX ATTRV'原因及解决
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2016-11-13 01:35:21" itemprop="dateCreated datePublished" datetime="2016-11-13T01:35:21+08:00">2016-11-13</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-03-29 11:54:09" itemprop="dateModified" datetime="2019-03-29T11:54:09+08:00">2019-03-29</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          前言
+今天上传项目时是由Mac tar打包上传到Linux服务器解包的，部署完成后访问页面发现页面的Body之前都被加入了
+一行奇怪的字符。
+Mac环境解决方案
+Google后发现Mac解决方案
+xattr -r -d com.apple.quarantine file-path原文地址http://entropytc.com/got-com-apple-quarantine-problems/
+
+不过在Linux下没有xattr命令，就去Linux目录下ls -a发现每个文件都被克隆了一个.开头的文件，由于检查过原始文件并未遭到改动，果然删除这些.开头文件即解决了问题
+
+Linux解决方案 
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/20161113-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1113,7 +1115,7 @@ SQL注入漏洞在进行网站开发的时候，程序员由于对用户输人�
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1158,7 +1160,7 @@ SQL注入漏洞在进行网站开发的时候，程序员由于对用户输人�
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">137</span>
+                    <span class="site-state-item-count">142</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
