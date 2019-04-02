@@ -318,7 +318,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151008-2.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151017-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -337,8 +337,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20151008-2.html" itemprop="url">
-                  PHP - 错误处理 | 异常处理
+                <a class="post-title-link" href="/2015/20151017-1.html" itemprop="url">
+                  Smarty2 模板引擎
                 </a>
               
             
@@ -364,7 +364,7 @@
                 
               
 
-              <time title="创建时间：2015-10-08 23:47:19" itemprop="dateCreated datePublished" datetime="2015-10-08T23:47:19+08:00">2015-10-08</time>
+              <time title="创建时间：2015-10-17 02:40:34" itemprop="dateCreated datePublished" datetime="2015-10-17T02:40:34+08:00">2015-10-17</time>
             
 
             
@@ -416,17 +416,28 @@
       
         
           
-          错误处理简介PHP独有的处理默认情况下，当错误发生的时候在浏览器上显示错误报告。可以使用操作符（@）来屏蔽语句生成的错误报告，注意@符号只对函数有用，对echo语句不起作用
-错误级别按照错误的严重程度将错误划分为3种Notice：提示性错误Warning：警告性错误Fatal error：致命性错误
+          Smarty 模板引擎Smarty作用Smarty 是一个成熟的引擎，用来实现表现和内容相分离。Smarty官网
 
-notice和warning级别错误后继续执行，error级别错误后终止执行
+文件目录
 
-处理方式显示错误报告【默认】记录错误日志错误发生后交个自定义脚本去完成【比如，错误发生后发一个电子邮件】
-错误触发PHP程序触发：PHP在运行的过程中，发现并触发错误。比如include、require等等。由用户触
+plugins 存放Smarty插件，即扩展类文件
+sysplugins 存放系统系统函数的目录
+Smarty.class.php Smarty 的入口文件，引入此文件即可
+SmartyBC.class.php 兼容版
+
+
+
+Smarty.class.php -构造函数
+
+setTemplateDir(): 设置模板文件夹
+setCompileDir(): 设置混编文件夹
+setCacheDir(): 设置缓存文件夹
+setConfigsDir(): 设置配置文件夹
+
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20151008-2.html#more" rel="contents">
+            <a class="btn" href="/2015/20151017-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -482,7 +493,7 @@ notice和warning级别错误后继续执行，error级别错误后终止执行
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151008-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151012-Library-php-str-fun.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -501,8 +512,8 @@ notice和warning级别错误后继续执行，error级别错误后终止执行
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20151008-1.html" itemprop="url">
-                  PHP - 文件上传 | 缩略图
+                <a class="post-title-link" href="/2015/20151012-Library-php-str-fun.html" itemprop="url">
+                  PHP字符串函数大汇总
                 </a>
               
             
@@ -528,7 +539,7 @@ notice和warning级别错误后继续执行，error级别错误后终止执行
                 
               
 
-              <time title="创建时间：2015-10-08 23:46:01" itemprop="dateCreated datePublished" datetime="2015-10-08T23:46:01+08:00">2015-10-08</time>
+              <time title="创建时间：2015-10-12 23:06:53" itemprop="dateCreated datePublished" datetime="2015-10-12T23:06:53+08:00">2015-10-12</time>
             
 
             
@@ -580,18 +591,21 @@ notice和warning级别错误后继续执行，error级别错误后终止执行
       
         
           
-          文件上传
-表单的enctype属性：
-application/x-www-fomr-urlencoded ：表示表单先服务器传输的文件数据。这是默认格式。(将表单的数据转成XML格式向服务器传输)
-multipart/form-data ：符合数据，告知浏览器表单中是符合数据（字符串，二进制文件）
-text/plain：用于向服务器传输大量文本，效率高，但时安全性低，用于发送邮件表示表单传输的数据类型
+          
+查找字符位置函数
 
-表单文件域
-1234&lt;form method="post" action="" enctype="multipart/form-data"&gt;		&lt;input type="fi
+strpos($str,search,[int]):   查找search在$str中的第一次位置从int开始
+stripos($str,search,[int]):  函数返回字符串在另一个字符串中第一次出现的位置
+strrpos($str,search,[int]):  查找search在$str中的最后一次出现的位置从int
+
+提取子字符函数（双字节）
+
+submit($str,int start[,int length]):  从$str中strat位置开始提取[length长度的字符串]。
+strstr($str1,$str2):   从$str1(第一个的位置
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20151008-1.html#more" rel="contents">
+            <a class="btn" href="/2015/20151012-Library-php-str-fun.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -647,7 +661,7 @@ text/plain：用于向服务器传输大量文本，效率高，但时安全性�
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151007-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151011-Library-php-skill.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -666,8 +680,8 @@ text/plain：用于向服务器传输大量文本，效率高，但时安全性�
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20151007-1.html" itemprop="url">
-                  PHP - 递归实现无限极联动
+                <a class="post-title-link" href="/2015/20151011-Library-php-skill.html" itemprop="url">
+                  PHP - 速度提升小技巧
                 </a>
               
             
@@ -693,7 +707,7 @@ text/plain：用于向服务器传输大量文本，效率高，但时安全性�
                 
               
 
-              <time title="创建时间：2015-10-07 00:56:02" itemprop="dateCreated datePublished" datetime="2015-10-07T00:56:02+08:00">2015-10-07</time>
+              <time title="创建时间：2015-10-11 22:06:53" itemprop="dateCreated datePublished" datetime="2015-10-11T22:06:53+08:00">2015-10-11</time>
             
 
             
@@ -745,11 +759,17 @@ text/plain：用于向服务器传输大量文本，效率高，但时安全性�
       
         
           
-          递归实现无限极联动123456789101112131415161718192021222324252627282930313233343536&lt;?phpmysql_connect('localhost','root','aa');mysql_select_db('php6');mysql_query('set names utf8');//获取所有类别$sql='select * from category';$rs=mysql_query($sql);//将资源转成二维数组$list=array();while($rows=mysql_fetch_assoc($rs)) &#123;
+          MySQL数据库建表由于session没有长久保存的必要，所以建议sess表使用memory引擎，此引擎执行效率高。
+数据insert数据delete数据update数据selectPHPC-S-R-F 保护C-S-R-F (跨网站请求伪造) 攻击，跨网站请求伪造是一种恶意的攻击，借以代表经过身份验证的用户执行未经授权的命令。
+Laravel解决方案：
+
+Laravel 会自动在每一位用户的 session 中放置随机的 token ，这个 token 将被用来确保经过验证的用户是实际发出请求至应用程序的用户
+
+插入 C-S-R-F Token 到表单type123当然也可以在Blade模板引
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20151007-1.html#more" rel="contents">
+            <a class="btn" href="/2015/20151011-Library-php-skill.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -805,7 +825,7 @@ text/plain：用于向服务器传输大量文本，效率高，但时安全性�
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151005-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151011-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -824,8 +844,8 @@ text/plain：用于向服务器传输大量文本，效率高，但时安全性�
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20151005-1.html" itemprop="url">
-                  异步的JavaScript和XML
+                <a class="post-title-link" href="/2015/20151011-1.html" itemprop="url">
+                  PHP常见错误提示
                 </a>
               
             
@@ -851,7 +871,7 @@ text/plain：用于向服务器传输大量文本，效率高，但时安全性�
                 
               
 
-              <time title="创建时间：2015-10-05 22:07:14" itemprop="dateCreated datePublished" datetime="2015-10-05T22:07:14+08:00">2015-10-05</time>
+              <time title="创建时间：2015-10-11 19:31:45" itemprop="dateCreated datePublished" datetime="2015-10-11T19:31:45+08:00">2015-10-11</time>
             
 
             
@@ -903,15 +923,12 @@ text/plain：用于向服务器传输大量文本，效率高，但时安全性�
       
         
           
-          概念介绍AJAX的全称Asynchronous JavaScript and XML异步的JavaScript和XML
-作用：在无需重新加载整个网页的情况下，能够更新部分网页的技术通过少量数据交换，实现异部局部更新
-应用：社交软件，地图
-操作步骤：1、利用html+css来实现页面，表达信息；2、用XMLHttpRequest和web服务器进行数据的异步交换3、运营js操作DOM，实现动态局部刷新；
-XMLHttpRequest对象的出现分割了同步和异步。XMLHttpRequest出现之前是同步的，出现之后是异步的。同步：页面请求实时传给服务器，导致必填数据没有填的时候，要回到页面上重新从头
+          Fatal error: Call to undefined function……函数不存在，可能的原因：1、系统不存在这个函数且你也没自定义2、因为环境不同，这个函数在本环境配置文件没开，百度函数名字，就能查到函数属于哪个dll，在php.ini里开启
+syntax error, unexpected T_STRING, expecting……严重语法错误，例如syntax error, unexpected T_STRING, expecting &#39;,&#39; or &#39;;&#39; in F:\phpnow\htdocs\index.php on line 4后边标着行号
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20151005-1.html#more" rel="contents">
+            <a class="btn" href="/2015/20151011-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -967,7 +984,7 @@ XMLHttpRequest对象的出现分割了同步和异步。XMLHttpRequest出现之�
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151001-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151009-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -986,8 +1003,8 @@ XMLHttpRequest对象的出现分割了同步和异步。XMLHttpRequest出现之�
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20151001-1.html" itemprop="url">
-                  Laravel - 表单操作
+                <a class="post-title-link" href="/2015/20151009-1.html" itemprop="url">
+                  PHP - MySQL 两表联查 | 显示不同类型
                 </a>
               
             
@@ -1013,7 +1030,7 @@ XMLHttpRequest对象的出现分割了同步和异步。XMLHttpRequest出现之�
                 
               
 
-              <time title="创建时间：2015-10-01 01:17:43" itemprop="dateCreated datePublished" datetime="2015-10-01T01:17:43+08:00">2015-10-01</time>
+              <time title="创建时间：2015-10-09 10:00:38" itemprop="dateCreated datePublished" datetime="2015-10-09T10:00:38+08:00">2015-10-09</time>
             
 
             
@@ -1065,13 +1082,16 @@ XMLHttpRequest对象的出现分割了同步和异步。XMLHttpRequest出现之�
       
         
           
-          静态资源管理及模板布局表单列表及分页实现通过表单实现新增及操作状态提示功能设置成功之后有提示？使用session的暂存数据，也就是flash，跟上一个with即可？？？
-表单验证及数据保持详解控制器验证Validator数据保持
-123456789101112131415161718192021222324//添加学生信息	//接收表单提交数据-create方法	public function create(Request $request)&#123;		if($request-&gt;isMethod(&apos;POST&apos;))&#123;			//表单验证必填项，最小2个字符，
+          两表联查需求不同商品的属性扩展如：
+
+音乐：中文片名、英文片名、商品别名、介质/格式、国家地区、导演/指挥、主唱、长度、歌词书：作者、出版社、图书书号、出版日期、图书页数、字数、所属分类等…
+
+思想通过对产品类型划分，使用属性类别(attr_type)表作为中间表，对属性(attribute)扩展连接。
+代码12345//获取attr_type表数据   public function getAttrTypeList()&#123;       $sql='select attr_type_name,count(attr_name) as `count` from attr_type natu
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20151001-1.html#more" rel="contents">
+            <a class="btn" href="/2015/20151009-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1116,7 +1136,7 @@ XMLHttpRequest对象的出现分割了同步和异步。XMLHttpRequest出现之�
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/15/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/17/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/15/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/17/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1161,7 +1181,7 @@ XMLHttpRequest对象的出现分割了同步和异步。XMLHttpRequest出现之�
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">132</span>
+                    <span class="site-state-item-count">137</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

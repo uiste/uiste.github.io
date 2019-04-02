@@ -318,7 +318,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150905-2.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150915-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -337,8 +337,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20150905-2.html" itemprop="url">
-                  PHP、终端-模拟get请求
+                <a class="post-title-link" href="/2015/20150915-1.html" itemprop="url">
+                  PHP面向对象1
                 </a>
               
             
@@ -364,7 +364,7 @@
                 
               
 
-              <time title="创建时间：2015-09-05 16:57:44" itemprop="dateCreated datePublished" datetime="2015-09-05T16:57:44+08:00">2015-09-05</time>
+              <time title="创建时间：2015-09-15 21:40:18" itemprop="dateCreated datePublished" datetime="2015-09-15T21:40:18+08:00">2015-09-15</time>
             
 
             
@@ -416,27 +416,17 @@
       
         
           
-          Mac 设置文件夹权限为777
-1.cd 你的文件夹路径的上一级目录。2.sudo chmod -R 777 文件夹名3.输入密码4.成功
+          概念1、    OOP：Object Oriented Programming    面向对象编程2、    OOA：Object-Oriented Analysis    面向对象分析3、    OOD：Object-Oriented Design        面向对象设计4、    对象只能有属性、方法、和常量
 
-fsockopen(‘主机’,’端口号’,’错误号’,’错误描述’，’连接时限’);
-使用命令行模拟get请求
-telnet www.test.com 80
+类-数据类型对象-复杂的变量属性-变量function-方法、函数
 
-ctrl + ]
-
-enter
-
-GET /httpget.php HTTP/1.1
-
-Host: www.test.com
-
-
-使用PHP模拟get请求1234567891011121314151617181920header(&apos;content-type:text/html;chars
+类类名不区分大小写
+通过new关键字类实例化对象，实例化的过程就是分配内存的过程$stu = new Student();//实例化对象就是把对象的地址传递给$stu1变量 
+封装a)    public：公
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20150905-2.html#more" rel="contents">
+            <a class="btn" href="/2015/20150915-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -492,7 +482,7 @@ Host: www.test.com
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150905-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150911-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -511,8 +501,8 @@ Host: www.test.com
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20150905-1.html" itemprop="url">
-                  PHP闲来无事，小打小闹
+                <a class="post-title-link" href="/2015/20150911-1.html" itemprop="url">
+                  会话控制、cookie、sessions
                 </a>
               
             
@@ -538,7 +528,7 @@ Host: www.test.com
                 
               
 
-              <time title="创建时间：2015-09-05 16:28:29" itemprop="dateCreated datePublished" datetime="2015-09-05T16:28:29+08:00">2015-09-05</time>
+              <time title="创建时间：2015-09-11 14:09:59" itemprop="dateCreated datePublished" datetime="2015-09-11T14:09:59+08:00">2015-09-11</time>
             
 
             
@@ -590,11 +580,18 @@ Host: www.test.com
       
         
           
-          文件操作123456789101112131415161718&lt;?php if (!file_exists('a/b/c/d/')) &#123;	mkdir('a/b/c/d',0777,true);	echo "文件目录创建成功";&#125;elseif(!file_exists('a/b/c/d/aaa.txt'))&#123;	$fp=fopen('a/b/c/d/aaa.txt','w');	fwrite($fp, '闲的无聊');	echo "文件内容创建成功";&#125;elseif(file_exists('a/b/c/d/aaa.txt'))&#123;	unlin
+          HTTP协议HTTP是无状态的协议HTTP协议没有内建机制来维持两个事务间的状态，无法判断在请求一个页面后再请求另外一个页面时是来自同一用户。
+会话控制的思想是指能够在网站中根据一个会话跟踪用户。
+
+作用：用户登录的支持根据授权级别和个人喜好显示相应的内容。实现购物车功能
+
+实现原理：通过一个唯一会话ID来驱动的。会话ID是一个加密的随机数字。由PHP生成，在会话的生命周期中都会保存在客户端。保存在用户机器里的cookie中，通过URL在网络上传递。
+经典方案上次登录时间上次浏览信息规定时间内，不用反复登录
+cookie如果没有设置时间，cookie不会保存到客户端，浏览器的会话结束，我们的c
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20150905-1.html#more" rel="contents">
+            <a class="btn" href="/2015/20150911-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -650,7 +647,7 @@ Host: www.test.com
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150904-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150910-Library-php-note.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -669,8 +666,8 @@ Host: www.test.com
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20150904-1.html" itemprop="url">
-                  PHP操作数据库
+                <a class="post-title-link" href="/2015/20150910-Library-php-note.html" itemprop="url">
+                  PHP - MySQL SQL注入
                 </a>
               
             
@@ -696,7 +693,7 @@ Host: www.test.com
                 
               
 
-              <time title="创建时间：2015-09-04 17:18:51" itemprop="dateCreated datePublished" datetime="2015-09-04T17:18:51+08:00">2015-09-04</time>
+              <time title="创建时间：2015-09-10 09:26:25" itemprop="dateCreated datePublished" datetime="2015-09-10T09:26:25+08:00">2015-09-10</time>
             
 
             
@@ -718,24 +715,6 @@ Host: www.test.com
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a></span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -766,12 +745,13 @@ Host: www.test.com
       
         
           
-          连接数据库1234$link=@mysql_connect(&apos;localhost:3306&apos;,&apos;root&apos;,&apos;aaa&apos;) or die(mysql_error());	//连接数据库mysql_query(&apos;set names utf8&apos;);	//设置字符编码//mysql_query(&apos;use jokedb&apos;);		//选择数据库mysql_select_db(&apos;jokedb&apos;);	//选择数据库
-显示数据库函数mysql_fetch_row()获取资源中的一条记录，并匹配
+          SQL 注入用户名注入：select * from admin where name=&#39;&#39; or 1=1 or &#39;&#39; and pwd = &#39;&#39;;select * from admin where name=&#39;&#39; or 1=1 # &#39;&#39; and pwd = &#39;&#39;;select * from admin where name=&#39;&#39; or 1=1 -- &#39;&#39; and pwd = &#39;&#39;;
+
+‘ or 1=1 or ‘’‘ or 1=1 # ‘’‘ or 1=1
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20150904-1.html#more" rel="contents">
+            <a class="btn" href="/2015/20150910-Library-php-note.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -827,7 +807,7 @@ Host: www.test.com
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150903-2.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150909-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -846,8 +826,8 @@ Host: www.test.com
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20150903-2.html" itemprop="url">
-                  MySQL 数据库常见查询
+                <a class="post-title-link" href="/2015/20150909-1.html" itemprop="url">
+                  PHP-http协议请求、防盗链
                 </a>
               
             
@@ -873,7 +853,7 @@ Host: www.test.com
                 
               
 
-              <time title="创建时间：2015-09-03 17:18:51" itemprop="dateCreated datePublished" datetime="2015-09-03T17:18:51+08:00">2015-09-03</time>
+              <time title="创建时间：2015-09-09 19:28:00" itemprop="dateCreated datePublished" datetime="2015-09-09T19:28:00+08:00">2015-09-09</time>
             
 
             
@@ -895,24 +875,6 @@ Host: www.test.com
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -943,14 +905,13 @@ Host: www.test.com
       
         
           
-          查询语句select 【select选项】|*|字段列表|字段名 【as】 字段别名 from 表名 【as】表别名 【where子句】【group by子句】【having子句】【order by子句】【limit子句】说明：【where子句】【group by子句】【having子句】【order by子句】【limit子句】五子句，可以随意的组合，但无论如何组合，五子句的顺序一定要按语法的顺序书写。王狗和欧丽
-where子句where后面跟的是条件，在数据源中进行筛选
-in | not in..where 字段 in(&#39;北京&#39;,&#39;上海&#39;);
-between
+          HyperText Transfer Protocol  超文本传输协议（文本、图片、视频等）http 是建立在 TCP/IP协议的一个应用层协议
+内容一样浏览器只发出1次http请求！
+123456789请求行：GET /js.php HTTP/1.1 【请求资源-协议版本】消息头：Host: www.test.com  【主机】User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:47.0) Gecko/20100101 Firefox/47.0   【告诉服务器浏览器的内核、操作系统】Accept: text/html,
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20150903-2.html#more" rel="contents">
+            <a class="btn" href="/2015/20150909-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1006,7 +967,7 @@ between
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150902-2.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150907-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -1025,8 +986,8 @@ between
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20150902-2.html" itemprop="url">
-                  MySQL 多表查询、备份、账户权限
+                <a class="post-title-link" href="/2015/20150907-1.html" itemprop="url">
+                  PHP-错误处理、异常处理
                 </a>
               
             
@@ -1052,7 +1013,7 @@ between
                 
               
 
-              <time title="创建时间：2015-09-02 18:18:51" itemprop="dateCreated datePublished" datetime="2015-09-02T18:18:51+08:00">2015-09-02</time>
+              <time title="创建时间：2015-09-07 19:33:15" itemprop="dateCreated datePublished" datetime="2015-09-07T19:33:15+08:00">2015-09-07</time>
             
 
             
@@ -1074,24 +1035,6 @@ between
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -1122,12 +1065,14 @@ between
       
         
           
-          多表查询子查询：只能得到1个表的数据，另一个表只是作为一个限制条件多表查询：多个表中的数据  在设计数据表时，那么将现实中的一个实体设计为一个表，但在查询数据时，很多时候会将具有关系的不同实体表中的数据一同取出来。语法：  select * from 表A,表B 【where 子句】说明：  从多个表中获取where子句的匹配条件进行获取数据  如果省略where子句，那么得到的结果是一个笛卡尔积
-联合查询语法：select语句Aunion【union选项】select 语句B说明：  【union选项】  all     显示所有(包含重复记录)  distinct    去复(默认)作用：
+          die 的应用方式一：if(条件){    die(‘错误信息’);}方式二：执行语句 or die(‘错误信息’);
+错误函数（处理器）自定义错误处理方式
+创建自定义错误处理器123456function customError($errno, $errstr) &#123;  echo &quot;&lt;b&gt;Error:&lt;/b&gt; [$errno] $errstr&lt;br /&gt;&quot;; echo &quot;Ending Script&quot;; die(); &#125;
+Set Error Handlerset_error_handler(&quot
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20150902-2.html#more" rel="contents">
+            <a class="btn" href="/2015/20150907-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1172,7 +1117,7 @@ between
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/19/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><span class="page-number current">20</span><a class="page-number" href="/page/21/">21</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/21/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/19/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><span class="page-number current">20</span><a class="page-number" href="/page/21/">21</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/21/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1217,7 +1162,7 @@ between
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">132</span>
+                    <span class="site-state-item-count">137</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

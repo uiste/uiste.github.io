@@ -318,7 +318,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2017/20170721-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2018/20180221-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -337,8 +337,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/20170721-1.html" itemprop="url">
-                  关于file_get_contents("php://input")
+                <a class="post-title-link" href="/2018/20180221-1.html" itemprop="url">
+                  此项目将被立刻删除，您不能撤销此操作
                 </a>
               
             
@@ -364,7 +364,7 @@
                 
               
 
-              <time title="创建时间：2017-07-21 23:13:13" itemprop="dateCreated datePublished" datetime="2017-07-21T23:13:13+08:00">2017-07-21</time>
+              <time title="创建时间：2018-02-21 16:36:14" itemprop="dateCreated datePublished" datetime="2018-02-21T16:36:14+08:00">2018-02-21</time>
             
 
             
@@ -381,7 +381,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-10-19 09:57:01" itemprop="dateModified" datetime="2018-10-19T09:57:01+08:00">2018-10-19</time>
+                <time title="修改时间：2019-04-02 12:22:09" itemprop="dateModified" datetime="2019-04-02T12:22:09+08:00">2019-04-02</time>
               
             
           </span>
@@ -416,14 +416,16 @@
       
         
           
-          
-“php://input allows you to read raw POST data. It is a less memory intensive alternative to $HTTP_RAW_POST_DATA and does not need any special php.ini directives. php://input is not available with enctype=”multipart/form-data”. 
+          mac 删除文件不经过废纸篓，提示“此项目将被立刻删除，您不能撤销此操作。”，解决办法。
+终端机运行两个命令：12rm -R ~/.Trashkillall Finder
+退出终端机。
+如果它说你没有权限删除，那么就这样：12sudo rm -R ~/.Trashkillall Finder
+删除废纸篓，finder会自动生成。
 
-翻译过来，是这样：“php://input可以读取没有处理过的POST数据。相较于$HTTP_RAW_POST_DATA而言，它给内存带来的
-          ...
+          
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/20170721-1.html#more" rel="contents">
+            <a class="btn" href="/2018/20180221-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -479,7 +481,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2017/20170719-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2018/20180219-2.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -498,8 +500,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/20170719-1.html" itemprop="url">
-                  gitbook安装与使用
+                <a class="post-title-link" href="/2018/20180219-2.html" itemprop="url">
+                  Linux 配置，命令
                 </a>
               
             
@@ -525,7 +527,7 @@
                 
               
 
-              <time title="创建时间：2017-07-19 00:02:05" itemprop="dateCreated datePublished" datetime="2017-07-19T00:02:05+08:00">2017-07-19</time>
+              <time title="创建时间：2018-02-19 15:58:26" itemprop="dateCreated datePublished" datetime="2018-02-19T15:58:26+08:00">2018-02-19</time>
             
 
             
@@ -542,7 +544,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-10-19 09:57:01" itemprop="dateModified" datetime="2018-10-19T09:57:01+08:00">2018-10-19</time>
+                <time title="修改时间：2019-04-02 12:21:28" itemprop="dateModified" datetime="2019-04-02T12:21:28+08:00">2019-04-02</time>
               
             
           </span>
@@ -577,20 +579,11 @@
       
         
           
-          gitbook安装
-安装npm从网站 https://nodejs.org/#download 下载node.js源代码（点击绿色的INSTALL），解压./configuremakemake install成功执行后，npm就被安装好了。
-
-
-gitbook 安装npm install -g gitbook-cligitbook -V查看gitbook是否安装成功。
-
-gitbook使用
-根据目录生成图书结构 
-
-1.1 README.md 与 SUMMARY编写README.md这个文件相当于一本Gitbook的简介。12$ mkdir test_gitbook$ touch README
+          服务器配置添加管理员用户1234567891011121314151617181920212223242526272829303132333435363738# useradd test# passwd test# mkdir -p /home/test/.ssh# chown 600 /home/test/.ssh/# vim /etc/sudoers# cd /home/test/.ssh/# rz# # Received /Users/uiste/.ssh/id_rsa.pub# ls# mv id_rsa.pub authorized_keys# ls -al# chown test:
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/20170719-1.html#more" rel="contents">
+            <a class="btn" href="/2018/20180219-2.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -646,7 +639,7 @@ gitbook使用
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2017/20170410-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2018/20180219-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -665,8 +658,8 @@ gitbook使用
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/20170410-1.html" itemprop="url">
-                  绊脚石
+                <a class="post-title-link" href="/2018/20180219-1.html" itemprop="url">
+                  lnmp环境 (centos7+nginx+MySQL5.7.9+PHP7)
                 </a>
               
             
@@ -692,7 +685,7 @@ gitbook使用
                 
               
 
-              <time title="创建时间：2017-04-10 00:22:02" itemprop="dateCreated datePublished" datetime="2017-04-10T00:22:02+08:00">2017-04-10</time>
+              <time title="创建时间：2018-02-19 15:30:50" itemprop="dateCreated datePublished" datetime="2018-02-19T15:30:50+08:00">2018-02-19</time>
             
 
             
@@ -709,7 +702,7 @@ gitbook使用
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-10-19 09:57:01" itemprop="dateModified" datetime="2018-10-19T09:57:01+08:00">2018-10-19</time>
+                <time title="修改时间：2019-04-02 12:21:29" itemprop="dateModified" datetime="2019-04-02T12:21:29+08:00">2019-04-02</time>
               
             
           </span>
@@ -744,16 +737,25 @@ gitbook使用
       
         
           
-          今天发布了这样一条朋友圈：
+          安装nginx 首先更新系统软件 1# yum update
+安装
+安装nginx源
+1# yum localinstall http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
 
-有时候，一些不是特别良好的状态产生时，都会有一种体验特别不舒服的忧虑感。大多数这种情况的产生最终还是会产生正面的结果。因为在敢于承担的过程，在问题解决以后会觉得某些地方有些提升。所以今天的忧虑都是靠这个说服自己。
+安装nginx
+1yum install nginx
 
-这段话引起了朋友进一步追问的兴趣，我凯凯而回，说只是装X的东西。自己又想表达的一个观点是，老罗说他创业五年很多失败的经历是成长过程宝贵的财富。自己有意去挖掘一些这样的失败案例。到不为自己所为的成功，但却有成长的必要。
-想到这里，突然想到，学生时代看过的一些求职面试宝典，说面试官可能会问你之前的工作生活中，遇到的最大的空难是什么，你是如何解决的。虽然，以
+启动nginx
+12# service nginx startRedirecting to /bin/systemctl start  nginx.service
+
+访问http://你的ip/
+
+
+配置123456789101112
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/20170410-1.html#more" rel="contents">
+            <a class="btn" href="/2018/20180219-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -809,7 +811,7 @@ gitbook使用
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2017/20170405-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2017/20171223-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -828,8 +830,8 @@ gitbook使用
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/20170405-1.html" itemprop="url">
-                  vagrant打造开发环境
+                <a class="post-title-link" href="/2017/20171223-1.html" itemprop="url">
+                  Mac OS X下配置远程Linux 服务器SSH密钥认证自动登录
                 </a>
               
             
@@ -855,7 +857,7 @@ gitbook使用
                 
               
 
-              <time title="创建时间：2017-04-05 00:52:42" itemprop="dateCreated datePublished" datetime="2017-04-05T00:52:42+08:00">2017-04-05</time>
+              <time title="创建时间：2017-12-23 12:19:17" itemprop="dateCreated datePublished" datetime="2017-12-23T12:19:17+08:00">2017-12-23</time>
             
 
             
@@ -907,15 +909,15 @@ gitbook使用
       
         
           
-          下载安装123456VirtualBox 5.1.8下载地址 https://www.virtualbox.org/wiki/Download_Old_Builds_5_1Vagrant 1.8.6下载地址：https://releases.hashicorp.com/vagrant/1.8.6/切记根据自己的操作系统下载，同时分32位和64位
-vagrant常用命令
-查看vagrant listuiste:box uiste$ vagrant box list
-
-添加vagrant boxuiste:box uiste$ vagrant box add ubuntu1404 ubuntu14
+          在本地机器创建公钥打开万能的终端，执行如下命令，无视一切输出，一路欢快地回车即可。
+ssh-keygen -t rsa -C  ‘your email@domain.com‘-t 指定密钥类型，默认即 rsa ，可以省略-C 设置注释文字，比如你的邮箱
+将公钥复制到ssh服务器将前一步骤生成的公钥~/id_rsa.pub文件，复制到ssh服务器对应用户下的~/.ssh/authorized_keys文件,可以有多种方式，这里只介绍常用的三种。
+[适用于osx系统]使用ssh-copy-id-for-OSX工具将公钥复制至ssh服务器
+1234brew install ssh-copy-idss
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/20170405-1.html#more" rel="contents">
+            <a class="btn" href="/2017/20171223-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -971,7 +973,7 @@ vagrant常用命令
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2017/20170404-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2017/20170722-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -990,8 +992,8 @@ vagrant常用命令
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/20170404-1.html" itemprop="url">
-                  Thinkphp5中使用PHPExcel
+                <a class="post-title-link" href="/2017/20170722-1.html" itemprop="url">
+                  字符串的gzip压缩与解压的整理
                 </a>
               
             
@@ -1017,7 +1019,7 @@ vagrant常用命令
                 
               
 
-              <time title="创建时间：2017-04-04 14:29:16" itemprop="dateCreated datePublished" datetime="2017-04-04T14:29:16+08:00">2017-04-04</time>
+              <time title="创建时间：2017-07-22 00:29:24" itemprop="dateCreated datePublished" datetime="2017-07-22T00:29:24+08:00">2017-07-22</time>
             
 
             
@@ -1069,21 +1071,12 @@ vagrant常用命令
       
         
           
-          安装
-项目所在目录：uiste:tp5.0 uiste$ composer require phpexcel/phpexcel
-
-简单上手
-实例化对象$objPHPExcel = new \PHPExcel();
-
-获取活动sheet，设置sheet名字
-12$objSheet = $objPHPExcel-&gt;getActiveSheet(); $objSheet -&gt;setTitle(&quot;demo&quot;);//可以给sheet设置名称为&quot;demo&quot;
-
-然后就是在表格中写入数据
-123456789101112//数据量大的时候使用第一种方法$obj
+          背景介绍因为一直在处理restful API，给移动端提供的数据需要考虑流量问题，优先考虑就是压缩现有的字符串，然后再考虑业务逻辑方面的减少流量。鉴于找这些资料也花了不少时间，所以整理了这篇文章，留作纪念。参考网址PHP与C#的压缩与解压http://www.oschina.net/question/2265205_181108http://my.oschina.net/linland/blog/217769?fromerr=Kf9b6ElQhttp://www.yiibai.com/sql/function.gzencode.html
+https://forums.xamarin.com/d
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/20170404-1.html#more" rel="contents">
+            <a class="btn" href="/2017/20170722-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1128,7 +1121,7 @@ vagrant常用命令
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1173,7 +1166,7 @@ vagrant常用命令
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">132</span>
+                    <span class="site-state-item-count">137</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

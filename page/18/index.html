@@ -318,7 +318,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150926-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150930-4.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -337,8 +337,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20150926-1.html" itemprop="url">
-                  COOKIE 和 SESSION
+                <a class="post-title-link" href="/2015/20150930-4.html" itemprop="url">
+                  laravel - 控制器基础
                 </a>
               
             
@@ -364,7 +364,7 @@
                 
               
 
-              <time title="创建时间：2015-09-26 19:31:59" itemprop="dateCreated datePublished" datetime="2015-09-26T19:31:59+08:00">2015-09-26</time>
+              <time title="创建时间：2015-09-30 19:20:46" itemprop="dateCreated datePublished" datetime="2015-09-30T19:20:46+08:00">2015-09-30</time>
             
 
             
@@ -416,20 +416,12 @@
       
         
           
-          
-思考：A页面中如何访问B页面中的变量包含文件get传递或post传递cookie：cookie是小的信息包。
-
-Cookiecookie的原理浏览器—-http请求（无值）——–&gt;服务器浏览器&lt;—响应头中传递cookie——-服务器浏览器—-再次发送http请求（有值）–&gt;服务器
-
-请求头：客户端请求服务器的时候，告知服务器客户端的信息
-响应头：服务器响应客户端的时候，告知客户端服务器的信息
-
-长连接在多个http请求之间，TCP连接不断开称为长连接，默认是5秒。长连接过程中，可以建立多次http请求与http响应
-cookie保存在客户端设置cookie语法：setcoo
+          路径：app/Http/Controllers
+基础控制器12345678910111213141516171819&lt;?php namespace App\Http\Controllers;use App\Http\Controllers\Controller;class UserController extends Controller &#123;    /**     * 显示所给定的用户个人数据。     *     * @param  int  $id     * @return Response     */    public function showProfile($i
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20150926-1.html#more" rel="contents">
+            <a class="btn" href="/2015/20150930-4.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -485,7 +477,7 @@ cookie保存在客户端设置cookie语法：setcoo
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150924-2.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150930-3.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -504,8 +496,8 @@ cookie保存在客户端设置cookie语法：setcoo
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20150924-2.html" itemprop="url">
-                  初识Linux
+                <a class="post-title-link" href="/2015/20150930-3.html" itemprop="url">
+                  laravel - 路由基础
                 </a>
               
             
@@ -531,7 +523,7 @@ cookie保存在客户端设置cookie语法：setcoo
                 
               
 
-              <time title="创建时间：2015-09-24 14:06:41" itemprop="dateCreated datePublished" datetime="2015-09-24T14:06:41+08:00">2015-09-24</time>
+              <time title="创建时间：2015-09-30 19:01:27" itemprop="dateCreated datePublished" datetime="2015-09-30T19:01:27+08:00">2015-09-30</time>
             
 
             
@@ -583,12 +575,13 @@ cookie保存在客户端设置cookie语法：setcoo
       
         
           
-          Linux目录结构bin 和 sbin  ：存放命令的/dev        ：存放外设文件/etc        ：存放配置文件/home       ：普通用户的家目录(主目录)/root       ：超级管理员的家目录/mnt        ：挂载点/usr        ：安装程序/var        ：相当于D、E盘，用来存储一些文件站点
-Linux常用命令passwd    更改密码ls    、ls -al *.png    查看目录中的内容cd    进入目录exit    退出当前工作环境pwd    获取当前工作目录su或su -    获取管理员权限su - uist
+          laravel框架与传统框架的不同：laravel框架不同于传统的MVC，传统的MVC请求一般直接对应的是控制器，laravel中的请求对应的是路由laravel中的路由简单来说就是将用户的请求转发给相应的程序进行处理作用就是建立URL和程序之间的映射请求类型：get、post、put、patch、delete
+基本路由路径：app/Http/routes.php中定义应用中的大多数路由该文件加载了App\Providers\RouteServiceProvider类
+GET路由1234Route::get(&apos;/&apos;, function()&#123;    return &
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20150924-2.html#more" rel="contents">
+            <a class="btn" href="/2015/20150930-3.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -644,7 +637,7 @@ Linux常用命令passwd    更改密码ls    、ls -al *.png    查看目录中�
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150924-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150930-2.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -663,8 +656,8 @@ Linux常用命令passwd    更改密码ls    、ls -al *.png    查看目录中�
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20150924-1.html" itemprop="url">
-                  Vim（VI）
+                <a class="post-title-link" href="/2015/20150930-2.html" itemprop="url">
+                  laravel - 安装laravel框架
                 </a>
               
             
@@ -690,7 +683,7 @@ Linux常用命令passwd    更改密码ls    、ls -al *.png    查看目录中�
                 
               
 
-              <time title="创建时间：2015-09-24 12:05:39" itemprop="dateCreated datePublished" datetime="2015-09-24T12:05:39+08:00">2015-09-24</time>
+              <time title="创建时间：2015-09-30 14:43:24" itemprop="dateCreated datePublished" datetime="2015-09-30T14:43:24+08:00">2015-09-30</time>
             
 
             
@@ -712,24 +705,6 @@ Linux常用命令passwd    更改密码ls    、ls -al *.png    查看目录中�
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -760,75 +735,15 @@ Linux常用命令passwd    更改密码ls    、ls -al *.png    查看目录中�
       
         
           
-          Vim(VI)介绍Vim（vi）是Linux提供的一个更改文件的工具。
-Vi有3种模式：命令模式、尾行模式、编辑模式
-尾行模式
-
-
-:
-进入尾行模式
-
-
-
-
-:w
-保存
-
-
-:w!
-强制保存
-
-
-:q
-退出
-
-
-:q!
-强制退出
-
-
-:wq
-保存并退出
-
-
-:wq!
-强制保存并退出
-
-
-set number 或 set nu
-设置行号
-
-
-set nonumber 或 set nonu
-取消行号
-
-
-u
-撤销上一条命令
-
-
-.
-重复最后一条命令
-
-
-J
-连接上下两行
-
-
-r+w
-将当前的字母替换成w
-
-
-:n
-跳转到第n行
-
-
-:/str 或 /str
-从上往下搜索str n 下一个 N 上一
+          Composer 安装 Laravel 有两种方式：
+第一种是通过 Composer 的 create-project 命令安装 Laravel 框架，第二种是先通过 Composer 安装 Laravel 安装器，然后通过安装器安装 Laravel 框架。
+为什么 Composer 可以安装 Laravel 框架呢？
+其实 Laravel框架也是一个 Composer包，我们可以通过如下命令查看：
+12345678910111213141516171819202122232425262728uiste:~ uiste$ composer show --all laravel/laravelN
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20150924-1.html#more" rel="contents">
+            <a class="btn" href="/2015/20150930-2.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -884,7 +799,7 @@ r+w
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150916-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150930-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -903,8 +818,8 @@ r+w
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20150916-1.html" itemprop="url">
-                  PHP面向对象3
+                <a class="post-title-link" href="/2015/20150930-1.html" itemprop="url">
+                  laravel - Composer 安装
                 </a>
               
             
@@ -930,7 +845,7 @@ r+w
                 
               
 
-              <time title="创建时间：2015-09-16 23:41:27" itemprop="dateCreated datePublished" datetime="2015-09-16T23:41:27+08:00">2015-09-16</time>
+              <time title="创建时间：2015-09-30 13:48:18" itemprop="dateCreated datePublished" datetime="2015-09-30T13:48:18+08:00">2015-09-30</time>
             
 
             
@@ -982,11 +897,15 @@ r+w
       
         
           
-          clone与__clone()123456789101112131415161718192021222324252627&lt;?phpclass Person&#123;	protected $name;	public function __construnt($name)&#123;		$this-&gt;name=$name;	&#125;	public function show()&#123;		echo $this-&gt;name;	&#125;	public function __clone()&#123;		echo &quot;对象被克隆了&lt;br&gt;&quot;;
+          Composer 安装（一）一、简介Composer 是 PHP 用来管理依赖（dependency）关系的工具。你可以在自己的项目中声明所依赖的外部工具库（libraries），Composer 会帮你安装这些依赖的库文件。
+二、为什么要使用Composer你有一个项目依赖于若干个库。其中一些库依赖于其他库。你声明你所依赖的东西。Composer 会找出哪个版本的包需要安装，并安装它们（将它们下载到你的项目中）。
+三、安装方式通用安装方式（Win、Linux、Mac都能用），使用composer.phar文件（其实就是下载composer.phar文件，不需要翻墙）
+
+直接下载compose
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20150916-1.html#more" rel="contents">
+            <a class="btn" href="/2015/20150930-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1042,7 +961,7 @@ r+w
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150915-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20150927-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -1061,8 +980,8 @@ r+w
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/20150915-1.html" itemprop="url">
-                  PHP面向对象2
+                <a class="post-title-link" href="/2015/20150927-1.html" itemprop="url">
+                  PHP-验证码图片排错
                 </a>
               
             
@@ -1088,7 +1007,7 @@ r+w
                 
               
 
-              <time title="创建时间：2015-09-15 21:40:36" itemprop="dateCreated datePublished" datetime="2015-09-15T21:40:36+08:00">2015-09-15</time>
+              <time title="创建时间：2015-09-27 14:44:17" itemprop="dateCreated datePublished" datetime="2015-09-27T14:44:17+08:00">2015-09-27</time>
             
 
             
@@ -1140,13 +1059,15 @@ r+w
       
         
           
-          多态多态就是多种形态多态分为：方法重载和方法重写，但是PHP不支持方法重载。
-方法重写子类方法和父类的方法必须同名
-123456789101112131415161718192021&lt;?phpclass animal&#123;	public $name='动物';	public function jiao()&#123;		echo $this-&gt;name."会叫&lt;br&gt;";	&#125;&#125;class dog extends animal&#123;	public $name='狗';	public function jiao()&#123;		echo $
-          ...
+          第一步：如果看到不显示验证码，直接输入验证码的地址来排错
+第二步：将header()函数注释掉就可能会显示错误
+第三步：查看图片源码在图片二进制代码前不能出现任何字符，包括空白字符
+第四步：在header()前面添加ob_clean()
+
+          
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/20150915-1.html#more" rel="contents">
+            <a class="btn" href="/2015/20150927-1.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1191,7 +1112,7 @@ r+w
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/17/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/19/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/17/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/19/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1236,7 +1157,7 @@ r+w
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">132</span>
+                    <span class="site-state-item-count">137</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
