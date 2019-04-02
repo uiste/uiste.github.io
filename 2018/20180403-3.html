@@ -100,16 +100,17 @@
 
 
 
-  <meta name="description" content="Stay Hungry，Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="uiste">
-<meta property="og:url" content="http://blog.uiste.com/tags/LAMP环境/index.html">
+  <meta name="description" content="MySQL5.1版本前默认存储引擎是myisamMySQL5.5版本开始默认存储引擎是innodb 字段类型锁 myisam 和 memory 存储引擎采用的是表级锁 BDB存储引擎采用的是页面锁，但也支持表级锁 innodb 存储引擎既支持行锁也支持表锁，默认采用行锁  表级锁：开销小，加锁快，不会出现死锁；锁定粒度大，发生锁冲突的概率最高，并发度最低  行级锁：开销大，加锁慢，会出现死锁，锁定">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql高级-存储引擎、驱动、索引、优化">
+<meta property="og:url" content="http://blog.uiste.com/2018/20180403-3.html">
 <meta property="og:site_name" content="uiste">
-<meta property="og:description" content="Stay Hungry，Stay Foolish">
+<meta property="og:description" content="MySQL5.1版本前默认存储引擎是myisamMySQL5.5版本开始默认存储引擎是innodb 字段类型锁 myisam 和 memory 存储引擎采用的是表级锁 BDB存储引擎采用的是页面锁，但也支持表级锁 innodb 存储引擎既支持行锁也支持表锁，默认采用行锁  表级锁：开销小，加锁快，不会出现死锁；锁定粒度大，发生锁冲突的概率最高，并发度最低  行级锁：开销大，加锁慢，会出现死锁，锁定">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-04-02T07:49:55.861Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="uiste">
-<meta name="twitter:description" content="Stay Hungry，Stay Foolish">
+<meta name="twitter:title" content="Mysql高级-存储引擎、驱动、索引、优化">
+<meta name="twitter:description" content="MySQL5.1版本前默认存储引擎是myisamMySQL5.5版本开始默认存储引擎是innodb 字段类型锁 myisam 和 memory 存储引擎采用的是表级锁 BDB存储引擎采用的是页面锁，但也支持表级锁 innodb 存储引擎既支持行锁也支持表锁，默认采用行锁  表级锁：开销小，加锁快，不会出现死锁；锁定粒度大，发生锁冲突的概率最高，并发度最低  行级锁：开销大，加锁慢，会出现死锁，锁定">
 
 
 
@@ -118,7 +119,7 @@
 
 
 
-  <link rel="canonical" href="http://blog.uiste.com/tags/LAMP环境/">
+  <link rel="canonical" href="http://blog.uiste.com/2018/20180403-3.html">
 
 
 
@@ -128,7 +129,7 @@
   };
 </script>
 
-  <title>标签: LAMP环境 | uiste</title>
+  <title>Mysql高级-存储引擎、驱动、索引、优化 | uiste</title>
   
 
 
@@ -175,7 +176,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -253,22 +254,6 @@
   
     
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
   
 
   
@@ -317,56 +302,218 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h2>LAMP环境<small>标签</small>
-        </h2>
-      </div>
+  
 
-      
-        
+  
+  
+  
+
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2018/20180403-3.html">
 
-      <h3 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="uiste">
+      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="uiste">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2015/20151111-1.html" itemprop="url">
-              
-                <span itemprop="name">Linux LAMP环境搭建</span>
-              
-            </a>
         
-      </h3>
+          <h2 class="post-title" itemprop="name headline">Mysql高级-存储引擎、驱动、索引、优化
+              
+            
+          </h2>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2015-11-11T10:54:38+08:00" content="2015-11-11">
-          11-11
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
 
-    </header>
-  </article>
+            
+            
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
 
+              
+                
+              
+
+              <time title="创建时间：2018-04-03 12:13:29" itemprop="dateCreated datePublished" datetime="2018-04-03T12:13:29+08:00">2018-04-03</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>MySQL5.1版本前默认存储引擎是myisam<br>MySQL5.5版本开始默认存储引擎是innodb</p>
+<h1 id="字段类型"><a href="#字段类型" class="headerlink" title="字段类型"></a>字段类型</h1><h1 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h1><ul>
+<li>myisam 和 memory 存储引擎采用的是表级锁</li>
+<li>BDB存储引擎采用的是页面锁，但也支持表级锁</li>
+<li><p>innodb 存储引擎既支持行锁也支持表锁，默认采用行锁</p>
+</li>
+<li><p>表级锁：开销小，加锁快，不会出现死锁；锁定粒度大，发生锁冲突的概率最高，并发度最低</p>
+</li>
+<li>行级锁：开销大，加锁慢，会出现死锁，锁定粒度小，发生锁冲突的概率最低，并发度也最高</li>
+<li>页面锁：介于上述二者之间</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">myisam 表锁争用情况</span><br><span class="line">&gt; show status like &apos;table_lock%&apos;;</span><br><span class="line">table_lock_waited  值高有着叫严重的表锁争用情况</span><br><span class="line">table_lock_immediate</span><br><span class="line"></span><br><span class="line">table_lock_immediate/table_lock_waited &gt; 5000 争用情况正常</span><br></pre></td></tr></table></figure>
+<h2 id="myisam-锁机制"><a href="#myisam-锁机制" class="headerlink" title="myisam 锁机制"></a>myisam 锁机制</h2><p>表共享读锁（不会阻塞其它进程对同一表的读请求，但会阻塞同一表的写请求）<br>表独占写锁（会阻塞其它进程对同一表的读写操作）</p>
+<blockquote>
+<p>并发插入<br>concurrent_instert<br>0:不允许并发插入<br>1:有空洞不允许并发插入，无空洞允许<br>2:都允许</p>
+</blockquote>
+<h2 id="innodb"><a href="#innodb" class="headerlink" title="innodb"></a>innodb</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; show status like &apos;innodb_row_lock%&apos;;</span><br><span class="line">innodb_row_lock_current_waits:</span><br><span class="line">innodb_row_lock_time</span><br><span class="line">innodb_row_lock_time_avg</span><br><span class="line">innodb_row_lock_time_max</span><br><span class="line">innodb_row_lock_waits</span><br></pre></td></tr></table></figure>
+<ul>
+<li>行锁不影响读操作，只影响写操作。同时如果更新语句条件没有加索引，会锁定整个表，但还是不影响读操作</li>
+</ul>
+<h1 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h1><h2 id="innodb-事务隔离级别"><a href="#innodb-事务隔离级别" class="headerlink" title="innodb 事务隔离级别"></a>innodb 事务隔离级别</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">* read uncommitted 	非提交读（会带来涨读）</span><br><span class="line">* read committed 	提交读 </span><br><span class="line">* repeatable read 	可重复读 （会出现幻读）</span><br><span class="line">* serializable 		序列化 （会加锁，让数据不可变）</span><br><span class="line"></span><br><span class="line">查看隔离级别</span><br><span class="line">select @@tx_isolation			查看当前会话隔离级别</span><br><span class="line">select @@global.tx_isolation 	查看系统隔离级别</span><br><span class="line"></span><br><span class="line">设置隔离级别</span><br><span class="line">set session transaction isolation level xxx 设置档期会话隔离级别</span><br><span class="line">set global transaction isolation level xxx  设置系统全局隔离级别</span><br></pre></td></tr></table></figure>
+<h1 id="驱动"><a href="#驱动" class="headerlink" title="驱动"></a>驱动</h1><h2 id="php5-3之前定的渠道是libmysql-dll或so-之后是mysqlnd"><a href="#php5-3之前定的渠道是libmysql-dll或so-之后是mysqlnd" class="headerlink" title="php5.3之前定的渠道是libmysql.dll或so 之后是mysqlnd"></a>php5.3之前定的渠道是libmysql.dll或so 之后是mysqlnd</h2><h2 id="驱动API"><a href="#驱动API" class="headerlink" title="驱动API"></a>驱动API</h2><ul>
+<li>msyql （mysql_real_escape_string($name)）转移特深字符，用于msyql_queue() 安全查询</li>
+<li>mysqli 新增：面向对象接口、绑定语句支持（prepare、bind_param）、多语句支持、事务支持等</li>
+<li>pdo_mysql 特点：多数据库统一支持</li>
+</ul>
+<h1 id="索引和全文检索技术"><a href="#索引和全文检索技术" class="headerlink" title="索引和全文检索技术"></a>索引和全文检索技术</h1><ol>
+<li><p>普通索引</p>
+<blockquote>
+<p>如果没有唯一性要求，可以选择普通索引</p>
+</blockquote>
+</li>
+<li><p>唯一索引</p>
+<blockquote>
+<p>如果列上有唯一性要求，可以选择唯一索引</p>
+</blockquote>
+</li>
+<li><p>全文索引</p>
+<blockquote>
+<p>如果需要模糊搜索，可以选择全文索引</p>
+</blockquote>
+</li>
+<li><p>组合索引</p>
+<blockquote>
+<p>如果有多个条件一起查询，可以选择组合索引<br>注意最左原则</p>
+</blockquote>
+</li>
+</ol>
+<ul>
+<li>索引的实现方式<blockquote>
+<p>B+ 树 、聚簇索引 、 非聚簇索引 对中文支持不友好</p>
+</blockquote>
+</li>
+</ul>
+<h1 id="sql优化"><a href="#sql优化" class="headerlink" title="sql优化"></a>sql优化</h1><h2 id="执行顺序"><a href="#执行顺序" class="headerlink" title="执行顺序"></a>执行顺序</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1. from 子句对其后面的多个表进行笛卡尔积，产生的虚拟表VT1</span><br><span class="line">2. on 对VT1 数据过滤 得到 VT2</span><br><span class="line">3. 将未符合调价的保留表中数据添加到 VT2 中 得到 VT3</span><br><span class="line">4. where 子句对 VT3 过滤 得到 VT4</span><br><span class="line">5. group 对 VT4 得到 VT5</span><br><span class="line">6. cube|roolup 子句进行操作得到 VT6</span><br><span class="line">7. having 对VT6数据进行Having 得到VT7</span><br><span class="line">8. select 从 VT7 中选择要获取的字段 得到 VT8</span><br><span class="line">9. distinct 去重 得到 VT9</span><br><span class="line">10. order by 对VT9 结果进行排序后，形成 VT10</span><br><span class="line">11. limit 从 VT10 中取出指定的数据，形成 VT11 返回给用户</span><br></pre></td></tr></table></figure>
+<h2 id="explain"><a href="#explain" class="headerlink" title="explain"></a>explain</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN 输出格式</span><br><span class="line">EXPLAIN 命令的输出内容大致如下:</span><br><span class="line"></span><br><span class="line">mysql&gt; explain select * from user_info where id = 2\G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">           id: 1</span><br><span class="line">  select_type: SIMPLE</span><br><span class="line">        table: user_info</span><br><span class="line">   partitions: NULL</span><br><span class="line">         type: const</span><br><span class="line">possible_keys: PRIMARY</span><br><span class="line">          key: PRIMARY</span><br><span class="line">      key_len: 8</span><br><span class="line">          ref: const</span><br><span class="line">         rows: 1</span><br><span class="line">     filtered: 100.00</span><br><span class="line">        Extra: NULL</span><br><span class="line">1 row in set, 1 warning (0.00 sec)</span><br><span class="line">各列的含义如下:</span><br><span class="line"></span><br><span class="line">id: SELECT 查询的标识符. 每个 SELECT 都会自动分配一个唯一的标识符.</span><br><span class="line"></span><br><span class="line">select_type: SELECT 查询的类型.</span><br><span class="line"></span><br><span class="line">table: 查询的是哪个表</span><br><span class="line"></span><br><span class="line">partitions: 匹配的分区</span><br><span class="line"></span><br><span class="line">type: join 类型</span><br><span class="line"></span><br><span class="line">possible_keys: 此次查询中可能选用的索引</span><br><span class="line"></span><br><span class="line">key: 此次查询中确切使用到的索引.</span><br><span class="line"></span><br><span class="line">ref: 哪个字段或常数与 key 一起被使用</span><br><span class="line"></span><br><span class="line">rows: 显示此查询一共扫描了多少行. 这个是一个估计值.</span><br><span class="line"></span><br><span class="line">filtered: 表示此查询条件所过滤的数据的百分比</span><br><span class="line"></span><br><span class="line">extra: 额外的信息</span><br></pre></td></tr></table></figure>
+<h2 id="分表"><a href="#分表" class="headerlink" title="分表"></a>分表</h2><h2 id="读写分离"><a href="#读写分离" class="headerlink" title="读写分离"></a>读写分离</h2>
       
     </div>
 
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/20180402-2.html" rel="next" title="Mysql高级-体系结构">
+                <i class="fa fa-chevron-left"></i> Mysql高级-体系结构
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/20180511-1.html" rel="prev" title="【1】区块链-以太坊搭建私有网络">
+                【1】区块链-以太坊搭建私有网络 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+  </div>
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -387,8 +534,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -656,6 +812,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#字段类型"><span class="nav-number">1.</span> <span class="nav-text">字段类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#锁"><span class="nav-number">2.</span> <span class="nav-text">锁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#myisam-锁机制"><span class="nav-number">2.1.</span> <span class="nav-text">myisam 锁机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#innodb"><span class="nav-number">2.2.</span> <span class="nav-text">innodb</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#事务"><span class="nav-number">3.</span> <span class="nav-text">事务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#innodb-事务隔离级别"><span class="nav-number">3.1.</span> <span class="nav-text">innodb 事务隔离级别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#驱动"><span class="nav-number">4.</span> <span class="nav-text">驱动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#php5-3之前定的渠道是libmysql-dll或so-之后是mysqlnd"><span class="nav-number">4.1.</span> <span class="nav-text">php5.3之前定的渠道是libmysql.dll或so 之后是mysqlnd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#驱动API"><span class="nav-number">4.2.</span> <span class="nav-text">驱动API</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#索引和全文检索技术"><span class="nav-number">5.</span> <span class="nav-text">索引和全文检索技术</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sql优化"><span class="nav-number">6.</span> <span class="nav-text">sql优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#执行顺序"><span class="nav-number">6.1.</span> <span class="nav-text">执行顺序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#explain"><span class="nav-number">6.2.</span> <span class="nav-text">explain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分表"><span class="nav-number">6.3.</span> <span class="nav-text">分表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读写分离"><span class="nav-number">6.4.</span> <span class="nav-text">读写分离</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -789,6 +961,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
 
   
 
