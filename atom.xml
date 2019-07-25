@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.uiste.com/"/>
-  <updated>2018-11-02T07:58:06.000Z</updated>
+  <updated>2019-07-25T03:28:37.500Z</updated>
   <id>http://blog.uiste.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>放松等待</title>
+    <link href="http://blog.uiste.com/2019/20190630-1.html"/>
+    <id>http://blog.uiste.com/2019/20190630-1.html</id>
+    <published>2019-06-30T02:18:56.000Z</published>
+    <updated>2019-07-25T03:28:37.500Z</updated>
+    
+    <content type="html"><![CDATA[<p>纽约时间比加州时间早三个小时，</p><p>New York is 3 hours ahead of California,</p><p>但加州时间并没有变慢。</p><p>but it does not make California slow.</p><p>有人22岁就毕业了，</p><p>Someone graduated at the age of 22,</p><p>但等了五年才找到好的工作！</p><p>but waited 5 years before securing a good job!</p><p>有人25岁就当上CEO，</p><p>Someone became a CEO at 25,</p><p>却在50岁去世。</p><p>and died at 50.</p><p>也有人迟到50岁才当上CEO，</p><p>While another became a CEO at 50,</p><p>然后活到90岁。</p><p>and lived to 90 years.</p><p>有人依然单身，</p><p>Someone is still single,</p><p>同时也有人已婚。</p><p>while someone else got married.</p><p>奥巴马55岁就退休，</p><p>Obama retires at 55,</p><p>川普70岁才开始当总统。</p><p>but Trump starts at 70.</p><p>世上每个人本来就有自己的发展时区。</p><p>Absolutely everyone in this world works based on their Time Zone.</p><p>身边有些人看似走在你前面，</p><p>People around you might seem to go ahead of you,</p><p>也有人看似走在你后面。</p><p>some might seem to be behind you.</p><p>但其实每个人在自己的时区有自己的步程。</p><p>But everyone is running their own RACE, in their own TIME.</p><p>不用嫉妒或嘲笑他们。</p><p>Don’t envy them or mock them.</p><p>他们都在自己的时区里，你也是！</p><p>They are in their TIME ZONE, and you are in yours!</p><p>生命就是等待正确的行动时机。</p><p>Life is about waiting for the right moment to act.</p><p>所以，放轻松。</p><p>So, RELAX.</p><p>你没有落后。</p><p>You’re not LATE.</p><p>你没有领先。</p><p>You’re not EARLY.</p><p>在命运为你安排的属于自己的时区里，一切都准时。</p><p>You are very much ON TIME, and in your TIME ZONE Destiny set up for you.</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;纽约时间比加州时间早三个小时，&lt;/p&gt;
+&lt;p&gt;New York is 3 hours ahead of California,&lt;/p&gt;
+&lt;p&gt;但加州时间并没有变慢。&lt;/p&gt;
+&lt;p&gt;but it does not make California slow.&lt;/p&gt;
+&lt;p&gt;有人
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Mac 配置ssh 免密登录</title>
@@ -428,31 +453,6 @@
       
         &lt;p&gt;homebrew主要分两部分：git repo（位于GitHub）和二进制bottle（位于binary），这两者在国内访问不太顺畅。其实可以替换成国内的镜像，git repo国内镜像就比较多了，可以自行查找，如：中科大镜像…&lt;/p&gt;
 &lt;h2 id=&quot;替换homebrew默
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>网络协议</title>
-    <link href="http://blog.uiste.com/2018/20180329-4.html"/>
-    <id>http://blog.uiste.com/2018/20180329-4.html</id>
-    <published>2018-03-29T04:32:20.000Z</published>
-    <updated>2019-04-07T07:52:03.015Z</updated>
-    
-    <content type="html"><![CDATA[<p>网络协议为计算机网络中进行数据交换而建立的规则,标准或约定的集合,所有的计算机/手机等网络设备通信都得遵循网络协议.<br>网络协议根据通信的步骤,层级划分为7个层级,从上往下为:</p><ul><li>应用层</li><li>表示层</li><li>会话层</li><li>传输层</li><li>网络层</li><li>数据链路层</li><li>物理层</li></ul><p><img src="https://www.easyswoole.com/Manual/3.x/Cn/_book/noobCourse/NetworkrPotocol/networkPotocol.png" alt="TCP/IP模型与OSI模型对比"></p><blockquote><p>内容来源： <a href="https://www.easyswoole.com" target="_blank" rel="noopener">easyswoole</a></p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;网络协议为计算机网络中进行数据交换而建立的规则,标准或约定的集合,所有的计算机/手机等网络设备通信都得遵循网络协议.&lt;br&gt;网络协议根据通信的步骤,层级划分为7个层级,从上往下为:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;应用层&lt;/li&gt;
-&lt;li&gt;表示层&lt;/li&gt;
-&lt;li&gt;会话层&lt;/li
       
     
     </summary>

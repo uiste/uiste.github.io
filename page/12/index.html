@@ -318,6 +318,150 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151120-1.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="uiste">
+      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="uiste">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/20151120-1.html" itemprop="url">
+                  Nginx 负载均衡
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2015-11-20 01:49:13" itemprop="dateCreated datePublished" datetime="2015-11-20T01:49:13+08:00">2015-11-20</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          Nginx与Apache的区别Apache：扩展模块众多，功能强大，并发性能表现一般Nginx：功能相对于Apache较少，但并发性能特别好。异步非阻塞方式
+环境搭建Linux网络配置1234ONBOOT=yesBOOTPROTO=staticIPADDR=192.168.34.102NETMASK=255.255.255.0
+yum源软件安装1234567891011121314[root@localhost ~]# mkdir /mnt/cdrom[root@localhost ~]# mount /dev/cdrom /mnt/cdrom/[root@localhost ~]# cd /
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2015/20151120-1.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151119-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -915,158 +1059,6 @@ MySQL读写分离主从复制是读写分离的基础
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151117-1.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="uiste">
-      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
-      <meta itemprop="image" content="/images/default_avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="uiste">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/20151117-1.html" itemprop="url">
-                  使用yum快速搭建LAMP环境
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2015-11-17 00:09:29" itemprop="dateCreated datePublished" datetime="2015-11-17T00:09:29+08:00">2015-11-17</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          yum 源配置
-挂载光驱
-配置yum源
-
-
-创建挂载点：[root@localhost mnt]# mkdir /mnt/cdrom
-挂载系统安装光盘：
-12[root@localhost mnt]# mount /dev/cdrom /mnt/cdrommount: block device /dev/sr0 is write-protected, mounting read-only
-
-配置本地yum源
-12345678[root@localhost mnt]# cd /etc/yum.repos.d/[root@localhost yum.repos.d]# ll总用量 16-rw-r-
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/20151117-1.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1116,7 +1108,7 @@ MySQL读写分离主从复制是读写分离的基础
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">146</span>
+                    <span class="site-state-item-count">147</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
