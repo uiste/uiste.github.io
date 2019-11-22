@@ -100,16 +100,17 @@
 
 
 
-  <meta name="description" content="Stay Hungry，Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="uiste">
-<meta property="og:url" content="http://blog.uiste.com/page/13/index.html">
+  <meta name="description" content="环境相关docker 安装参考参考: Docker 安装 docker-lnmp 集成环境参考：Docker-lnmp Redis 主从集群指定自定义网络12345[root@VM_0_6_centos redis]# pwd/data/web/redis[root@VM_0_6_centos redis]# docker network create --subnet=172.10.0.0/16">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis docker 主从集群">
+<meta property="og:url" content="http://blog.uiste.com/2019/20191122-1.html">
 <meta property="og:site_name" content="uiste">
-<meta property="og:description" content="Stay Hungry，Stay Foolish">
+<meta property="og:description" content="环境相关docker 安装参考参考: Docker 安装 docker-lnmp 集成环境参考：Docker-lnmp Redis 主从集群指定自定义网络12345[root@VM_0_6_centos redis]# pwd/data/web/redis[root@VM_0_6_centos redis]# docker network create --subnet=172.10.0.0/16">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-22T07:45:32.958Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="uiste">
-<meta name="twitter:description" content="Stay Hungry，Stay Foolish">
+<meta name="twitter:title" content="redis docker 主从集群">
+<meta name="twitter:description" content="环境相关docker 安装参考参考: Docker 安装 docker-lnmp 集成环境参考：Docker-lnmp Redis 主从集群指定自定义网络12345[root@VM_0_6_centos redis]# pwd/data/web/redis[root@VM_0_6_centos redis]# docker network create --subnet=172.10.0.0/16">
 
 
 
@@ -118,7 +119,7 @@
 
 
 
-  <link rel="canonical" href="http://blog.uiste.com/page/13/">
+  <link rel="canonical" href="http://blog.uiste.com/2019/20191122-1.html">
 
 
 
@@ -128,7 +129,7 @@
   };
 </script>
 
-  <title>uiste</title>
+  <title>redis docker 主从集群 | uiste</title>
   
 
 
@@ -175,8 +176,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -301,9 +301,9 @@
           
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -318,7 +318,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151118-1.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2019/20191122-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -335,11 +335,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/20151118-1.html" itemprop="url">
-                  MySQL架构 | 多种方式登录
-                </a>
+          <h2 class="post-title" itemprop="name headline">redis docker 主从集群
               
             
           </h2>
@@ -364,7 +360,7 @@
                 
               
 
-              <time title="创建时间：2015-11-18 02:36:19" itemprop="dateCreated datePublished" datetime="2015-11-18T02:36:19+08:00">2015-11-18</time>
+              <time title="创建时间：2019-11-22 14:01:58" itemprop="dateCreated datePublished" datetime="2019-11-22T14:01:58+08:00">2019-11-22</time>
             
 
             
@@ -398,29 +394,28 @@
       
 
       
-        
-          
-          集群由一组服务器相互独立的服务器，构建的高性能与可靠性的服务器架构
-MySQL读写分离主从复制是读写分离的基础
-主从复制原理
-主服务器将修改的SQL语句写入到二进制（bin）日志中
-从服务器中的IO线程通过授权账号读取二进制日志，将信息写入到中继日志中（relay）
-从服务器中的SQL线程读取中继日志中的数据，然后将SQL语句执行，还原主服务器中的数据
+        <h1 id="环境相关"><a href="#环境相关" class="headerlink" title="环境相关"></a>环境相关</h1><h2 id="docker-安装参考"><a href="#docker-安装参考" class="headerlink" title="docker 安装参考"></a>docker 安装参考</h2><p>参考: <a href="https://yeasy.gitbooks.io/docker_practice/install/" target="_blank" rel="noopener">Docker 安装</a></p>
+<h2 id="docker-lnmp-集成环境"><a href="#docker-lnmp-集成环境" class="headerlink" title="docker-lnmp 集成环境"></a>docker-lnmp 集成环境</h2><p>参考：<a href="https://github.com/uiste/docker-lnmp" target="_blank" rel="noopener">Docker-lnmp</a></p>
+<h1 id="Redis-主从集群"><a href="#Redis-主从集群" class="headerlink" title="Redis 主从集群"></a>Redis 主从集群</h1><h2 id="指定自定义网络"><a href="#指定自定义网络" class="headerlink" title="指定自定义网络"></a>指定自定义网络</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_6_centos redis]# pwd</span><br><span class="line">/data/web/redis</span><br><span class="line"></span><br><span class="line">[root@VM_0_6_centos redis]# docker network create --subnet=172.10.0.0/16 mynetwork</span><br><span class="line">1e74de7cbd62306d0f1785e83ef5426cafb021cccd6e1bdfaa316cd7017911d9</span><br></pre></td></tr></table></figure>
+<h2 id="创建-Dockerfile"><a href="#创建-Dockerfile" class="headerlink" title="创建 Dockerfile"></a>创建 Dockerfile</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FROM centos:latest</span><br><span class="line">RUN groupadd -r redis &amp;&amp; useradd  -r -g redis redis</span><br><span class="line">RUN yum -y update &amp;&amp;  yum -y install epel-release &amp;&amp; yum -y install redis &amp;&amp; yum -y install net-tools</span><br><span class="line">EXPOSE 6379</span><br></pre></td></tr></table></figure>
+<h2 id="在-Dockerfile-目录-执行下面的代码，注意后面上下文点号"><a href="#在-Dockerfile-目录-执行下面的代码，注意后面上下文点号" class="headerlink" title="在 Dockerfile 目录 执行下面的代码，注意后面上下文点号"></a>在 Dockerfile 目录 执行下面的代码，注意后面上下文点号</h2><p><code>docker build -t redis .</code></p>
+<h2 id="使用此docker-镜像-创建容器"><a href="#使用此docker-镜像-创建容器" class="headerlink" title="使用此docker 镜像 创建容器"></a>使用此docker 镜像 创建容器</h2><p>代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -itd --name redis-master --net mynetwork -p 6380:6379 --ip 172.10.0.2 redis</span><br><span class="line">docker run -itd --name redis-slave --net mynetwork -p 6381:6379 --ip 172.10.0.3 redis</span><br></pre></td></tr></table></figure></p>
+<p>参数说明：<br>参考: <a href="https://www.runoob.com/docker/docker-command-manual.html" target="_blank" rel="noopener">菜鸟教程文档</a></p>
+<h3 id="查看网络"><a href="#查看网络" class="headerlink" title="查看网络"></a>查看网络</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_6_centos redis]# docker network inspect mynetwork</span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;Name&quot;: &quot;mynetwork&quot;,</span><br><span class="line">        &quot;Id&quot;: &quot;1e74de7cbd62306d0f1785e83ef5426cafb021cccd6e1bdfaa316cd7017911d9&quot;,</span><br><span class="line">        &quot;Created&quot;: &quot;2019-11-22T14:01:10.470838603+08:00&quot;,</span><br><span class="line">        &quot;Scope&quot;: &quot;local&quot;,</span><br><span class="line">        &quot;Driver&quot;: &quot;bridge&quot;,</span><br><span class="line">        &quot;EnableIPv6&quot;: false,</span><br><span class="line">        &quot;IPAM&quot;: &#123;</span><br><span class="line">            &quot;Driver&quot;: &quot;default&quot;,</span><br><span class="line">            &quot;Options&quot;: &#123;&#125;,</span><br><span class="line">            &quot;Config&quot;: [</span><br><span class="line">                &#123;</span><br><span class="line">                    &quot;Subnet&quot;: &quot;172.10.0.0/16&quot;</span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;Internal&quot;: false,</span><br><span class="line">        &quot;Attachable&quot;: false,</span><br><span class="line">        &quot;Ingress&quot;: false,</span><br><span class="line">        &quot;ConfigFrom&quot;: &#123;</span><br><span class="line">            &quot;Network&quot;: &quot;&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;ConfigOnly&quot;: false,</span><br><span class="line">        &quot;Containers&quot;: &#123;</span><br><span class="line">            &quot;3391a5251e6324274a6f431b0346fabb9010cbcc0fe156c988ffb6bd20148a72&quot;: &#123;</span><br><span class="line">                &quot;Name&quot;: &quot;redis-master&quot;,</span><br><span class="line">                &quot;EndpointID&quot;: &quot;6e6505d09e0b2a58d80a8b3e306f506dd2da8a7c77f345a051d05cce4618a6a4&quot;,</span><br><span class="line">                &quot;MacAddress&quot;: &quot;02:42:ac:0a:00:02&quot;,</span><br><span class="line">                &quot;IPv4Address&quot;: &quot;172.10.0.2/16&quot;,</span><br><span class="line">                &quot;IPv6Address&quot;: &quot;&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;ff01a57b5de5d54a387d5945fe8b7d5d12b2cf3476b6f93ed6dc4a0f82fa0aef&quot;: &#123;</span><br><span class="line">                &quot;Name&quot;: &quot;redis-slave&quot;,</span><br><span class="line">                &quot;EndpointID&quot;: &quot;5a5d3ea726d9b7b9fc7555138e209ad3ec04fa758713c210c1cd8269806f2b05&quot;,</span><br><span class="line">                &quot;MacAddress&quot;: &quot;02:42:ac:0a:00:03&quot;,</span><br><span class="line">                &quot;IPv4Address&quot;: &quot;172.10.0.3/16&quot;,</span><br><span class="line">                &quot;IPv6Address&quot;: &quot;&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;Options&quot;: &#123;&#125;,</span><br><span class="line">        &quot;Labels&quot;: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h3 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_6_centos redis]# docker exec -it ff01a57b5de5 /bin/bash</span><br><span class="line">[root@ff01a57b5de5 /]#</span><br></pre></td></tr></table></figure>
+<h2 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h2><h3 id="主从复制说明"><a href="#主从复制说明" class="headerlink" title="主从复制说明"></a>主从复制说明</h3><p>为了解决单一节点 机器故障、容量瓶颈等问题，会把数据复制多个副本部署到其它节点上进行冗余备份。实现Redis的高可用。</p>
+<blockquote>
+<p>主从复制-&gt;哨兵-&gt;集群</p>
+</blockquote>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>redis服务器启动后，直接通过客户端执行命令：slaveof <masterip> <masterport> 则该redis实例成为从节点</masterport></masterip></p>
+<p>修改redis保护模式 配置从节点依赖的主节点IP</p>
+<p>主节点调整<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_6_centos redis]# docker exec -it redis-master /bin/bash</span><br><span class="line">[root@ff01a57b5de5 /]# vi /etc/redis.conf</span><br><span class="line">...</span><br><span class="line"># JUST COMMENT THE FOLLOWING LINE.</span><br><span class="line"># ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span><br><span class="line">#bind 127.0.0.1</span><br><span class="line">bind 0.0.0.0</span><br><span class="line"># Protected mode is a layer of security protection, in order to avoid that</span><br><span class="line"># Redis instances left open on the internet are accessed and exploited.</span><br><span class="line">#</span><br><span class="line"># When protected mode is on and if:</span><br><span class="line">#</span><br><span class="line"># 1) The server is not binding explicitly to a set of addresses using the</span><br><span class="line">#    &quot;bind&quot; directive.</span><br><span class="line"># 2) No password is configured.</span><br><span class="line">#</span><br><span class="line"># The server only accepts connections from clients connecting from the</span><br><span class="line"># IPv4 and IPv6 loopback addresses 127.0.0.1 and ::1, and from Unix domain</span><br><span class="line"># sockets.</span><br><span class="line">#</span><br><span class="line"># By default protected mode is enabled. You should disable it only if</span><br><span class="line"># you are sure you want clients from other hosts to connect to Redis</span><br><span class="line"># even if no authentication is configured, nor a specific set of interfaces</span><br><span class="line"># are explicitly listed using the &quot;bind&quot; directive.</span><br><span class="line">#protected-mode yes</span><br><span class="line">protected-mode no</span><br><span class="line"></span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>从节点调整<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_6_centos redis]# docker exec -it redis-slave /bin/bash</span><br><span class="line">[root@ff01a57b5de5 /]# vi /etc/redis.conf</span><br><span class="line">...</span><br><span class="line"># JUST COMMENT THE FOLLOWING LINE.</span><br><span class="line"># ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span><br><span class="line">#bind 127.0.0.1</span><br><span class="line">bind 0.0.0.0</span><br><span class="line"># Protected mode is a layer of security protection, in order to avoid that</span><br><span class="line"># Redis instances left open on the internet are accessed and exploited.</span><br><span class="line">#</span><br><span class="line"># When protected mode is on and if:</span><br><span class="line">#</span><br><span class="line"># 1) The server is not binding explicitly to a set of addresses using the</span><br><span class="line">#    &quot;bind&quot; directive.</span><br><span class="line"># 2) No password is configured.</span><br><span class="line">#</span><br><span class="line"># The server only accepts connections from clients connecting from the</span><br><span class="line"># IPv4 and IPv6 loopback addresses 127.0.0.1 and ::1, and from Unix domain</span><br><span class="line"># sockets.</span><br><span class="line">#</span><br><span class="line"># By default protected mode is enabled. You should disable it only if</span><br><span class="line"># you are sure you want clients from other hosts to connect to Redis</span><br><span class="line"># even if no authentication is configured, nor a specific set of interfaces</span><br><span class="line"># are explicitly listed using the &quot;bind&quot; directive.</span><br><span class="line">#protected-mode yes</span><br><span class="line">protected-mode no</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"># replicaof &lt;masterip&gt; &lt;masterport&gt;</span><br><span class="line">replicaof 172.10.0.2 6379</span><br><span class="line"># If the master is password protected (using the &quot;requirepass&quot; configuration</span><br><span class="line"># directive below) it is possible to tell the replica to authenticate before</span><br><span class="line"># starting the replication synchronization process, otherwise the master will</span><br><span class="line"># refuse the replica request.</span><br><span class="line">#</span><br><span class="line"># masterauth &lt;master-password&gt;</span><br><span class="line"></span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<h3 id="数据测试"><a href="#数据测试" class="headerlink" title="数据测试"></a>数据测试</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_6_centos redis]# docker exec -it redis-master /bin/bash</span><br><span class="line">[root@3391a5251e63 /]# vi /etc/redis.conf</span><br><span class="line">[root@3391a5251e63 /]# redis-server /etc/redis.conf &amp;</span><br><span class="line">[1] 28</span><br><span class="line">[root@3391a5251e63 /]# redis-cli</span><br><span class="line">127.0.0.1:6379&gt; set name uiste</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get name</span><br><span class="line">&quot;uiste&quot;</span><br><span class="line">127.0.0.1:6379&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@VM_0_6_centos ~]# docker exec -it redis-slave /bin/bash</span><br><span class="line">[root@ff01a57b5de5 /]# redis-server /etc/redis.conf &amp;</span><br><span class="line">[1] 73</span><br><span class="line">[root@ff01a57b5de5 /]# redis-cli</span><br><span class="line">127.0.0.1:6379&gt; get name</span><br><span class="line">&quot;uiste&quot;</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>多个从节点的时候，避免主节点同步压力的增加，可以将其它从节点依赖于从节点同步</p>
+</blockquote>
 
-实现主从复制
-开启主服务器的二进制日志centos yum 安装MySQL配置文件路径：
-123log-bin=mysql-binbinlog_format=mixedserver-id=101
-
-重启主服务器MySQLservice mys
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/20151118-1.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
       
     </div>
 
@@ -440,164 +435,28 @@ MySQL读写分离主从复制是读写分离的基础
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151117-1.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="uiste">
-      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
-      <meta itemprop="image" content="/images/default_avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="uiste">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/20151117-1.html" itemprop="url">
-                  使用yum快速搭建LAMP环境
-                </a>
-              
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
+              <a href="/2019/20190630-1.html" rel="next" title="放松等待">
+                <i class="fa fa-chevron-left"></i> 放松等待
+              </a>
             
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2015-11-17 00:09:29" itemprop="dateCreated datePublished" datetime="2015-11-17T00:09:29+08:00">2015-11-17</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-          yum 源配置
-挂载光驱
-配置yum源
-
-
-创建挂载点：[root@localhost mnt]# mkdir /mnt/cdrom
-挂载系统安装光盘：
-12[root@localhost mnt]# mount /dev/cdrom /mnt/cdrommount: block device /dev/sr0 is write-protected, mounting read-only
-
-配置本地yum源
-12345678[root@localhost mnt]# cd /etc/yum.repos.d/[root@localhost yum.repos.d]# ll总用量 16-rw-r-
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/20151117-1.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -607,466 +466,15 @@ MySQL读写分离主从复制是读写分离的基础
   </article>
 
 
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151116-5.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="uiste">
-      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
-      <meta itemprop="image" content="/images/default_avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="uiste">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/20151116-5.html" itemprop="url">
-                  MAMP 安装 Memcache | redis
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2015-11-16 02:36:19" itemprop="dateCreated datePublished" datetime="2015-11-16T02:36:19+08:00">2015-11-16</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          Memcachehttps://github.com/uiste/PHP_Class_Library/tree/master/php-memcached
-参考文章：
-Redis一.下载安装
-
-下载：http://redis.io/
-移动：uiste:~ uiste$ cd downloads
-解压：uiste:local uiste$ sudo tar -zxf redis-3.2.5.tar.gz
-进入：uiste:local uiste$ cd redis-3.2.5
-测试编译：uiste:redis-3.2.5 uiste$ sudo make test
-安装：
-123456789101
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/20151116-5.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151116-4.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="uiste">
-      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
-      <meta itemprop="image" content="/images/default_avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="uiste">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/20151116-4.html" itemprop="url">
-                  MySQL优化
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2015-11-16 01:45:13" itemprop="dateCreated datePublished" datetime="2015-11-16T01:45:13+08:00">2015-11-16</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          MySQL优化着手点
-存储层（数据）：存储引擎、列类型、范式规范（三范式与逆范式）myisam查询速度快，但不支持事务
-设计层（单台服务器）：索引、缓存、分区索引：主键、唯一键、普通键、外键约束缓存：表结构与表数据没有发生变化时，MySQL会将第一次查询的结果缓存到内存中分区：
-架构层（多台服务器）：读写分离或者分布式
-
-语句层：更合适的sql语句select 具体字段与（*），黄金索引
-
-
-存储引擎MySQL中的数据是通过各种不同的技术（格式）存储在文件（或者内存）中的。技术和本身的特性就称为“存储引擎”
-每一种技术都使用不同的存储机制、索引技巧、锁定水平并且最终提供广泛的不同的功能和能力。
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/20151116-4.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151116-3.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="uiste">
-      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
-      <meta itemprop="image" content="/images/default_avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="uiste">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/20151116-3.html" itemprop="url">
-                  大型项目优化
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2015-11-16 01:45:06" itemprop="dateCreated datePublished" datetime="2015-11-16T01:45:06+08:00">2015-11-16</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          问题与优化方案客户端与服务器之间的问题描述：由于客户端跟服务器之间的网络不同，导致信号传输缓慢解决：使用多线路服务器（运维处理）
-Apache性能问题描述：Apache在并发访问情况下，表现很一般并发：在同一秒中有多少个用户在访问，一般来说并发达到100就特别到了解决：使用负载均衡技术（服务器架构）
-PHP引擎性能问题描述：PHP代码整个解析效率根据引擎不一样，速度不一样解决：1、代码优化    2、更换引擎
-MySQL性能问题描述：同样MySQL在并发请求比较高的情况下会故障，并发过高MySQL服务器会处于宕机状态。工具：bin/mysqlslap压力测试工具mysqlslap.exe -a
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/20151116-3.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/12/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/14/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
-
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -1087,8 +495,17 @@ MySQL性能问题描述：同样MySQL在并发请求比较高的情况下会故�
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -1356,6 +773,22 @@ MySQL性能问题描述：同样MySQL在并发请求比较高的情况下会故�
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#环境相关"><span class="nav-number">1.</span> <span class="nav-text">环境相关</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#docker-安装参考"><span class="nav-number">1.1.</span> <span class="nav-text">docker 安装参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker-lnmp-集成环境"><span class="nav-number">1.2.</span> <span class="nav-text">docker-lnmp 集成环境</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis-主从集群"><span class="nav-number">2.</span> <span class="nav-text">Redis 主从集群</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#指定自定义网络"><span class="nav-number">2.1.</span> <span class="nav-text">指定自定义网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-Dockerfile"><span class="nav-number">2.2.</span> <span class="nav-text">创建 Dockerfile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在-Dockerfile-目录-执行下面的代码，注意后面上下文点号"><span class="nav-number">2.3.</span> <span class="nav-text">在 Dockerfile 目录 执行下面的代码，注意后面上下文点号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用此docker-镜像-创建容器"><span class="nav-number">2.4.</span> <span class="nav-text">使用此docker 镜像 创建容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查看网络"><span class="nav-number">2.4.1.</span> <span class="nav-text">查看网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进入容器"><span class="nav-number">2.4.2.</span> <span class="nav-text">进入容器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主从复制"><span class="nav-number">2.5.</span> <span class="nav-text">主从复制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主从复制说明"><span class="nav-number">2.5.1.</span> <span class="nav-text">主从复制说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置"><span class="nav-number">2.5.2.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据测试"><span class="nav-number">2.5.3.</span> <span class="nav-text">数据测试</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -1489,6 +922,10 @@ MySQL性能问题描述：同样MySQL在并发请求比较高的情况下会故�
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
 
   
 

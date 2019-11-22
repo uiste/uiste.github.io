@@ -15,7 +15,7 @@
 
 
 <html class="theme-next mist use-motion" lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -302,6 +302,153 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151009-1.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="uiste">
+      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="uiste">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/20151009-1.html" itemprop="url">
+                  PHP - MySQL 两表联查 | 显示不同类型
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2015-10-09 10:00:38" itemprop="dateCreated datePublished" datetime="2015-10-09T10:00:38+08:00">2015-10-09</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          两表联查需求不同商品的属性扩展如：
+
+音乐：中文片名、英文片名、商品别名、介质/格式、国家地区、导演/指挥、主唱、长度、歌词书：作者、出版社、图书书号、出版日期、图书页数、字数、所属分类等…
+
+思想通过对产品类型划分，使用属性类别(attr_type)表作为中间表，对属性(attribute)扩展连接。
+代码12345//获取attr_type表数据   public function getAttrTypeList()&#123;       $sql='select attr_type_name,count(attr_name) as `count` from attr_type natu
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2015/20151009-1.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -888,150 +1035,6 @@ XMLHttpRequest对象的出现分割了同步和异步。XMLHttpRequest出现之�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151001-1.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="uiste">
-      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
-      <meta itemprop="image" content="/images/default_avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="uiste">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/20151001-1.html" itemprop="url">
-                  Laravel - 表单操作
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2015-10-01 01:17:43" itemprop="dateCreated datePublished" datetime="2015-10-01T01:17:43+08:00">2015-10-01</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          静态资源管理及模板布局表单列表及分页实现通过表单实现新增及操作状态提示功能设置成功之后有提示？使用session的暂存数据，也就是flash，跟上一个with即可？？？
-表单验证及数据保持详解控制器验证Validator数据保持
-123456789101112131415161718192021222324//添加学生信息	//接收表单提交数据-create方法	public function create(Request $request)&#123;		if($request-&gt;isMethod(&apos;POST&apos;))&#123;			//表单验证必填项，最小2个字符，
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/20151001-1.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1081,7 +1084,7 @@ XMLHttpRequest对象的出现分割了同步和异步。XMLHttpRequest出现之�
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">147</span>
+                    <span class="site-state-item-count">148</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
