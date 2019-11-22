@@ -6,7 +6,7 @@
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>redis docker 主从集群</title>
+    <title>redis docker 主从配置</title>
     <url>/2019/20191122-1.html</url>
     <content><![CDATA[<h1 id="环境相关"><a href="#环境相关" class="headerlink" title="环境相关"></a>环境相关</h1><h2 id="docker-安装参考"><a href="#docker-安装参考" class="headerlink" title="docker 安装参考"></a>docker 安装参考</h2><p>参考: <a href="https://yeasy.gitbooks.io/docker_practice/install/" target="_blank" rel="noopener">Docker 安装</a></p>
 <h2 id="docker-lnmp-集成环境"><a href="#docker-lnmp-集成环境" class="headerlink" title="docker-lnmp 集成环境"></a>docker-lnmp 集成环境</h2><p>参考：<a href="https://github.com/uiste/docker-lnmp" target="_blank" rel="noopener">Docker-lnmp</a></p>
