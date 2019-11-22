@@ -27,6 +27,44 @@
 ]]></content>
   </entry>
   <entry>
+    <title>git commit 提交的时候报错</title>
+    <url>/2019/20190830-1.html</url>
+    <content><![CDATA[<p>git commit 提交的时候报错husky &gt; pre-commit</p>
+<p>这个问题是因为当你在终端输入git commit -m “XXX”,提交代码的时候,pre-commit(客户端)钩子，它会在Git键入提交信息前运行做代码风格检查。如果代码不符合相应规则，则报错，而它的检测规则就是根据.git/hooks/pre-commit文件里面的相关定义。查询了网上的解决办法，总结为以下三种解决方案，个人喜欢第三种：</p>
+<blockquote>
+<p>卸载husky。只要把项目的package.json文件中devDependencies节点下的husky库删掉，然后重新npm i 一次即可。或者直接在项目根目录下执行npm uninstall husky –save也可以，再次提交，自动化测试功能就屏蔽掉</p>
+</blockquote>
+<blockquote>
+<p>进入项目的.git文件夹(文件夹默认隐藏,可先设置显示或者命令ls查找),再进入hooks文件夹,删除pre-commit文件,重新git commit -m ‘xxx’ git push即可。</p>
+</blockquote>
+<blockquote>
+<p>将git commit -m “XXX” 改为 git commit –no-verify -m “XXX”</p>
+</blockquote>
+<p>注册页<br><a href="https://res.mimeicy.cn/lsprod/loan/35d217e7b39284.png" target="_blank" rel="noopener">https://res.mimeicy.cn/lsprod/loan/35d217e7b39284.png</a></p>
+<p>IOS<br><a href="https://res.mimeicy.cn/lsprod/loan/75d217e4503fb4.png" target="_blank" rel="noopener">https://res.mimeicy.cn/lsprod/loan/75d217e4503fb4.png</a></p>
+<p>安卓<br><a href="https://res.mimeicy.cn/lsprod/loan/85d217e6a2a086.png" target="_blank" rel="noopener">https://res.mimeicy.cn/lsprod/loan/85d217e6a2a086.png</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>nginx 优化</title>
+    <url>/2019/20190801-1.html</url>
+    <content><![CDATA[<h2 id="默认安装"><a href="#默认安装" class="headerlink" title="默认安装"></a>默认安装</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum update</span><br><span class="line"></span><br><span class="line">yum -y install gcc gcc-c++ autoconf pcre pcre-devel make automake</span><br><span class="line"></span><br><span class="line">yum -y install wget httpd-tools vim</span><br><span class="line"></span><br><span class="line">cd /opt;mkdir app download logs work backup</span><br></pre></td></tr></table></figure>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><blockquote>
+<p>IO多路复用epoll<br>模块化轻量化<br>CPU亲和（CPU核心worker进程绑定分配）<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 几个物理CPU</span><br><span class="line">cat /proc/cpuinfo|grep &quot;physical id&quot; | sort | uniq | wc | -l</span><br><span class="line"></span><br><span class="line"># 几个核心</span><br><span class="line">cat /proc/cpuinfo|grep &quot;cpu cores&quot; | uniq</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="中间件架构"><a href="#中间件架构" class="headerlink" title="中间件架构"></a>中间件架构</h2><ol>
+<li>静态资源web服务</li>
+<li>代理服务</li>
+<li>负载均衡调度器</li>
+<li>动态缓存<blockquote>
+<p>proxy_cache</p>
+</blockquote>
+</li>
+</ol>
+<p>switchysharp</p>
+]]></content>
+  </entry>
+  <entry>
     <title>放松等待</title>
     <url>/2019/20190630-1.html</url>
     <content><![CDATA[<p>纽约时间比加州时间早三个小时，</p>

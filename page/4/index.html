@@ -318,6 +318,315 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2018/20180402-3.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="uiste">
+      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="uiste">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/20180402-3.html" itemprop="url">
+                  Mysql高级-存储引擎、驱动、索引、优化
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-02 12:13:29" itemprop="dateCreated datePublished" datetime="2018-04-02T12:13:29+08:00">2018-04-02</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          MySQL5.1版本前默认存储引擎是myisamMySQL5.5版本开始默认存储引擎是innodb
+字段类型锁
+myisam 和 memory 存储引擎采用的是表级锁
+BDB存储引擎采用的是页面锁，但也支持表级锁
+innodb 存储引擎既支持行锁也支持表锁，默认采用行锁
+
+表级锁：开销小，加锁快，不会出现死锁；锁定粒度大，发生锁冲突的概率最高，并发度最低
+
+行级锁：开销大，加锁慢，会出现死锁，锁定粒度小，发生锁冲突的概率最低，并发度也最高
+页面锁：介于上述二者之间
+
+123456myisam 表锁争用情况&gt; show status like &apos;table_lock%&apos;
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/20180402-3.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2018/20180402-2.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="uiste">
+      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="uiste">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/20180402-2.html" itemprop="url">
+                  Mysql高级-体系结构
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-02 12:12:29" itemprop="dateCreated datePublished" datetime="2018-04-02T12:12:29+08:00">2018-04-02</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          Mysql是由SQL接口，解析器，优化器，缓存，存储引擎组成的。
+
+Connectors
+指的是不同语言中与SQL的交互
+Management Serveices &amp; Utilities
+系统管理和控制工具
+Connection Pool
+连接池
+管理缓冲用户连接，线程处理等需要缓存的需求。
+SQL Interface: SQL接口
+接受用户的SQL命令，并且返回用户需要查询的结果。比如select from就是调用SQL Interface。
+Parser: 解析器。
+SQL命令传递到解析器的时候会被解析器验证和解析。解析器是由Lex和YACC实现的，是一个很长的脚本。
+主要功能：
+
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/20180402-2.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2018/20180402-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -752,316 +1061,6 @@ mkfs.ext4 磁盘格式化
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2018/20180331-2.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="uiste">
-      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
-      <meta itemprop="image" content="/images/default_avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="uiste">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/20180331-2.html" itemprop="url">
-                  PHP细节-02
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-31 22:44:26" itemprop="dateCreated datePublished" datetime="2018-03-31T22:44:26+08:00">2018-03-31</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          文件
-二进制文件读写 pack() unpack()
-系统函数判断图像类型：exif_imagetype()
-文件指针
-1234fseek() 在文件指针中定位ftell() 返回文件指针读写的位置rewind() 倒回文件指针的位置feof() 测试文件指针是否到了文件结束的位置
-
-超大文件上传
-12swfUpload、uploadify 等flash组件XMLHTTPRequest 大文件断点续传+分段上传 ajax2.0
-
-
-PHP运行原理
-UA -&gt; apache -&gt; SAPI -&gt; zend engine -&gt; php script
-
-PHP运行模式
-CLI
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/20180331-2.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2018/20180331-1.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="uiste">
-      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
-      <meta itemprop="image" content="/images/default_avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="uiste">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/20180331-1.html" itemprop="url">
-                  PHP细节-01
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-31 11:56:35" itemprop="dateCreated datePublished" datetime="2018-03-31T11:56:35+08:00">2018-03-31</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          字符串
-双引号或者heredoc其中的变量 以及 \ 开始的符合8进制16进制和特殊符号
-字符串底层是C语言的结构体，所以可以用[] 或 {} 来访问某个字符
-字符串最大长度可以达到2G内存
-C语言字符串\0代表字符串结束，但PHP结构体是有个长度字段，可以让二进制字符串安全
-用超出字符串长度的下标写入将会拉长字符串并以空格填充
-UTF-8 编码
-16进制 Unicode 编码范围 0800 - FFFF2进制 1110xxxx 10xxxxxx 10xxxxxx为了通用优先选择UTF-8 3个字节,为了节省空间用GBK 2个字节
-
-
-
-数组
-key 可以是integer 或者 string 
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/20180331-1.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1111,7 +1110,7 @@ key 可以是integer 或者 string
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">148</span>
+                    <span class="site-state-item-count">150</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
