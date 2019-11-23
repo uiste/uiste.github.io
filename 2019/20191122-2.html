@@ -100,17 +100,19 @@
 
 
 
-  <meta name="description" content="Stay Hungry，Stay Foolish">
+  <meta name="description" content="Redis主从复制的原理及相关问题 保存主节点信息 主从建立socket连接 发送ping命令 权限验证 同步数据集 命令持续复制  全量复制部分复制redis2.8以后才支持 复制偏移量123info replicationslave0:ip=172.10.0.3,port=6379,state=online,offset=5545,lag=0master_repl_offset 积压缓存区do">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2">
+<meta property="og:title" content="(二)redis docker 主从配置">
 <meta property="og:url" content="http://blog.uiste.com/2019/20191122-2.html">
 <meta property="og:site_name" content="uiste">
-<meta property="og:description" content="Stay Hungry，Stay Foolish">
+<meta property="og:description" content="Redis主从复制的原理及相关问题 保存主节点信息 主从建立socket连接 发送ping命令 权限验证 同步数据集 命令持续复制  全量复制部分复制redis2.8以后才支持 复制偏移量123info replicationslave0:ip=172.10.0.3,port=6379,state=online,offset=5545,lag=0master_repl_offset 积压缓存区do">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-22T08:07:36.799Z">
+<meta property="og:image" content="https://res.nuoyit.com/lsprod/loan/95dd8baaf6bf45.png">
+<meta property="og:updated_time" content="2019-11-23T04:54:39.269Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2">
-<meta name="twitter:description" content="Stay Hungry，Stay Foolish">
+<meta name="twitter:title" content="(二)redis docker 主从配置">
+<meta name="twitter:description" content="Redis主从复制的原理及相关问题 保存主节点信息 主从建立socket连接 发送ping命令 权限验证 同步数据集 命令持续复制  全量复制部分复制redis2.8以后才支持 复制偏移量123info replicationslave0:ip=172.10.0.3,port=6379,state=online,offset=5545,lag=0master_repl_offset 积压缓存区do">
+<meta name="twitter:image" content="https://res.nuoyit.com/lsprod/loan/95dd8baaf6bf45.png">
 
 
 
@@ -129,7 +131,7 @@
   };
 </script>
 
-  <title>2 | uiste</title>
+  <title>(二)redis docker 主从配置 | uiste</title>
   
 
 
@@ -335,7 +337,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">2
+          <h2 class="post-title" itemprop="name headline">(二)redis docker 主从配置
               
             
           </h2>
@@ -394,7 +396,54 @@
       
 
       
-        
+        <h1 id="Redis主从复制的原理及相关问题"><a href="#Redis主从复制的原理及相关问题" class="headerlink" title="Redis主从复制的原理及相关问题"></a>Redis主从复制的原理及相关问题</h1><ol>
+<li>保存主节点信息</li>
+<li>主从建立socket连接</li>
+<li>发送ping命令</li>
+<li>权限验证</li>
+<li>同步数据集</li>
+<li>命令持续复制</li>
+</ol>
+<h1 id="全量复制"><a href="#全量复制" class="headerlink" title="全量复制"></a>全量复制</h1><h1 id="部分复制"><a href="#部分复制" class="headerlink" title="部分复制"></a>部分复制</h1><p>redis2.8以后才支持</p>
+<h1 id="复制偏移量"><a href="#复制偏移量" class="headerlink" title="复制偏移量"></a>复制偏移量</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">info replication</span><br><span class="line">slave0:ip=172.10.0.3,port=6379,state=online,offset=5545,lag=0</span><br><span class="line">master_repl_offset</span><br></pre></td></tr></table></figure>
+<h1 id="积压缓存区"><a href="#积压缓存区" class="headerlink" title="积压缓存区"></a>积压缓存区</h1><h1 id="dockerfile-指令"><a href="#dockerfile-指令" class="headerlink" title="dockerfile 指令"></a>dockerfile 指令</h1><p>COPY<br>ADD<br>CMD<br>ENTRYPOINT<br>ENV<br>ARG<br>VOLUME<br>EXPOSE<br>WORKDIR<br>USER</p>
+<h1 id="主从复制的常见问题"><a href="#主从复制的常见问题" class="headerlink" title="主从复制的常见问题"></a>主从复制的常见问题</h1><p>repl-disable-tcp-nodelay<br>yes 时 TCP协议会合并小包统一发送，减少主从节点的包数量并节省带宽，会增加数据同步到slave的时间</p>
+<p>slave-priority<br>指定slave的优先级。在不止1个slave的情况下，master宕机时，redis sentinel 会将priority值最小的slave提升为master。需要注意的是，若该配置项为0，则对应的slave永远不会被redis sentinel 自动提升为master</p>
+<h1 id="redis-sentinel-哨兵的作用"><a href="#redis-sentinel-哨兵的作用" class="headerlink" title="redis sentinel 哨兵的作用"></a>redis sentinel 哨兵的作用</h1><ol>
+<li>监控：定期检查Redis数据节点、其余sentinel节点是否可达</li>
+<li>通知：sentinel 节点会将故障转移的结果通知给应用方</li>
+<li>主节点故障转移：实现从节点晋升为主节点并维护后续正确的主从关系</li>
+<li>sentinel节点本身就是独立的Redis节点，只不过她们有一些特殊，自己不存储数据，只支持部分命令</li>
+</ol>
+<h1 id="哨兵配置"><a href="#哨兵配置" class="headerlink" title="哨兵配置"></a>哨兵配置</h1><h2 id="新增一个Redis-slave2"><a href="#新增一个Redis-slave2" class="headerlink" title="新增一个Redis-slave2"></a>新增一个Redis-slave2</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_6_centos ~]# docker run -itd --name redis-slave2 --net mynetwork -p 6382:6379 --ip 172.10.0.4 redis</span><br><span class="line">d8ceb85aa3bedacad69e0765e5dcac28a4906eeb99c2f22b4e3af2bd3bb29501</span><br><span class="line">[root@VM_0_6_centos ~]# docker exec -it redis-slave2 bash</span><br><span class="line">[root@d8ceb85aa3be /]# vi /etc/redis.conf</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"># JUST COMMENT THE FOLLOWING LINE.</span><br><span class="line"># ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span><br><span class="line">#bind 127.0.0.1</span><br><span class="line">bind 0.0.0.0</span><br><span class="line"># Protected mode is a layer of security protection, in order to avoid that</span><br><span class="line"># Redis instances left open on the internet are accessed and exploited.</span><br><span class="line">#</span><br><span class="line"># When protected mode is on and if:</span><br><span class="line">#</span><br><span class="line"># 1) The server is not binding explicitly to a set of addresses using the</span><br><span class="line">#    &quot;bind&quot; directive.</span><br><span class="line"># 2) No password is configured.</span><br><span class="line">#</span><br><span class="line"># The server only accepts connections from clients connecting from the</span><br><span class="line"># IPv4 and IPv6 loopback addresses 127.0.0.1 and ::1, and from Unix domain</span><br><span class="line"># sockets.</span><br><span class="line">#</span><br><span class="line"># By default protected mode is enabled. You should disable it only if</span><br><span class="line"># you are sure you want clients from other hosts to connect to Redis</span><br><span class="line"># even if no authentication is configured, nor a specific set of interfaces</span><br><span class="line"># are explicitly listed using the &quot;bind&quot; directive.</span><br><span class="line">#protected-mode yes</span><br><span class="line">protected-mode no</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"># replicaof &lt;masterip&gt; &lt;masterport&gt;</span><br><span class="line">replicaof 172.10.0.2 6379</span><br><span class="line"># If the master is password protected (using the &quot;requirepass&quot; configuration</span><br><span class="line"># directive below) it is possible to tell the replica to authenticate before</span><br><span class="line"># starting the replication synchronization process, otherwise the master will</span><br><span class="line"># refuse the replica request.</span><br><span class="line">#</span><br><span class="line"># masterauth &lt;master-password&gt;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">[root@d8ceb85aa3be /]# redis-server /etc/redis.conf &amp;</span><br><span class="line">[1] 29</span><br><span class="line">[root@d8ceb85aa3be /]# redis-cli</span><br><span class="line">127.0.0.1:6379&gt; info replication</span><br><span class="line"># Replication</span><br><span class="line">role:slave</span><br><span class="line">master_host:172.10.0.2</span><br><span class="line">master_port:6379</span><br><span class="line">master_link_status:up</span><br><span class="line">master_last_io_seconds_ago:3</span><br><span class="line">master_sync_in_progress:0</span><br><span class="line">slave_repl_offset:101921</span><br><span class="line">slave_priority:100</span><br><span class="line">slave_read_only:1</span><br><span class="line">connected_slaves:0</span><br><span class="line">master_replid:73aa73a6ca2674e214b2081989f8f5cd642b1774</span><br><span class="line">master_replid2:0000000000000000000000000000000000000000</span><br><span class="line">master_repl_offset:101921</span><br><span class="line">second_repl_offset:-1</span><br><span class="line">repl_backlog_active:1</span><br><span class="line">repl_backlog_size:1048576</span><br><span class="line">repl_backlog_first_byte_offset:101880</span><br><span class="line">repl_backlog_histlen:42</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="配置sentinel集群"><a href="#配置sentinel集群" class="headerlink" title="配置sentinel集群"></a>配置sentinel集群</h2><h3 id="核心配置"><a href="#核心配置" class="headerlink" title="核心配置"></a>核心配置</h3><p><code>sentinel monitor mymaster 127.0.0.1 7000 2</code></p>
+<blockquote>
+<p>监控的主节点的名字、IP和端口，最后一个2的意思是有几台 sentinel发现问题，就会发生故障转移，例如 配置为2，代表至少有2个sentinel节点认为主节点不可达，那么这个不可达的判断才是客观的。对于设置的越小，那么达到下线的条件越宽松，反之越严格。一般建议将其设置为sentinel节点的一半加1</p>
+</blockquote>
+<p><code>sentinel  down-after-minllsenconds mymaster 30000</code></p>
+<blockquote>
+<p>这个是超时的时间（单位是毫秒）。当你去ping一个机器的时候，多长时间后仍ping不通，那么就热为它是有问题的</p>
+</blockquote>
+<p><code>sentinel parallel-syncs mymaster 1</code></p>
+<blockquote>
+<p>parallel-syncs就是用来限制在一次故障转移之后，每次向新的主节点发起复制操作的从节点个数，支出sentinel属于并发还是创新，1代表每次只能复制一个，可以减轻master的压力</p>
+</blockquote>
+<p><code>sentinel auth-pass &lt;master-name&gt; &lt;password&gt;</code></p>
+<blockquote>
+<p>如果sentinel监控的主节点配置了密码，sentinel auth-pass配置通过添加主节点的密码，房子sentinel节点对主节点无法监控</p>
+</blockquote>
+<p><code>sentinel failover-timeout mymaster 180000</code></p>
+<blockquote>
+<p>标识故障转移的时间</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -itd --name redis-sentinel1 --net mynetwork -p 22530:6379 --ip 172.10.0.30 redis</span><br><span class="line">docker run -itd --name redis-sentinel2 --net mynetwork -p 22531:6379 --ip 172.10.0.31 redis</span><br><span class="line">docker run -itd --name redis-sentinel3 --net mynetwork -p 22532:6379 --ip 172.10.0.32 redis</span><br></pre></td></tr></table></figure>
+<p>操作记录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_6_centos ~]# docker run -itd --name redis-sentinel1 --net mynetwork -p 22530:6379 --ip 172.10.0.30 redis</span><br><span class="line">706f81a08f15c74581b5f54a351ac809f3d782e7ee96d4f51b4ff745c8520039</span><br><span class="line">[root@VM_0_6_centos ~]# docker exec -it redis-sentinel1 bash</span><br><span class="line">[root@706f81a08f15 /]# vi /etc/redis-sentinel.conf</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"># bind 127.0.0.1 192.168.1.1</span><br><span class="line">#</span><br><span class="line"># protected-mode no</span><br><span class="line">bind 0.0.0.0</span><br><span class="line">protected-mode no</span><br><span class="line"># port &lt;sentinel-port&gt;</span><br><span class="line"># The port that this sentinel instance will run on</span><br><span class="line">port 26379</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"># Note: master name should not include special characters or spaces.</span><br><span class="line"># The valid charset is A-z 0-9 and the three characters &quot;.-_&quot;.</span><br><span class="line">#sentinel monitor mymaster 127.0.0.1 6379 2</span><br><span class="line">sentinel monitor mymaster 172.10.0.2 6379 2</span><br><span class="line"># sentinel auth-pass &lt;master-name&gt; &lt;password&gt;</span><br><span class="line">#</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">[root@706f81a08f15 /]# redis-sentinel /etc/redis-sentinel.conf &amp;</span><br></pre></td></tr></table></figure></p>
+<p>配置日志查看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@706f81a08f15 /]# vi /var/log/redis/sentinel.log</span><br><span class="line">29:X 23 Nov 2019 04:29:30.667 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo</span><br><span class="line">29:X 23 Nov 2019 04:29:30.667 # Redis version=5.0.3, bits=64, commit=00000000, modified=0, pid=29, just started</span><br><span class="line">29:X 23 Nov 2019 04:29:30.667 # Configuration loaded</span><br><span class="line">29:X 23 Nov 2019 04:29:30.670 * Running mode=sentinel, port=26379.</span><br><span class="line">29:X 23 Nov 2019 04:29:30.670 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.</span><br><span class="line">29:X 23 Nov 2019 04:29:30.678 # Sentinel ID is 7475415502d8812fb642905c4837a8e071f7a75a</span><br><span class="line">29:X 23 Nov 2019 04:29:30.678 # +monitor master mymaster 172.10.0.2 6379 quorum 2</span><br><span class="line">29:X 23 Nov 2019 04:29:30.766 * +slave slave 172.10.0.3:6379 172.10.0.3 6379 @ mymaster 172.10.0.2 6379</span><br><span class="line">29:X 23 Nov 2019 04:29:30.772 * +slave slave 172.10.0.4:6379 172.10.0.4 6379 @ mymaster 172.10.0.2 6379</span><br><span class="line">29:X 23 Nov 2019 04:29:37.290 * +sentinel sentinel 9e58d80dbc53015c666e1f3c5dba5146ddf56795 172.10.0.31 26379 @ mymaster 172.10.0.2 6379</span><br><span class="line">29:X 23 Nov 2019 04:29:39.245 * +sentinel sentinel acf0b15e88a1734fdc1af5213817c6ac83aadb78 172.10.0.32 26379 @ mymaster 172.10.0.2 6379</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>备注：其它两台的配置一模一样，参数都不需要改变。哨兵集群只需要配置对主节点的监控即可。</p>
+</blockquote>
+<p><img src="https://res.nuoyit.com/lsprod/loan/95dd8baaf6bf45.png" alt="配置查看"></p>
+
       
     </div>
 
@@ -421,8 +470,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/20191122-1.html" rel="next" title="redis docker 主从配置">
-                <i class="fa fa-chevron-left"></i> redis docker 主从配置
+              <a href="/2019/20191122-1.html" rel="next" title="(一)redis docker 主从配置">
+                <i class="fa fa-chevron-left"></i> (一)redis docker 主从配置
               </a>
             
           </div>
@@ -474,8 +523,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -742,6 +800,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis主从复制的原理及相关问题"><span class="nav-number">1.</span> <span class="nav-text">Redis主从复制的原理及相关问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#全量复制"><span class="nav-number">2.</span> <span class="nav-text">全量复制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#部分复制"><span class="nav-number">3.</span> <span class="nav-text">部分复制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#复制偏移量"><span class="nav-number">4.</span> <span class="nav-text">复制偏移量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#积压缓存区"><span class="nav-number">5.</span> <span class="nav-text">积压缓存区</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dockerfile-指令"><span class="nav-number">6.</span> <span class="nav-text">dockerfile 指令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主从复制的常见问题"><span class="nav-number">7.</span> <span class="nav-text">主从复制的常见问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#redis-sentinel-哨兵的作用"><span class="nav-number">8.</span> <span class="nav-text">redis sentinel 哨兵的作用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#哨兵配置"><span class="nav-number">9.</span> <span class="nav-text">哨兵配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#新增一个Redis-slave2"><span class="nav-number">9.1.</span> <span class="nav-text">新增一个Redis-slave2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置sentinel集群"><span class="nav-number">9.2.</span> <span class="nav-text">配置sentinel集群</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#核心配置"><span class="nav-number">9.2.1.</span> <span class="nav-text">核心配置</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

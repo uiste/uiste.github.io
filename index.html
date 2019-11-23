@@ -338,7 +338,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 <a class="post-title-link" href="/2019/20191122-2.html" itemprop="url">
-                  2
+                  (二)redis docker 主从配置
                 </a>
               
             
@@ -400,8 +400,19 @@
       
         
           
-          
-          
+          Redis主从复制的原理及相关问题
+保存主节点信息
+主从建立socket连接
+发送ping命令
+权限验证
+同步数据集
+命令持续复制
+
+全量复制部分复制redis2.8以后才支持
+复制偏移量123info replicationslave0:ip=172.10.0.3,port=6379,state=online,offset=5545,lag=0master_repl_offset
+积压缓存区dockerfile 指令COPYADDCMDENTRYPOINTENVARGVOLUMEEXPOSEWORKDIRUSER
+主从复制的常见问题repl-disable-tcp-nodelayyes 时 
+          ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/20191122-2.html#more" rel="contents">
@@ -480,7 +491,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 <a class="post-title-link" href="/2019/20191122-1.html" itemprop="url">
-                  redis docker 主从配置
+                  (一)redis docker 主从配置
                 </a>
               
             
@@ -544,7 +555,7 @@
           
           环境相关docker 安装参考参考: Docker 安装
 docker-lnmp 集成环境参考：Docker-lnmp
-Redis 主从集群指定自定义网络12345[root@VM_0_6_centos redis]# pwd/data/web/redis[root@VM_0_6_centos redis]# docker network create --subnet=172.10.0.0/16 mynetwork1e74de7cbd62306d0f1785e83ef5426cafb021cccd6e1bdfaa316cd7017911d9
+Redis 主从配置指定自定义网络12345[root@VM_0_6_centos redis]# pwd/data/web/redis[root@VM_0_6_centos redis]# docker network create --subnet=172.10.0.0/16 mynetwork1e74de7cbd62306d0f1785e83ef5426cafb021cccd6e1bdfaa316cd7017911d9
 创建 Dockerfile1234FROM cen
           ...
           <!--noindex-->
