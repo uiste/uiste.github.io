@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="使用docker-machine ，可以启动、审查、停止、重新启动托管的宿主机、升级docker客户端和守护程序，并配置docker客户端与宿主机通信。 安装docker-machineIf you are running macOS:123$ base=https://github.com/docker/machine/releases/download/v0.16.0 &amp;amp;&amp;amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(四) docker-machine 集群伸缩">
+<meta property="og:url" content="http://blog.uiste.com/2019/20190923-2.html">
+<meta property="og:site_name" content="uiste">
+<meta property="og:description" content="使用docker-machine ，可以启动、审查、停止、重新启动托管的宿主机、升级docker客户端和守护程序，并配置docker客户端与宿主机通信。 安装docker-machineIf you are running macOS:123$ base=https://github.com/docker/machine/releases/download/v0.16.0 &amp;amp;&amp;amp;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://res.nuoyit.com/lsprod/loan/25ddb8d6991383.png">
+<meta property="og:image" content="https://res.nuoyit.com/lsprod/loan/15ddb915d50c5c.png">
+<meta property="og:updated_time" content="2019-11-25T09:49:12.348Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(四) docker-machine 集群伸缩">
+<meta name="twitter:description" content="使用docker-machine ，可以启动、审查、停止、重新启动托管的宿主机、升级docker客户端和守护程序，并配置docker客户端与宿主机通信。 安装docker-machineIf you are running macOS:123$ base=https://github.com/docker/machine/releases/download/v0.16.0 &amp;amp;&amp;amp;">
+<meta name="twitter:image" content="https://res.nuoyit.com/lsprod/loan/25ddb8d6991383.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="uiste" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://blog.uiste.com/2019/20190923-2.html">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>(四) docker-machine 集群伸缩 | uiste</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">uiste</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">uiste</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    <!--  -->
+    
+    
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2019/20190923-2.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="uiste">
+      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="uiste">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">(四) docker-machine 集群伸缩
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-23 23:59:01" itemprop="dateCreated datePublished" datetime="2019-09-23T23:59:01+08:00">2019-09-23</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>使用docker-machine ，可以启动、审查、停止、重新启动托管的宿主机、升级docker客户端和守护程序，并配置docker客户端与宿主机通信。</p>
+<h1 id="安装docker-machine"><a href="#安装docker-machine" class="headerlink" title="安装docker-machine"></a>安装docker-machine</h1><p>If you are running macOS:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ base=https://github.com/docker/machine/releases/download/v0.16.0 &amp;&amp;</span><br><span class="line">  curl -L $base/docker-machine-$(uname -s)-$(uname -m) &gt;/usr/local/bin/docker-machine &amp;&amp;</span><br><span class="line">  chmod +x /usr/local/bin/docker-machine</span><br></pre></td></tr></table></figure></p>
+<p>If you are running Linux:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ base=https://github.com/docker/machine/releases/download/v0.16.0 &amp;&amp;</span><br><span class="line">  curl -L $base/docker-machine-$(uname -s)-$(uname -m) &gt;/tmp/docker-machine &amp;&amp;</span><br><span class="line">  sudo mv /tmp/docker-machine /usr/local/bin/docker-machine &amp;&amp;</span><br><span class="line">  chmod +x /usr/local/bin/docker-machine</span><br></pre></td></tr></table></figure></p>
+<p>If you are running Windows with Git BASH:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ base=https://github.com/docker/machine/releases/download/v0.16.0 &amp;&amp;</span><br><span class="line">  mkdir -p &quot;$HOME/bin&quot; &amp;&amp;</span><br><span class="line">  curl -L $base/docker-machine-Windows-x86_64.exe &gt; &quot;$HOME/bin/docker-machine.exe&quot; &amp;&amp;</span><br><span class="line">  chmod +x &quot;$HOME/bin/docker-machine.exe&quot;</span><br></pre></td></tr></table></figure></p>
+<p>参考: <a href="https://docs.docker.com/machine/install-machine/" target="_blank" rel="noopener">官方文档</a></p>
+<h1 id="下载阿里云docker-machine驱动"><a href="#下载阿里云docker-machine驱动" class="headerlink" title="下载阿里云docker-machine驱动"></a>下载阿里云docker-machine驱动</h1><h2 id="下载docker-machine阿里云驱动"><a href="#下载docker-machine阿里云驱动" class="headerlink" title="下载docker-machine阿里云驱动"></a>下载docker-machine阿里云驱动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># 下载</span><br><span class="line">wget https://docker-machine-drivers.oss-cn-beijing.aliyuncs.com/docker-machine-driver-aliyunecs_linux-amd64.tgz</span><br><span class="line"></span><br><span class="line"># 解压</span><br><span class="line">tar zxvf docker-machine-driver-aliyunecs_linux-amd64.tgz</span><br><span class="line"></span><br><span class="line"># 移动</span><br><span class="line">mv ./bin/docker-machine-driver-aliyunecs.linux-amd64 /usr/local/bin/docker-machine-driver-aliyunecs</span><br><span class="line"></span><br><span class="line"># 权限</span><br><span class="line">chmod +x  /usr/local/bin/docker-machine-driver-aliyunecs</span><br><span class="line"></span><br><span class="line"># 创建</span><br><span class="line">docker-machine create -d aliyunecs --aliyunecs-io-optimized=optimized    --aliyunecs-description=aliyunecs-machine-driver  --aliyunecs-instance-type=ecs.mn4.small   --aliyunecs-access-key-id=&apos;&lt;Your access key ID&gt;&apos; --aliyunecs-access-key-secret=&apos;&lt;Your secret access key&gt;&apos; --aliyunecs-region=cn-hangzhou  --aliyunecs-ssh-password=zaq1@wsx  manager</span><br><span class="line"></span><br><span class="line">--aliyunecs-io-optimized=optimized     //磁盘io优化</span><br><span class="line">--aliyunecs-description=aliyunecs-machine-driver   //描述</span><br><span class="line">--aliyunecs-instance-type=ecs.mn4.small     //实例规格</span><br><span class="line">--aliyunecs-access-key-id=LTxxxcxx      // key</span><br><span class="line">--aliyunecs-access-key-secret=Axxx     //秘钥</span><br><span class="line">--aliyunecs-region=cn-hangzhou     //地区</span><br><span class="line">--aliyunecs-ssh-password=zaq1@wsx  //ssh登录密码</span><br><span class="line">–aliyunecs-image-id=centos_7_04_64_20G_alibase_201701015.vhd  //镜像实例</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">如果创建失败可以用下面命令删除</span><br><span class="line">docker-machine rm bboysoul --force</span><br></pre></td></tr></table></figure>
+<p>参考: <a href="https://yq.aliyun.com/articles/411336?spm=a2c4e.11153940.0.0.72882defNeF9bp" target="_blank" rel="noopener">docker machine介绍和使用文档</a></p>
+<p>想要创建一个阿里云虚拟化示例，需要满足几个条件</p>
+<ol>
+<li>账户余额大于100，因为创建的实例为按量付费</li>
+<li>设置accesskey，需要具备操作账户的权限</li>
+</ol>
+<h2 id="操作记录"><a href="#操作记录" class="headerlink" title="操作记录"></a>操作记录</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">[root@izbp1bb2egi7vzn29c1dhvz ~]# base=https://github.com/docker/machine/releases/download/v0.16.0 &amp;&amp;</span><br><span class="line">&gt;   curl -L $base/docker-machine-$(uname -s)-$(uname -m) &gt;/tmp/docker-machine &amp;&amp;</span><br><span class="line">&gt;   sudo mv /tmp/docker-machine /usr/local/bin/docker-machine &amp;&amp;</span><br><span class="line">&gt;   chmod +x /usr/local/bin/docker-machine</span><br><span class="line">  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current</span><br><span class="line">                                 Dload  Upload   Total   Spent    Left  Speed</span><br><span class="line">100   617    0   617    0     0    310      0 --:--:--  0:00:01 --:--:--   310</span><br><span class="line">100 26.8M  100 26.8M    0     0  14897      0  0:31:30  0:31:30 --:--:-- 20899</span><br><span class="line">[root@izbp1bb2egi7vzn29c1dhvz ~]# docker-machine -v</span><br><span class="line">docker-machine version 0.16.0, build 702c267f</span><br><span class="line">[root@izbp1bb2egi7vzn29c1dhvz ~]# wget https://docker-machine-drivers.oss-cn-beijing.aliyuncs.com/docker-machine-driver-aliyunecs_linux-amd64.tgz</span><br><span class="line">--2019-09-25 13:17:50--  https://docker-machine-drivers.oss-cn-beijing.aliyuncs.com/docker-machine-driver-aliyunecs_linux-amd64.tgz</span><br><span class="line">正在解析主机 docker-machine-drivers.oss-cn-beijing.aliyuncs.com (docker-machine-drivers.oss-cn-beijing.aliyuncs.com)... 59.110.185.69</span><br><span class="line">正在连接 docker-machine-drivers.oss-cn-beijing.aliyuncs.com (docker-machine-drivers.oss-cn-beijing.aliyuncs.com)|59.110.185.69|:443... 已连接。</span><br><span class="line">已发出 HTTP 请求，正在等待回应... 200 OK</span><br><span class="line">长度：3852839 (3.7M) [application/gzip]</span><br><span class="line">正在保存至: “docker-machine-driver-aliyunecs_linux-amd64.tgz”</span><br><span class="line"></span><br><span class="line">100%[=================================================================================================================================================================================&gt;] 3,852,839   14.3MB/s 用时 0.3s</span><br><span class="line"></span><br><span class="line">2019-09-25 13:17:50 (14.3 MB/s) - 已保存 “docker-machine-driver-aliyunecs_linux-amd64.tgz” [3852839/3852839])</span><br><span class="line"></span><br><span class="line">[root@izbp1bb2egi7vzn29c1dhvz ~]# ls</span><br><span class="line">dms-db-gateway  dms-db-gateway.tar.gz  docker-machine-driver-aliyunecs_linux-amd64.tgz  php-7.0.1  php7.tar.gz  walle-web.zip</span><br><span class="line">[root@izbp1bb2egi7vzn29c1dhvz ~]# tar zxvf docker-machine-driver-aliyunecs_linux-amd64.tgz</span><br><span class="line">bin/docker-machine-driver-aliyunecs.linux-amd64</span><br><span class="line">[root@izbp1bb2egi7vzn29c1dhvz ~]# mv ./bin/docker-machine-driver-aliyunecs.linux-amd64 /usr/local/bin/docker-machine-driver-aliyunecs</span><br><span class="line">[root@izbp1bb2egi7vzn29c1dhvz ~]# chmod +x  /usr/local/bin/docker-machine-driver-aliyunecs</span><br><span class="line">[root@izbp1bb2egi7vzn29c1dhvz ~]#</span><br><span class="line"></span><br><span class="line"># 命令</span><br><span class="line">docker-machine create -d aliyunecs \</span><br><span class="line">--aliyunecs-access-key-id=&apos;&lt;Your access key ID&gt;&apos; \</span><br><span class="line">--aliyunecs-access-key-secret=&apos;&lt;Your secret access key&gt;&apos; \</span><br><span class="line">--aliyunecs-system-disk-size=&apos;40&apos; \</span><br><span class="line">--aliyunecs-image-id=&apos;centos_7_05_64_20G_alibase_20181210.vhd&apos; \</span><br><span class="line">--aliyunecs-io-optimized=&apos;true&apos; \</span><br><span class="line">--aliyunecs-instance-type=&apos;ecs.t5-lc2m1.nano&apos; \</span><br><span class="line">--aliyunecs-internet-max-bandwidth=&apos;1&apos; \</span><br><span class="line">--aliyunecs-region=&apos;cn-hangzhou&apos; \</span><br><span class="line">--aliyunecs-ssh-password=&apos;&lt;Your ssh password&gt;&apos; \</span><br><span class="line">--aliyunecs-zone=&apos;cn-hangzhou-i&apos; \</span><br><span class="line"></span><br><span class="line">[root@izbp1bb2egi7vzn29c1dhvz ~]# docker-machine create -d aliyunecs --aliyunecs-access-key-id=&apos;&lt;Your access key ID&gt;&apos; --aliyunecs-access-key-secret=&apos;&lt;Your secret access key&gt;&apos; --aliyunecs-system-disk-size=&apos;40&apos; --aliyunecs-image-id=&apos;centos_7_05_64_20G_alibase_20181210.vhd&apos; --aliyunecs-io-optimized=&apos;true&apos; --aliyunecs-instance-type=&apos;ecs.t5-lc2m1.nano&apos; --aliyunecs-internet-max-bandwidth=&apos;1&apos; --aliyunecs-region=&apos;cn-hangzhou&apos; --aliyunecs-ssh-password=&apos;&lt;Your ssh password&gt;&apos; --aliyunecs-zone=&apos;cn-hangzhou-i&apos; manager</span><br><span class="line">Running pre-create checks...</span><br><span class="line">Creating machine...</span><br><span class="line">(manager) manager | Creating key pair for instance ...</span><br><span class="line">(manager) manager | Configuring security groups instance ...</span><br><span class="line">(manager) manager | Creating instance with image centos_7_05_64_20G_alibase_20181210.vhd ...</span><br><span class="line">(manager) manager | Create instance i-bp18so0vhjjsk6xyynep successfully</span><br><span class="line">(manager) manager | Allocate publice IP address 47.99.236.50 for instance i-bp18so0vhjjsk6xyynep successfully</span><br><span class="line">(manager) manager | Starting instance i-bp18so0vhjjsk6xyynep ...</span><br><span class="line">(manager) manager | Start instance i-bp18so0vhjjsk6xyynep successfully</span><br><span class="line">(manager) manager | Waiting SSH service 47.99.236.50:22 is ready to connect ...</span><br><span class="line">(manager) manager | Uploading SSH keypair to 47.99.236.50:22 ...</span><br><span class="line">(manager) manager | Created instance i-bp18so0vhjjsk6xyynep successfully with public IP address 47.99.236.50 and private IP address 172.16.142.104</span><br><span class="line">Waiting for machine to be running, this may take a few minutes...</span><br><span class="line">Detecting operating system of created instance...</span><br><span class="line">Waiting for SSH to be available...</span><br><span class="line">Detecting the provisioner...</span><br><span class="line">Provisioning with centos...</span><br><span class="line">Copying certs to the local machine directory...</span><br><span class="line">Copying certs to the remote machine...</span><br><span class="line">Setting Docker configuration on the remote daemon...</span><br><span class="line">Checking connection to Docker...</span><br><span class="line">Docker is up and running!</span><br><span class="line">To see how to connect your Docker Client to the Docker Engine running on this virtual machine, run: docker-machine env manager</span><br></pre></td></tr></table></figure>
+<p><img src="https://res.nuoyit.com/lsprod/loan/25ddb8d6991383.png" alt="ECS实例图示"></p>
+<h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><p>杭州镜像创建：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">docker-machine create -d aliyunecs \</span><br><span class="line">--aliyunecs-access-key-id=&apos;&lt;Your access key ID&gt;&apos; \</span><br><span class="line">--aliyunecs-access-key-secret=&apos;&lt;Your secret access key&gt;&apos; \</span><br><span class="line">--aliyunecs-system-disk-size=&apos;40&apos; \</span><br><span class="line">--aliyunecs-image-id=&apos;centos_7_05_64_20G_alibase_20181210.vhd&apos; \</span><br><span class="line">--aliyunecs-io-optimized=&apos;true&apos; \</span><br><span class="line">--aliyunecs-instance-type=&apos;ecs.t5-lc2m1.nano&apos; \</span><br><span class="line">--aliyunecs-internet-max-bandwidth=&apos;1&apos; \</span><br><span class="line">--aliyunecs-region=&apos;cn-hangzhou&apos; \</span><br><span class="line">--aliyunecs-ssh-password=&apos;&lt;Your ssh password&gt;&apos; \</span><br><span class="line">--aliyunecs-zone=&apos;cn-hangzhou-i&apos; \</span><br><span class="line">worker1</span><br><span class="line"></span><br><span class="line">--aliyunecs-zone	ECS_ZONE	-	可用区id，这个我没有找到，后来是用阿里云openapi explorer查出来的</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">https://api.aliyun.com/?spm=a2c4g.11186623.2.8.2a6f7f49RdvJPV#/?product=Ecs&amp;api=DescribeZones&amp;params=&#123;%22RegionId%22:%22cn-hangzhou%22&#125;&amp;tab=DEMO&amp;lang=JAVA</span><br><span class="line"></span><br><span class="line">--aliyunecs-image-id	ECS_IMAGE_ID	-	ecs镜像id，我找这个找了很久，因为找的是公共镜像，公共镜像id在控制台，云服务器ECS，镜像，公共镜像里有</span><br></pre></td></tr></table></figure></p>
+<h1 id="删除服务器"><a href="#删除服务器" class="headerlink" title="删除服务器"></a>删除服务器</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@izbp1bb2egi7vzn29c1dhvz ~]# docker-machine ls</span><br><span class="line">NAME      ACTIVE   DRIVER      STATE     URL                        SWARM   DOCKER     ERRORS</span><br><span class="line">manager   -        aliyunecs   Running   tcp://139.224.56.70:2376           v1.12.6</span><br><span class="line">worker1   -        aliyunecs   Running   tcp://121.41.65.234:2376           v19.03.5</span><br><span class="line">[root@izbp1bb2egi7vzn29c1dhvz ~]# docker-machine rm manager</span><br><span class="line">About to remove manager</span><br><span class="line">WARNING: This action will delete both local reference and remote instance.</span><br><span class="line">Are you sure? (y/n): y</span><br><span class="line">(manager) manager | Remove instance i-uf6afru7j8ieppzodrls ...</span><br><span class="line">(manager) manager | Deleting instance: i-uf6afru7j8ieppzodrls</span><br><span class="line">Successfully removed manager</span><br></pre></td></tr></table></figure>
+<h1 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h1><h2 id="链接服务器"><a href="#链接服务器" class="headerlink" title="链接服务器"></a>链接服务器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@izbp1bb2egi7vzn29c1dhvz ~]# docker-machine env manager</span><br><span class="line">export DOCKER_TLS_VERIFY=&quot;1&quot;</span><br><span class="line">export DOCKER_HOST=&quot;tcp://139.224.56.70:2376&quot;</span><br><span class="line">export DOCKER_CERT_PATH=&quot;/root/.docker/machine/machines/manager&quot;</span><br><span class="line">export DOCKER_MACHINE_NAME=&quot;manager&quot;</span><br><span class="line"># Run this command to configure your shell:</span><br><span class="line"># eval $(docker-machine env manager)</span><br><span class="line"></span><br><span class="line">[root@izbp1bb2egi7vzn29c1dhvz ~]# docker-machine ssh manager</span><br><span class="line">Last login: Mon Nov 25 14:11:18 CST 2019 from 47.96.181.251 on ssh</span><br><span class="line"></span><br><span class="line">Welcome to Alibaba Cloud Elastic Compute Service !</span><br><span class="line"></span><br><span class="line">manager ~ #</span><br></pre></td></tr></table></figure>
+<h2 id="查看主机配置信息"><a href="#查看主机配置信息" class="headerlink" title="查看主机配置信息"></a>查看主机配置信息</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker-machine config [options]</span><br><span class="line"></span><br><span class="line">docker-machine config worker1</span><br></pre></td></tr></table></figure>
+<h2 id="挂载共享目录"><a href="#挂载共享目录" class="headerlink" title="挂载共享目录"></a>挂载共享目录</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yum -y install fuse-sshfs</span><br><span class="line"></span><br><span class="line">[machine:][path] [mountpoint]</span><br><span class="line"></span><br><span class="line">docker-machine mount worker1:/root/test test</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>sshfs可以把远程主机的文件系统映射到本地主机上，透过ssh把远程文件系统挂载到本机上，这样可以不必使用scp工具就可以做到直接复制及删除远程主机的文件了。就像操作本地磁盘一样方便。<br>注意如果挂载的文件不为空，会提示让你设置参数，但是docker-machine mount 是不支持的</p>
+</blockquote>
+<p>下面这种方式可以，但是会将现有文件的内容清空，谨慎使用<br><code>sshfs root@121.xxx.xxx.187:/root/worker1 worker1 -o nonempty</code></p>
+<p>docker-machine操作步骤<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@izbp1bb2egi7vzn29c1dhvz ~]# yum install fuse-sshfs -y</span><br><span class="line"></span><br><span class="line">[root@izbp1bb2egi7vzn29c1dhvz ~]# mkdir data</span><br><span class="line">[root@izbp1bb2egi7vzn29c1dhvz ~]# pwd</span><br><span class="line">/root</span><br><span class="line">[root@izbp1bb2egi7vzn29c1dhvz ~]# docker-machine mount manager:/data ./data</span><br><span class="line">[root@izbp1bb2egi7vzn29c1dhvz ~]# cd data/</span><br><span class="line">[root@izbp1bb2egi7vzn29c1dhvz data]# touch remark.md</span><br><span class="line">[root@izbp1bb2egi7vzn29c1dhvz data]# cat remark.md</span><br><span class="line">挂载成功</span><br></pre></td></tr></table></figure></p>
+<p>docker-manager操作步骤<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@izbp1bb2egi7vzn29c1dhvz ~]# docker-machine ssh manager</span><br><span class="line">Last login: Mon Nov 25 16:10:53 2019 from 47.96.181.251</span><br><span class="line"></span><br><span class="line">Welcome to Alibaba Cloud Elastic Compute Service !</span><br><span class="line"></span><br><span class="line">[root@manager ~]# ll</span><br><span class="line">total 0</span><br><span class="line">[root@manager ~]# mkdir /data</span><br><span class="line">[root@manager ~]# vim /data/remark.md</span><br><span class="line">挂载成功</span><br><span class="line"></span><br><span class="line">[root@manager ~]# cat /data/remark.md</span><br><span class="line">挂载成功</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>取消挂载 -u<br><code>docker-machine mount -u manager:/data ./data</code><br>一个目录只能被挂载到一台机器上</p>
+</blockquote>
+<p><img src="https://res.nuoyit.com/lsprod/loan/15ddb915d50c5c.png" alt="图示"></p>
+<h2 id="拷贝文件-SCP"><a href="#拷贝文件-SCP" class="headerlink" title="拷贝文件 SCP"></a>拷贝文件 SCP</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker-machine scp -r host1:/tmp/a(源地址) host2:/tmp/b(目标地址)</span><br><span class="line"></span><br><span class="line">-r 递归目录拷贝</span><br><span class="line">-d 大文件增量拷贝</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/20190923-1.html" rel="next" title="(三)redis docker 集群配置">
+                <i class="fa fa-chevron-left"></i> (三)redis docker 集群配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/20190923-3.html" rel="prev" title="(五) docker-swarm 集群管理工具">
+                (五) docker-swarm 集群管理工具 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/default_avatar.png" alt="uiste">
+            
+              <p class="site-author-name" itemprop="name">uiste</p>
+              <p class="site-description motion-element" itemprop="description">Stay Hungry，Stay Foolish</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">155</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">66</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/uiste" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/uiste" target="_blank" title="微博" rel="external nofollow"><i class="fa fa-fw fa-globe"></i>微博</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.zhihu.com/people/uiste" target="_blank" title="知乎" rel="external nofollow"><i class="fa fa-fw fa-globe"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.xiaomanyu.cn" title="Mandy画站" target="_blank">Mandy画站</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安装docker-machine"><span class="nav-number">1.</span> <span class="nav-text">安装docker-machine</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#下载阿里云docker-machine驱动"><span class="nav-number">2.</span> <span class="nav-text">下载阿里云docker-machine驱动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载docker-machine阿里云驱动"><span class="nav-number">2.1.</span> <span class="nav-text">下载docker-machine阿里云驱动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作记录"><span class="nav-number">2.2.</span> <span class="nav-text">操作记录</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#补充"><span class="nav-number">3.</span> <span class="nav-text">补充</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#删除服务器"><span class="nav-number">4.</span> <span class="nav-text">删除服务器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用操作"><span class="nav-number">5.</span> <span class="nav-text">常用操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#链接服务器"><span class="nav-number">5.1.</span> <span class="nav-text">链接服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看主机配置信息"><span class="nav-number">5.2.</span> <span class="nav-text">查看主机配置信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#挂载共享目录"><span class="nav-number">5.3.</span> <span class="nav-text">挂载共享目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拷贝文件-SCP"><span class="nav-number">5.4.</span> <span class="nav-text">拷贝文件 SCP</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 -  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">uiste</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+      <div>
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57838eee5e2620d0" async="async"></script>
+</div>
+
+      </div>
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

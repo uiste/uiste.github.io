@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://blog.uiste.com/2019/20191123-1.html</loc>
-    <lastmod>2019-11-23</lastmod>
+    <loc>http://blog.uiste.com/2019/20190923-3.html</loc>
+    <lastmod>2019-11-25</lastmod>
   </url>  <url>
-    <loc>http://blog.uiste.com/2019/20191122-2.html</loc>
-    <lastmod>2019-11-23</lastmod>
+    <loc>http://blog.uiste.com/2019/20190923-2.html</loc>
+    <lastmod>2019-11-25</lastmod>
   </url>  <url>
-    <loc>http://blog.uiste.com/2019/20191122-1.html</loc>
-    <lastmod>2019-11-23</lastmod>
+    <loc>http://blog.uiste.com/2019/20190923-1.html</loc>
+    <lastmod>2019-11-25</lastmod>
+  </url>  <url>
+    <loc>http://blog.uiste.com/2019/20190922-2.html</loc>
+    <lastmod>2019-11-25</lastmod>
+  </url>  <url>
+    <loc>http://blog.uiste.com/2019/20190922-1.html</loc>
+    <lastmod>2019-11-25</lastmod>
   </url>  <url>
     <loc>http://blog.uiste.com/2019/20190822-2.html</loc>
     <lastmod>2019-11-22</lastmod>
@@ -142,10 +148,10 @@
     <loc>http://blog.uiste.com/2015/20151011-Library-php-skill.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
-    <loc>http://blog.uiste.com/2015/20151210-Library-sql-library.html</loc>
+    <loc>http://blog.uiste.com/2015/20151012-Library-php-str-fun.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
-    <loc>http://blog.uiste.com/2015/20151012-Library-php-str-fun.html</loc>
+    <loc>http://blog.uiste.com/2015/20151210-Library-sql-library.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
     <loc>http://blog.uiste.com/2015/20150710-3.html</loc>
@@ -154,22 +160,22 @@
     <loc>http://blog.uiste.com/2015/20150720-2.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
+    <loc>http://blog.uiste.com/2015/20150723-1.html</loc>
+    <lastmod>2018-10-19</lastmod>
+  </url>  <url>
     <loc>http://blog.uiste.com/2015/20150724-1.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
     <loc>http://blog.uiste.com/2015/20150724-2.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
-    <loc>http://blog.uiste.com/2015/20150723-1.html</loc>
-    <lastmod>2018-10-19</lastmod>
-  </url>  <url>
     <loc>http://blog.uiste.com/2015/20150724-3.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
-    <loc>http://blog.uiste.com/2015/20150730-1.html</loc>
+    <loc>http://blog.uiste.com/2015/20150725-1.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
-    <loc>http://blog.uiste.com/2015/20150725-1.html</loc>
+    <loc>http://blog.uiste.com/2015/20150730-1.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
     <loc>http://blog.uiste.com/2015/20150731-1.html</loc>
@@ -202,10 +208,10 @@
     <loc>http://blog.uiste.com/2015/20150820-1.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
-    <loc>http://blog.uiste.com/2015/20150822-1.html</loc>
+    <loc>http://blog.uiste.com/2015/20150821-1.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
-    <loc>http://blog.uiste.com/2015/20150821-1.html</loc>
+    <loc>http://blog.uiste.com/2015/20150822-1.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
     <loc>http://blog.uiste.com/2015/20150822-2.html</loc>
@@ -223,10 +229,10 @@
     <loc>http://blog.uiste.com/2015/20150905-1.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
-    <loc>http://blog.uiste.com/2015/20150905-2.html</loc>
+    <loc>http://blog.uiste.com/2015/20150909-1.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
-    <loc>http://blog.uiste.com/2015/20150909-1.html</loc>
+    <loc>http://blog.uiste.com/2015/20150905-2.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
     <loc>http://blog.uiste.com/2015/20150907-1.html</loc>
@@ -247,15 +253,6 @@
     <loc>http://blog.uiste.com/2015/20150930-4.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
-    <loc>http://blog.uiste.com/2015/20151201-1.html</loc>
-    <lastmod>2018-10-19</lastmod>
-  </url>  <url>
-    <loc>http://blog.uiste.com/2017/20170225-1.html</loc>
-    <lastmod>2018-10-19</lastmod>
-  </url>  <url>
-    <loc>http://blog.uiste.com/2017/20170226-1.html</loc>
-    <lastmod>2018-10-19</lastmod>
-  </url>  <url>
     <loc>http://blog.uiste.com/2015/20151001-1.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
@@ -274,37 +271,13 @@
     <loc>http://blog.uiste.com/2015/20151017-2.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
-    <loc>http://blog.uiste.com/2017/20170319-1.html</loc>
-    <lastmod>2018-10-19</lastmod>
-  </url>  <url>
     <loc>http://blog.uiste.com/2015/20151018-2.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
-    <loc>http://blog.uiste.com/2017/20170319-2.html</loc>
-    <lastmod>2018-10-19</lastmod>
-  </url>  <url>
-    <loc>http://blog.uiste.com/2017/20170404-1.html</loc>
-    <lastmod>2018-10-19</lastmod>
-  </url>  <url>
-    <loc>http://blog.uiste.com/2017/20170410-1.html</loc>
-    <lastmod>2018-10-19</lastmod>
-  </url>  <url>
-    <loc>http://blog.uiste.com/2017/20170719-1.html</loc>
-    <lastmod>2018-10-19</lastmod>
-  </url>  <url>
-    <loc>http://blog.uiste.com/2017/20170721-1.html</loc>
-    <lastmod>2018-10-19</lastmod>
-  </url>  <url>
-    <loc>http://blog.uiste.com/2017/20170722-1.html</loc>
-    <lastmod>2018-10-19</lastmod>
-  </url>  <url>
-    <loc>http://blog.uiste.com/2017/20171223-1.html</loc>
+    <loc>http://blog.uiste.com/2015/20151101-1.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
     <loc>http://blog.uiste.com/2015/20151106-1.html</loc>
-    <lastmod>2018-10-19</lastmod>
-  </url>  <url>
-    <loc>http://blog.uiste.com/2015/20151101-1.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
     <loc>http://blog.uiste.com/2015/20151111-2.html</loc>
@@ -346,19 +319,70 @@
     <loc>http://blog.uiste.com/2015/20151116-2.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
-    <loc>http://blog.uiste.com/2015/20151116-3.html</loc>
-    <lastmod>2018-10-19</lastmod>
-  </url>  <url>
     <loc>http://blog.uiste.com/2015/20151116-4.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
-    <loc>http://blog.uiste.com/2015/20151117-1.html</loc>
+    <loc>http://blog.uiste.com/2015/20151116-3.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
     <loc>http://blog.uiste.com/2015/20151116-5.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
+    <loc>http://blog.uiste.com/2015/20151117-1.html</loc>
+    <lastmod>2018-10-19</lastmod>
+  </url>  <url>
     <loc>http://blog.uiste.com/2015/20151119-1.html</loc>
+    <lastmod>2018-10-19</lastmod>
+  </url>  <url>
+    <loc>http://blog.uiste.com/2016/20160119-1.html</loc>
+    <lastmod>2018-10-19</lastmod>
+  </url>  <url>
+    <loc>http://blog.uiste.com/2015/20151201-1.html</loc>
+    <lastmod>2018-10-19</lastmod>
+  </url>  <url>
+    <loc>http://blog.uiste.com/2016/20160123-1.html</loc>
+    <lastmod>2018-10-19</lastmod>
+  </url>  <url>
+    <loc>http://blog.uiste.com/2016/20160522-1.html</loc>
+    <lastmod>2018-10-19</lastmod>
+  </url>  <url>
+    <loc>http://blog.uiste.com/2016/20160523-1.html</loc>
+    <lastmod>2018-10-19</lastmod>
+  </url>  <url>
+    <loc>http://blog.uiste.com/2016/20161015-1.html</loc>
+    <lastmod>2018-10-19</lastmod>
+  </url>  <url>
+    <loc>http://blog.uiste.com/2016/20161010-1.html</loc>
+    <lastmod>2018-10-19</lastmod>
+  </url>  <url>
+    <loc>http://blog.uiste.com/2017/20170225-1.html</loc>
+    <lastmod>2018-10-19</lastmod>
+  </url>  <url>
+    <loc>http://blog.uiste.com/2017/20170226-1.html</loc>
+    <lastmod>2018-10-19</lastmod>
+  </url>  <url>
+    <loc>http://blog.uiste.com/2017/20170319-1.html</loc>
+    <lastmod>2018-10-19</lastmod>
+  </url>  <url>
+    <loc>http://blog.uiste.com/2017/20170319-2.html</loc>
+    <lastmod>2018-10-19</lastmod>
+  </url>  <url>
+    <loc>http://blog.uiste.com/2017/20170404-1.html</loc>
+    <lastmod>2018-10-19</lastmod>
+  </url>  <url>
+    <loc>http://blog.uiste.com/2017/20170410-1.html</loc>
+    <lastmod>2018-10-19</lastmod>
+  </url>  <url>
+    <loc>http://blog.uiste.com/2017/20170719-1.html</loc>
+    <lastmod>2018-10-19</lastmod>
+  </url>  <url>
+    <loc>http://blog.uiste.com/2017/20170721-1.html</loc>
+    <lastmod>2018-10-19</lastmod>
+  </url>  <url>
+    <loc>http://blog.uiste.com/2017/20170722-1.html</loc>
+    <lastmod>2018-10-19</lastmod>
+  </url>  <url>
+    <loc>http://blog.uiste.com/2017/20171223-1.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
     <loc>http://blog.uiste.com/2015/20150805-1.html</loc>
@@ -373,10 +397,10 @@
     <loc>http://blog.uiste.com/2015/20150827-1.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
-    <loc>http://blog.uiste.com/2015/20150903-2.html</loc>
+    <loc>http://blog.uiste.com/2015/20150902-2.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
-    <loc>http://blog.uiste.com/2015/20150902-2.html</loc>
+    <loc>http://blog.uiste.com/2015/20150903-2.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
     <loc>http://blog.uiste.com/2015/20150924-2.html</loc>
@@ -400,19 +424,16 @@
     <loc>http://blog.uiste.com/2015/20151017-3.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
-    <loc>http://blog.uiste.com/2017/20170405-1.html</loc>
-    <lastmod>2018-10-19</lastmod>
-  </url>  <url>
     <loc>http://blog.uiste.com/2015/20151110-1.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
     <loc>http://blog.uiste.com/2015/20151111-1.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
-    <loc>http://blog.uiste.com/2015/20151119-2.html</loc>
+    <loc>http://blog.uiste.com/2015/20151118-1.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
-    <loc>http://blog.uiste.com/2015/20151118-1.html</loc>
+    <loc>http://blog.uiste.com/2015/20151119-2.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
     <loc>http://blog.uiste.com/2015/20151119-3.html</loc>
@@ -421,22 +442,10 @@
     <loc>http://blog.uiste.com/2015/20151120-1.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
-    <loc>http://blog.uiste.com/2016/20160119-1.html</loc>
+    <loc>http://blog.uiste.com/2016/20160523-2.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
-    <loc>http://blog.uiste.com/2016/20160123-1.html</loc>
-    <lastmod>2018-10-19</lastmod>
-  </url>  <url>
-    <loc>http://blog.uiste.com/2016/20160522-1.html</loc>
-    <lastmod>2018-10-19</lastmod>
-  </url>  <url>
-    <loc>http://blog.uiste.com/2016/20160523-1.html</loc>
-    <lastmod>2018-10-19</lastmod>
-  </url>  <url>
-    <loc>http://blog.uiste.com/2016/20161010-1.html</loc>
-    <lastmod>2018-10-19</lastmod>
-  </url>  <url>
-    <loc>http://blog.uiste.com/2016/20161015-1.html</loc>
+    <loc>http://blog.uiste.com/2017/20170405-1.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
     <loc>http://blog.uiste.com/2015/20150830-1.html</loc>
@@ -446,9 +455,6 @@
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
     <loc>http://blog.uiste.com/2015/20151018-1.html</loc>
-    <lastmod>2018-10-19</lastmod>
-  </url>  <url>
-    <loc>http://blog.uiste.com/2016/20160523-2.html</loc>
     <lastmod>2018-10-19</lastmod>
   </url>  <url>
     <loc>http://blog.uiste.com/2015/20150829-1.html</loc>
