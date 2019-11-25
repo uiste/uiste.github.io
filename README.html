@@ -100,17 +100,19 @@
 
 
 
-  <meta name="description" content="swarm deamon 只是一个调度器加路由器，swarm自己不运行容器，它只是接受docker客户端发送过来的请求，调度适合的节点来运行容器。 DOCKER管理工具-SWARM部署记录 部署步骤manager初始化1docker swarm init --advertise-addr 47.99.236.50 加入节点12345# 作为worker加入到swarmdocker swarm jo">
-<meta property="og:type" content="article">
-<meta property="og:title" content="(五) docker-swarm 集群管理工具">
-<meta property="og:url" content="http://blog.uiste.com/2019/20190923-3.html">
+  <meta name="description" content="blogblog.uiste.com">
+<meta property="og:type" content="website">
+<meta property="og:title" content="uiste">
+<meta property="og:url" content="http://blog.uiste.com/README.html">
 <meta property="og:site_name" content="uiste">
-<meta property="og:description" content="swarm deamon 只是一个调度器加路由器，swarm自己不运行容器，它只是接受docker客户端发送过来的请求，调度适合的节点来运行容器。 DOCKER管理工具-SWARM部署记录 部署步骤manager初始化1docker swarm init --advertise-addr 47.99.236.50 加入节点12345# 作为worker加入到swarmdocker swarm jo">
+<meta property="og:description" content="blogblog.uiste.com">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-25T10:22:10.691Z">
+<meta property="og:image" content="http://blog.uiste.com/images/blog-about.png">
+<meta property="og:updated_time" content="2019-11-25T10:29:02.800Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="(五) docker-swarm 集群管理工具">
-<meta name="twitter:description" content="swarm deamon 只是一个调度器加路由器，swarm自己不运行容器，它只是接受docker客户端发送过来的请求，调度适合的节点来运行容器。 DOCKER管理工具-SWARM部署记录 部署步骤manager初始化1docker swarm init --advertise-addr 47.99.236.50 加入节点12345# 作为worker加入到swarmdocker swarm jo">
+<meta name="twitter:title" content="uiste">
+<meta name="twitter:description" content="blogblog.uiste.com">
+<meta name="twitter:image" content="http://blog.uiste.com/images/blog-about.png">
 
 
 
@@ -119,7 +121,7 @@
 
 
 
-  <link rel="canonical" href="http://blog.uiste.com/2019/20190923-3.html">
+  <link rel="canonical" href="http://blog.uiste.com/README.html">
 
 
 
@@ -129,7 +131,7 @@
   };
 </script>
 
-  <title>(五) docker-swarm 集群管理工具 | uiste</title>
+  <title> | uiste</title>
   
 
 
@@ -254,6 +256,22 @@
   
     
 
+    
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+    
+
+  
+
+
   
 
   
@@ -304,167 +322,45 @@
 
   <div id="posts" class="posts-expand">
     
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2019/20190923-3.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="uiste">
-      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
-      <meta itemprop="image" content="/images/default_avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="uiste">
-    </span>
-
     
+    
+    <div class="post-block page">
       <header class="post-header">
 
-        
-        
-          <h2 class="post-title" itemprop="name headline">(五) docker-swarm 集群管理工具
-              
-            
-          </h2>
-        
+<h2 class="post-title" itemprop="name headline"></h2>
 
-        <div class="post-meta">
-          <span class="post-time">
+<div class="post-meta">
+  
+  
 
-            
-            
-            
 
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
 
-              
-                
-              
+</div>
 
-              <time title="创建时间：2019-09-23 23:59:02" itemprop="dateCreated datePublished" datetime="2019-09-23T23:59:02+08:00">2019-09-23</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+</header>
 
       
       
-
       
-        <p>swarm deamon 只是一个调度器加路由器，swarm自己不运行容器，它只是接受docker客户端发送过来的请求，调度适合的节点来运行容器。</p>
-<p><a href="https://www.cnblogs.com/liuyansheng/p/8178341.html" target="_blank" rel="noopener">DOCKER管理工具-SWARM部署记录</a></p>
-<h1 id="部署步骤"><a href="#部署步骤" class="headerlink" title="部署步骤"></a>部署步骤</h1><h2 id="manager初始化"><a href="#manager初始化" class="headerlink" title="manager初始化"></a>manager初始化</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker swarm init --advertise-addr 47.99.236.50</span><br></pre></td></tr></table></figure>
-<h2 id="加入节点"><a href="#加入节点" class="headerlink" title="加入节点"></a>加入节点</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 作为worker加入到swarm</span><br><span class="line">docker swarm join --token SWMTKN-1-3xt1c2h1aek21zlh15nq1fg29o2i8yhxjsw8j59f9ngddpvihf-d0tb91hx2krdysuwfepv8dny9 47.99.236.50:2377</span><br><span class="line"></span><br><span class="line"># 作为manager加入到swarm</span><br><span class="line">docker swarm join-token manager</span><br></pre></td></tr></table></figure>
-<h2 id="参看节点"><a href="#参看节点" class="headerlink" title="参看节点"></a>参看节点</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker node ls</span><br></pre></td></tr></table></figure>
-<h2 id="节点升降级"><a href="#节点升降级" class="headerlink" title="节点升降级"></a>节点升降级</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">将节点升级为manager：docker node promote 节点名</span><br><span class="line">将节点降级为worker： docker node demote 节点名</span><br></pre></td></tr></table></figure>
-<h2 id="端口开放"><a href="#端口开放" class="headerlink" title="端口开放"></a>端口开放</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2377 集群管理端口</span><br><span class="line">7946 tcp/udp端口 节点间通讯</span><br><span class="line">4789</span><br></pre></td></tr></table></figure>
-<h2 id="操作记录"><a href="#操作记录" class="headerlink" title="操作记录"></a>操作记录</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[root@manager ~]# docker swarm init --advertise-addr 47.99.236.50</span><br><span class="line">Swarm initialized: current node (038olxese1szrj1f0am0mi0ab) is now a manager.</span><br><span class="line"></span><br><span class="line">To add a worker to this swarm, run the following command:</span><br><span class="line"></span><br><span class="line">    docker swarm join --token SWMTKN-1-3xt1c2h1aek21zlh15nq1fg29o2i8yhxjsw8j59f9ngddpvihf-d0tb91hx2krdysuwfepv8dny9 47.99.236.50:2377</span><br><span class="line"></span><br><span class="line">To add a manager to this swarm, run &apos;docker swarm join-token manager&apos; and follow the instructions.</span><br><span class="line"></span><br><span class="line">[root@manager ~]# docker swarm join-token worker</span><br><span class="line">To add a worker to this swarm, run the following command:</span><br><span class="line"></span><br><span class="line">    docker swarm join --token SWMTKN-1-3xt1c2h1aek21zlh15nq1fg29o2i8yhxjsw8j59f9ngddpvihf-d0tb91hx2krdysuwfepv8dny9 47.99.236.50:2377</span><br><span class="line"></span><br><span class="line">[root@manager ~]# docker node ls</span><br><span class="line">ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION</span><br><span class="line">038olxese1szrj1f0am0mi0ab *   manager             Ready               Active              Leader              19.03.5</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@worker1 ~]# docker swarm join --token SWMTKN-1-3xt1c2h1aek21zlh15nq1fg29o2i8yhxjsw8j59f9ngddpvihf-d0tb91hx2krdysuwfepv8dny9 47.99.236.50:2377</span><br><span class="line">This node joined a swarm as a worker.</span><br><span class="line"></span><br><span class="line">[root@manager ~]# docker node ls</span><br><span class="line">ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION</span><br><span class="line">038olxese1szrj1f0am0mi0ab *   manager             Ready               Active              Leader              19.03.5</span><br><span class="line">k34cve7sd9au2zu5a4phwvokv     worker1             Ready               Active</span><br></pre></td></tr></table></figure>
-<h1 id="服务管理"><a href="#服务管理" class="headerlink" title="服务管理"></a>服务管理</h1><h2 id="创建服务"><a href="#创建服务" class="headerlink" title="创建服务"></a>创建服务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dokcer service create -name redis --replicas 1 redis:3.0.6</span><br><span class="line"></span><br><span class="line">--replicas 服务数量</span><br></pre></td></tr></table></figure>
-<h2 id="更新服务"><a href="#更新服务" class="headerlink" title="更新服务"></a>更新服务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker service update --image nginx:alpine nginx</span><br></pre></td></tr></table></figure>
-<h2 id="删除服务"><a href="#删除服务" class="headerlink" title="删除服务"></a>删除服务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker service rm nginx</span><br></pre></td></tr></table></figure>
-<h2 id="服务实例"><a href="#服务实例" class="headerlink" title="服务实例"></a>服务实例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker service scale nginx=0</span><br><span class="line">docker service scale nginx=5</span><br></pre></td></tr></table></figure>
-<h2 id="查看服务容器状态"><a href="#查看服务容器状态" class="headerlink" title="查看服务容器状态"></a>查看服务容器状态</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker service ps nginx</span><br></pre></td></tr></table></figure>
-<h2 id="查看服务的详细信息"><a href="#查看服务的详细信息" class="headerlink" title="查看服务的详细信息"></a>查看服务的详细信息</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker service inspect nginx</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>docker swarm 默认就实现了轮询的负载均衡</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 进入swarm节点机器配置</span><br><span class="line">docker config create redis.conf redis.conf</span><br><span class="line">					 配置文件名称  文件地址</span><br></pre></td></tr></table></figure>
-<p>docker-compose.yaml<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">version: <span class="string">"3.6"</span></span><br><span class="line">services:</span><br><span class="line">  redis-master1:</span><br><span class="line">     image: redis:3.2.2</span><br><span class="line">     ports:</span><br><span class="line">       - <span class="string">"6397:6397"</span></span><br><span class="line">       - <span class="string">"16397:16397"</span></span><br><span class="line">     stdin_open: <span class="literal">true</span></span><br><span class="line">     deploy:</span><br><span class="line">        mode: replicated</span><br><span class="line">        replicas: 2</span><br><span class="line">     networks:</span><br><span class="line">        - cluster</span><br><span class="line">     tty: <span class="literal">true</span></span><br><span class="line">     configs:</span><br><span class="line">       - <span class="built_in">source</span>: redis.conf</span><br><span class="line">         target: /root/redis.conf</span><br><span class="line">     privileged: <span class="literal">true</span></span><br><span class="line">     volumes: [<span class="string">"/root/config:/data"</span>]</span><br><span class="line">configs:</span><br><span class="line">  redis.conf:</span><br><span class="line">    external: <span class="literal">true</span></span><br><span class="line">networks:</span><br><span class="line">     cluster:</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 进入swarm节点机器配置</span><br><span class="line">docker stack deploy -c docker-compose.yaml redis-cluster</span><br></pre></td></tr></table></figure>
+      <div class="post-body">
+        
+        
+          <h1 id="blog"><a href="#blog" class="headerlink" title="blog"></a>blog</h1><p><a href="http://blog.uiste.com">blog.uiste.com</a></p>
+<p><img src="http://blog.uiste.com/images/blog-about.png" alt="blog"></p>
 
+        
+      </div>
+      
+      
       
     </div>
-
     
 
+
+
     
     
     
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/20190923-2.html" rel="next" title="(四) docker-machine 集群伸缩">
-                <i class="fa fa-chevron-left"></i> (四) docker-machine 集群伸缩
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
   </div>
 
 
@@ -781,7 +677,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#部署步骤"><span class="nav-number">1.</span> <span class="nav-text">部署步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#manager初始化"><span class="nav-number">1.1.</span> <span class="nav-text">manager初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加入节点"><span class="nav-number">1.2.</span> <span class="nav-text">加入节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参看节点"><span class="nav-number">1.3.</span> <span class="nav-text">参看节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#节点升降级"><span class="nav-number">1.4.</span> <span class="nav-text">节点升降级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#端口开放"><span class="nav-number">1.5.</span> <span class="nav-text">端口开放</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作记录"><span class="nav-number">1.6.</span> <span class="nav-text">操作记录</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#服务管理"><span class="nav-number">2.</span> <span class="nav-text">服务管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建服务"><span class="nav-number">2.1.</span> <span class="nav-text">创建服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新服务"><span class="nav-number">2.2.</span> <span class="nav-text">更新服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除服务"><span class="nav-number">2.3.</span> <span class="nav-text">删除服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务实例"><span class="nav-number">2.4.</span> <span class="nav-text">服务实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看服务容器状态"><span class="nav-number">2.5.</span> <span class="nav-text">查看服务容器状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看服务的详细信息"><span class="nav-number">2.6.</span> <span class="nav-text">查看服务的详细信息</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#blog"><span class="nav-number">1.</span> <span class="nav-text">blog</span></a></li></ol></div>
             
 
           </div>
