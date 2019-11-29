@@ -108,13 +108,13 @@
 <meta property="og:site_name" content="uiste">
 <meta property="og:description" content="问题与优化方案客户端与服务器之间的问题描述：由于客户端跟服务器之间的网络不同，导致信号传输缓慢解决：使用多线路服务器（运维处理） Apache性能问题描述：Apache在并发访问情况下，表现很一般并发：在同一秒中有多少个用户在访问，一般来说并发达到100就特别到了解决：使用负载均衡技术（服务器架构） PHP引擎性能问题描述：PHP代码整个解析效率根据引擎不一样，速度不一样解决：1、代码优化">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://7xwlfk.com1.z0.glb.clouddn.com/memcache.png">
-<meta property="og:image" content="http://7xwlfk.com1.z0.glb.clouddn.com/memcache_stats.png">
-<meta property="og:updated_time" content="2018-10-19T01:57:01.000Z">
+<meta property="og:image" content="http://resoure.uiste.com/memcache.png">
+<meta property="og:image" content="http://resoure.uiste.com/memcache_stats.png">
+<meta property="og:updated_time" content="2019-11-29T11:00:24.505Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="大型项目优化">
 <meta name="twitter:description" content="问题与优化方案客户端与服务器之间的问题描述：由于客户端跟服务器之间的网络不同，导致信号传输缓慢解决：使用多线路服务器（运维处理） Apache性能问题描述：Apache在并发访问情况下，表现很一般并发：在同一秒中有多少个用户在访问，一般来说并发达到100就特别到了解决：使用负载均衡技术（服务器架构） PHP引擎性能问题描述：PHP代码整个解析效率根据引擎不一样，速度不一样解决：1、代码优化">
-<meta name="twitter:image" content="http://7xwlfk.com1.z0.glb.clouddn.com/memcache.png">
+<meta name="twitter:image" content="http://resoure.uiste.com/memcache.png">
 
 
 
@@ -434,7 +434,7 @@
 <p><code>[root@localhost libevent-2.0.20-stable]# make &amp;&amp; make install</code></p>
 <p>2.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost libevent-2.0.20-stable]# cd ../</span><br><span class="line">[root@localhost memcache]# tar -zxvf memcached-1.4.20.tar.gz</span><br><span class="line">[root@localhost memcached-1.4.20]# ./configure --prefix=/usr/local/memcache --with-libevent=/usr/local/bibevent</span><br><span class="line">[root@localhost memcached-1.4.20]# make &amp;&amp; make install</span><br></pre></td></tr></table></figure></p>
 <h4 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h4><p><strong>memcache的基本命令</strong></p>
-<p><img src="http://7xwlfk.com1.z0.glb.clouddn.com/memcache.png" alt="memcache"></p>
+<p><img src="http://resoure.uiste.com/memcache.png" alt="memcache"></p>
 <h4 id="权限问题"><a href="#权限问题" class="headerlink" title="权限问题"></a>权限问题</h4><p>在Memcache中没有账号密码，因此Memcache中的数据不太安全。<br>解决办法：</p>
 <ol>
 <li>将Memcache服务器置于内网中，然后使用反向代理技术访问</li>
@@ -465,7 +465,7 @@
 <p>使用decr就可以模拟秒杀系统，比如一开始设置值为100 有效期为60秒</p>
 </blockquote>
 <h4 id="状态操作-stats"><a href="#状态操作-stats" class="headerlink" title="状态操作 | stats"></a>状态操作 | stats</h4><p>通过查看stats主要计算命中率<br><code>命中率 = get_hits/cmd_get</code>  自然是命中率越高越好，如果命中率很低，则说明缓存效率低，需要调整缓存的数据内容，一般项目命中率能够到70%-90%就算很好。如果内存不够用，先删除快过期的，再删除不常用的，由系统底层监控</p>
-<p><img src="http://7xwlfk.com1.z0.glb.clouddn.com/memcache_stats.png" alt="memcache_stats"></p>
+<p><img src="http://resoure.uiste.com/memcache_stats.png" alt="memcache_stats"></p>
 <h2 id="PHP操作Memcache"><a href="#PHP操作Memcache" class="headerlink" title="PHP操作Memcache"></a>PHP操作Memcache</h2><h3 id="安装扩展"><a href="#安装扩展" class="headerlink" title="安装扩展"></a>安装扩展</h3><p>通过phpinfo查看php.ini所在位置，PHP的版本号，及Thread Safety。</p>
 <blockquote>
 <p>根据以上信息选择对应版本，Enable 选择使用ts版本。否则使用nts版本，</p>
@@ -606,7 +606,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">157</span>
+                    <span class="site-state-item-count">160</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

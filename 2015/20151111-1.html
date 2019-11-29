@@ -108,19 +108,19 @@
 <meta property="og:site_name" content="uiste">
 <meta property="og:description" content="软件安装与卸载软件安装 .rpm格式：二进制格式，相对于window下的.exe文件 .tar.gz：二进制源码包，需要借助于gcc 编译器进行源码编译安装 yum：自动解决依赖问题安装软件查询 基本语法：rpm -qa -q(query) 表示查询 -a(all) 表示所有   查询指定软件：rpm -qa | grep 软件名称 | 管道，可以针对前面的结果进行二次筛选 grep 匹配   卸">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://7xwlfk.com1.z0.glb.clouddn.com/1apache_error.png">
-<meta property="og:image" content="http://7xwlfk.com1.z0.glb.clouddn.com/2.mysql_success.png">
-<meta property="og:image" content="http://7xwlfk.com1.z0.glb.clouddn.com/3.mysql_error1.png">
-<meta property="og:image" content="http://7xwlfk.com1.z0.glb.clouddn.com/4.mysql_error2.png">
-<meta property="og:image" content="http://7xwlfk.com1.z0.glb.clouddn.com/5.mysql_error3.png">
-<meta property="og:image" content="http://7xwlfk.com1.z0.glb.clouddn.com/6.quanxian1.png">
-<meta property="og:image" content="http://7xwlfk.com1.z0.glb.clouddn.com/7.quanxian2.png">
-<meta property="og:image" content="http://7xwlfk.com1.z0.glb.clouddn.com/8.quanxian3.png">
-<meta property="og:updated_time" content="2018-10-19T01:57:01.000Z">
+<meta property="og:image" content="http://resoure.uiste.com/1apache_error.png">
+<meta property="og:image" content="http://resoure.uiste.com/2.mysql_success.png">
+<meta property="og:image" content="http://resoure.uiste.com/3.mysql_error1.png">
+<meta property="og:image" content="http://resoure.uiste.com/4.mysql_error2.png">
+<meta property="og:image" content="http://resoure.uiste.com/5.mysql_error3.png">
+<meta property="og:image" content="http://resoure.uiste.com/6.quanxian1.png">
+<meta property="og:image" content="http://resoure.uiste.com/7.quanxian2.png">
+<meta property="og:image" content="http://resoure.uiste.com/8.quanxian3.png">
+<meta property="og:updated_time" content="2019-11-29T11:00:27.086Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux LAMP环境搭建">
 <meta name="twitter:description" content="软件安装与卸载软件安装 .rpm格式：二进制格式，相对于window下的.exe文件 .tar.gz：二进制源码包，需要借助于gcc 编译器进行源码编译安装 yum：自动解决依赖问题安装软件查询 基本语法：rpm -qa -q(query) 表示查询 -a(all) 表示所有   查询指定软件：rpm -qa | grep 软件名称 | 管道，可以针对前面的结果进行二次筛选 grep 匹配   卸">
-<meta name="twitter:image" content="http://7xwlfk.com1.z0.glb.clouddn.com/1apache_error.png">
+<meta name="twitter:image" content="http://resoure.uiste.com/1apache_error.png">
 
 
 
@@ -467,7 +467,7 @@
 <li>通过进程方式：<code>ps - aux | grep httpd</code></li>
 </ol>
 </li>
-<li>报错排错：<br><img src="http://7xwlfk.com1.z0.glb.clouddn.com/1apache_error.png" alt="apache_error"><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]# ./apachectl start</span><br><span class="line">(98)Address already in use: make_sock: could not bind to address [::]:80</span><br><span class="line">(98)Address already in use: make_sock: could not bind to address 0.0.0.0:80</span><br><span class="line">no listening sockets available, shutting down</span><br><span class="line">Unable to open logs</span><br><span class="line">[root@localhost bin]# netstat -tunple|grep 80</span><br><span class="line">tcp        0      0 :::80                       :::*                        LISTEN      0          59332      22963/httpd</span><br><span class="line">udp        0      0 :::57780                    :::*                                    29         12263      1361/rpc.statd</span><br><span class="line">udp        0      0 fe80::20c:29ff:fe04:2b3c:123 :::*                                    0          13141      1573/ntpd</span><br><span class="line">[root@localhost bin]# pkill httpd</span><br><span class="line">[root@localhost bin]# netstat -tunple|grep 80</span><br><span class="line">udp        0      0 :::57780                    :::*                                    29         12263      1361/rpc.statd</span><br><span class="line">udp        0      0 fe80::20c:29ff:fe04:2b3c:123 :::*                                    0          13141      1573/ntpd</span><br><span class="line">[root@localhost bin]# ./apachectl start</span><br></pre></td></tr></table></figure>
+<li>报错排错：<br><img src="http://resoure.uiste.com/1apache_error.png" alt="apache_error"><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]# ./apachectl start</span><br><span class="line">(98)Address already in use: make_sock: could not bind to address [::]:80</span><br><span class="line">(98)Address already in use: make_sock: could not bind to address 0.0.0.0:80</span><br><span class="line">no listening sockets available, shutting down</span><br><span class="line">Unable to open logs</span><br><span class="line">[root@localhost bin]# netstat -tunple|grep 80</span><br><span class="line">tcp        0      0 :::80                       :::*                        LISTEN      0          59332      22963/httpd</span><br><span class="line">udp        0      0 :::57780                    :::*                                    29         12263      1361/rpc.statd</span><br><span class="line">udp        0      0 fe80::20c:29ff:fe04:2b3c:123 :::*                                    0          13141      1573/ntpd</span><br><span class="line">[root@localhost bin]# pkill httpd</span><br><span class="line">[root@localhost bin]# netstat -tunple|grep 80</span><br><span class="line">udp        0      0 :::57780                    :::*                                    29         12263      1361/rpc.statd</span><br><span class="line">udp        0      0 fe80::20c:29ff:fe04:2b3c:123 :::*                                    0          13141      1573/ntpd</span><br><span class="line">[root@localhost bin]# ./apachectl start</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <h3 id="PHP安装"><a href="#PHP安装" class="headerlink" title="PHP安装"></a>PHP安装</h3><h4 id="安装zlib压缩库"><a href="#安装zlib压缩库" class="headerlink" title="安装zlib压缩库"></a>安装zlib压缩库</h4><ol>
@@ -549,7 +549,7 @@
 </code></pre></li>
 <li>安装MySQL<pre><code>1. `[root@localhost mysql]# ./scripts/mysql_install_db --user=mysql`
 2. 成功提示：
-</code></pre><img src="http://7xwlfk.com1.z0.glb.clouddn.com/2.mysql_success.png" alt="Alt text"></li>
+</code></pre><img src="http://resoure.uiste.com/2.mysql_success.png" alt="Alt text"></li>
 <li>再次修改权限<pre><code>1. `[root@localhost mysql]# chown -R root . `
 2. `[root@localhost mysql]# chown -R mysql data`
 </code></pre></li>
@@ -581,11 +581,11 @@
 <li>打开MySQL客户端<pre><code>1. `[root@localhost mysql]# ./bin/mysql -uroot -p`
 2. `Enter password:`
 </code></pre></li>
-<li>报错排错<br><img src="http://7xwlfk.com1.z0.glb.clouddn.com/3.mysql_error1.png" alt="Alt text"><br><img src="http://7xwlfk.com1.z0.glb.clouddn.com/4.mysql_error2.png" alt="Alt text"><br><img src="http://7xwlfk.com1.z0.glb.clouddn.com/5.mysql_error3.png" alt="Alt text"><h4 id="设置远程登录权限"><a href="#设置远程登录权限" class="headerlink" title="设置远程登录权限"></a>设置远程登录权限</h4></li>
+<li>报错排错<br><img src="http://resoure.uiste.com/3.mysql_error1.png" alt="Alt text"><br><img src="http://resoure.uiste.com/4.mysql_error2.png" alt="Alt text"><br><img src="http://resoure.uiste.com/5.mysql_error3.png" alt="Alt text"><h4 id="设置远程登录权限"><a href="#设置远程登录权限" class="headerlink" title="设置远程登录权限"></a>设置远程登录权限</h4></li>
 <li><code>mysql&gt; use mysql</code></li>
-<li><code>mysql&gt; select host,user from user;</code><br><img src="http://7xwlfk.com1.z0.glb.clouddn.com/6.quanxian1.png" alt="Alt text"></li>
-<li><code>mysql&gt; update user set host=&#39;%&#39; where user =&#39;root&#39; and host =&#39;127.0.0.1&#39;;</code><br><img src="http://7xwlfk.com1.z0.glb.clouddn.com/7.quanxian2.png" alt="Alt text"></li>
-<li><code>mysql&gt; delete from user where host != &#39;%&#39;;</code><br><img src="http://7xwlfk.com1.z0.glb.clouddn.com/8.quanxian3.png" alt="Alt text"></li>
+<li><code>mysql&gt; select host,user from user;</code><br><img src="http://resoure.uiste.com/6.quanxian1.png" alt="Alt text"></li>
+<li><code>mysql&gt; update user set host=&#39;%&#39; where user =&#39;root&#39; and host =&#39;127.0.0.1&#39;;</code><br><img src="http://resoure.uiste.com/7.quanxian2.png" alt="Alt text"></li>
+<li><code>mysql&gt; delete from user where host != &#39;%&#39;;</code><br><img src="http://resoure.uiste.com/8.quanxian3.png" alt="Alt text"></li>
 <li><code>mysql&gt; FLUSH PRIVILEGES;</code></li>
 <li><p>若没有关闭防火墙需要关闭防火墙 <code>ervice iptables stop</code></p>
 </li>
@@ -710,7 +710,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">157</span>
+                    <span class="site-state-item-count">160</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
