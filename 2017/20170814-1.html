@@ -107,7 +107,7 @@
 <meta property="og:site_name" content="uiste">
 <meta property="og:description" content="锁机制三大锁表锁、行锁、页锁 锁类型。 MyISAM 和 Memory 存储引擎使用的是表级锁,BDB 引擎使用的是页级锁，也支持表级锁。由于 BDB 引擎基本已经成为历史，因此就不再介绍了。 InnoDB 存储引擎既支持行级锁，也支持表级锁，默认情况下使用行级锁。 表级锁，它直接锁住的是一个表，开销小，加锁快，不会出现死锁的情况，锁定粒度大，发生锁冲突的概率更高，并发度最低。 行级锁，它直接锁住">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-12-02T14:34:17.198Z">
+<meta property="og:updated_time" content="2019-12-05T05:00:21.656Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql 锁机制、事务">
 <meta name="twitter:description" content="锁机制三大锁表锁、行锁、页锁 锁类型。 MyISAM 和 Memory 存储引擎使用的是表级锁,BDB 引擎使用的是页级锁，也支持表级锁。由于 BDB 引擎基本已经成为历史，因此就不再介绍了。 InnoDB 存储引擎既支持行级锁，也支持表级锁，默认情况下使用行级锁。 表级锁，它直接锁住的是一个表，开销小，加锁快，不会出现死锁的情况，锁定粒度大，发生锁冲突的概率更高，并发度最低。 行级锁，它直接锁住">
@@ -411,6 +411,12 @@
 <blockquote>
 <p>加上共享锁的时候，排他锁就会等待</p>
 </blockquote>
+<blockquote>
+<p>排它锁：锁住的这一条数据不能被别的锁而操作（读和写）<br>共享锁：锁住的这条数据可以被 共享锁操作（读）<br>都不会影响普通的查询</p>
+</blockquote>
+<blockquote>
+<p>insert、update、delete 默认都会加上排它锁，普通查询不加锁</p>
+</blockquote>
 <h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><blockquote>
 <p>死锁是由于两个或以上的线程互相持有对方需要的资源，导致这些线程处于等待状态，无法执行。<br>共享锁 只可读，不可写 与任和锁一起使用都不会冲突（除了排它锁）<br>排它锁 不可读也不可写 与任何锁一起使用时都会冲突</p>
 </blockquote>
@@ -435,7 +441,7 @@
 </ol>
 </blockquote>
 <h2 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h2><p>数据库事务的隔离级别有4种，由低到高分别为Read uncommitted 、Read committed 、Repeatable read 、Serializable</p>
-<p>READ-UNCOMMITTED(读取未提交)： 最低的隔离级别，允许读取尚未提交的数据变更，可能会导致脏读、幻读或不可重复读。一往情深傅少心尖爱妻<br>READ-COMMITTED(读取已提交)： 允许读取并发事务已经提交的数据，可以阻止脏读，但是幻读或不可重复读仍有可能发生。<br>REPEATABLE-READ(可重复读)： 对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改，可以阻止脏读和不可重复读，但幻读仍有可能发生。<br>SERIALIZABLE(可串行化)： 最高的隔离级别，完全服从ACID的隔离级别。所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，该级别可以防止脏读、不可重复读以及幻读。</p>
+<p>READ-UNCOMMITTED(读取未提交)： 最低的隔离级别，允许读取尚未提交的数据变更，可能会导致脏读、幻读或不可重复读。<br>READ-COMMITTED(读取已提交)： 允许读取并发事务已经提交的数据，可以阻止脏读，但是幻读或不可重复读仍有可能发生。<br>REPEATABLE-READ(可重复读)： 对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改，可以阻止脏读和不可重复读，但幻读仍有可能发生。<br>SERIALIZABLE(可串行化)： 最高的隔离级别，完全服从ACID的隔离级别。所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，该级别可以防止脏读、不可重复读以及幻读。</p>
 <table>
 <thead>
 <tr>
@@ -473,6 +479,9 @@
 </tbody>
 </table>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'%ios%'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 局部 @@session</span></span><br><span class="line"><span class="comment">-- 全局 @@global</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> @@session.tx_ioslation = <span class="string">'READ-COMMITTED'</span>;</span><br><span class="line"><span class="keyword">set</span> @@session.tx_ioslation = <span class="string">'REPEATABLE-READ'</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>脏读（一个事务读取到另一个事务未提交的数据）<br>不可重复读（一个事务读取到另一个事务已经提交的数据）<br>幻读（一个事务多次查询整表数据，由于其他事务新增（删除）记录造成多次查询的记录条数不同（一个事务读取到另一个事务已经提交的数据））</p>
+</blockquote>
 <blockquote>
 <p>事务不会自动回滚。</p>
 </blockquote>
@@ -521,8 +530,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/20170815-1.html" rel="prev" title="mysql 数据结构">
-                mysql 数据结构 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/20170815-1.html" rel="prev" title="mysql SQL优化">
+                mysql SQL优化 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -595,7 +604,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">162</span>
+                    <span class="site-state-item-count">164</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

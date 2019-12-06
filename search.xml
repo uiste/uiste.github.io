@@ -1569,9 +1569,112 @@ chmod -R 644 /home/www/.ssh/authorized_keys
 ]]></content>
   </entry>
   <entry>
-    <title>mysql 数据结构</title>
+    <title>mysql运行中的事务导致锁表</title>
+    <url>/2017/20170817-1.html</url>
+    <content><![CDATA[<p>有时代码的不合理操作会导致，事务不能提交，mysql表上执行任何的操作，都在等待，查询也好，修改也好，所有的进程，都会卡在那里，然后你会慌，误以为电脑怎么卡了，这个时候呢，要排查问题。</p>
+<h2 id="首先，查询当前的系统进程"><a href="#首先，查询当前的系统进程" class="headerlink" title="首先，查询当前的系统进程"></a>首先，查询当前的系统进程</h2><p><code>show processlist;</code></p>
+<p>如果有等待的进程，状态就会显示在等待，同时info会显示执行的sql</p>
+<h2 id="第一步只是确认你的操作确实被锁了，第二步就是查询事务了"><a href="#第一步只是确认你的操作确实被锁了，第二步就是查询事务了" class="headerlink" title="第一步只是确认你的操作确实被锁了，第二步就是查询事务了"></a>第一步只是确认你的操作确实被锁了，第二步就是查询事务了</h2><p>SELECT * from information_schema.innodb_trx;</p>
+<p>这是表里就会有一条trx_state为running的记录，然后记下trx_mysql_thread_id这个字段的值，这个值是进程id</p>
+<h2 id="干掉那个进程id就可以了"><a href="#干掉那个进程id就可以了" class="headerlink" title="干掉那个进程id就可以了"></a>干掉那个进程id就可以了</h2><p>在mysql中执行：kill  [trx_mysql_thread_id] 即可。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>mysql 数据文件、数据结构</title>
     <url>/2017/20170815-1.html</url>
-    <content><![CDATA[<h1 id="底层btree机制-存储引擎"><a href="#底层btree机制-存储引擎" class="headerlink" title="底层btree机制-存储引擎"></a>底层btree机制-存储引擎</h1><h1 id="数据库设计"><a href="#数据库设计" class="headerlink" title="数据库设计"></a>数据库设计</h1><h1 id="慢查询SQL语句分析"><a href="#慢查询SQL语句分析" class="headerlink" title="慢查询SQL语句分析"></a>慢查询SQL语句分析</h1><h1 id="索引使用与SQL优化"><a href="#索引使用与SQL优化" class="headerlink" title="索引使用与SQL优化"></a>索引使用与SQL优化</h1><h1 id="缓存优化"><a href="#缓存优化" class="headerlink" title="缓存优化"></a>缓存优化</h1><h1 id="主从配置"><a href="#主从配置" class="headerlink" title="主从配置"></a>主从配置</h1><h1 id="水平与垂直分表"><a href="#水平与垂直分表" class="headerlink" title="水平与垂直分表"></a>水平与垂直分表</h1><h1 id="中间件（初始、安装、数据切分）"><a href="#中间件（初始、安装、数据切分）" class="headerlink" title="中间件（初始、安装、数据切分）"></a>中间件（初始、安装、数据切分）</h1><h1 id="中间件（读写分析，高可用，集群）"><a href="#中间件（读写分析，高可用，集群）" class="headerlink" title="中间件（读写分析，高可用，集群）"></a>中间件（读写分析，高可用，集群）</h1><h1 id="水平与垂直切分（原理，切分后续操作，多表关联操作）"><a href="#水平与垂直切分（原理，切分后续操作，多表关联操作）" class="headerlink" title="水平与垂直切分（原理，切分后续操作，多表关联操作）"></a>水平与垂直切分（原理，切分后续操作，多表关联操作）</h1><h1 id="切分策略"><a href="#切分策略" class="headerlink" title="切分策略"></a>切分策略</h1><h1 id="mycat全局表，ER表，分片策略分析"><a href="#mycat全局表，ER表，分片策略分析" class="headerlink" title="mycat全局表，ER表，分片策略分析"></a>mycat全局表，ER表，分片策略分析</h1>]]></content>
+    <content><![CDATA[<h1 id="基础结构"><a href="#基础结构" class="headerlink" title="基础结构"></a>基础结构</h1><p><img src="https://raw.githubusercontent.com/uiste/uiste.github.io/master/images/doc/mysql-structure-1.png" alt></p>
+<p>Connection:这一块其实主要是其他语言的连接，并不属于MySQL本身;主要是其他语言对于MySQL的连接操作的工具比如PHP中的:pdo，mysqli或者 Navicat for MySQL<br>SQL层:功能主要包括权限判断，SQL解析功能和查询缓存处理等。</p>
+<ol>
+<li>链接/线程处理:客户端通过 连接/线程层 来连接MySQL数据库，连接/线程层主要用来处理客户端的请求、身份验证和数据库安全性验证等。 </li>
+<li>查询缓存和查询分析器是SQL层的核心部分，其中主要涉及查询的解析、优化、缓存、以及所有内置的函数，存储过程，触发器，视图等功能。 </li>
+<li>优化器主要负责存储和获取所有存储在MySQL中的数据。</li>
+</ol>
+<h2 id="MySQL物理文件类型"><a href="#MySQL物理文件类型" class="headerlink" title="MySQL物理文件类型"></a>MySQL物理文件类型</h2><h3 id="日志文件主要包括"><a href="#日志文件主要包括" class="headerlink" title="日志文件主要包括:"></a>日志文件主要包括:</h3><ol>
+<li>错误日志(ErrorLog)、</li>
+<li>二进制日志(Binary Log)、</li>
+<li>事务日志(InnoDB redo Log &amp; undo Log)、 </li>
+<li>慢查询日志(Slow Query Log)、、</li>
+<li>查询日志(Query Log)</li>
+</ol>
+<h3 id="数据库文件"><a href="#数据库文件" class="headerlink" title="数据库文件:"></a>数据库文件:</h3><ol>
+<li>‘.frm’文件</li>
+<li>‘.MYD’文件 myisam 数据文件</li>
+<li>‘.MYI’文件 myisam 索引文件</li>
+<li>‘.ibd’文件（独享）和’.ibdata’文件（共享） innodb 数据和索引存放</li>
+</ol>
+<blockquote>
+</blockquote>
+<h3 id="其他配置文件"><a href="#其他配置文件" class="headerlink" title="其他配置文件"></a>其他配置文件</h3><ol>
+<li>系统配置文件(my.ini或者my.cnf) </li>
+<li>pid,err文件</li>
+<li>socket文件</li>
+</ol>
+<h2 id="错误日志"><a href="#错误日志" class="headerlink" title="错误日志"></a>错误日志</h2><p><code>show global variables like &#39;%log_error%&#39;;</code></p>
+<h2 id="二进制日志"><a href="#二进制日志" class="headerlink" title="二进制日志"></a>二进制日志</h2><p><code>show global variables like &#39;%log_bin%&#39;</code>;`</p>
+<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><ol>
+<li>以二进制形式记录更改数据库的SQL语句(insert，update，delete，create，drop，alter等)。 </li>
+<li>用于MySQL主从复制。</li>
+<li>增量数据备份及恢复</li>
+</ol>
+<h2 id="事务日志-InnoDB"><a href="#事务日志-InnoDB" class="headerlink" title="事务日志(InnoDB)"></a>事务日志(InnoDB)</h2><p>查看存储引擎: show engines ;</p>
+<p>InnoDB引擎在线Redo日志记录了InnoDB所做的所有物理变更和事务信息。通过Redo日志和Undo信息，InnoDB大大地加强了事务的安全性。InnDB在线Redo 日志默认存放在data命令下，可通过设置innodb_log_griyo_home_dir选项来更改日志文件存放位置，通过innodb_log_files_in_group选项来说何止日志的数量<br>使用事务日志，存储引擎在修改表的数据时只需要修改其内存拷贝，再把修改行为记录到持久在硬盘上的事务日志中，而不用每次都将修改的数据本身持久到磁 盘。事务日志采用追加的方式，因此写日志的操作是磁盘上一小块区域内的顺序I/O，而不像随机I/O需要在磁盘的多个地方移动磁头，所以采用事务日志的方式 相对来说要快得多。事务日志持久以后，内存中被修改的数据在后台可以慢慢的刷回到磁盘。目前大多数的存储引擎都是这样实现的。</p>
+<h2 id="慢查询日志"><a href="#慢查询日志" class="headerlink" title="慢查询日志"></a>慢查询日志</h2><p>慢查询日志是值所有SQL执行的实际超过long_query_time变量的语句和达到min_examined_row_limit条举例的语句。用户可以针对这部分语句性能调 优。慢查询日志通过设置log-slow_queries[=file_name]选项开启后，将记录日志所在的路劲和名称。MySQL系统默认的慢查询日志的文件名是show.log，默认目 录是data目录。</p>
+<p>命令:<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-- 查看long_query_time设置时间</span><br><span class="line">show global variables like &apos;%long%&apos;;</span><br><span class="line">-- 查看具体信息</span><br><span class="line">-- slow_query_log: off关闭状态 on开启状态</span><br><span class="line">-- slow_query_log_file 慢查询日志存放地点</span><br><span class="line">show variables like &quot;%slow%&quot; ;</span><br></pre></td></tr></table></figure></p>
+<h1 id="mysql性能测试"><a href="#mysql性能测试" class="headerlink" title="mysql性能测试"></a>mysql性能测试</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">show status</span><br><span class="line"></span><br><span class="line">show processlist</span><br><span class="line"></span><br><span class="line">show variables</span><br></pre></td></tr></table></figure>]]></content>
+  </entry>
+  <entry>
+    <title>mysql SQL优化</title>
+    <url>/2017/20170815-1.html</url>
+    <content><![CDATA[<p>mysql5.7中type的类型达到了14种之多，这里只记录和理解最重要且经常遇见的六种类型，它们分别是all,index,range,ref,eq_ref，const。从左到右，它们的效率依次是增强的</p>
+<h2 id="mysql-explain功能中展示各种信息的解释："><a href="#mysql-explain功能中展示各种信息的解释：" class="headerlink" title="mysql explain功能中展示各种信息的解释："></a>mysql explain功能中展示各种信息的解释：</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">id:优化器选定的执行计划中查询的序列号。</span><br><span class="line">select_type:所用的查询类型，主要由以下这集中查询类型。</span><br><span class="line">  . DEPENDENT UNION:子查询中的UNION，且为UNION中从第二个SELECT开始的后面所有SELECT，同样依赖于外部查询的结果集。</span><br><span class="line"></span><br><span class="line">  . SIMPLE:厨子查询或UNION之外的其他查询。</span><br><span class="line">    》explain select * from admin_user where user_id = 1 \G;</span><br><span class="line"></span><br><span class="line">  . PRIMARY:子查询中最外层查询，注意并不是主键查询。</span><br><span class="line">  . SUBQUERY: 子查询内层查询的第一个SELECT，结果不依赖与外部查询结果集。</span><br><span class="line">    》explain select * from role where id = (select role_id from admin_user where user_id = 1) \G;</span><br><span class="line"></span><br><span class="line">  . UNCACHEABLE SUBQUERY:结果集无法缓存的子查询</span><br><span class="line"></span><br><span class="line">  . UNION:UNION 语句中第二个SELECT开始后面的所有SELECT,第一个SELECT为PRIMARY。</span><br><span class="line"></span><br><span class="line">  . UNION RESULT:UNION 中的合并结果。</span><br><span class="line"></span><br><span class="line">table：显示这一步所访问的数据库中的表的名称。</span><br><span class="line">type：告诉我们对标使用的访问方式，主要包含如下几种类型。</span><br><span class="line">  . all： 全表扫描。</span><br><span class="line">  . const: 读常量，最多只会有一条记录匹配，由于是常量，实际上只需要读一次。</span><br><span class="line">  . eq_ref：最多只会有一条匹配结果，一般是通过主键或唯一键索引来访问</span><br><span class="line">  . fulltext：进行全文索引检索</span><br><span class="line">  . index：全索引扫描</span><br><span class="line">  . index_merge：查询中同时使用两个（或更多）索引，然后对索引结果进行和并，在读取表数据。</span><br><span class="line">  . index_subquery：子查询中的返回结果字段组合是一个索引（或索引组合），但不是一个主键或唯一索引。</span><br><span class="line">  . rang：索引范围扫描。</span><br><span class="line">  . ref：join语句中被驱动表索引引用的查询。</span><br><span class="line">  . ref_or_null：与ref的唯一区别就是使用索引引用的查询之外再增加一个空值的查询。</span><br><span class="line">  . system：系统表，表中只有一行数据：</span><br><span class="line">  . unique_subqery：子查询中的返回结果字段组合式主键或唯一约束。</span><br><span class="line">Possible_keys：该查询可以利用的索引。如果没有任何索引可以使用，就会显示程null，这项内容对优化索引时的调整非常重要。</span><br><span class="line">key：优化器从possible_keys中选择使用的索引。</span><br><span class="line">key_len：被选中使用索引的索引建长度。</span><br><span class="line">ref：列出是通过常量，还是某个字段的某个字段来过滤的</span><br><span class="line">rows：优化其通过系统手机的统计信息估算出来的结果集记录条数</span><br><span class="line">extra：查询中每一步实现的额外细节信息。</span><br><span class="line">  . using index : 出现这个说明mysql使用了覆盖索引，避免访问了表的数据行，效率不错。</span><br><span class="line">  . using where ：这说明服务器在存储引擎收到行后讲进行过滤。</span><br><span class="line">  . using temporary ：这意味着mysql对查询结果进行排序的时候使用了一张临时表</span><br><span class="line">  . using filesort ：这个说明mysql会对数据使用一个外部的索引排序</span><br><span class="line"></span><br><span class="line">注意当出现using temporary 和 using filesort时候说明需要优化操作</span><br></pre></td></tr></table></figure>
+<h2 id="用小的数据量驱动大的结果集"><a href="#用小的数据量驱动大的结果集" class="headerlink" title="用小的数据量驱动大的结果集"></a>用小的数据量驱动大的结果集</h2><h2 id="索引失效问题"><a href="#索引失效问题" class="headerlink" title="索引失效问题"></a>索引失效问题</h2><h1 id="底层btree机制"><a href="#底层btree机制" class="headerlink" title="底层btree机制"></a>底层btree机制</h1><h2 id="首先抛个问题，MySQL的索引为何用树而不是其他数据结构如hash，hash的读和写都是O-1-，而树的话查询和插入都是O-log-n"><a href="#首先抛个问题，MySQL的索引为何用树而不是其他数据结构如hash，hash的读和写都是O-1-，而树的话查询和插入都是O-log-n" class="headerlink" title="首先抛个问题，MySQL的索引为何用树而不是其他数据结构如hash，hash的读和写都是O(1)，而树的话查询和插入都是O(log(n))?"></a>首先抛个问题，MySQL的索引为何用树而不是其他数据结构如hash，hash的读和写都是O(1)，而树的话查询和插入都是O(log(n))?</h2><blockquote>
+<p>答：因为索引设计成树，是和SQL需求相关的，如果单独只查询某条数据，自然是hash算法快，但是我们平常用的查询往往不是只查询单条数据，而是order by，group by，&lt; &gt;这种排序查询，遇到这种情况，hash就会退化成O(n)，而树因为它的有序性依然保持O(log(n))高效率。</p>
+</blockquote>
+<h2 id="那为何用的是B-树呢？这就得比较B树，B-树与红黑树的区别了。"><a href="#那为何用的是B-树呢？这就得比较B树，B-树与红黑树的区别了。" class="headerlink" title="那为何用的是B+树呢？这就得比较B树，B+树与红黑树的区别了。"></a>那为何用的是B+树呢？这就得比较B树，B+树与红黑树的区别了。</h2><ol>
+<li>B+树的非叶子节点只保存索引，不保存行记录。而B树叶子节点和非叶子节点都存储索引和行记录，这样的话，同样的空间，B+树能存储更多的索引。这就意味着同样的数据，B+树比B树更”矮胖“，减少IO次数。</li>
+<li>查询的时候，由于B树叶子节点和非叶子节点都存在行记录，也就是是说，B树查询其实是不稳定的（好的时候，只查根节点，坏的时候，查到叶子节点）。而B+树查询最终必须到叶子节点，查询销量稳定。</li>
+<li>B树范围查询只能通过中序遍历查询来定位最小和最大值，而B+树通过链表就能实现，查询更方便。<br>综合起来：B+树比B树优势有三个：1.IO次数更少；2.查询性能更稳定；3.范围查询简便。</li>
+</ol>
+<h2 id="InnoDB一棵B-树可以存放多少行数据？这个问题的简单回答是：约2千万"><a href="#InnoDB一棵B-树可以存放多少行数据？这个问题的简单回答是：约2千万" class="headerlink" title="InnoDB一棵B+树可以存放多少行数据？这个问题的简单回答是：约2千万"></a>InnoDB一棵B+树可以存放多少行数据？这个问题的简单回答是：约2千万</h2><p>那如何计算呢？<br>首先我假设每行记录为1k，<br>首先假设树高为2，那么根节点存储的指针对应每个叶子节点。也就是说，最大的话，有多少个指针就有多少个叶子节点。<br>这棵B+树存储的总行数=根节点指针树<em>每个叶子节点的行记录树。<br>那么根节点能存储多少指针呢？<br>InnoDB最小单位为页，一页为16k，我们假设主键ID为bigint类型，长度为8字节，而指针大小在InnoDB源码中设置为6字节，这样一共14字节，那么一页的总指针树为16k/(8+6) = 1170。<br>每个指针对应1页，假设每行记录为1k（实际上现在很多互联网业务数据记录大小通常就是1K左右），那么一页大概能存16条行记录。<br>所以这棵B+树总行数为：117016 = 18720<br>三层的话，总指针数为1170 1170，故总行数为1170</em> 1170*16=21902400<br>所以当单表数据超过千万级别后，就得考虑分表了，否则B+树的层级可能会超过3级，造成查询效率下降。</p>
+<h2 id="聚簇索引和非聚簇索引"><a href="#聚簇索引和非聚簇索引" class="headerlink" title="聚簇索引和非聚簇索引"></a>聚簇索引和非聚簇索引</h2><p>数据库表的索引从数据存储方式上可以分为聚簇索引和非聚簇索引（又叫二级索引）两种</p>
+<h3 id="聚簇索引的优点"><a href="#聚簇索引的优点" class="headerlink" title="聚簇索引的优点"></a>聚簇索引的优点</h3><p>聚簇索引将索引和数据行保存在同一个B-Tree中，查询通过聚簇索引可以直接获取数据，相比非聚簇索引需要第二次查询（非覆盖索引的情况下）效率要高。<br>聚簇索引对于范围查询的效率很高，因为其数据是按照大小排列的，</p>
+<h3 id="聚簇索引的缺点"><a href="#聚簇索引的缺点" class="headerlink" title="聚簇索引的缺点"></a>聚簇索引的缺点</h3><p>聚簇索引的更新代价比较高，如果更新了行的聚簇索引列，就需要将数据移动到相应的位置。这可能因为要插入的页已满而导致“页分裂”。<br>插入速度严重依赖于插入顺序，按照主键进行插入的速度是加载数据到Innodb中的最快方式。如果不是按照主键插入，最好在加载完成后使用OPTIMIZE TABLE命令重新组织一下表。<br>聚簇索引在插入新行和更新主键时，可能导致“页分裂”问题。<br>聚簇索引可能导致全表扫描速度变慢，因为可能需要加载物理上相隔较远的页到内存中（需要耗时的磁盘寻道操作）。</p>
+<h3 id="非聚簇索引"><a href="#非聚簇索引" class="headerlink" title="非聚簇索引"></a>非聚簇索引</h3><p>非聚簇索引，又叫二级索引。二级索引的叶子节点中保存的不是指向行的物理指针，而是行的主键值。当通过二级索引查找行，存储引擎需要在二级索引中找到相应的叶子节点，获得行的主键值，然后使用主键去聚簇索引中查找数据行，这需要两次B-Tree查找。</p>
+<p><img src="https://raw.githubusercontent.com/uiste/uiste.github.io/master/images/doc/mysql-btree-1.png" alt></p>
+<h2 id="主键和唯一索引都要求值唯一-但是它们还是有区别的"><a href="#主键和唯一索引都要求值唯一-但是它们还是有区别的" class="headerlink" title="主键和唯一索引都要求值唯一,但是它们还是有区别的:"></a>主键和唯一索引都要求值唯一,但是它们还是有区别的:</h2><p>1.主键是一种约束,唯一索引是一种索引;<br>2.一张表只能有一个主键,但可以创建多个唯一索引;<br>3.主键创建后一定包含一个唯一索引,唯一索引并一定是主键;<br>4.主键不能为null,唯一索引可以为null;<br>5.主键可以做为外键,唯一索引不行;</p>
+<h2 id="全文索引的版本、存储引擎、数据类型的支持情况"><a href="#全文索引的版本、存储引擎、数据类型的支持情况" class="headerlink" title="全文索引的版本、存储引擎、数据类型的支持情况"></a>全文索引的版本、存储引擎、数据类型的支持情况</h2><p>MySQL 5.6 以前的版本，只有 MyISAM 存储引擎支持全文索引；<br>MySQL 5.6 及以后的版本，MyISAM 和 InnoDB 存储引擎均支持全文索引;<br>只有字段的数据类型为 char、varchar、text 及其系列才可以建全文索引。</p>
+<p>使用全文索引<br>和常用的模糊匹配使用 like + % 不同，全文索引有自己的语法格式，使用 match 和 against 关键字，比如</p>
+<p><code>select * from fulltext_test where match(content,tag) against(&#39;xxx xxx&#39;);</code></p>
+<p>注意： match() 函数中指定的列必须和全文索引中指定的列完全相同，否则就会报错，无法使用全文索引，这是因为全文索引不会记录关键字来自哪一列。如果想要对某一列使用全文索引，请单独为该列创建全文索引。</p>
+<h2 id="mysql强制索引和禁止某个索引"><a href="#mysql强制索引和禁止某个索引" class="headerlink" title="mysql强制索引和禁止某个索引"></a>mysql强制索引和禁止某个索引</h2><h3 id="mysql强制使用索引-force-index-索引名或者主键PRI"><a href="#mysql强制使用索引-force-index-索引名或者主键PRI" class="headerlink" title="mysql强制使用索引:force index(索引名或者主键PRI)"></a>mysql强制使用索引:force index(索引名或者主键PRI)</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from table force index(PRI) limit 2;(强制使用主键)</span><br><span class="line"></span><br><span class="line">select * from table force index(ziduan1_index) limit 2;(强制使用索引&quot;ziduan1_index&quot;)</span><br><span class="line"></span><br><span class="line">select * from table force index(PRI,ziduan1_index) limit 2;(强制使用索引&quot;PRI和ziduan1_index&quot;)</span><br></pre></td></tr></table></figure>
+<h3 id="mysql禁止某个索引：ignore-index-索引名或者主键PRI"><a href="#mysql禁止某个索引：ignore-index-索引名或者主键PRI" class="headerlink" title="mysql禁止某个索引：ignore index(索引名或者主键PRI)"></a>mysql禁止某个索引：ignore index(索引名或者主键PRI)</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from table ignore index(PRI) limit 2;(禁止使用主键)</span><br><span class="line"></span><br><span class="line">select * from table ignore index(ziduan1_index) limit 2;(禁止使用索引&quot;ziduan1_index&quot;)</span><br><span class="line"></span><br><span class="line">select * from table ignore index(PRI,ziduan1_index) limit 2;(禁止使用索引&quot;PRI,ziduan1_index&quot;)</span><br></pre></td></tr></table></figure>
+<h3 id="MySQL索引分类"><a href="#MySQL索引分类" class="headerlink" title="MySQL索引分类"></a>MySQL索引分类</h3><p>MySQL索引分为普通索引、唯一索引、主键索引、组合索引、全文索引。索引不会包含有null值的列，索引项可以为null（唯一索引、组合索引等），但是只要列中有null值就不会被包含在索引中。</p>
+<p>（1）普通索引：create index index_name on table(column)；</p>
+<pre><code>或者创建表时指定，create table(..., index index_name column);
+</code></pre><p>（2）唯一索引：类似普通索引，索引列的值必须唯一（可以为空，这点和主键索引不同）</p>
+<pre><code>create unique index index_name on table(column)；或者创建表时指定unique index_name column
+</code></pre><p>（3）主键索引：特殊的唯一索引，不允许为空，只能有一个，一般是在建表时指定primary key(column)</p>
+<p>（4）组合索引：在多个字段上创建索引，遵循最左前缀原则。alter table t add index index_name(a,b,c);</p>
+<p>（5）全文索引：主要用来查找文本中的关键字，不是直接与索引中的值相比较，像是一个搜索引擎，配合match against使用，现在只有char，varchar，text上可以创建全文索引。在数据量较大时，先将数据放在一张没有全文索引的表里，然后再利用create index创建全文索引，比先生成全文索引再插入数据快很多。</p>
+<h3 id="何时使用索引"><a href="#何时使用索引" class="headerlink" title="何时使用索引"></a>何时使用索引</h3><pre><code>MySQL每次查询只使用一个索引。与其说是“数据库查询只能用到一个索引”，倒不如说，和全表扫描比起来，去分析两个索引B+树更加耗费时间。所以where A=a and B=b这种查询使用（A，B）的组合索引最佳，B+树根据（A，B）来排序。
+</code></pre><p>（1）主键，unique字段；</p>
+<p>（2）和其他表做连接的字段需要加索引；</p>
+<p>（3）在where里使用＞，≥，＝，＜，≤，is null和between等字段；</p>
+<p>（4）使用不以通配符开始的like，where A like ‘China%’；</p>
+<p>（5）聚集函数MIN()，MAX()中的字段；</p>
+<p>（6）order by和group by字段；</p>
+<h3 id="何时不使用索引"><a href="#何时不使用索引" class="headerlink" title="何时不使用索引"></a>何时不使用索引</h3><p>（1）表记录太少；</p>
+<p>（2）数据重复且分布平均的字段（只有很少数据值的列）；</p>
+<p>（3）经常插入、删除、修改的表要减少索引；</p>
+<p>（4）text，image等类型不应该建立索引，这些列的数据量大（假如text前10个字符唯一，也可以对text前10个字符建立索引）；</p>
+<p>（5）MySQL能估计出全表扫描比使用索引更快时，不使用索引；</p>
+<h3 id="索引何时失效"><a href="#索引何时失效" class="headerlink" title="索引何时失效"></a>索引何时失效</h3><p>（1）组合索引未使用最左前缀，例如组合索引（A，B），where B=b不会使用索引；</p>
+<p>（2）like未使用最左前缀，where A like ‘%China’；</p>
+<p>（3）搜索一个索引而在另一个索引上做order by，where A=a order by B，只使用A上的索引，因为查询只使用一个索引 ；</p>
+<p>（4）or会使索引失效。如果查询字段相同，也可以使用索引。例如where A=a1 or A=a2（生效），where A=a or B=b（失效）</p>
+<p>（5）如果列类型是字符串，要使用引号。例如where A=’China’，否则索引失效（会进行类型转换）；</p>
+<p>（6）在索引列上的操作，函数（upper()等）、or、！=(&lt;&gt;)、not in等；</p>
+]]></content>
   </entry>
   <entry>
     <title>mysql 锁机制、事务</title>
@@ -1592,6 +1695,12 @@ chmod -R 644 /home/www/.ssh/authorized_keys
 </blockquote>
 <blockquote>
 <p>加上共享锁的时候，排他锁就会等待</p>
+</blockquote>
+<blockquote>
+<p>排它锁：锁住的这一条数据不能被别的锁而操作（读和写）<br>共享锁：锁住的这条数据可以被 共享锁操作（读）<br>都不会影响普通的查询</p>
+</blockquote>
+<blockquote>
+<p>insert、update、delete 默认都会加上排它锁，普通查询不加锁</p>
 </blockquote>
 <h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><blockquote>
 <p>死锁是由于两个或以上的线程互相持有对方需要的资源，导致这些线程处于等待状态，无法执行。<br>共享锁 只可读，不可写 与任和锁一起使用都不会冲突（除了排它锁）<br>排它锁 不可读也不可写 与任何锁一起使用时都会冲突</p>
@@ -1617,7 +1726,7 @@ chmod -R 644 /home/www/.ssh/authorized_keys
 </ol>
 </blockquote>
 <h2 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h2><p>数据库事务的隔离级别有4种，由低到高分别为Read uncommitted 、Read committed 、Repeatable read 、Serializable</p>
-<p>READ-UNCOMMITTED(读取未提交)： 最低的隔离级别，允许读取尚未提交的数据变更，可能会导致脏读、幻读或不可重复读。一往情深傅少心尖爱妻<br>READ-COMMITTED(读取已提交)： 允许读取并发事务已经提交的数据，可以阻止脏读，但是幻读或不可重复读仍有可能发生。<br>REPEATABLE-READ(可重复读)： 对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改，可以阻止脏读和不可重复读，但幻读仍有可能发生。<br>SERIALIZABLE(可串行化)： 最高的隔离级别，完全服从ACID的隔离级别。所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，该级别可以防止脏读、不可重复读以及幻读。</p>
+<p>READ-UNCOMMITTED(读取未提交)： 最低的隔离级别，允许读取尚未提交的数据变更，可能会导致脏读、幻读或不可重复读。<br>READ-COMMITTED(读取已提交)： 允许读取并发事务已经提交的数据，可以阻止脏读，但是幻读或不可重复读仍有可能发生。<br>REPEATABLE-READ(可重复读)： 对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改，可以阻止脏读和不可重复读，但幻读仍有可能发生。<br>SERIALIZABLE(可串行化)： 最高的隔离级别，完全服从ACID的隔离级别。所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，该级别可以防止脏读、不可重复读以及幻读。</p>
 <table>
 <thead>
 <tr>
@@ -1655,6 +1764,9 @@ chmod -R 644 /home/www/.ssh/authorized_keys
 </tbody>
 </table>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'%ios%'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 局部 @@session</span></span><br><span class="line"><span class="comment">-- 全局 @@global</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> @@session.tx_ioslation = <span class="string">'READ-COMMITTED'</span>;</span><br><span class="line"><span class="keyword">set</span> @@session.tx_ioslation = <span class="string">'REPEATABLE-READ'</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>脏读（一个事务读取到另一个事务未提交的数据）<br>不可重复读（一个事务读取到另一个事务已经提交的数据）<br>幻读（一个事务多次查询整表数据，由于其他事务新增（删除）记录造成多次查询的记录条数不同（一个事务读取到另一个事务已经提交的数据））</p>
+</blockquote>
 <blockquote>
 <p>事务不会自动回滚。</p>
 </blockquote>

@@ -100,18 +100,17 @@
 
 
 
-  <meta name="description" content="随机推荐SQL原生：mysql&amp;gt; select goods_id,goods_name from sh_goods order by rand() limit 5; ThinkPHP：$this-&amp;gt;field(&amp;#39;goods_id,goods_name,goods_thumb,goods_price&amp;#39;)-&amp;gt;where($where)-&amp;gt;order(&amp;#39;r">
-<meta name="keywords" content="MySQL">
+  <meta name="description" content="有时代码的不合理操作会导致，事务不能提交，mysql表上执行任何的操作，都在等待，查询也好，修改也好，所有的进程，都会卡在那里，然后你会慌，误以为电脑怎么卡了，这个时候呢，要排查问题。 首先，查询当前的系统进程show processlist; 如果有等待的进程，状态就会显示在等待，同时info会显示执行的sql 第一步只是确认你的操作确实被锁了，第二步就是查询事务了SELECT * from i">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL 经典SQL语句">
-<meta property="og:url" content="http://blog.uiste.com/2015/20151210-Library-sql-library.html">
+<meta property="og:title" content="mysql运行中的事务导致锁表">
+<meta property="og:url" content="http://blog.uiste.com/2017/20170817-1.html">
 <meta property="og:site_name" content="uiste">
-<meta property="og:description" content="随机推荐SQL原生：mysql&amp;gt; select goods_id,goods_name from sh_goods order by rand() limit 5; ThinkPHP：$this-&amp;gt;field(&amp;#39;goods_id,goods_name,goods_thumb,goods_price&amp;#39;)-&amp;gt;where($where)-&amp;gt;order(&amp;#39;r">
+<meta property="og:description" content="有时代码的不合理操作会导致，事务不能提交，mysql表上执行任何的操作，都在等待，查询也好，修改也好，所有的进程，都会卡在那里，然后你会慌，误以为电脑怎么卡了，这个时候呢，要排查问题。 首先，查询当前的系统进程show processlist; 如果有等待的进程，状态就会显示在等待，同时info会显示执行的sql 第一步只是确认你的操作确实被锁了，第二步就是查询事务了SELECT * from i">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-19T01:57:01.000Z">
+<meta property="og:updated_time" content="2019-12-05T04:10:11.098Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL 经典SQL语句">
-<meta name="twitter:description" content="随机推荐SQL原生：mysql&amp;gt; select goods_id,goods_name from sh_goods order by rand() limit 5; ThinkPHP：$this-&amp;gt;field(&amp;#39;goods_id,goods_name,goods_thumb,goods_price&amp;#39;)-&amp;gt;where($where)-&amp;gt;order(&amp;#39;r">
+<meta name="twitter:title" content="mysql运行中的事务导致锁表">
+<meta name="twitter:description" content="有时代码的不合理操作会导致，事务不能提交，mysql表上执行任何的操作，都在等待，查询也好，修改也好，所有的进程，都会卡在那里，然后你会慌，误以为电脑怎么卡了，这个时候呢，要排查问题。 首先，查询当前的系统进程show processlist; 如果有等待的进程，状态就会显示在等待，同时info会显示执行的sql 第一步只是确认你的操作确实被锁了，第二步就是查询事务了SELECT * from i">
 
 
 
@@ -120,7 +119,7 @@
 
 
 
-  <link rel="canonical" href="http://blog.uiste.com/2015/20151210-Library-sql-library.html">
+  <link rel="canonical" href="http://blog.uiste.com/2017/20170817-1.html">
 
 
 
@@ -130,7 +129,7 @@
   };
 </script>
 
-  <title>MySQL 经典SQL语句 | uiste</title>
+  <title>mysql运行中的事务导致锁表 | uiste</title>
   
 
 
@@ -319,7 +318,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2015/20151210-Library-sql-library.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2017/20170817-1.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -336,7 +335,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">MySQL 经典SQL语句
+          <h2 class="post-title" itemprop="name headline">mysql运行中的事务导致锁表
               
             
           </h2>
@@ -361,7 +360,7 @@
                 
               
 
-              <time title="创建时间：2015-12-10 01:49:13" itemprop="dateCreated datePublished" datetime="2015-12-10T01:49:13+08:00">2015-12-10</time>
+              <time title="创建时间：2017-08-17 15:30:50" itemprop="dateCreated datePublished" datetime="2017-08-17T15:30:50+08:00">2017-08-17</time>
             
 
             
@@ -395,14 +394,12 @@
       
 
       
-        <h2 id="随机推荐SQL"><a href="#随机推荐SQL" class="headerlink" title="随机推荐SQL"></a>随机推荐SQL</h2><p>原生：<code>mysql&gt; select goods_id,goods_name from sh_goods order by rand() limit 5;</code></p>
-<p>ThinkPHP：<code>$this-&gt;field(&#39;goods_id,goods_name,goods_thumb,goods_price&#39;)-&gt;where($where)-&gt;order(&#39;rand()&#39;)-&gt;limit($limit)-&gt;select();</code></p>
-<h2 id="字段拼接"><a href="#字段拼接" class="headerlink" title="字段拼接"></a>字段拼接</h2><p><code>select group_concat(concat(b.attr_name,&#39;:&#39;,a.goods_attr_values) separator &#39;&lt;br/&gt;&#39; ) as ga from sh_goods_atr a left join sh_attribute b on a.attr_id = b.attr_id where a.id in (36,41);</code></p>
-<h2 id="集合优化"><a href="#集合优化" class="headerlink" title="集合优化"></a>集合优化</h2><p>方法一：通过模糊查询<br><code>select * from goods where `goods_status` like &#39;%hot%&#39;;</code></p>
-<p>模糊查询，以%百分号开头的查询无法使用索引，只能是全表扫描。效率低下</p>
-<p>方法二：使用find_in_set(值，集合)<br><code>select * from goods where find_in_set(&#39;best&#39;,`goods_status`);</code></p>
-<p>优化了方法一，效率提高了。但find_in_set()函数本身是个全表扫描的函数</p>
-<p>方法三：使用位运算符<br>查找best：<br><code>select * from goods where goods_status &amp; 1;</code><br>查找既有best又有hot同时存在：<br><code>select * from goods where goods_status &amp; 1 and goods_status &amp; 4</code></p>
+        <p>有时代码的不合理操作会导致，事务不能提交，mysql表上执行任何的操作，都在等待，查询也好，修改也好，所有的进程，都会卡在那里，然后你会慌，误以为电脑怎么卡了，这个时候呢，要排查问题。</p>
+<h2 id="首先，查询当前的系统进程"><a href="#首先，查询当前的系统进程" class="headerlink" title="首先，查询当前的系统进程"></a>首先，查询当前的系统进程</h2><p><code>show processlist;</code></p>
+<p>如果有等待的进程，状态就会显示在等待，同时info会显示执行的sql</p>
+<h2 id="第一步只是确认你的操作确实被锁了，第二步就是查询事务了"><a href="#第一步只是确认你的操作确实被锁了，第二步就是查询事务了" class="headerlink" title="第一步只是确认你的操作确实被锁了，第二步就是查询事务了"></a>第一步只是确认你的操作确实被锁了，第二步就是查询事务了</h2><p>SELECT * from information_schema.innodb_trx;</p>
+<p>这是表里就会有一条trx_state为running的记录，然后记下trx_mysql_thread_id这个字段的值，这个值是进程id</p>
+<h2 id="干掉那个进程id就可以了"><a href="#干掉那个进程id就可以了" class="headerlink" title="干掉那个进程id就可以了"></a>干掉那个进程id就可以了</h2><p>在mysql中执行：kill  [trx_mysql_thread_id] 即可。</p>
 
       
     </div>
@@ -421,12 +418,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
-          
-        </div>
-      
 
       
       
@@ -436,8 +427,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/20151201-1.html" rel="next" title="ThinkPHP 钩子函数使用">
-                <i class="fa fa-chevron-left"></i> ThinkPHP 钩子函数使用
+              <a href="/2017/20170815-1.html" rel="next" title="mysql 数据文件、数据结构">
+                <i class="fa fa-chevron-left"></i> mysql 数据文件、数据结构
               </a>
             
           </div>
@@ -446,8 +437,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/20160119-1.html" rel="prev" title="PHP数据缓存">
-                PHP数据缓存 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/20171223-1.html" rel="prev" title="Mac OS X下配置远程Linux 服务器SSH密钥认证自动登录">
+                Mac OS X下配置远程Linux 服务器SSH密钥认证自动登录 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -780,7 +771,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#随机推荐SQL"><span class="nav-number">1.</span> <span class="nav-text">随机推荐SQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字段拼接"><span class="nav-number">2.</span> <span class="nav-text">字段拼接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集合优化"><span class="nav-number">3.</span> <span class="nav-text">集合优化</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#首先，查询当前的系统进程"><span class="nav-number">1.</span> <span class="nav-text">首先，查询当前的系统进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一步只是确认你的操作确实被锁了，第二步就是查询事务了"><span class="nav-number">2.</span> <span class="nav-text">第一步只是确认你的操作确实被锁了，第二步就是查询事务了</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#干掉那个进程id就可以了"><span class="nav-number">3.</span> <span class="nav-text">干掉那个进程id就可以了</span></a></li></ol></div>
             
 
           </div>
