@@ -1,35 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>多级缓存架构设计需要解决的问题</title>
-    <url>/2019/20190924-1.html</url>
-    <content><![CDATA[<h2 id="数据库-缓存双写一致性解决方案"><a href="#数据库-缓存双写一致性解决方案" class="headerlink" title="数据库+缓存双写一致性解决方案"></a>数据库+缓存双写一致性解决方案</h2><blockquote>
-<p>面临难题：高并发场景下，如何解决数据库与缓存双写的时候数据不一致的情况？</p>
-</blockquote>
-<h2 id="缓存维度化拆分解决方案"><a href="#缓存维度化拆分解决方案" class="headerlink" title="缓存维度化拆分解决方案"></a>缓存维度化拆分解决方案</h2><blockquote>
-<p>面临难题：如何解决大value缓存的全量更新效率低下问题？</p>
-</blockquote>
-<h2 id="缓存命中率提升解决方案"><a href="#缓存命中率提升解决方案" class="headerlink" title="缓存命中率提升解决方案"></a>缓存命中率提升解决方案</h2><blockquote>
-<p>面临难题：如何将缓存命中率</p>
-</blockquote>
-<h2 id="缓存并发重建冲突解决方案"><a href="#缓存并发重建冲突解决方案" class="headerlink" title="缓存并发重建冲突解决方案"></a>缓存并发重建冲突解决方案</h2><blockquote>
-<p>面临难题：如何解决高并发场景下，缓存重建时的分布式并发重建的冲突问题？</p>
-</blockquote>
-<h2 id="缓存预热解决方案"><a href="#缓存预热解决方案" class="headerlink" title="缓存预热解决方案"></a>缓存预热解决方案</h2><blockquote>
-<p>面临难题：如何解决高并发场景下，缓存冷启动导致MySQL负载过高，甚至瞬间被打死的问题？</p>
-</blockquote>
-<h2 id="缓存雪崩解决方案"><a href="#缓存雪崩解决方案" class="headerlink" title="缓存雪崩解决方案"></a>缓存雪崩解决方案</h2><blockquote>
-<p>面临难题：如何解决恐怖的缓存雪崩问题？避免给公司带来巨大的经济损失？</p>
-</blockquote>
-<h2 id="缓存穿透解决方案"><a href="#缓存穿透解决方案" class="headerlink" title="缓存穿透解决方案"></a>缓存穿透解决方案</h2><blockquote>
-<p>面临难题：如何解决高并发场景下的缓存穿透问题？避免给MySQL带来过大的压力？</p>
-</blockquote>
-<h2 id="缓存失效解决方案"><a href="#缓存失效解决方案" class="headerlink" title="缓存失效解决方案"></a>缓存失效解决方案</h2><blockquote>
-<p>面临难题：如何解决高并发场景下的缓存失效问题？避免给redis集群带来过大的压力？</p>
-</blockquote>
-]]></content>
-  </entry>
-  <entry>
     <title>(六) docker 私有仓库搭建</title>
     <url>/2019/20190923-4.html</url>
     <content><![CDATA[<h1 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h1><p><code>docker run -d -v /home/registry:/var/lib/registry -p 5000:5000 --restart=always --privileged=true --name registry registry:lastest</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-v 挂载目录</span><br><span class="line">-p 端口映射</span><br><span class="line">--restart=always 在容器退出时总是重启容器</span><br><span class="line">--name 指定容器的名称</span><br></pre></td></tr></table></figure></p>
@@ -281,6 +252,35 @@
 <h3 id="数据测试"><a href="#数据测试" class="headerlink" title="数据测试"></a>数据测试</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@VM_0_6_centos redis]# docker exec -it redis-master /bin/bash</span><br><span class="line">[root@3391a5251e63 /]# vi /etc/redis.conf</span><br><span class="line">[root@3391a5251e63 /]# redis-server /etc/redis.conf &amp;</span><br><span class="line">[1] 28</span><br><span class="line">[root@3391a5251e63 /]# redis-cli</span><br><span class="line">127.0.0.1:6379&gt; set name uiste</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get name</span><br><span class="line">&quot;uiste&quot;</span><br><span class="line">127.0.0.1:6379&gt; info replication</span><br><span class="line"># Replication</span><br><span class="line">role:master</span><br><span class="line">connected_slaves:1</span><br><span class="line">slave0:ip=172.10.0.3,port=6379,state=online,offset=5545,lag=0</span><br><span class="line">master_replid:73aa73a6ca2674e214b2081989f8f5cd642b1774</span><br><span class="line">master_replid2:0000000000000000000000000000000000000000</span><br><span class="line">master_repl_offset:5545</span><br><span class="line">second_repl_offset:-1</span><br><span class="line">repl_backlog_active:1</span><br><span class="line">repl_backlog_size:1048576</span><br><span class="line">repl_backlog_first_byte_offset:1</span><br><span class="line">repl_backlog_histlen:5545</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@VM_0_6_centos ~]# docker exec -it redis-slave /bin/bash</span><br><span class="line">[root@ff01a57b5de5 /]# redis-server /etc/redis.conf &amp;</span><br><span class="line">[1] 73</span><br><span class="line">[root@ff01a57b5de5 /]# redis-cli</span><br><span class="line">127.0.0.1:6379&gt; get name</span><br><span class="line">&quot;uiste&quot;</span><br><span class="line">127.0.0.1:6379&gt; info replication</span><br><span class="line"># Replication</span><br><span class="line">role:slave</span><br><span class="line">master_host:172.10.0.2</span><br><span class="line">master_port:6379</span><br><span class="line">master_link_status:up</span><br><span class="line">master_last_io_seconds_ago:3</span><br><span class="line">master_sync_in_progress:0</span><br><span class="line">slave_repl_offset:5503</span><br><span class="line">slave_priority:100</span><br><span class="line">slave_read_only:1</span><br><span class="line">connected_slaves:0</span><br><span class="line">master_replid:73aa73a6ca2674e214b2081989f8f5cd642b1774</span><br><span class="line">master_replid2:0000000000000000000000000000000000000000</span><br><span class="line">master_repl_offset:5503</span><br><span class="line">second_repl_offset:-1</span><br><span class="line">repl_backlog_active:1</span><br><span class="line">repl_backlog_size:1048576</span><br><span class="line">repl_backlog_first_byte_offset:1</span><br><span class="line">repl_backlog_histlen:5503</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>多个从节点的时候，避免主节点同步压力的增加，可以将其它从节点依赖于从节点同步</p>
+</blockquote>
+]]></content>
+  </entry>
+  <entry>
+    <title>多级缓存架构设计需要解决的问题</title>
+    <url>/2019/20190921-1.html</url>
+    <content><![CDATA[<h2 id="数据库-缓存双写一致性解决方案"><a href="#数据库-缓存双写一致性解决方案" class="headerlink" title="数据库+缓存双写一致性解决方案"></a>数据库+缓存双写一致性解决方案</h2><blockquote>
+<p>面临难题：高并发场景下，如何解决数据库与缓存双写的时候数据不一致的情况？</p>
+</blockquote>
+<h2 id="缓存维度化拆分解决方案"><a href="#缓存维度化拆分解决方案" class="headerlink" title="缓存维度化拆分解决方案"></a>缓存维度化拆分解决方案</h2><blockquote>
+<p>面临难题：如何解决大value缓存的全量更新效率低下问题？</p>
+</blockquote>
+<h2 id="缓存命中率提升解决方案"><a href="#缓存命中率提升解决方案" class="headerlink" title="缓存命中率提升解决方案"></a>缓存命中率提升解决方案</h2><blockquote>
+<p>面临难题：如何将缓存命中率</p>
+</blockquote>
+<h2 id="缓存并发重建冲突解决方案"><a href="#缓存并发重建冲突解决方案" class="headerlink" title="缓存并发重建冲突解决方案"></a>缓存并发重建冲突解决方案</h2><blockquote>
+<p>面临难题：如何解决高并发场景下，缓存重建时的分布式并发重建的冲突问题？</p>
+</blockquote>
+<h2 id="缓存预热解决方案"><a href="#缓存预热解决方案" class="headerlink" title="缓存预热解决方案"></a>缓存预热解决方案</h2><blockquote>
+<p>面临难题：如何解决高并发场景下，缓存冷启动导致MySQL负载过高，甚至瞬间被打死的问题？</p>
+</blockquote>
+<h2 id="缓存雪崩解决方案"><a href="#缓存雪崩解决方案" class="headerlink" title="缓存雪崩解决方案"></a>缓存雪崩解决方案</h2><blockquote>
+<p>面临难题：如何解决恐怖的缓存雪崩问题？避免给公司带来巨大的经济损失？</p>
+</blockquote>
+<h2 id="缓存穿透解决方案"><a href="#缓存穿透解决方案" class="headerlink" title="缓存穿透解决方案"></a>缓存穿透解决方案</h2><blockquote>
+<p>面临难题：如何解决高并发场景下的缓存穿透问题？避免给MySQL带来过大的压力？</p>
+</blockquote>
+<h2 id="缓存失效解决方案"><a href="#缓存失效解决方案" class="headerlink" title="缓存失效解决方案"></a>缓存失效解决方案</h2><blockquote>
+<p>面临难题：如何解决高并发场景下的缓存失效问题？避免给redis集群带来过大的压力？</p>
 </blockquote>
 ]]></content>
   </entry>

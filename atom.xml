@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.uiste.com/"/>
-  <updated>2019-11-27T09:00:46.587Z</updated>
+  <updated>2019-11-26T07:33:35.125Z</updated>
   <id>http://blog.uiste.com/</id>
   
   <author>
@@ -15,28 +15,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>多级缓存架构设计需要解决的问题</title>
-    <link href="http://blog.uiste.com/2019/20190924-1.html"/>
-    <id>http://blog.uiste.com/2019/20190924-1.html</id>
-    <published>2019-09-23T16:26:03.000Z</published>
-    <updated>2019-11-27T09:00:46.587Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="数据库-缓存双写一致性解决方案"><a href="#数据库-缓存双写一致性解决方案" class="headerlink" title="数据库+缓存双写一致性解决方案"></a>数据库+缓存双写一致性解决方案</h2><blockquote><p>面临难题：高并发场景下，如何解决数据库与缓存双写的时候数据不一致的情况？</p></blockquote><h2 id="缓存维度化拆分解决方案"><a href="#缓存维度化拆分解决方案" class="headerlink" title="缓存维度化拆分解决方案"></a>缓存维度化拆分解决方案</h2><blockquote><p>面临难题：如何解决大value缓存的全量更新效率低下问题？</p></blockquote><h2 id="缓存命中率提升解决方案"><a href="#缓存命中率提升解决方案" class="headerlink" title="缓存命中率提升解决方案"></a>缓存命中率提升解决方案</h2><blockquote><p>面临难题：如何将缓存命中率</p></blockquote><h2 id="缓存并发重建冲突解决方案"><a href="#缓存并发重建冲突解决方案" class="headerlink" title="缓存并发重建冲突解决方案"></a>缓存并发重建冲突解决方案</h2><blockquote><p>面临难题：如何解决高并发场景下，缓存重建时的分布式并发重建的冲突问题？</p></blockquote><h2 id="缓存预热解决方案"><a href="#缓存预热解决方案" class="headerlink" title="缓存预热解决方案"></a>缓存预热解决方案</h2><blockquote><p>面临难题：如何解决高并发场景下，缓存冷启动导致MySQL负载过高，甚至瞬间被打死的问题？</p></blockquote><h2 id="缓存雪崩解决方案"><a href="#缓存雪崩解决方案" class="headerlink" title="缓存雪崩解决方案"></a>缓存雪崩解决方案</h2><blockquote><p>面临难题：如何解决恐怖的缓存雪崩问题？避免给公司带来巨大的经济损失？</p></blockquote><h2 id="缓存穿透解决方案"><a href="#缓存穿透解决方案" class="headerlink" title="缓存穿透解决方案"></a>缓存穿透解决方案</h2><blockquote><p>面临难题：如何解决高并发场景下的缓存穿透问题？避免给MySQL带来过大的压力？</p></blockquote><h2 id="缓存失效解决方案"><a href="#缓存失效解决方案" class="headerlink" title="缓存失效解决方案"></a>缓存失效解决方案</h2><blockquote><p>面临难题：如何解决高并发场景下的缓存失效问题？避免给redis集群带来过大的压力？</p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;数据库-缓存双写一致性解决方案&quot;&gt;&lt;a href=&quot;#数据库-缓存双写一致性解决方案&quot; class=&quot;headerlink&quot; title=&quot;数据库+缓存双写一致性解决方案&quot;&gt;&lt;/a&gt;数据库+缓存双写一致性解决方案&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;面临难题：
-      
-    
-    </summary>
-    
-    
-  </entry>
   
   <entry>
     <title>(六) docker 私有仓库搭建</title>
@@ -161,6 +139,28 @@
       
       
         &lt;h1 id=&quot;环境相关&quot;&gt;&lt;a href=&quot;#环境相关&quot; class=&quot;headerlink&quot; title=&quot;环境相关&quot;&gt;&lt;/a&gt;环境相关&lt;/h1&gt;&lt;h2 id=&quot;docker-安装参考&quot;&gt;&lt;a href=&quot;#docker-安装参考&quot; class=&quot;headerlink&quot; ti
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>多级缓存架构设计需要解决的问题</title>
+    <link href="http://blog.uiste.com/2019/20190921-1.html"/>
+    <id>http://blog.uiste.com/2019/20190921-1.html</id>
+    <published>2019-09-20T16:26:03.000Z</published>
+    <updated>2019-12-06T14:46:16.034Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="数据库-缓存双写一致性解决方案"><a href="#数据库-缓存双写一致性解决方案" class="headerlink" title="数据库+缓存双写一致性解决方案"></a>数据库+缓存双写一致性解决方案</h2><blockquote><p>面临难题：高并发场景下，如何解决数据库与缓存双写的时候数据不一致的情况？</p></blockquote><h2 id="缓存维度化拆分解决方案"><a href="#缓存维度化拆分解决方案" class="headerlink" title="缓存维度化拆分解决方案"></a>缓存维度化拆分解决方案</h2><blockquote><p>面临难题：如何解决大value缓存的全量更新效率低下问题？</p></blockquote><h2 id="缓存命中率提升解决方案"><a href="#缓存命中率提升解决方案" class="headerlink" title="缓存命中率提升解决方案"></a>缓存命中率提升解决方案</h2><blockquote><p>面临难题：如何将缓存命中率</p></blockquote><h2 id="缓存并发重建冲突解决方案"><a href="#缓存并发重建冲突解决方案" class="headerlink" title="缓存并发重建冲突解决方案"></a>缓存并发重建冲突解决方案</h2><blockquote><p>面临难题：如何解决高并发场景下，缓存重建时的分布式并发重建的冲突问题？</p></blockquote><h2 id="缓存预热解决方案"><a href="#缓存预热解决方案" class="headerlink" title="缓存预热解决方案"></a>缓存预热解决方案</h2><blockquote><p>面临难题：如何解决高并发场景下，缓存冷启动导致MySQL负载过高，甚至瞬间被打死的问题？</p></blockquote><h2 id="缓存雪崩解决方案"><a href="#缓存雪崩解决方案" class="headerlink" title="缓存雪崩解决方案"></a>缓存雪崩解决方案</h2><blockquote><p>面临难题：如何解决恐怖的缓存雪崩问题？避免给公司带来巨大的经济损失？</p></blockquote><h2 id="缓存穿透解决方案"><a href="#缓存穿透解决方案" class="headerlink" title="缓存穿透解决方案"></a>缓存穿透解决方案</h2><blockquote><p>面临难题：如何解决高并发场景下的缓存穿透问题？避免给MySQL带来过大的压力？</p></blockquote><h2 id="缓存失效解决方案"><a href="#缓存失效解决方案" class="headerlink" title="缓存失效解决方案"></a>缓存失效解决方案</h2><blockquote><p>面临难题：如何解决高并发场景下的缓存失效问题？避免给redis集群带来过大的压力？</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;数据库-缓存双写一致性解决方案&quot;&gt;&lt;a href=&quot;#数据库-缓存双写一致性解决方案&quot; class=&quot;headerlink&quot; title=&quot;数据库+缓存双写一致性解决方案&quot;&gt;&lt;/a&gt;数据库+缓存双写一致性解决方案&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;面临难题：
       
     
     </summary>
