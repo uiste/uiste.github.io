@@ -4883,7 +4883,7 @@ chmod -R 644 /home/www/.ssh/authorized_keys
       </tags>
   </entry>
   <entry>
-    <title>初识Linux</title>
+    <title>Linux</title>
     <url>/2015/20150924-2.html</url>
     <content><![CDATA[<h2 id="Linux目录结构"><a href="#Linux目录结构" class="headerlink" title="Linux目录结构"></a>Linux目录结构</h2><p>bin 和 sbin  ：存放命令的<br>/dev        ：存放外设文件<br>/etc        ：存放配置文件<br>/home       ：普通用户的家目录(主目录)<br>/root       ：超级管理员的家目录<br>/mnt        ：挂载点<br>/usr        ：安装程序<br>/var        ：相当于D、E盘，用来存储一些文件站点</p>
 <h2 id="Linux常用命令"><a href="#Linux常用命令" class="headerlink" title="Linux常用命令"></a>Linux常用命令</h2><p>passwd    更改密码<br>ls    、ls -al *.png    查看目录中的内容<br>cd    进入目录<br>exit    退出当前工作环境<br>pwd    获取当前工作目录<br>su或su -    获取管理员权限<br>su - uiste    获取普通用户的权限<br>runlevel    获取运行级别<br>init N    改变运行等级<br>startx 和init5    启动图形化界面<br>clear    清空终端</p>
