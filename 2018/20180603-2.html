@@ -100,16 +100,17 @@
 
 
 
-  <meta name="description" content="Stay Hungry，Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="uiste">
-<meta property="og:url" content="http://blog.uiste.com/page/6/index.html">
+  <meta name="description" content="特性Swoole 使用纯 C 语言编写，提供了 PHP 语言的异步多线程服务器  事件驱动的异步编程模式 异步TCP/UDP/HTTP/WebSocket/HTTP2协议的服务器端/客户端 支持IPv4/IPv6/UnixSocket/TCP/UDP 支持SSL/TLS隧道加密 支持并发百万TCP长连接 支持毫秒定时器 支持异步/同步/协程 支持CPU亲和性设置/守护进程   swoole_ser">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(2) swoole 特性、原理">
+<meta property="og:url" content="http://blog.uiste.com/2018/20180603-2.html">
 <meta property="og:site_name" content="uiste">
-<meta property="og:description" content="Stay Hungry，Stay Foolish">
+<meta property="og:description" content="特性Swoole 使用纯 C 语言编写，提供了 PHP 语言的异步多线程服务器  事件驱动的异步编程模式 异步TCP/UDP/HTTP/WebSocket/HTTP2协议的服务器端/客户端 支持IPv4/IPv6/UnixSocket/TCP/UDP 支持SSL/TLS隧道加密 支持并发百万TCP长连接 支持毫秒定时器 支持异步/同步/协程 支持CPU亲和性设置/守护进程   swoole_ser">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-12-08T08:37:11.598Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="uiste">
-<meta name="twitter:description" content="Stay Hungry，Stay Foolish">
+<meta name="twitter:title" content="(2) swoole 特性、原理">
+<meta name="twitter:description" content="特性Swoole 使用纯 C 语言编写，提供了 PHP 语言的异步多线程服务器  事件驱动的异步编程模式 异步TCP/UDP/HTTP/WebSocket/HTTP2协议的服务器端/客户端 支持IPv4/IPv6/UnixSocket/TCP/UDP 支持SSL/TLS隧道加密 支持并发百万TCP长连接 支持毫秒定时器 支持异步/同步/协程 支持CPU亲和性设置/守护进程   swoole_ser">
 
 
 
@@ -118,7 +119,7 @@
 
 
 
-  <link rel="canonical" href="http://blog.uiste.com/page/6/">
+  <link rel="canonical" href="http://blog.uiste.com/2018/20180603-2.html">
 
 
 
@@ -128,7 +129,7 @@
   };
 </script>
 
-  <title>uiste</title>
+  <title>(2) swoole 特性、原理 | uiste</title>
   
 
 
@@ -175,8 +176,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -301,9 +301,9 @@
           
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -318,7 +318,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2018/20180402-2.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2018/20180603-2.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -335,11 +335,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/20180402-2.html" itemprop="url">
-                  Mysql高级-体系结构
-                </a>
+          <h2 class="post-title" itemprop="name headline">(2) swoole 特性、原理
               
             
           </h2>
@@ -364,7 +360,7 @@
                 
               
 
-              <time title="创建时间：2018-04-02 12:12:29" itemprop="dateCreated datePublished" datetime="2018-04-02T12:12:29+08:00">2018-04-02</time>
+              <time title="创建时间：2018-06-03 17:20:47" itemprop="dateCreated datePublished" datetime="2018-06-03T17:20:47+08:00">2018-06-03</time>
             
 
             
@@ -398,32 +394,69 @@
       
 
       
-        
-          
-          Mysql是由SQL接口，解析器，优化器，缓存，存储引擎组成的。
+        <h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1><p>Swoole 使用纯 C 语言编写，提供了 PHP 语言的异步多线程服务器</p>
+<ol>
+<li>事件驱动的异步编程模式</li>
+<li>异步TCP/UDP/HTTP/WebSocket/HTTP2协议的服务器端/客户端</li>
+<li>支持IPv4/IPv6/UnixSocket/TCP/UDP</li>
+<li>支持SSL/TLS隧道加密</li>
+<li>支持并发百万TCP长连接</li>
+<li>支持毫秒定时器</li>
+<li>支持异步/同步/协程</li>
+<li>支持CPU亲和性设置/守护进程</li>
+</ol>
+<blockquote>
+<p>swoole_server是事件驱动的。我们在使用的过程中不需要关注底层是怎么实现的，底层是C写的php只是做了个传递的作用，所以只需要对底层相应的动作注册相应的回调，在回调函数中处理业务逻辑即可</p>
+</blockquote>
+<blockquote>
+<p>参数$serv是我们一开始创建的swoole_server对象，<br>参数$fd是唯一标识，用于区分不同的客户端，同时该参数是1-1600万之间可以复用的整数。简单解释下复用：假设现在客户端1、2、3处于连接中，客户端4要连接的话$fd就是4，但是不巧的是客户端3连接不稳定，断掉了，客户端4连接到server的话，$fd就是3。</p>
+</blockquote>
+<blockquote>
+<p>常用socket函数来创建TCP连接，用CURL库来创建Http连接。同样的，为了简化操作，Swoole也提供了同样的Client类用于实现客户端的功能，并且增加了异步非阻塞的模式，让用户在客户端也能使用事件循环</p>
+</blockquote>
+<h1 id="通讯协议"><a href="#通讯协议" class="headerlink" title="通讯协议"></a>通讯协议</h1><table>
+<thead>
+<tr>
+<th>特点</th>
+<th style="text-align:center">TCP</th>
+<th style="text-align:center">UDP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>连接性</td>
+<td style="text-align:center">面向连接</td>
+<td style="text-align:center">面向非连接</td>
+</tr>
+<tr>
+<td>可靠性</td>
+<td style="text-align:center">可靠</td>
+<td style="text-align:center">不可靠</td>
+</tr>
+<tr>
+<td>传输效率</td>
+<td style="text-align:center">慢</td>
+<td style="text-align:center">快</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>1、TCP面向连接（如打电话要先拨号建立连接）;UDP是无连接的，即发送数据之前不需要建立连接<br>2、TCP提供可靠的服务。也就是说，通过TCP连接传送的数据，无差错，不丢失，不重复，且按序到达;UDP尽最大努力交付，即不保证可靠交付<br>3、tcp通过校验和，重传控制，序号标识，滑动窗口、确认应答实现可靠传输。如丢包时的重发控制，还可以对次序乱掉的分包进行顺序控制。<br>3、UDP具有较好的实时性，工作效率比TCP高，适用于对高速传输和实时性有较高的通信或广播通信。<br>4、TCP对系统资源要求较多，UDP对系统资源要求较少。</p>
+</blockquote>
+<h1 id="创建server的步骤"><a href="#创建server的步骤" class="headerlink" title="创建server的步骤:"></a>创建server的步骤:</h1><p>1、实例化Server对象<br>2、设置运行时参数<br>3、注册事件回调函数<br>4、启动服务器</p>
+<h1 id="心跳"><a href="#心跳" class="headerlink" title="心跳"></a>心跳</h1><p>1、客户端定时给服务端发送点数据，防止连接由于长时间没有通讯而被某些节点的防火墙关闭导致连接断开的情况。</p>
+<p>2、服务端可以通过心跳来判断客户端是否在线，如果客户端在规定时间内没有发来任何数据，就认为客户端下线。这样可以检测到客户端由于极端情况(断电、断网等)下线的事件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">heartbeat_check_interval： 服务器定时检测在线列表的时间</span><br><span class="line">heartbeat_idle_time：       连接最大的空闲时间 （如果最后一个心跳包的时间与当前时间之差超过这个值，则认为该连接失效）</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$server-&gt;set([</span><br><span class="line">    <span class="string">'worker_num'</span>=&gt;<span class="number">1</span>, <span class="comment">//设置进程</span></span><br><span class="line">    <span class="string">'heartbeat_idle_time'</span>=&gt;<span class="number">10</span>,<span class="comment">//连接最大的空闲时间</span></span><br><span class="line">    <span class="string">'heartbeat_check_interval'</span>=&gt;<span class="number">3</span> <span class="comment">//服务器定时检查</span></span><br><span class="line">]);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>建议 heartbeat_idle_time 为 heartbeat_check_interval 的两倍多一点。<br>这个两倍是为了进行容错，允许丢一个包而多一点是考虑到网络的延时。</p>
+</blockquote>
+<h1 id="粘包"><a href="#粘包" class="headerlink" title="粘包"></a>粘包</h1><p>TCP 粘包是指发送方发送的若干包数据 到 接收方接收时粘成一包，从接收缓冲区看，后一包数据的头紧接着前一包数据的尾。</p>
+<p>发送方：发送方需要等缓冲区满才发送出去，造成粘包<br>接收方：接收方不及时接收缓冲区的包，造成多个包接收</p>
+<p>通过约定结束符，来确定包数据是否发送完毕<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">open_eof_check=true 开启</span><br><span class="line">package_eof = &apos;\r\n&apos; 来设置一个完整数据结尾字符</span><br><span class="line">open_eof_split =&gt; true 设置自动拆分</span><br></pre></td></tr></table></figure></p>
+<h1 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h1><h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p>1、进程之间不共享任何状态<br>2、进程的调度由操作系统完成<br>3、每个进程都有自己独立的内存空间<br>4、进程间通讯主要是通过信号传递的方式来实现的，实现方式有多种，信号量、管道、事件等，任何一种方式的通讯效率都需要过内核，导致通讯效率比较低<br>5、由于是独立的内存空间，上下文切换的时候需要保存先调用栈的信息、cpu各寄存器的信息、虚拟内存、以及打开的相关句柄等信息，所以导致上下文进程间切换开销很大，通讯麻烦。</p>
+<h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><p>1、线程之间共享变量，解决了通讯麻烦的问题对于变量的访问需要锁<br>2、一个进程可以拥有多个线程，但是其中每个线程会共享父进程像操作系统申请资源，这个包括虚拟内存、文件等，由于是共享资源，所以创建线程所需要的系统资源占用比进程小很多，相应的可创建的线程数量也变得相对多很多。<br>3、另外在调度方面也是由于内存是共享的，所以上下文切换的时候需要保存的东西就像对少一些，这样一来上下文的切换也变得高效。</p>
 
-Connectors
-指的是不同语言中与SQL的交互
-Management Serveices &amp; Utilities
-系统管理和控制工具
-Connection Pool
-连接池
-管理缓冲用户连接，线程处理等需要缓存的需求。
-SQL Interface: SQL接口
-接受用户的SQL命令，并且返回用户需要查询的结果。比如select from就是调用SQL Interface。
-Parser: 解析器。
-SQL命令传递到解析器的时候会被解析器验证和解析。解析器是由Lex和YACC实现的，是一个很长的脚本。
-主要功能：
-
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/20180402-2.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
       
     </div>
 
@@ -443,162 +476,32 @@ SQL命令传递到解析器的时候会被解析器验证和解析。解析器�
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2018/20180402-1.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="uiste">
-      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
-      <meta itemprop="image" content="/images/default_avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="uiste">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/20180402-1.html" itemprop="url">
-                  NoSql
-                </a>
-              
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
+              <a href="/2018/20180603-1.html" rel="next" title="(1) swoole 环境搭建">
+                <i class="fa fa-chevron-left"></i> (1) swoole 环境搭建
+              </a>
             
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/20181102-1.html" rel="prev" title="truffle geth 启动Ethereum测试节点">
+                truffle geth 启动Ethereum测试节点 <i class="fa fa-chevron-right"></i>
+              </a>
             
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-04-02 09:43:44" itemprop="dateCreated datePublished" datetime="2018-04-02T09:43:44+08:00">2018-04-02</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-          memcache
-Page为内存分配的最小单位。
-
-Memcached 的内存分配以page为单位，默认情况下一个page是1M，可以通过-I参数在启动时指定。如果需要申请内存 时，memcached会划分出一个新的page并分配给需要的slab区域。page一旦被分配在重启前不会被回收或者重新分配
-
-
-Slabs划分数据空间。
-
-Memcached 并不是将所有大小的数据都放在一起的，而是预先将数据空间划分为一系列slabs，每个slab只负责一定范围内的数据存储。每个slab只存储大于其上一个slab的size并小于或者等于自己最大size的数据。例如：slab 3只存储大小介于137 到
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/20180402-1.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -608,473 +511,15 @@ Memcached 并不是将所有大小的数据都放在一起的，而是预先将�
   </article>
 
 
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2018/20180401-2.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="uiste">
-      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
-      <meta itemprop="image" content="/images/default_avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="uiste">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/20180401-2.html" itemprop="url">
-                  Linux shell
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-04-01 19:16:33" itemprop="dateCreated datePublished" datetime="2018-04-01T19:16:33+08:00">2018-04-01</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          权限
-普通用户只能追加无法删除chattr +a /var/log/access.log
-
-r w x 4 2 1
-
-
-磁盘文件统计
-df 查看磁盘占用
-du 统计文件占用
-fdisk 分区管理
-mount 磁盘挂载
-umount 磁盘卸载
-mkfs.ext4 磁盘格式化
-
-查找find12345678910111213find . -mmin -60 		修改时间为最近60分钟内的find . -mmin +5  		修改时间为5分钟之前的find /tmp -atime -1 	查找/tmp目录最近1天(24小时)内被访问过的文件find . -type f 			查找本目录下的所有文件f
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/20180401-2.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2018/20180401-1.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="uiste">
-      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
-      <meta itemprop="image" content="/images/default_avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="uiste">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/20180401-1.html" itemprop="url">
-                  PHP细节-03
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-04-01 08:55:26" itemprop="dateCreated datePublished" datetime="2018-04-01T08:55:26+08:00">2018-04-01</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          时间复杂度
-时间复杂度的算法具体步骤是：⑴ 找出算法中的基本语句；算法中执行次数最多的那条语句就是基本语句，通常是最内层循环的循环体。⑵ 计算基本语句的执行次数的数量级；只需计算基本语句执行次数的数量级，这就意味着只要保证基本语句执行次数的函数中的最高次幂正确即可，可以忽略所有低次幂和最高次幂的系数。这样能够简化算法分析，并且使注意力集中在最重要的一点上：增长率。⑶ 用大Ο记号表示算法的时间性能。将基本语句执行次数的数量级放入大Ο记号中。如果算法中包含嵌套的循环，则基本语句通常是最内层的循环体，如果算法中包含并列的循环，则将并列循环的时间复杂度相加。例如：12345for (i=1; i&lt
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/20180401-1.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2018/20180331-2.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="uiste">
-      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
-      <meta itemprop="image" content="/images/default_avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="uiste">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/20180331-2.html" itemprop="url">
-                  PHP细节-02
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-31 22:44:26" itemprop="dateCreated datePublished" datetime="2018-03-31T22:44:26+08:00">2018-03-31</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          文件
-二进制文件读写 pack() unpack()
-系统函数判断图像类型：exif_imagetype()
-文件指针
-1234fseek() 在文件指针中定位ftell() 返回文件指针读写的位置rewind() 倒回文件指针的位置feof() 测试文件指针是否到了文件结束的位置
-
-超大文件上传
-12swfUpload、uploadify 等flash组件XMLHTTPRequest 大文件断点续传+分段上传 ajax2.0
-
-
-PHP运行原理
-UA -&gt; apache -&gt; SAPI -&gt; zend engine -&gt; php script
-
-PHP运行模式
-CLI
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/20180331-2.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/">33</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
-
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -1095,8 +540,17 @@ CLI
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -1364,6 +818,22 @@ CLI
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#特性"><span class="nav-number">1.</span> <span class="nav-text">特性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#通讯协议"><span class="nav-number">2.</span> <span class="nav-text">通讯协议</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建server的步骤"><span class="nav-number">3.</span> <span class="nav-text">创建server的步骤:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#心跳"><span class="nav-number">4.</span> <span class="nav-text">心跳</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#粘包"><span class="nav-number">5.</span> <span class="nav-text">粘包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进程与线程"><span class="nav-number">6.</span> <span class="nav-text">进程与线程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#进程"><span class="nav-number">6.1.</span> <span class="nav-text">进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程"><span class="nav-number">6.2.</span> <span class="nav-text">线程</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -1497,6 +967,10 @@ CLI
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
 
   
 

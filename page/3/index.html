@@ -903,7 +903,7 @@ Whi
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2018/20180511-5.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2018/20180603-2.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="uiste">
@@ -922,8 +922,8 @@ Whi
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/20180511-5.html" itemprop="url">
-                  【5】区块链-以太坊truffle 框架
+                <a class="post-title-link" href="/2018/20180603-2.html" itemprop="url">
+                  (2) swoole 特性、原理
                 </a>
               
             
@@ -949,7 +949,7 @@ Whi
                 
               
 
-              <time title="创建时间：2018-05-11 12:16:29" itemprop="dateCreated datePublished" datetime="2018-05-11T12:16:29+08:00">2018-05-11</time>
+              <time title="创建时间：2018-06-03 17:20:47" itemprop="dateCreated datePublished" datetime="2018-06-03T17:20:47+08:00">2018-06-03</time>
             
 
             
@@ -985,14 +985,26 @@ Whi
       
         
           
-          TestRPC安装安装Ethereum客户端来支持JSON RPC API调用开发环境，推荐使用EthereumJS。安装命令：
-sudo npm install -g ethereumjs-testrpc
-这里的安装如果无法下载，请参考上一篇博客中安装truffle中使用淘宝镜像的方法。此步安装遇到很多问题，也尝试了各种方法，比如gcc依赖的安装升级，Python的安装，npm的升级，git的配置，还有node版本是否影响。虽然最终把问题给解决了，但修改的地方太多具体什么原因导致安装过程中出现那么多问题，还有待大家去尝试分析。
-在执行以上命令之后，只是把ethereumjs-testrpc安
+          特性Swoole 使用纯 C 语言编写，提供了 PHP 语言的异步多线程服务器
+
+事件驱动的异步编程模式
+异步TCP/UDP/HTTP/WebSocket/HTTP2协议的服务器端/客户端
+支持IPv4/IPv6/UnixSocket/TCP/UDP
+支持SSL/TLS隧道加密
+支持并发百万TCP长连接
+支持毫秒定时器
+支持异步/同步/协程
+支持CPU亲和性设置/守护进程
+
+
+swoole_server是事件驱动的。我们在使用的过程中不需要关注底层是怎么实现的，底层是C写的php只是做了个传递的作用，所以只需要对底层相应的动作注册相应的回调，在回调函数中处理业务逻辑即可
+
+
+参数$serv是我
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/20180511-5.html#more" rel="contents">
+            <a class="btn" href="/2018/20180603-2.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>

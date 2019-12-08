@@ -530,6 +530,91 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">geth --datadir &quot;./chain&quot; --identity &quot;mydev&quot; --rpc --rpcapi &quot;db,eth,net,web3,personal,web3&quot; --nodiscover --rpccorsdomain &quot;*&quot; --networkid 100 console 2&gt;&gt;eth_output.log</span><br><span class="line"></span><br><span class="line">geth --dev --rpc --rpccorsdomain &quot;*&quot; --rpcaddr &quot;0.0.0.0&quot; --rpcport &quot;8545&quot; --mine --rpcapi &quot;eth,txpool,web3&quot;</span><br><span class="line"></span><br><span class="line">geth --testnet --rpc --rpccorsdomain &quot;*&quot; --rpcaddr &quot;0.0.0.0&quot; --rpcport &quot;8545&quot;</span><br></pre></td></tr></table></figure>]]></content>
   </entry>
   <entry>
+    <title>(2) swoole 特性、原理</title>
+    <url>/2018/20180603-2.html</url>
+    <content><![CDATA[<h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1><p>Swoole 使用纯 C 语言编写，提供了 PHP 语言的异步多线程服务器</p>
+<ol>
+<li>事件驱动的异步编程模式</li>
+<li>异步TCP/UDP/HTTP/WebSocket/HTTP2协议的服务器端/客户端</li>
+<li>支持IPv4/IPv6/UnixSocket/TCP/UDP</li>
+<li>支持SSL/TLS隧道加密</li>
+<li>支持并发百万TCP长连接</li>
+<li>支持毫秒定时器</li>
+<li>支持异步/同步/协程</li>
+<li>支持CPU亲和性设置/守护进程</li>
+</ol>
+<blockquote>
+<p>swoole_server是事件驱动的。我们在使用的过程中不需要关注底层是怎么实现的，底层是C写的php只是做了个传递的作用，所以只需要对底层相应的动作注册相应的回调，在回调函数中处理业务逻辑即可</p>
+</blockquote>
+<blockquote>
+<p>参数$serv是我们一开始创建的swoole_server对象，<br>参数$fd是唯一标识，用于区分不同的客户端，同时该参数是1-1600万之间可以复用的整数。简单解释下复用：假设现在客户端1、2、3处于连接中，客户端4要连接的话$fd就是4，但是不巧的是客户端3连接不稳定，断掉了，客户端4连接到server的话，$fd就是3。</p>
+</blockquote>
+<blockquote>
+<p>常用socket函数来创建TCP连接，用CURL库来创建Http连接。同样的，为了简化操作，Swoole也提供了同样的Client类用于实现客户端的功能，并且增加了异步非阻塞的模式，让用户在客户端也能使用事件循环</p>
+</blockquote>
+<h1 id="通讯协议"><a href="#通讯协议" class="headerlink" title="通讯协议"></a>通讯协议</h1><table>
+<thead>
+<tr>
+<th>特点</th>
+<th style="text-align:center">TCP</th>
+<th style="text-align:center">UDP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>连接性</td>
+<td style="text-align:center">面向连接</td>
+<td style="text-align:center">面向非连接</td>
+</tr>
+<tr>
+<td>可靠性</td>
+<td style="text-align:center">可靠</td>
+<td style="text-align:center">不可靠</td>
+</tr>
+<tr>
+<td>传输效率</td>
+<td style="text-align:center">慢</td>
+<td style="text-align:center">快</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>1、TCP面向连接（如打电话要先拨号建立连接）;UDP是无连接的，即发送数据之前不需要建立连接<br>2、TCP提供可靠的服务。也就是说，通过TCP连接传送的数据，无差错，不丢失，不重复，且按序到达;UDP尽最大努力交付，即不保证可靠交付<br>3、tcp通过校验和，重传控制，序号标识，滑动窗口、确认应答实现可靠传输。如丢包时的重发控制，还可以对次序乱掉的分包进行顺序控制。<br>3、UDP具有较好的实时性，工作效率比TCP高，适用于对高速传输和实时性有较高的通信或广播通信。<br>4、TCP对系统资源要求较多，UDP对系统资源要求较少。</p>
+</blockquote>
+<h1 id="创建server的步骤"><a href="#创建server的步骤" class="headerlink" title="创建server的步骤:"></a>创建server的步骤:</h1><p>1、实例化Server对象<br>2、设置运行时参数<br>3、注册事件回调函数<br>4、启动服务器</p>
+<h1 id="心跳"><a href="#心跳" class="headerlink" title="心跳"></a>心跳</h1><p>1、客户端定时给服务端发送点数据，防止连接由于长时间没有通讯而被某些节点的防火墙关闭导致连接断开的情况。</p>
+<p>2、服务端可以通过心跳来判断客户端是否在线，如果客户端在规定时间内没有发来任何数据，就认为客户端下线。这样可以检测到客户端由于极端情况(断电、断网等)下线的事件。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">heartbeat_check_interval： 服务器定时检测在线列表的时间</span><br><span class="line">heartbeat_idle_time：       连接最大的空闲时间 （如果最后一个心跳包的时间与当前时间之差超过这个值，则认为该连接失效）</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">$server-&gt;set([</span><br><span class="line">    <span class="string">'worker_num'</span>=&gt;<span class="number">1</span>, <span class="comment">//设置进程</span></span><br><span class="line">    <span class="string">'heartbeat_idle_time'</span>=&gt;<span class="number">10</span>,<span class="comment">//连接最大的空闲时间</span></span><br><span class="line">    <span class="string">'heartbeat_check_interval'</span>=&gt;<span class="number">3</span> <span class="comment">//服务器定时检查</span></span><br><span class="line">]);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>建议 heartbeat_idle_time 为 heartbeat_check_interval 的两倍多一点。<br>这个两倍是为了进行容错，允许丢一个包而多一点是考虑到网络的延时。</p>
+</blockquote>
+<h1 id="粘包"><a href="#粘包" class="headerlink" title="粘包"></a>粘包</h1><p>TCP 粘包是指发送方发送的若干包数据 到 接收方接收时粘成一包，从接收缓冲区看，后一包数据的头紧接着前一包数据的尾。</p>
+<p>发送方：发送方需要等缓冲区满才发送出去，造成粘包<br>接收方：接收方不及时接收缓冲区的包，造成多个包接收</p>
+<p>通过约定结束符，来确定包数据是否发送完毕<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">open_eof_check=true 开启</span><br><span class="line">package_eof = &apos;\r\n&apos; 来设置一个完整数据结尾字符</span><br><span class="line">open_eof_split =&gt; true 设置自动拆分</span><br></pre></td></tr></table></figure></p>
+<h1 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h1><h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p>1、进程之间不共享任何状态<br>2、进程的调度由操作系统完成<br>3、每个进程都有自己独立的内存空间<br>4、进程间通讯主要是通过信号传递的方式来实现的，实现方式有多种，信号量、管道、事件等，任何一种方式的通讯效率都需要过内核，导致通讯效率比较低<br>5、由于是独立的内存空间，上下文切换的时候需要保存先调用栈的信息、cpu各寄存器的信息、虚拟内存、以及打开的相关句柄等信息，所以导致上下文进程间切换开销很大，通讯麻烦。</p>
+<h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><p>1、线程之间共享变量，解决了通讯麻烦的问题对于变量的访问需要锁<br>2、一个进程可以拥有多个线程，但是其中每个线程会共享父进程像操作系统申请资源，这个包括虚拟内存、文件等，由于是共享资源，所以创建线程所需要的系统资源占用比进程小很多，相应的可创建的线程数量也变得相对多很多。<br>3、另外在调度方面也是由于内存是共享的，所以上下文切换的时候需要保存的东西就像对少一些，这样一来上下文的切换也变得高效。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>(1) swoole 环境搭建</title>
+    <url>/2018/20180603-1.html</url>
+    <content><![CDATA[<h1 id="PHP-环境搭建"><a href="#PHP-环境搭建" class="headerlink" title="PHP 环境搭建"></a>PHP 环境搭建</h1><h2 id="PHP环境编译安装"><a href="#PHP环境编译安装" class="headerlink" title="PHP环境编译安装"></a>PHP环境编译安装</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum -y  install  gcc  gcc-c++ libxml2-devel m4 autoconf pcre-devel make cmake bison openssl openssl-devel</span><br><span class="line"></span><br><span class="line">wget  http://mirrors.sohu.com/php/php-7.2.15.tar.gz</span><br><span class="line"></span><br><span class="line">tar -zxvf php-7.2.15.tar.gz  &amp;&amp; cd php-7.2.15</span><br><span class="line"></span><br><span class="line">./configure --prefix=/usr/local/php \</span><br><span class="line">--prefix=/usr/local/php \</span><br><span class="line">--with-config-file-path=/usr/local/php/etc  \</span><br><span class="line">--with-libxml-dir=/usr  \</span><br><span class="line">--with-iconv-dir \</span><br><span class="line">--with-mhash \</span><br><span class="line">--with-openssl \</span><br><span class="line">--with-mysqli=shared,mysqlnd \</span><br><span class="line">--with-pdo-mysql=shared,mysqlnd   \</span><br><span class="line">--with-zlib \</span><br><span class="line">--enable-zip \</span><br><span class="line">--enable-inline-optimization \</span><br><span class="line">--disable-debug \</span><br><span class="line">--disable-rpath \</span><br><span class="line">--enable-shared \</span><br><span class="line">--enable-xml \</span><br><span class="line">--enable-bcmath  \</span><br><span class="line">--enable-shmop \</span><br><span class="line">--enable-sysvsem \</span><br><span class="line">--enable-mbstring \</span><br><span class="line">--enable-mbregex  \</span><br><span class="line">--enable-mbregex-backtrack \</span><br><span class="line">--enable-pcntl \</span><br><span class="line">--enable-sockets \</span><br><span class="line">--without-pear \</span><br><span class="line">--with-gettext \</span><br><span class="line">--enable-session</span><br><span class="line"></span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<h2 id="添加-PHP-命令到环境变量"><a href="#添加-PHP-命令到环境变量" class="headerlink" title="添加 PHP 命令到环境变量"></a>添加 PHP 命令到环境变量</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># vim /etc/profile</span><br><span class="line"></span><br><span class="line">在末尾加入</span><br><span class="line"></span><br><span class="line">PATH=$PATH:/usr/local/php/bin</span><br><span class="line">export PATH</span><br><span class="line"></span><br><span class="line">要使改动立即生效执行</span><br><span class="line"># source /etc/profile</span><br><span class="line"></span><br><span class="line">查看环境变量</span><br><span class="line"># echo $PATH</span><br><span class="line"># php -v</span><br></pre></td></tr></table></figure>
+<h2 id="复制配置文件"><a href="#复制配置文件" class="headerlink" title="复制配置文件"></a>复制配置文件</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@uiste php-7.2.15]# php -i | grep Configuration</span><br><span class="line">Configuration File (php.ini) Path =&gt; /usr/local/php/etc</span><br><span class="line">Loaded Configuration File =&gt; (none)</span><br><span class="line">Configuration</span><br><span class="line">[root@uiste php-7.2.15]# mkdir -p /usr/local/php/etc/</span><br><span class="line">[root@uiste php-7.2.15]# cp php.ini-development  /usr/local/php/etc/php.ini</span><br></pre></td></tr></table></figure>
+<h1 id="swoole安装"><a href="#swoole安装" class="headerlink" title="swoole安装"></a>swoole安装</h1><h2 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h2><ul>
+<li><a href="https://github.com/swoole/swoole-src/releases" target="_blank" rel="noopener">https://github.com/swoole/swoole-src/releases</a></li>
+<li><a href="http://pecl.php.net/package/swoole" target="_blank" rel="noopener">http://pecl.php.net/package/swoole</a></li>
+<li><a href="http://git.oschina.net/swoole/swoole" target="_blank" rel="noopener">http://git.oschina.net/swoole/swoole</a></li>
+</ul>
+<h2 id="swoole编译安装"><a href="#swoole编译安装" class="headerlink" title="swoole编译安装"></a>swoole编译安装</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">wget http://pecl.php.net/get/swoole-4.2.13.tgz</span><br><span class="line"></span><br><span class="line">tar -zxvf swoole-4.2.13.tgz &amp;&amp; cd swoole-4.2.13</span><br><span class="line"></span><br><span class="line">phpize</span><br><span class="line"></span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<h2 id="配置php-ini"><a href="#配置php-ini" class="headerlink" title="配置php.ini"></a>配置php.ini</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@uiste swoole-4.2.13]# vim /usr/local/php/etc/php.ini</span><br><span class="line"></span><br><span class="line">	extension=swoole.so</span><br><span class="line"></span><br><span class="line">[root@uiste swoole-4.2.13]# php -m | grep swoole</span><br><span class="line">swoole</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>通过php -m或phpinfo()来查看是否成功加载了swoole.so，如果没有可能是php.ini的路径不对，可以使用php –ini来定位到php.ini的绝对路径</p>
+</blockquote>
+]]></content>
+  </entry>
+  <entry>
     <title>【5】区块链-以太坊truffle 框架</title>
     <url>/2018/20180511-5.html</url>
     <content><![CDATA[<h2 id="TestRPC安装"><a href="#TestRPC安装" class="headerlink" title="TestRPC安装"></a>TestRPC安装</h2><p>安装Ethereum客户端来支持JSON RPC API调用开发环境，推荐使用EthereumJS。<br>安装命令：</p>
@@ -1296,91 +1381,6 @@
 <h2 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class Server &#123;</span><br><span class="line">    const PORT = 8811;</span><br><span class="line"></span><br><span class="line">    public function port() &#123;</span><br><span class="line">        $shell  =  &quot;netstat -anp 2&gt;/dev/null | grep &quot;. self::PORT . &quot; | grep LISTEN | wc -l&quot;;</span><br><span class="line"></span><br><span class="line">        $result = shell_exec($shell);</span><br><span class="line">        if($result != 1) &#123;</span><br><span class="line">            // 发送报警服务 邮件 短信</span><br><span class="line">            /// todo</span><br><span class="line">            echo date(&quot;Ymd H:i:s&quot;).&quot;error&quot;.PHP_EOL;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            echo date(&quot;Ymd H:i:s&quot;).&quot;succss&quot;.PHP_EOL;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// nohup</span><br><span class="line">swoole_timer_tick(2000, function($timer_id) &#123;</span><br><span class="line">    (new Server())-&gt;port();</span><br><span class="line">    echo &quot;time-start&quot;.PHP_EOL;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>]]></content>
   </entry>
   <entry>
-    <title>(1) swoole 环境搭建</title>
-    <url>/2018/20180325-1.html</url>
-    <content><![CDATA[<h1 id="PHP-环境搭建"><a href="#PHP-环境搭建" class="headerlink" title="PHP 环境搭建"></a>PHP 环境搭建</h1><h2 id="PHP环境编译安装"><a href="#PHP环境编译安装" class="headerlink" title="PHP环境编译安装"></a>PHP环境编译安装</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum -y  install  gcc  gcc-c++ libxml2-devel m4 autoconf pcre-devel make cmake bison openssl openssl-devel</span><br><span class="line"></span><br><span class="line">wget  http://mirrors.sohu.com/php/php-7.2.15.tar.gz</span><br><span class="line"></span><br><span class="line">tar -zxvf php-7.2.15.tar.gz  &amp;&amp; cd php-7.2.15</span><br><span class="line"></span><br><span class="line">./configure --prefix=/usr/local/php \</span><br><span class="line">--prefix=/usr/local/php \</span><br><span class="line">--with-config-file-path=/usr/local/php/etc  \</span><br><span class="line">--with-libxml-dir=/usr  \</span><br><span class="line">--with-iconv-dir \</span><br><span class="line">--with-mhash \</span><br><span class="line">--with-openssl \</span><br><span class="line">--with-mysqli=shared,mysqlnd \</span><br><span class="line">--with-pdo-mysql=shared,mysqlnd   \</span><br><span class="line">--with-zlib \</span><br><span class="line">--enable-zip \</span><br><span class="line">--enable-inline-optimization \</span><br><span class="line">--disable-debug \</span><br><span class="line">--disable-rpath \</span><br><span class="line">--enable-shared \</span><br><span class="line">--enable-xml \</span><br><span class="line">--enable-bcmath  \</span><br><span class="line">--enable-shmop \</span><br><span class="line">--enable-sysvsem \</span><br><span class="line">--enable-mbstring \</span><br><span class="line">--enable-mbregex  \</span><br><span class="line">--enable-mbregex-backtrack \</span><br><span class="line">--enable-pcntl \</span><br><span class="line">--enable-sockets \</span><br><span class="line">--without-pear \</span><br><span class="line">--with-gettext \</span><br><span class="line">--enable-session</span><br><span class="line"></span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
-<h2 id="添加-PHP-命令到环境变量"><a href="#添加-PHP-命令到环境变量" class="headerlink" title="添加 PHP 命令到环境变量"></a>添加 PHP 命令到环境变量</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># vim /etc/profile</span><br><span class="line"></span><br><span class="line">在末尾加入</span><br><span class="line"></span><br><span class="line">PATH=$PATH:/usr/local/php/bin</span><br><span class="line">export PATH</span><br><span class="line"></span><br><span class="line">要使改动立即生效执行</span><br><span class="line"># source /etc/profile</span><br><span class="line"></span><br><span class="line">查看环境变量</span><br><span class="line"># echo $PATH</span><br><span class="line"># php -v</span><br></pre></td></tr></table></figure>
-<h2 id="复制配置文件"><a href="#复制配置文件" class="headerlink" title="复制配置文件"></a>复制配置文件</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@uiste php-7.2.15]# php -i | grep Configuration</span><br><span class="line">Configuration File (php.ini) Path =&gt; /usr/local/php/etc</span><br><span class="line">Loaded Configuration File =&gt; (none)</span><br><span class="line">Configuration</span><br><span class="line">[root@uiste php-7.2.15]# mkdir -p /usr/local/php/etc/</span><br><span class="line">[root@uiste php-7.2.15]# cp php.ini-development  /usr/local/php/etc/php.ini</span><br></pre></td></tr></table></figure>
-<h1 id="swoole安装"><a href="#swoole安装" class="headerlink" title="swoole安装"></a>swoole安装</h1><h2 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h2><ul>
-<li><a href="https://github.com/swoole/swoole-src/releases" target="_blank" rel="noopener">https://github.com/swoole/swoole-src/releases</a></li>
-<li><a href="http://pecl.php.net/package/swoole" target="_blank" rel="noopener">http://pecl.php.net/package/swoole</a></li>
-<li><a href="http://git.oschina.net/swoole/swoole" target="_blank" rel="noopener">http://git.oschina.net/swoole/swoole</a></li>
-</ul>
-<h2 id="swoole编译安装"><a href="#swoole编译安装" class="headerlink" title="swoole编译安装"></a>swoole编译安装</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">wget http://pecl.php.net/get/swoole-4.2.13.tgz</span><br><span class="line"></span><br><span class="line">tar -zxvf swoole-4.2.13.tgz &amp;&amp; cd swoole-4.2.13</span><br><span class="line"></span><br><span class="line">phpize</span><br><span class="line"></span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
-<h2 id="配置php-ini"><a href="#配置php-ini" class="headerlink" title="配置php.ini"></a>配置php.ini</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@uiste swoole-4.2.13]# vim /usr/local/php/etc/php.ini</span><br><span class="line"></span><br><span class="line">	extension=swoole.so</span><br><span class="line"></span><br><span class="line">[root@uiste swoole-4.2.13]# php -m | grep swoole</span><br><span class="line">swoole</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>通过php -m或phpinfo()来查看是否成功加载了swoole.so，如果没有可能是php.ini的路径不对，可以使用php –ini来定位到php.ini的绝对路径</p>
-</blockquote>
-]]></content>
-  </entry>
-  <entry>
-    <title>(2) swoole 特性、原理</title>
-    <url>/2018/20180325-2.html</url>
-    <content><![CDATA[<h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1><p>Swoole 使用纯 C 语言编写，提供了 PHP 语言的异步多线程服务器</p>
-<ol>
-<li>事件驱动的异步编程模式</li>
-<li>异步TCP/UDP/HTTP/WebSocket/HTTP2协议的服务器端/客户端</li>
-<li>支持IPv4/IPv6/UnixSocket/TCP/UDP</li>
-<li>支持SSL/TLS隧道加密</li>
-<li>支持并发百万TCP长连接</li>
-<li>支持毫秒定时器</li>
-<li>支持异步/同步/协程</li>
-<li>支持CPU亲和性设置/守护进程</li>
-</ol>
-<blockquote>
-<p>swoole_server是事件驱动的。我们在使用的过程中不需要关注底层是怎么实现的，底层是C写的php只是做了个传递的作用，所以只需要对底层相应的动作注册相应的回调，在回调函数中处理业务逻辑即可</p>
-</blockquote>
-<blockquote>
-<p>参数$serv是我们一开始创建的swoole_server对象，<br>参数$fd是唯一标识，用于区分不同的客户端，同时该参数是1-1600万之间可以复用的整数。简单解释下复用：假设现在客户端1、2、3处于连接中，客户端4要连接的话$fd就是4，但是不巧的是客户端3连接不稳定，断掉了，客户端4连接到server的话，$fd就是3。</p>
-</blockquote>
-<blockquote>
-<p>常用socket函数来创建TCP连接，用CURL库来创建Http连接。同样的，为了简化操作，Swoole也提供了同样的Client类用于实现客户端的功能，并且增加了异步非阻塞的模式，让用户在客户端也能使用事件循环</p>
-</blockquote>
-<h1 id="通讯协议"><a href="#通讯协议" class="headerlink" title="通讯协议"></a>通讯协议</h1><table>
-<thead>
-<tr>
-<th>特点</th>
-<th style="text-align:center">TCP</th>
-<th style="text-align:center">UDP</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>连接性</td>
-<td style="text-align:center">面向连接</td>
-<td style="text-align:center">面向非连接</td>
-</tr>
-<tr>
-<td>可靠性</td>
-<td style="text-align:center">可靠</td>
-<td style="text-align:center">不可靠</td>
-</tr>
-<tr>
-<td>传输效率</td>
-<td style="text-align:center">慢</td>
-<td style="text-align:center">快</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>1、TCP面向连接（如打电话要先拨号建立连接）;UDP是无连接的，即发送数据之前不需要建立连接<br>2、TCP提供可靠的服务。也就是说，通过TCP连接传送的数据，无差错，不丢失，不重复，且按序到达;UDP尽最大努力交付，即不保证可靠交付<br>3、tcp通过校验和，重传控制，序号标识，滑动窗口、确认应答实现可靠传输。如丢包时的重发控制，还可以对次序乱掉的分包进行顺序控制。<br>3、UDP具有较好的实时性，工作效率比TCP高，适用于对高速传输和实时性有较高的通信或广播通信。<br>4、TCP对系统资源要求较多，UDP对系统资源要求较少。</p>
-</blockquote>
-<h1 id="创建server的步骤"><a href="#创建server的步骤" class="headerlink" title="创建server的步骤:"></a>创建server的步骤:</h1><p>1、实例化Server对象<br>2、设置运行时参数<br>3、注册事件回调函数<br>4、启动服务器</p>
-<h1 id="心跳"><a href="#心跳" class="headerlink" title="心跳"></a>心跳</h1><p>1、客户端定时给服务端发送点数据，防止连接由于长时间没有通讯而被某些节点的防火墙关闭导致连接断开的情况。</p>
-<p>2、服务端可以通过心跳来判断客户端是否在线，如果客户端在规定时间内没有发来任何数据，就认为客户端下线。这样可以检测到客户端由于极端情况(断电、断网等)下线的事件。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">heartbeat_check_interval： 服务器定时检测在线列表的时间</span><br><span class="line">heartbeat_idle_time：       连接最大的空闲时间 （如果最后一个心跳包的时间与当前时间之差超过这个值，则认为该连接失效）</span><br></pre></td></tr></table></figure>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">$server-&gt;set([</span><br><span class="line">    <span class="string">'worker_num'</span>=&gt;<span class="number">1</span>, <span class="comment">//设置进程</span></span><br><span class="line">    <span class="string">'heartbeat_idle_time'</span>=&gt;<span class="number">10</span>,<span class="comment">//连接最大的空闲时间</span></span><br><span class="line">    <span class="string">'heartbeat_check_interval'</span>=&gt;<span class="number">3</span> <span class="comment">//服务器定时检查</span></span><br><span class="line">]);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>建议 heartbeat_idle_time 为 heartbeat_check_interval 的两倍多一点。<br>这个两倍是为了进行容错，允许丢一个包而多一点是考虑到网络的延时。</p>
-</blockquote>
-<h1 id="粘包"><a href="#粘包" class="headerlink" title="粘包"></a>粘包</h1><p>TCP 粘包是指发送方发送的若干包数据 到 接收方接收时粘成一包，从接收缓冲区看，后一包数据的头紧接着前一包数据的尾。</p>
-<p>发送方：发送方需要等缓冲区满才发送出去，造成粘包<br>接收方：接收方不及时接收缓冲区的包，造成多个包接收</p>
-<p>通过约定结束符，来确定包数据是否发送完毕<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">open_eof_check=true 开启</span><br><span class="line">package_eof = &apos;\r\n&apos; 来设置一个完整数据结尾字符</span><br><span class="line">open_eof_split =&gt; true 设置自动拆分</span><br></pre></td></tr></table></figure></p>
-<h1 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h1><h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p>1、进程之间不共享任何状态<br>2、进程的调度由操作系统完成<br>3、每个进程都有自己独立的内存空间<br>4、进程间通讯主要是通过信号传递的方式来实现的，实现方式有多种，信号量、管道、事件等，任何一种方式的通讯效率都需要过内核，导致通讯效率比较低<br>5、由于是独立的内存空间，上下文切换的时候需要保存先调用栈的信息、cpu各寄存器的信息、虚拟内存、以及打开的相关句柄等信息，所以导致上下文进程间切换开销很大，通讯麻烦。</p>
-<h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><p>1、线程之间共享变量，解决了通讯麻烦的问题对于变量的访问需要锁<br>2、一个进程可以拥有多个线程，但是其中每个线程会共享父进程像操作系统申请资源，这个包括虚拟内存、文件等，由于是共享资源，所以创建线程所需要的系统资源占用比进程小很多，相应的可创建的线程数量也变得相对多很多。<br>3、另外在调度方面也是由于内存是共享的，所以上下文切换的时候需要保存的东西就像对少一些，这样一来上下文的切换也变得高效。</p>
-]]></content>
-  </entry>
-  <entry>
     <title>php-ini 文件</title>
     <url>/2018/20180325-2.html</url>
     <content><![CDATA[<h1 id="多个版本改哪个文件下的php-ini-配置才有效？"><a href="#多个版本改哪个文件下的php-ini-配置才有效？" class="headerlink" title="多个版本改哪个文件下的php.ini 配置才有效？"></a>多个版本改哪个文件下的php.ini 配置才有效？</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">➜  package php -i | grep php.ini</span><br><span class="line">Configuration File (php.ini) Path =&gt; /usr/local/etc/php/7.2</span><br><span class="line">Loaded Configuration File =&gt; /usr/local/etc/php/7.2/php.ini</span><br></pre></td></tr></table></figure>
@@ -1914,7 +1914,7 @@ chmod -R 644 /home/www/.ssh/authorized_keys
 <p>c#<br>(建议还是考虑各个平台的，PCL版本下的见前面的网址，但是没调试通过)</p>
 <p>[csharp] view plain copy<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">using System.IO.Compression;  </span><br><span class="line">using System.Text;  </span><br><span class="line">public  string Compress (string text)  </span><br><span class="line">&#123;  </span><br><span class="line">byte[] buffer = Encoding.UTF8.GetBytes (text);  </span><br><span class="line">using (MemoryStream ms = new MemoryStream ()) &#123;  </span><br><span class="line">GZipStream Compress = new GZipStream (ms, CompressionMode.Compress);  </span><br><span class="line">  </span><br><span class="line">Compress.Write (buffer, 0, buffer.Length);  </span><br><span class="line">  </span><br><span class="line">Compress.Close ();  </span><br><span class="line">  </span><br><span class="line">return Convert.ToBase64String (ms.ToArray ());  </span><br><span class="line">  </span><br><span class="line">&#125;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line">public string Decompress (string text)  </span><br><span class="line">&#123;  </span><br><span class="line">byte[] buffer = Convert.FromBase64String (text);  </span><br><span class="line">using (MemoryStream tempMs = new MemoryStream ()) &#123;  </span><br><span class="line">using (MemoryStream ms = new MemoryStream (buffer)) &#123;  </span><br><span class="line">GZipStream Decompress = new GZipStream (ms, CompressionMode.Decompress);  </span><br><span class="line">  </span><br><span class="line">Decompress.CopyTo (tempMs);  </span><br><span class="line">  </span><br><span class="line">Decompress.Close ();  </span><br><span class="line">  </span><br><span class="line">return Encoding.UTF8.GetString (tempMs.ToArray ());  </span><br><span class="line">&#125;  </span><br><span class="line">&#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>python<br>[python] view plain copy<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#coding=utf-8  </span></span><br><span class="line"><span class="keyword">import</span> base64  </span><br><span class="line"><span class="keyword">import</span> StringIO,gzip  </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">zipData</span><span class="params">( content)</span>:</span>  </span><br><span class="line">    zbuf = StringIO.StringIO()  </span><br><span class="line">    zfile = gzip.GzipFile(mode=<span class="string">'wb'</span>, compresslevel=<span class="number">9</span>, fileobj=zbuf)  </span><br><span class="line">    zfile.write(content)  </span><br><span class="line">    zfile.close()  </span><br><span class="line">    <span class="keyword">return</span> base64.b64encode(zbuf.getvalue())  </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">unzipData</span><span class="params">(content)</span>:</span>  </span><br><span class="line">    compresseddata=base64.b64decode(content)  </span><br><span class="line">    compressedstream = StringIO.StringIO(compresseddata)  </span><br><span class="line">    gzipper = gzip.GzipFile(fileobj=compressedstream)  </span><br><span class="line">    data = gzipper.read()  </span><br><span class="line">    <span class="keyword">return</span> data  </span><br><span class="line">s=zipData(<span class="string">"1"</span>)  </span><br><span class="line"><span class="keyword">print</span> s  </span><br><span class="line">s1=unzipData(s)  </span><br><span class="line"><span class="keyword">print</span> s1</span><br></pre></td></tr></table></figure></p>
-<p>javascript<br>[html] view plain copy<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;html&gt;  </span><br><span class="line">&lt;head&gt;  </span><br><span class="line">&lt;meta charset=<span class="string">"UTF-8"</span>&gt;  </span><br><span class="line">&lt;script src=<span class="string">"http://code.jquery.com/jquery-2.1.4.min.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span>  </span><br><span class="line">&lt;script src=<span class="string">"https://raw.githubusercontent.com/nodeca/pako/master/dist/pako.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span>  </span><br><span class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;  </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">gzip</span>(<span class="params">string</span>) </span>&#123;  </span><br><span class="line"><span class="keyword">var</span> charData    = string.split(<span class="string">''</span>).map(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;<span class="keyword">return</span> x.charCodeAt(<span class="number">0</span>);&#125;);  </span><br><span class="line"><span class="keyword">var</span> binData     = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(charData);  </span><br><span class="line"><span class="keyword">var</span> data= pako.gzip(binData);  </span><br><span class="line"><span class="keyword">var</span> strData= <span class="built_in">String</span>.fromCharCode.apply(<span class="literal">null</span>, <span class="keyword">new</span> <span class="built_in">Uint16Array</span>(data));  </span><br><span class="line"><span class="keyword">return</span> btoa(strData);  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ungzip</span>(<span class="params">string</span>)  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line"><span class="keyword">var</span> strData     = atob(string);  </span><br><span class="line"><span class="keyword">var</span> charData    = strData.split(<span class="string">''</span>).map(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;<span class="keyword">return</span> x.charCodeAt(<span class="number">0</span>);&#125;);  </span><br><span class="line"><span class="keyword">var</span> binData     = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(charData);  </span><br><span class="line"><span class="keyword">var</span> data= pako.ungzip(binData);  </span><br><span class="line"><span class="keyword">var</span> strData= <span class="built_in">String</span>.fromCharCode.apply(<span class="literal">null</span>, <span class="keyword">new</span> <span class="built_in">Uint16Array</span>(data));  </span><br><span class="line"><span class="keyword">return</span> strData;  </span><br><span class="line">&#125;  </span><br><span class="line">test=<span class="string">"1"</span>;  </span><br><span class="line"><span class="keyword">var</span> s=gzip(test);  </span><br><span class="line">alert(s);  </span><br><span class="line">alert(ungzip(s));  </span><br><span class="line">&lt;<span class="regexp">/script&gt;  </span></span><br><span class="line"><span class="regexp">&lt;/</span>head&gt;  </span><br><span class="line">&lt;<span class="regexp">/html&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>javascript<br>[html] view plain copy<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;html&gt;  </span><br><span class="line">&lt;head&gt;  </span><br><span class="line">&lt;meta charset=<span class="string">"UTF-8"</span>&gt;  </span><br><span class="line">&lt;script src=<span class="string">"http://code.jquery.com/jquery-2.1.4.min.js"</span>&gt;&lt;/script&gt;  </span><br><span class="line">&lt;script src=<span class="string">"https://raw.githubusercontent.com/nodeca/pako/master/dist/pako.js"</span>&gt;&lt;/script&gt;  </span><br><span class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;  </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">gzip</span>(<span class="params">string</span>) </span>&#123;  </span><br><span class="line"><span class="keyword">var</span> charData    = string.split(<span class="string">''</span>).map(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;<span class="keyword">return</span> x.charCodeAt(<span class="number">0</span>);&#125;);  </span><br><span class="line"><span class="keyword">var</span> binData     = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(charData);  </span><br><span class="line"><span class="keyword">var</span> data= pako.gzip(binData);  </span><br><span class="line"><span class="keyword">var</span> strData= <span class="built_in">String</span>.fromCharCode.apply(<span class="literal">null</span>, <span class="keyword">new</span> <span class="built_in">Uint16Array</span>(data));  </span><br><span class="line"><span class="keyword">return</span> btoa(strData);  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ungzip</span>(<span class="params">string</span>)  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line"><span class="keyword">var</span> strData     = atob(string);  </span><br><span class="line"><span class="keyword">var</span> charData    = strData.split(<span class="string">''</span>).map(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>)</span>&#123;<span class="keyword">return</span> x.charCodeAt(<span class="number">0</span>);&#125;);  </span><br><span class="line"><span class="keyword">var</span> binData     = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(charData);  </span><br><span class="line"><span class="keyword">var</span> data= pako.ungzip(binData);  </span><br><span class="line"><span class="keyword">var</span> strData= <span class="built_in">String</span>.fromCharCode.apply(<span class="literal">null</span>, <span class="keyword">new</span> <span class="built_in">Uint16Array</span>(data));  </span><br><span class="line"><span class="keyword">return</span> strData;  </span><br><span class="line">&#125;  </span><br><span class="line">test=<span class="string">"1"</span>;  </span><br><span class="line"><span class="keyword">var</span> s=gzip(test);  </span><br><span class="line">alert(s);  </span><br><span class="line">alert(ungzip(s));  </span><br><span class="line">&lt;<span class="regexp">/script&gt;  </span></span><br><span class="line"><span class="regexp">&lt;/</span>head&gt;  </span><br><span class="line">&lt;<span class="regexp">/html&gt;</span></span><br></pre></td></tr></table></figure></p>
 ]]></content>
   </entry>
   <entry>
