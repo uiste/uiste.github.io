@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Mac完全卸载 PhpStorm 的方法</title>
+    <url>/2020/20200119-1.html</url>
+    <content><![CDATA[<p>如果我们想要完全卸载PhpStorm,只是卸载程序是没卸载干净的,下次安装还是读的以前的配置信息.</p>
+<p>第一步:<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cd ~/Library/Preferences/ </span><br><span class="line">$ rm -rf PhpStorm2019.3</span><br></pre></td></tr></table></figure></p>
+<p>找到你安装的版本,然后 rm 删除掉这个目录</p>
+<p>第二步:<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cd ~/Library/Application Support</span><br><span class="line">$ rm -rf PhpStorm2019.3</span><br></pre></td></tr></table></figure></p>
+<p>第三步:<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cd ~/Library/Logs/</span><br><span class="line">$ rm -rf PhpStorm2019.3</span><br></pre></td></tr></table></figure></p>
+]]></content>
+  </entry>
+  <entry>
     <title>(六) docker 私有仓库搭建</title>
     <url>/2019/20190923-4.html</url>
     <content><![CDATA[<h1 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h1><p><code>docker run -d -v /home/registry:/var/lib/registry -p 5000:5000 --restart=always --privileged=true --name registry registry:lastest</code><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-v 挂载目录</span><br><span class="line">-p 端口映射</span><br><span class="line">--restart=always 在容器退出时总是重启容器</span><br><span class="line">--name 指定容器的名称</span><br></pre></td></tr></table></figure></p>
@@ -534,6 +544,11 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">geth --datadir &quot;./chain&quot; --identity &quot;mydev&quot; --rpc --rpcapi &quot;db,eth,net,web3,personal,web3&quot; --nodiscover --rpccorsdomain &quot;*&quot; --networkid 100 console 2&gt;&gt;eth_output.log</span><br><span class="line"></span><br><span class="line">geth --dev --rpc --rpccorsdomain &quot;*&quot; --rpcaddr &quot;0.0.0.0&quot; --rpcport &quot;8545&quot; --mine --rpcapi &quot;eth,txpool,web3&quot;</span><br><span class="line"></span><br><span class="line">geth --testnet --rpc --rpccorsdomain &quot;*&quot; --rpcaddr &quot;0.0.0.0&quot; --rpcport &quot;8545&quot;</span><br></pre></td></tr></table></figure>]]></content>
   </entry>
   <entry>
+    <title></title>
+    <url>/2018/20180604-1.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>(2) swoole 特性、原理</title>
     <url>/2018/20180603-2.html</url>
     <content><![CDATA[<h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1><p>Swoole 使用纯 C 语言编写，提供了 PHP 语言的异步多线程服务器</p>
@@ -616,6 +631,43 @@
 <blockquote>
 <p>通过php -m或phpinfo()来查看是否成功加载了swoole.so，如果没有可能是php.ini的路径不对，可以使用php –ini来定位到php.ini的绝对路径</p>
 </blockquote>
+]]></content>
+  </entry>
+  <entry>
+    <title>手把手教你发布自己的 Composer 包</title>
+    <url>/2018/20180602-1.html</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Composer 是 PHP 用来管理依赖（dependency）关系的工具。我们不仅要学会使用别人提供的包，更要学会制作和分享自己的软件包，下面演示如何创建一个自己的 Composer 包。</p>
+<p>准备工作：</p>
+<ol>
+<li>注册 Github 账号</li>
+<li>注册 Packagist 账号</li>
+</ol>
+<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><p>本案例演示如何创建一个第三方消息推送（极光推送）的包。</p>
+<ol>
+<li>创建 Github 仓库<br>登录 Github，创建仓库 yanlongma/push，并将代码克隆到本地：</li>
+</ol>
+<p><code>$ git clone https://github.com/yanlongma/push.git</code></p>
+<ol start="2">
+<li><p>创建 Composer 配置文件<br>进入项目根目录，创建 Composer 配置文件 composer.json，可以使用命令 compser init 创建也可以手动创建，最终文件内容大体如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;name&quot;: &quot;yanlongma/push&quot;,</span><br><span class="line">    &quot;description&quot;: &quot;Third party message push&quot;,</span><br><span class="line">    &quot;authors&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;name&quot;: &quot;Yanlong Ma&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    &quot;license&quot;: &quot;MIT&quot;,</span><br><span class="line">    &quot;require&quot;: &#123;</span><br><span class="line">        &quot;php&quot;: &quot;&gt;=5.4&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;autoload&quot;: &#123;</span><br><span class="line">        &quot;psr-4&quot;: &#123;</span><br><span class="line">            &quot;YanlongMa\\Push\\&quot;: &quot;src/&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>提交代码到 Github<br>根据自己需要实现的功能编写代码，本项目最终项目结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.git/  </span><br><span class="line">.gitignore  </span><br><span class="line">composer.json  </span><br><span class="line">README.md  </span><br><span class="line">src/</span><br><span class="line">    Client.php  </span><br><span class="line">    JPush.php</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>代码编写完成且测试没问题后提交代码到 Github。</p>
+<ol start="4">
+<li><p>发布包到 Packagist<br>登录 Packagist，检出 <a href="https://github.com/YanlongMa/push.git" target="_blank" rel="noopener">https://github.com/YanlongMa/push.git</a> 仓库的代码，系统会根据仓库中 composer.json 文件自动设置包的相关信息。</p>
+</li>
+<li><p>设置 Packagist 中的包自动更新<br>如果不设置自动同步，每次 Github 中的代码更新，需要在对应包中手动更新，所以建议设置自动更新。步骤如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">进入 yanlongma/push 仓库，选择 &quot;Settings -&gt; Integrations &amp; services&quot;；</span><br><span class="line">点击 &quot;Add service&quot;，选择 “Packagist”；</span><br><span class="line">填写你的 Packagist 账号对应的信息（登录后点击查看https://packagist.org/profile/ ）</span><br><span class="line">配置完成后，点击右上角的“Test service”，如果出现 “Okay, the test payload is on its way.”，则说明配置成功。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用共享包<br>发布包到 Packagist 后，根据包名就可以搜索和使用该包了，在自己的项目中申明该包依赖：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ composer require yanlongma/push</span><br><span class="line">该包的具体使用可以查看 https://github.com/yanlongma/push。</span><br><span class="line"></span><br><span class="line">注：</span><br><span class="line"></span><br><span class="line">发布包到 Packagist 后，可能过几分钟才能在客户端 search 到；</span><br><span class="line">没有打 tag 的要指定 dev，完整命令composer require &quot;yanlongma/push @dev&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>本文首发于马燕龙个人博客，欢迎分享，转载请标明出处。<br>马燕龙个人博客：<a href="http://www.mayanlong.com" target="_blank" rel="noopener">http://www.mayanlong.com</a><br>马燕龙个人微博：<a href="http://weibo.com/imayanlong" target="_blank" rel="noopener">http://weibo.com/imayanlong</a><br>马燕龙Github主页：<a href="https://github.com/yanlongma" target="_blank" rel="noopener">https://github.com/yanlongma</a></p>
+<p>作者：天秤vs永恒<br>链接：<a href="https://www.jianshu.com/p/ecb9df55e003" target="_blank" rel="noopener">https://www.jianshu.com/p/ecb9df55e003</a><br>来源：简书<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
 ]]></content>
   </entry>
   <entry>
