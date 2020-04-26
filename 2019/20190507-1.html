@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="API操作—— 新建或删除查询索引库新建索引库新建index，要向服务器发送一个PUT请求，下面是使用curl命令新建了一个名为test的index的例子12345678curl -XPUT &amp;apos;localhost:9200/test&amp;apos;Response：&amp;#123;    &amp;quot;acknowledged&amp;quot;: true,    &amp;quot;shards_acknow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elasticsearch第三篇！">
+<meta property="og:url" content="http://blog.uiste.com/2019/20190507-1.html">
+<meta property="og:site_name" content="uiste">
+<meta property="og:description" content="API操作—— 新建或删除查询索引库新建索引库新建index，要向服务器发送一个PUT请求，下面是使用curl命令新建了一个名为test的index的例子12345678curl -XPUT &amp;apos;localhost:9200/test&amp;apos;Response：&amp;#123;    &amp;quot;acknowledged&amp;quot;: true,    &amp;quot;shards_acknow">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-04-26T01:05:35.691Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Elasticsearch第三篇！">
+<meta name="twitter:description" content="API操作—— 新建或删除查询索引库新建索引库新建index，要向服务器发送一个PUT请求，下面是使用curl命令新建了一个名为test的index的例子12345678curl -XPUT &amp;apos;localhost:9200/test&amp;apos;Response：&amp;#123;    &amp;quot;acknowledged&amp;quot;: true,    &amp;quot;shards_acknow">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="uiste" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://blog.uiste.com/2019/20190507-1.html">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Elasticsearch第三篇！ | uiste</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">uiste</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">uiste</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    <!--  -->
+    
+    
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.uiste.com/2019/20190507-1.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="uiste">
+      <meta itemprop="description" content="Stay Hungry，Stay Foolish">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="uiste">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Elasticsearch第三篇！
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-07 10:18:56" itemprop="dateCreated datePublished" datetime="2019-05-07T10:18:56+08:00">2019-05-07</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="API操作——-新建或删除查询索引库"><a href="#API操作——-新建或删除查询索引库" class="headerlink" title="API操作—— 新建或删除查询索引库"></a>API操作—— 新建或删除查询索引库</h1><h2 id="新建索引库"><a href="#新建索引库" class="headerlink" title="新建索引库"></a>新建索引库</h2><p>新建index，要向服务器发送一个PUT请求，下面是使用curl命令新建了一个名为test的index的例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">curl -XPUT &apos;localhost:9200/test&apos;</span><br><span class="line">Response：</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    &quot;acknowledged&quot;: true,</span><br><span class="line">    &quot;shards_acknowledged&quot;: true,</span><br><span class="line">    &quot;index&quot;: &quot;test&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="删除索引库"><a href="#删除索引库" class="headerlink" title="删除索引库"></a>删除索引库</h2><p>删除index，要向服务器发送一个delete请求，下面是删除上面的test的index的例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">curl -XDELETE &apos;http://localhost:9200/customer&apos;</span><br><span class="line">Response:</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    &quot;acknowledged&quot;: true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="查询索引库"><a href="#查询索引库" class="headerlink" title="查询索引库"></a>查询索引库</h2><p>查询index，要发送一个HEAD请求，例子如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">curl -IHEAD &apos;localhost:9200/test&apos;</span><br><span class="line">Reponse:</span><br><span class="line"></span><br><span class="line">HTTP/1.1 200 OK</span><br><span class="line">content-type: application/json; charset=UTF-8</span><br><span class="line">content-length: 359</span><br></pre></td></tr></table></figure></p>
+<h1 id="API操作——-创建映射关系"><a href="#API操作——-创建映射关系" class="headerlink" title="API操作—— 创建映射关系"></a>API操作—— 创建映射关系</h1><p>接下来的操作用curl比较不方便，复杂的内容使用PostMan进行操作，创建映射关系要使用PUT请求，如下json代码代表我定义了三个字段，分别是title，url和doc，他们的type属性即为数据类型，关于elasticsearch的数据类型这里不过多赘述，analyzer为ik_max_word代表使用了ik分词器的最粗粒度分词<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">PUT test/_mapping</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    &quot;properties&quot;: &#123;</span><br><span class="line">        &quot;title&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;text&quot;,</span><br><span class="line">            &quot;analyzer&quot;: &quot;ik_max_word&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;url&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;text&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;doc&quot;: &#123;</span><br><span class="line">            &quot;type&quot;: &quot;text&quot;,</span><br><span class="line">            &quot;analyzer&quot;: &quot;ik_max_word&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">Reponse:</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    &quot;acknowledged&quot;: true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="API操作——-查询映射关系"><a href="#API操作——-查询映射关系" class="headerlink" title="API操作—— 查询映射关系"></a>API操作—— 查询映射关系</h1><p>查询索引库的映射关系要使用GET请求，如下我查询了上面创建的映射关系<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET &apos;localhost:9200/test/_mapping&apos;</span><br><span class="line">Response:</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;test&quot; : &#123;</span><br><span class="line">    &quot;mappings&quot; : &#123;</span><br><span class="line">      &quot;properties&quot; : &#123;</span><br><span class="line">        &quot;doc&quot; : &#123;</span><br><span class="line">          &quot;type&quot; : &quot;text&quot;,</span><br><span class="line">          &quot;analyzer&quot; : &quot;ik_max_word&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;title&quot; : &#123;</span><br><span class="line">          &quot;type&quot; : &quot;text&quot;,</span><br><span class="line">          &quot;analyzer&quot; : &quot;ik_max_word&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;url&quot; : &#123;</span><br><span class="line">          &quot;type&quot; : &quot;text&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="API操作——-添加更新文档"><a href="#API操作——-添加更新文档" class="headerlink" title="API操作—— 添加更新文档"></a>API操作—— 添加更新文档</h1><h2 id="添加文档"><a href="#添加文档" class="headerlink" title="添加文档"></a>添加文档</h2><p>添加数据使用GET请求发送json数据，以上面的索引库为例，我添加以下数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">GET test/_doc</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    &quot;title&quot;: &quot;PlumK&apos;s blog&quot;,</span><br><span class="line">    &quot;url&quot;: &quot;plumk.site&quot;,</span><br><span class="line">    &quot;doc&quot;: &quot;this is the content,这里是正文&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="更新文档"><a href="#更新文档" class="headerlink" title="更新文档"></a>更新文档</h2><p>更新数据需要知道数据的id，可以通过查找获得，其他的跟添加数据差不多，GET请求<a href="http://localhost:9200/test/_doc/bm87BW8BcAj1cF19_7Sfjson如下：（这里的bm87BW8BcAj1cF19_7Sf就是我上面插入数据的id）" target="_blank" rel="noopener">http://localhost:9200/test/_doc/bm87BW8BcAj1cF19_7Sfjson如下：（这里的bm87BW8BcAj1cF19_7Sf就是我上面插入数据的id）</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">GET test/_doc/bm87BW8BcAj1cF19_7Sf</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    &quot;title&quot;: &quot;PlumK&apos;s blog&quot;,</span><br><span class="line">    &quot;url&quot;: &quot;plumk.site&quot;,</span><br><span class="line">    &quot;doc&quot;: &quot;this is the content,这里是修改后的正文&quot;</span><br><span class="line">&#125;</span><br><span class="line">Response:</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    &quot;_index&quot;: &quot;test&quot;,</span><br><span class="line">    &quot;_type&quot;: &quot;_doc&quot;,</span><br><span class="line">    &quot;_id&quot;: &quot;bm87BW8BcAj1cF19_7Sf&quot;,</span><br><span class="line">    &quot;_version&quot;: 2,</span><br><span class="line">    &quot;result&quot;: &quot;updated&quot;,</span><br><span class="line">    &quot;_shards&quot;: &#123;</span><br><span class="line">        &quot;total&quot;: 2,</span><br><span class="line">        &quot;successful&quot;: 1,</span><br><span class="line">        &quot;failed&quot;: 0</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;_seq_no&quot;: 1,</span><br><span class="line">    &quot;_primary_term&quot;: 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="API操作——-删除文档"><a href="#API操作——-删除文档" class="headerlink" title="API操作—— 删除文档"></a>API操作—— 删除文档</h1><p>删除数据同样需要知道id，以删除上面的数据为例，对下面url发送DELETE请求：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">localhost:9200/test/_doc/bm87BW8BcAj1cF19_7Sf</span><br></pre></td></tr></table></figure></p>
+<h1 id="API操作——-查询文档"><a href="#API操作——-查询文档" class="headerlink" title="API操作—— 查询文档"></a>API操作—— 查询文档</h1><h2 id="Match-all查询"><a href="#Match-all查询" class="headerlink" title="Match all查询"></a>Match all查询</h2><p>最基本的查询，他将返回所有结果，每个对象的得分为1<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">POST /test/_search</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">   &quot;query&quot;:&#123;</span><br><span class="line">      &quot;match_all&quot;:&#123;&#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">Response:</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    &quot;took&quot;: 9,</span><br><span class="line">    &quot;timed_out&quot;: false,</span><br><span class="line">    &quot;_shards&quot;: &#123;</span><br><span class="line">        &quot;total&quot;: 1,</span><br><span class="line">        &quot;successful&quot;: 1,</span><br><span class="line">        &quot;skipped&quot;: 0,</span><br><span class="line">        &quot;failed&quot;: 0</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;hits&quot;: &#123;</span><br><span class="line">        &quot;total&quot;: &#123;</span><br><span class="line">            &quot;value&quot;: 1,</span><br><span class="line">            &quot;relation&quot;: &quot;eq&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;max_score&quot;: 1.0,</span><br><span class="line">        &quot;hits&quot;: [</span><br><span class="line">            &#123;</span><br><span class="line">                &quot;_index&quot;: &quot;test&quot;,</span><br><span class="line">                &quot;_type&quot;: &quot;_doc&quot;,</span><br><span class="line">                &quot;_id&quot;: &quot;bm87BW8BcAj1cF19_7Sf&quot;,</span><br><span class="line">                &quot;_score&quot;: 1.0,</span><br><span class="line">                &quot;_source&quot;: &#123;</span><br><span class="line">                    &quot;title&quot;: &quot;PlumK&apos;s blog&quot;,</span><br><span class="line">                    &quot;url&quot;: &quot;plumk.site&quot;,</span><br><span class="line">                    &quot;doc&quot;: &quot;this is the content,这里是正文&quot;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Match查询"><a href="#Match查询" class="headerlink" title="Match查询"></a>Match查询</h2><p>match查询返回match中属性相同的条目，下面如果url为plumk就查询不到了，也就是说必须属性完全相同<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">POST test/_search</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;match&quot;: &#123;</span><br><span class="line">            &quot;url&quot;: &quot;plumk.site&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">Reponse:</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    &quot;took&quot;: 11,</span><br><span class="line">    &quot;timed_out&quot;: false,</span><br><span class="line">    &quot;_shards&quot;: &#123;</span><br><span class="line">        &quot;total&quot;: 1,</span><br><span class="line">        &quot;successful&quot;: 1,</span><br><span class="line">        &quot;skipped&quot;: 0,</span><br><span class="line">        &quot;failed&quot;: 0</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;hits&quot;: &#123;</span><br><span class="line">        &quot;total&quot;: &#123;</span><br><span class="line">            &quot;value&quot;: 1,</span><br><span class="line">            &quot;relation&quot;: &quot;eq&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;max_score&quot;: 0.2876821,</span><br><span class="line">        &quot;hits&quot;: [</span><br><span class="line">            &#123;</span><br><span class="line">                &quot;_index&quot;: &quot;test&quot;,</span><br><span class="line">                &quot;_type&quot;: &quot;_doc&quot;,</span><br><span class="line">                &quot;_id&quot;: &quot;bm87BW8BcAj1cF19_7Sf&quot;,</span><br><span class="line">                &quot;_score&quot;: 0.2876821,</span><br><span class="line">                &quot;_source&quot;: &#123;</span><br><span class="line">                    &quot;title&quot;: &quot;PlumK&apos;s blog&quot;,</span><br><span class="line">                    &quot;url&quot;: &quot;plumk.site&quot;,</span><br><span class="line">                    &quot;doc&quot;: &quot;this is the content,这里是修改后的正文&quot;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Query-String查询"><a href="#Query-String查询" class="headerlink" title="Query String查询"></a>Query String查询</h2><p>该查询使用查询解析器和query_string关键字。例如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">POST test/_search</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;query_string&quot;: &#123;</span><br><span class="line">            &quot;query&quot;: &quot;plumk&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">Response:</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    &quot;took&quot;: 25,</span><br><span class="line">    &quot;timed_out&quot;: false,</span><br><span class="line">    &quot;_shards&quot;: &#123;</span><br><span class="line">        &quot;total&quot;: 1,</span><br><span class="line">        &quot;successful&quot;: 1,</span><br><span class="line">        &quot;skipped&quot;: 0,</span><br><span class="line">        &quot;failed&quot;: 0</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;hits&quot;: &#123;</span><br><span class="line">        &quot;total&quot;: &#123;</span><br><span class="line">            &quot;value&quot;: 1,</span><br><span class="line">            &quot;relation&quot;: &quot;eq&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;max_score&quot;: 0.2876821,</span><br><span class="line">        &quot;hits&quot;: [</span><br><span class="line">            &#123;</span><br><span class="line">                &quot;_index&quot;: &quot;test&quot;,</span><br><span class="line">                &quot;_type&quot;: &quot;_doc&quot;,</span><br><span class="line">                &quot;_id&quot;: &quot;bm87BW8BcAj1cF19_7Sf&quot;,</span><br><span class="line">                &quot;_score&quot;: 0.2876821,</span><br><span class="line">                &quot;_source&quot;: &#123;</span><br><span class="line">                    &quot;title&quot;: &quot;PlumK&apos;s blog&quot;,</span><br><span class="line">                    &quot;url&quot;: &quot;plumk.site&quot;,</span><br><span class="line">                    &quot;doc&quot;: &quot;this is the content,这里是修改后的正文&quot;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="设置最小匹配度查询"><a href="#设置最小匹配度查询" class="headerlink" title="设置最小匹配度查询"></a>设置最小匹配度查询</h2><p>设置minimum_should_match字段，如果满足这个匹配度就会被查询出来，不多废话，看例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET test/_search</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;match&quot;: &#123;</span><br><span class="line">      &quot;title&quot;:&#123;&quot;query&quot;: &quot;plumk的博客&quot;,&quot;minimum_should_match&quot;: &quot;50%&quot;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="多字段查询"><a href="#多字段查询" class="headerlink" title="多字段查询"></a>多字段查询</h2><p>这里尝试在url和title中搜索plumk<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">GET test/_search</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;multi_match&quot;: &#123;</span><br><span class="line">        &quot;query&quot;: &quot;plumk&quot;,</span><br><span class="line">        &quot;fields&quot;: [&quot;url&quot;, &quot;title&quot;]  </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>接下来的查询我接下来可能使用不到，但是考虑到会有同样刚入门的小白看到这篇博客，所以这里我还是从网上摘抄以下</p>
+</blockquote>
+<h2 id="Term查询"><a href="#Term查询" class="headerlink" title="Term查询"></a>Term查询</h2><p>这些查询主要处理数字、日期等结构化数据。如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">POST /schools/_search</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">   &quot;query&quot;:&#123;</span><br><span class="line">      &quot;term&quot;:&#123;&quot;zip&quot;:&quot;176115&quot;&#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">Reponse:</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">   &quot;took&quot;:1, &quot;timed_out&quot;:false, &quot;_shards&quot;:&#123;&quot;total&quot;:10, &quot;successful&quot;:10, &quot;failed&quot;:0&#125;,</span><br><span class="line">   &quot;hits&quot;:&#123;</span><br><span class="line">      &quot;total&quot;:1, &quot;max_score&quot;:0.30685282, &quot;hits&quot;:[&#123;</span><br><span class="line">         &quot;_index&quot;:&quot;schools&quot;, &quot;_type&quot;:&quot;school&quot;, &quot;_id&quot;:&quot;1&quot;, &quot;_score&quot;:0.30685282,</span><br><span class="line">         &quot;_source&quot;:&#123;</span><br><span class="line">            &quot;name&quot;:&quot;Central School&quot;, &quot;description&quot;:&quot;CBSE Affiliation&quot;,</span><br><span class="line">            &quot;street&quot;:&quot;Nagan&quot;, &quot;city&quot;:&quot;paprola&quot;, &quot;state&quot;:&quot;HP&quot;, &quot;zip&quot;:&quot;176115&quot;,</span><br><span class="line">            &quot;location&quot;:[31.8955385, 76.8380405], &quot;fees&quot;:2200, </span><br><span class="line">            &quot;tags&quot;:[&quot;Senior Secondary&quot;, &quot;beautiful campus&quot;], &quot;rating&quot;:&quot;3.3&quot;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;]</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Range查询"><a href="#Range查询" class="headerlink" title="Range查询"></a>Range查询</h2><p>该查询用于查找值在值范围之间的对象。为此，我们需要使用如下运算符<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">gte:大于等于</span><br><span class="line">gt:大于</span><br><span class="line">lte:小于等于</span><br><span class="line">lt:小于</span><br><span class="line">POST /schools*/_search</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">   &quot;query&quot;:&#123;</span><br><span class="line">      &quot;range&quot;:&#123;</span><br><span class="line">         &quot;rating&quot;:&#123;</span><br><span class="line">            &quot;gte&quot;:3.5</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">Response:</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">   &quot;took&quot;:31, &quot;timed_out&quot;:false, &quot;_shards&quot;:&#123;&quot;total&quot;:10, &quot;successful&quot;:10, &quot;failed&quot;:0&#125;,</span><br><span class="line">   &quot;hits&quot;:&#123;</span><br><span class="line">      &quot;total&quot;:3, &quot;max_score&quot;:1.0, &quot;hits&quot;:[</span><br><span class="line">         &#123;</span><br><span class="line">            &quot;_index&quot;:&quot;schools&quot;, &quot;_type&quot;:&quot;school&quot;, &quot;_id&quot;:&quot;2&quot;, &quot;_score&quot;:1.0,</span><br><span class="line">            &quot;_source&quot;:&#123;</span><br><span class="line">               &quot;name&quot;:&quot;Saint Paul School&quot;, &quot;description&quot;:&quot;ICSE Affiliation&quot;,</span><br><span class="line">               &quot;street&quot;:&quot;Dawarka&quot;, &quot;city&quot;:&quot;Delhi&quot;, &quot;state&quot;:&quot;Delhi&quot;, </span><br><span class="line">               &quot;zip&quot;:&quot;110075&quot;, &quot;location&quot;:[28.5733056, 77.0122136], &quot;fees&quot;:5000, </span><br><span class="line">               &quot;tags&quot;:[&quot;Good Faculty&quot;, &quot;Great Sports&quot;], &quot;rating&quot;:&quot;4.5&quot;</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;, </span><br><span class="line">         &#123;</span><br><span class="line">            &quot;_index&quot;:&quot;schools_gov&quot;, &quot;_type&quot;:&quot;school&quot;, &quot;_id&quot;:&quot;2&quot;, &quot;_score&quot;:1.0, </span><br><span class="line">            &quot;_source&quot;:&#123;</span><br><span class="line">               &quot;name&quot;:&quot;Government School&quot;, &quot;description&quot;:&quot;State Board Affiliation&quot;,</span><br><span class="line">               &quot;street&quot;:&quot;Hinjewadi&quot;, &quot;city&quot;:&quot;Pune&quot;, &quot;state&quot;:&quot;MH&quot;, &quot;zip&quot;:&quot;411057&quot;,</span><br><span class="line">               &quot;location&quot;:[18.599752, 73.6821995] &quot;fees&quot;:500, </span><br><span class="line">               &quot;tags&quot;:[&quot;Great Sports&quot;], &quot;rating&quot;:&quot;4&quot;</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;,</span><br><span class="line">         &#123;</span><br><span class="line">            &quot;_index&quot;:&quot;schools&quot;, &quot;_type&quot;:&quot;school&quot;, &quot;_id&quot;:&quot;3&quot;, &quot;_score&quot;:1.0,</span><br><span class="line">            &quot;_source&quot;:&#123;</span><br><span class="line">               &quot;name&quot;:&quot;Crescent School&quot;, &quot;description&quot;:&quot;State Board Affiliation&quot;,</span><br><span class="line">               &quot;street&quot;:&quot;Tonk Road&quot;, &quot;city&quot;:&quot;Jaipur&quot;, &quot;state&quot;:&quot;RJ&quot;, &quot;zip&quot;:&quot;176114&quot;, </span><br><span class="line">               &quot;location&quot;:[26.8535922, 75.7923988], &quot;fees&quot;:2500,</span><br><span class="line">               &quot;tags&quot;:[&quot;Well equipped labs&quot;], &quot;rating&quot;:&quot;4.5&quot;</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">      ]</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="复合查询"><a href="#复合查询" class="headerlink" title="复合查询"></a>复合查询</h2><p>这个比较复杂，这里也不过多赘述，可以去看这个博客</p>
+<p>此外还有Joining查询，这个涉及到嵌套映射，就不展开讲了，还有地理查询，暂时用不到，可以去看官方文档</p>
+<h1 id="Java操作——初始化"><a href="#Java操作——初始化" class="headerlink" title="Java操作——初始化"></a>Java操作——初始化</h1><p>maven中的pom引用如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.elasticsearch&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;elasticsearch&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;7.5.0&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.elasticsearch.client&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;elasticsearch-rest-high-level-client&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;7.5.0&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.elasticsearch.client&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;elasticsearch-rest-client&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;7.5.0&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.elasticsearch.client&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;elasticsearch-rest-client-sniffer&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;7.5.0&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.apache.logging.log4j&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;log4j-api&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;2.8.2&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.apache.logging.log4j&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;log4j-core&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;2.8.2&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">java上的elasticsearch可以连接一个或多个主机初始化客户端，假设我本地主机在9200端口和9021都开了elasticsearch：</span><br><span class="line"></span><br><span class="line">RestHighLevelClient client = new RestHighLevelClient(</span><br><span class="line">        RestClient.builder(</span><br><span class="line">                new HttpHost(&quot;localhost&quot;, 9200, &quot;http&quot;),</span><br><span class="line">                new HttpHost(&quot;localhost&quot;, 9201, &quot;http&quot;)));</span><br><span class="line">关闭客户端：</span><br><span class="line"></span><br><span class="line">client.close();</span><br></pre></td></tr></table></figure></p>
+<h1 id="Java-操作——文档增删改"><a href="#Java-操作——文档增删改" class="headerlink" title="Java 操作——文档增删改"></a>Java 操作——文档增删改</h1><h2 id="添加文档-1"><a href="#添加文档-1" class="headerlink" title="添加文档"></a>添加文档</h2><p>首先我们要构建数据，有四种方法，以上面的test索引库为例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">直接提交json字符串，这种比较麻烦：</span><br><span class="line">IndexRequest request = new IndexRequest(&quot;test&quot;); //索引</span><br><span class="line">request.id(&quot;1&quot;); //id，此项可选，原因前面已经讲过了</span><br><span class="line">String jsonString = &quot;&#123;&quot; +</span><br><span class="line">        &quot;\&quot;url\&quot;:\&quot;rasang.site\&quot;,&quot; +</span><br><span class="line">        &quot;\&quot;title\&quot;:\&quot;rasang&apos;s blog\&quot;,&quot; +</span><br><span class="line">        &quot;\&quot;doc\&quot;:\&quot;Welcome to my blog.\&quot;&quot; +</span><br><span class="line">        &quot;&#125;&quot;;</span><br><span class="line">request.source(jsonString, XContentType.JSON); </span><br><span class="line">使用Map作为参数：</span><br><span class="line">Map&lt;String, String&gt; jsonMap = new HashMap&lt;&gt;();</span><br><span class="line">jsonMap.put(&quot;url&quot;, &quot;rasang.site&quot;);</span><br><span class="line">jsonMap.put(&quot;title&quot;, &quot;rasang&apos;s blog&quot;);</span><br><span class="line">jsonMap.put(&quot;doc&quot;, &quot;Welcome to my blog.&quot;);</span><br><span class="line">IndexRequest indexRequest = new IndexRequest(&quot;test&quot;).id(&quot;1&quot;).source(jsonMap); </span><br><span class="line">使用XConttentBuilder构建：</span><br><span class="line">XContentBuilder builder = XContentFactory.jsonBuilder();</span><br><span class="line">builder.startObject();</span><br><span class="line">&#123;</span><br><span class="line">    builder.field(&quot;url&quot;, &quot;rasang.site&quot;);</span><br><span class="line">    builder.field(&quot;title&quot;, &quot;rasang&apos;s blog&quot;);</span><br><span class="line">    builder.field(&quot;doc&quot;, &quot;Welcome to my blog.&quot;);</span><br><span class="line">&#125;</span><br><span class="line">builder.endObject();</span><br><span class="line">IndexRequest indexRequest = new IndexRequest(&quot;test&quot;)</span><br><span class="line">    .id(&quot;1&quot;).source(builder);</span><br><span class="line">使用键值构建</span><br><span class="line">IndexRequest indexRequest = new IndexRequest(&quot;test&quot;)</span><br><span class="line">    .id(&quot;1&quot;)</span><br><span class="line">    .source(&quot;url&quot;, &quot;rasang.site&quot;,</span><br><span class="line">        &quot;title&quot;, &quot;rasang&apos;s blog&quot;,</span><br><span class="line">        &quot;doc&quot;, &quot;Welcome to my blog.&quot;);</span><br><span class="line">其他可选参数：</span><br><span class="line">request.routing(&quot;routing&quot;); //路由值</span><br><span class="line">request.timeout(TimeValue.timeValueSeconds(1)); //设置超时</span><br><span class="line">request.timeout(&quot;1s&quot;); ////以字符串形式设置超时时间</span><br><span class="line">request.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL); //以WriteRequest.RefreshPolicy实例形式设置刷新策略</span><br><span class="line">request.setRefreshPolicy(&quot;wait_for&quot;);//以字符串形式刷新策略                     </span><br><span class="line">request.version(2); //文档版本</span><br><span class="line">request.versionType(VersionType.EXTERNAL); //文档类型</span><br><span class="line">request.opType(DocWriteRequest.OpType.CREATE); //操作类型</span><br><span class="line">request.opType(&quot;create&quot;); //操作类型 可选create或update</span><br><span class="line">request.setPipeline(&quot;pipeline&quot;); //索引文档之前要执行的摄取管道的名称</span><br><span class="line">构建完成后发送到elasticsearch执行添加，java的执行方式有两种</span><br><span class="line"></span><br><span class="line">同步执行：</span><br><span class="line">IndexResponse indexResponse = client.index(request, RequestOptions.DEFAULT);</span><br><span class="line">同步执行在继续执行后面的代码之前会等待返回索引响应，也就是等待执行结果，可能相应失败或者超时之类的。需要捕获异常。</span><br><span class="line"></span><br><span class="line">异步执行</span><br><span class="line">client.indexAsync(request, RequestOptions.DEFAULT, listener);</span><br><span class="line">异步的方法不会阻塞并立即返回。当执行成功后，使用onResponse的方法回调操作监听器，如果失败，则使用onFailure方法回调监听器。监听器实例如下：</span><br><span class="line"></span><br><span class="line">listener = new ActionListener&lt;IndexResponse&gt;() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onResponse(IndexResponse indexResponse) &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onFailure(Exception e) &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h2 id="删除文档"><a href="#删除文档" class="headerlink" title="删除文档"></a>删除文档</h2><p>删除文档需要构建DeleteRequest，下面是删除一个文档的例子，同样的我们也需要文档的id：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">DeleteRequest request = new DeleteRequest(&quot;test&quot;,&quot;u7kkCG8B4ZIWSqMC3kJU&quot;);</span><br><span class="line">其他可选参数：</span><br><span class="line">request.routing(&quot;routing&quot;); //路由值</span><br><span class="line">request.timeout(TimeValue.timeValueMinutes(2)); //以TimeValue形式设置超时</span><br><span class="line">request.timeout(&quot;2m&quot;);  //以字符串形式设置超时</span><br><span class="line">request.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL); //以WriteRequest.RefreshPolicy实例的形式设置刷新策略</span><br><span class="line">request.setRefreshPolicy(&quot;wait_for&quot;);  //以字符串的形式设置刷新策略            </span><br><span class="line">request.version(2); //版本</span><br><span class="line">request.versionType(VersionType.EXTERNAL); //版本类型</span><br><span class="line">同样的，删除请求也可以分同步和异步执行，和上面的创建文档相同：</span><br><span class="line"></span><br><span class="line">同步执行：</span><br><span class="line">DeleteResponse deleteResponse = client.delete(</span><br><span class="line">        request, RequestOptions.DEFAULT);</span><br><span class="line">异步执行：</span><br><span class="line">client.deleteAsync(request, RequestOptions.DEFAULT, listener);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 修改文档</span><br><span class="line">修改文档可以用脚本更新，这里我只记录用部分文档更新，因为看起来比较方便，与添加文档类似的，也有四种方式：</span><br><span class="line"></span><br><span class="line">UpdateRequest request = new UpdateRequest(&quot;test&quot;, id);</span><br><span class="line">String jsonString = &quot;&#123;&quot; +</span><br><span class="line">        &quot;\&quot;url\&quot;:\&quot;rasang.site\&quot;,&quot; +</span><br><span class="line">        &quot;\&quot;title\&quot;:\&quot;rasang&apos;s blog\&quot;&quot; +</span><br><span class="line">        &quot;\&quot;doc\&quot;:\&quot;this is rasang&apos;s blog\&quot;&quot; +</span><br><span class="line">        &quot;&#125;&quot;;</span><br><span class="line">request.doc(jsonString, XContentType.JSON);</span><br><span class="line">Map&lt;String, String&gt; jsonMap = new HashMap&lt;&gt;();</span><br><span class="line">jsonMap.put(&quot;url&quot;, &quot;rasang.site&quot;);</span><br><span class="line">jsonMap.put(&quot;title&quot;, &quot;rasang&apos;s blog&quot;);</span><br><span class="line">jsonMap.put(&quot;doc&quot;, &quot;this is rasang&apos;s blog&quot;);</span><br><span class="line">UpdateRequest request = new UpdateRequest(&quot;test&quot;, id)</span><br><span class="line">        .doc(jsonMap);</span><br><span class="line">XContentBuilder builder = XContentFactory.jsonBuilder();</span><br><span class="line">builder.startObject();</span><br><span class="line">&#123;</span><br><span class="line">    builder.field(&quot;url&quot;, &quot;rasang.site&quot;);</span><br><span class="line">    builder.field(&quot;title&quot;, &quot;rasang&apos;s blog&quot;);</span><br><span class="line">    builder.field(&quot;doc&quot;, &quot;this is rasang&apos;s blog&quot;);</span><br><span class="line">&#125;</span><br><span class="line">builder.endObject();</span><br><span class="line">UpdateRequest request = new UpdateRequest(&quot;test&quot;, id)</span><br><span class="line">        .doc(builder);</span><br><span class="line">UpdateRequest request = new UpdateRequest(&quot;test&quot;, &quot;1&quot;)</span><br><span class="line">        .doc(&quot;url&quot;, &quot;rasang.site&quot;,</span><br><span class="line">             &quot;title&quot;, &quot;rasang&apos;s blog&quot;,</span><br><span class="line">             &quot;doc&quot;, &quot;this is rasang&apos;s blog&quot;);</span><br><span class="line">可选参数：</span><br><span class="line">request.routing(&quot;routing&quot;); //路由值</span><br><span class="line">request.timeout(TimeValue.timeValueSeconds(1)); //设置超时</span><br><span class="line">request.timeout(&quot;1s&quot;); ////以字符串形式设置超时时间</span><br><span class="line">request.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL); //以WriteRequest.RefreshPolicy实例形式设置刷新策略</span><br><span class="line">request.setRefreshPolicy(&quot;wait_for&quot;);//以字符串形式刷新策略  </span><br><span class="line">request.retryOnConflict(3); //如果要更新的文档在更新操作的获取和索引阶段之间被另一个操作更改，重试更新操作的次数</span><br><span class="line">request.fetchSource(true); //启用源检索，默认情况下禁用</span><br><span class="line">String[] includes = new String[]&#123;&quot;updated&quot;, &quot;r*&quot;&#125;;</span><br><span class="line">String[] excludes = Strings.EMPTY_ARRAY;</span><br><span class="line">request.fetchSource(</span><br><span class="line">        new FetchSourceContext(true, includes, excludes)); //为特定字段配置源包含</span><br><span class="line">String[] includes = Strings.EMPTY_ARRAY;</span><br><span class="line">String[] excludes = new String[]&#123;&quot;updated&quot;&#125;;</span><br><span class="line">request.fetchSource(</span><br><span class="line">        new FetchSourceContext(true, includes, excludes)); //为特定字段配置源排除</span><br><span class="line">request.setIfSeqNo(2L); //ifSeqNo</span><br><span class="line">request.setIfPrimaryTerm(1L); //ifPrimaryTerm</span><br><span class="line">request.detectNoop(false); //禁用noop检测</span><br><span class="line">request.scriptedUpsert(true); //指出无论文档是否存在，脚本都必须运行，即如果文档不存在，脚本负责创建文档。</span><br><span class="line">request.docAsUpsert(true); //指示如果部分文档尚不存在，则必须将其用作upsert文档。</span><br><span class="line">request.waitForActiveShards(2); //设置在继续更新操作之前必须活动的碎片副本数量。</span><br><span class="line">request.waitForActiveShards(ActiveShardCount.ALL); //ActiveShardCount的碎片副本数。可选值：ActiveShardCount.ALL, ActiveShardCount.ONE或者 ActiveShardCount.DEFAULT</span><br><span class="line">同步执行</span><br><span class="line">UpdateResponse updateResponse = client.update(</span><br><span class="line">        request, RequestOptions.DEFAULT);</span><br><span class="line">异步执行</span><br><span class="line">client.updateAsync(request, RequestOptions.DEFAULT, listener);</span><br></pre></td></tr></table></figure></p>
+<h1 id="Java-操作——Bulk批量操作"><a href="#Java-操作——Bulk批量操作" class="headerlink" title="Java 操作——Bulk批量操作"></a>Java 操作——Bulk批量操作</h1><p>批量操作需要用到Bulk API，下面我将展示批量操作新建文档，删除文档：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">BulkRequest request = new BulkRequest();</span><br><span class="line">request.add(new DeleteRequest(&quot;test&quot;, &quot;3&quot;));</span><br><span class="line">request.add(new UpdateRequest(&quot;test&quot;, &quot;2&quot;) </span><br><span class="line">        .doc(XContentType.JSON,&quot;url&quot;, &quot;plumk.site&quot;));</span><br><span class="line">request.add(new IndexRequest(&quot;posts&quot;).id(&quot;4&quot;)  </span><br><span class="line">        .source(XContentType.JSON,&quot;field&quot;, &quot;baz&quot;));</span><br><span class="line">同步执行</span><br><span class="line">client.bulkAsync(request, RequestOptions.DEFAULT, listener); </span><br><span class="line">异步执行</span><br><span class="line">client.bulkAsync(request, RequestOptions.DEFAULT, listener); </span><br><span class="line">BulkResponse</span><br><span class="line">BulkResponse是执行返回的结果，类似于ArrayList，可以迭代所有操作结果</span><br><span class="line"></span><br><span class="line">for (BulkItemResponse e : bulkResponse) &#123; </span><br><span class="line">    DocWriteResponse itemResponse = e.getResponse();</span><br><span class="line"></span><br><span class="line">    switch (bulkItemResponse.getOpType()) &#123;</span><br><span class="line">    case INDEX:    </span><br><span class="line">    case CREATE:</span><br><span class="line">        IndexResponse indexResponse = (IndexResponse) itemResponse;</span><br><span class="line">        break;</span><br><span class="line">    case UPDATE:   </span><br><span class="line">        UpdateResponse updateResponse = (UpdateResponse) itemResponse;</span><br><span class="line">        break;</span><br><span class="line">    case DELETE: </span><br><span class="line">        DeleteResponse deleteResponse = (DeleteResponse) itemResponse;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="Java-操作——搜索文档"><a href="#Java-操作——搜索文档" class="headerlink" title="Java 操作——搜索文档"></a>Java 操作——搜索文档</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">首先我们要创建SearchRequest对象，指定test索引库</span><br><span class="line"></span><br><span class="line">SearchRequest searchRequest = new SearchRequest(&quot;test&quot;);</span><br><span class="line">可以指定多个查询文档库，如下：</span><br><span class="line"></span><br><span class="line">SearchRequest searchRequest = new SearchRequest(&quot;posts2&quot;,&quot;posts&quot;, &quot;posts2&quot;, &quot;posts1&quot;);</span><br><span class="line">又或者可以这么操作：</span><br><span class="line"></span><br><span class="line">SearchRequest searchRequest = new SearchRequest();</span><br><span class="line">searchRequest.indices(&quot;posts2&quot;,&quot;posts&quot;, &quot;posts2&quot;, &quot;posts1&quot;);</span><br><span class="line">如果你需要设置路由分片的话：</span><br><span class="line"></span><br><span class="line">searchRequest.routing(&quot;routing&quot;);</span><br><span class="line">指定优先分片查询：</span><br><span class="line"></span><br><span class="line">searchRequest.preference(&quot;_local&quot;);</span><br><span class="line">然后要添加请求的特征参数，添加特征参数我们需要用到SearchSourceBuilder对象</span><br><span class="line"></span><br><span class="line">SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();</span><br></pre></td></tr></table></figure>
+<h2 id="设置查询的起始索引位置和数量"><a href="#设置查询的起始索引位置和数量" class="headerlink" title="设置查询的起始索引位置和数量"></a>设置查询的起始索引位置和数量</h2><p>如下表示从第1条开始，共返回5条文档数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sourceBuilder.from(0); </span><br><span class="line">sourceBuilder.size(5);</span><br></pre></td></tr></table></figure></p>
+<h2 id="Match-all查询-1"><a href="#Match-all查询-1" class="headerlink" title="Match all查询"></a>Match all查询</h2><p><code>searchSourceBuilder.query(QueryBuilders.matchAllQuery());</code></p>
+<h2 id="Multi-match查询"><a href="#Multi-match查询" class="headerlink" title="Multi match查询"></a>Multi match查询</h2><p>搜索doc或url中含有rasang的文档</p>
+<p><code>QueryBuilder queryBuilder = QueryBuilders.multiMatchQuery(&quot;rasang&quot;,&quot;doc&quot;, &quot;url&quot;);</code></p>
+<h2 id="WildcardQuery模糊查询"><a href="#WildcardQuery模糊查询" class="headerlink" title="WildcardQuery模糊查询"></a>WildcardQuery模糊查询</h2><p>?匹配单个字符，*匹配多个字符，查询doc字段含有rasang的文档</p>
+<p><code>WildcardQueryBuilder queryBuilder = QueryBuilders.wildcardQuery(&quot;doc&quot;,&quot;*rasang*&quot;);</code></p>
+<h2 id="关键字包含查询"><a href="#关键字包含查询" class="headerlink" title="关键字包含查询"></a>关键字包含查询</h2><p>以上查询doc字段包含blog的文档<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">searchSource.query(QueryBuilders.termQuery(&quot;doc&quot;, &quot;blog&quot;));</span><br><span class="line">// QueryBuilders输入的词条会被es解析并进行分词，在此过程中就已经转换成全小写。</span><br></pre></td></tr></table></figure></p>
+<h2 id="matchQuery模糊查询"><a href="#matchQuery模糊查询" class="headerlink" title="matchQuery模糊查询"></a>matchQuery模糊查询</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">QueryBuilder matchQueryBuilder = QueryBuilders.matchQuery(&quot;doc&quot;, &quot;rasong&quot;)</span><br><span class="line">        .fuzziness(Fuzziness.AUTO) //启用模糊查询</span><br><span class="line">        .prefixLength(3)// 在匹配查询上设置前缀长度选项</span><br><span class="line">        .maxExpansions(10);// 设置最大扩展选项以控制查询的模糊过程</span><br><span class="line">    searchSource.query(matchQueryBuilder);</span><br><span class="line">//MatchQueryBuilder输入的词条会被es解析并进行分词，在此过程中就已经转换成全小写。</span><br></pre></td></tr></table></figure>
+<h2 id="复合查询-1"><a href="#复合查询-1" class="headerlink" title="复合查询"></a>复合查询</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//模糊查询</span><br><span class="line">WildcardQueryBuilder queryBuilder1 = QueryBuilders.wildcardQuery(</span><br><span class="line">            &quot;doc&quot;, &quot;*blog*&quot;);//搜索doc中含有blog的文档</span><br><span class="line">WildcardQueryBuilder queryBuilder2 = QueryBuilders.wildcardQuery(</span><br><span class="line">            &quot;url&quot;, &quot;*rasang*&quot;);//搜索url中含有rasang的文档</span><br><span class="line">BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();</span><br><span class="line">//doc中必须含有blog,url中必须含有rasang,相当于and</span><br><span class="line">boolQueryBuilder.must(queryBuilder1);</span><br><span class="line">boolQueryBuilder.must(queryBuilder2);</span><br></pre></td></tr></table></figure>
+<p>还有其他复合如should，mustNot，用法类似。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/20190506-1.html" rel="next" title="Elasticsearch第二篇！">
+                <i class="fa fa-chevron-left"></i> Elasticsearch第二篇！
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/20190630-1.html" rel="prev" title="放松等待">
+                放松等待 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/default_avatar.png" alt="uiste">
+            
+              <p class="site-author-name" itemprop="name">uiste</p>
+              <p class="site-description motion-element" itemprop="description">Stay Hungry，Stay Foolish</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">172</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">66</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/uiste" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/uiste" target="_blank" title="微博" rel="external nofollow"><i class="fa fa-fw fa-globe"></i>微博</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.zhihu.com/people/uiste" target="_blank" title="知乎" rel="external nofollow"><i class="fa fa-fw fa-globe"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.xiaomanyu.cn" title="Mandy画站" target="_blank">Mandy画站</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#API操作——-新建或删除查询索引库"><span class="nav-number">1.</span> <span class="nav-text">API操作—— 新建或删除查询索引库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#新建索引库"><span class="nav-number">1.1.</span> <span class="nav-text">新建索引库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除索引库"><span class="nav-number">1.2.</span> <span class="nav-text">删除索引库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询索引库"><span class="nav-number">1.3.</span> <span class="nav-text">查询索引库</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#API操作——-创建映射关系"><span class="nav-number">2.</span> <span class="nav-text">API操作—— 创建映射关系</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#API操作——-查询映射关系"><span class="nav-number">3.</span> <span class="nav-text">API操作—— 查询映射关系</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#API操作——-添加更新文档"><span class="nav-number">4.</span> <span class="nav-text">API操作—— 添加更新文档</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#添加文档"><span class="nav-number">4.1.</span> <span class="nav-text">添加文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新文档"><span class="nav-number">4.2.</span> <span class="nav-text">更新文档</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#API操作——-删除文档"><span class="nav-number">5.</span> <span class="nav-text">API操作—— 删除文档</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#API操作——-查询文档"><span class="nav-number">6.</span> <span class="nav-text">API操作—— 查询文档</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Match-all查询"><span class="nav-number">6.1.</span> <span class="nav-text">Match all查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Match查询"><span class="nav-number">6.2.</span> <span class="nav-text">Match查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Query-String查询"><span class="nav-number">6.3.</span> <span class="nav-text">Query String查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置最小匹配度查询"><span class="nav-number">6.4.</span> <span class="nav-text">设置最小匹配度查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多字段查询"><span class="nav-number">6.5.</span> <span class="nav-text">多字段查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Term查询"><span class="nav-number">6.6.</span> <span class="nav-text">Term查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Range查询"><span class="nav-number">6.7.</span> <span class="nav-text">Range查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#复合查询"><span class="nav-number">6.8.</span> <span class="nav-text">复合查询</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java操作——初始化"><span class="nav-number">7.</span> <span class="nav-text">Java操作——初始化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-操作——文档增删改"><span class="nav-number">8.</span> <span class="nav-text">Java 操作——文档增删改</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#添加文档-1"><span class="nav-number">8.1.</span> <span class="nav-text">添加文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除文档"><span class="nav-number">8.2.</span> <span class="nav-text">删除文档</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-操作——Bulk批量操作"><span class="nav-number">9.</span> <span class="nav-text">Java 操作——Bulk批量操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-操作——搜索文档"><span class="nav-number">10.</span> <span class="nav-text">Java 操作——搜索文档</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#设置查询的起始索引位置和数量"><span class="nav-number">10.1.</span> <span class="nav-text">设置查询的起始索引位置和数量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Match-all查询-1"><span class="nav-number">10.2.</span> <span class="nav-text">Match all查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Multi-match查询"><span class="nav-number">10.3.</span> <span class="nav-text">Multi match查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WildcardQuery模糊查询"><span class="nav-number">10.4.</span> <span class="nav-text">WildcardQuery模糊查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键字包含查询"><span class="nav-number">10.5.</span> <span class="nav-text">关键字包含查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#matchQuery模糊查询"><span class="nav-number">10.6.</span> <span class="nav-text">matchQuery模糊查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#复合查询-1"><span class="nav-number">10.7.</span> <span class="nav-text">复合查询</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 -  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">uiste</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+      <div>
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57838eee5e2620d0" async="async"></script>
+</div>
+
+      </div>
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
