@@ -107,12 +107,12 @@
 <meta property="og:site_name" content="uiste">
 <meta property="og:description" content="mysql5.7中type的类型达到了14种之多，这里只记录和理解最重要且经常遇见的六种类型，它们分别是all,index,range,ref,eq_ref，const。从左到右，它们的效率依次是增强的 mysql explain功能中展示各种信息的解释：123456789101112131415161718192021222324252627282930313233343536373839404">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/uiste/uiste.github.io/master/images/doc/mysql-btree-1.png">
-<meta property="og:updated_time" content="2020-04-26T01:05:29.319Z">
+<meta property="og:image" content="http://blog.uiste.com/assets/imgs/201708160101.png">
+<meta property="og:updated_time" content="2020-04-26T11:12:49.007Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql SQL优化">
 <meta name="twitter:description" content="mysql5.7中type的类型达到了14种之多，这里只记录和理解最重要且经常遇见的六种类型，它们分别是all,index,range,ref,eq_ref，const。从左到右，它们的效率依次是增强的 mysql explain功能中展示各种信息的解释：123456789101112131415161718192021222324252627282930313233343536373839404">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/uiste/uiste.github.io/master/images/doc/mysql-btree-1.png">
+<meta name="twitter:image" content="http://blog.uiste.com/assets/imgs/201708160101.png">
 
 
 
@@ -411,7 +411,7 @@
 <h3 id="聚簇索引的优点"><a href="#聚簇索引的优点" class="headerlink" title="聚簇索引的优点"></a>聚簇索引的优点</h3><p>聚簇索引将索引和数据行保存在同一个B-Tree中，查询通过聚簇索引可以直接获取数据，相比非聚簇索引需要第二次查询（非覆盖索引的情况下）效率要高。<br>聚簇索引对于范围查询的效率很高，因为其数据是按照大小排列的，</p>
 <h3 id="聚簇索引的缺点"><a href="#聚簇索引的缺点" class="headerlink" title="聚簇索引的缺点"></a>聚簇索引的缺点</h3><p>聚簇索引的更新代价比较高，如果更新了行的聚簇索引列，就需要将数据移动到相应的位置。这可能因为要插入的页已满而导致“页分裂”。<br>插入速度严重依赖于插入顺序，按照主键进行插入的速度是加载数据到Innodb中的最快方式。如果不是按照主键插入，最好在加载完成后使用OPTIMIZE TABLE命令重新组织一下表。<br>聚簇索引在插入新行和更新主键时，可能导致“页分裂”问题。<br>聚簇索引可能导致全表扫描速度变慢，因为可能需要加载物理上相隔较远的页到内存中（需要耗时的磁盘寻道操作）。</p>
 <h3 id="非聚簇索引"><a href="#非聚簇索引" class="headerlink" title="非聚簇索引"></a>非聚簇索引</h3><p>非聚簇索引，又叫二级索引。二级索引的叶子节点中保存的不是指向行的物理指针，而是行的主键值。当通过二级索引查找行，存储引擎需要在二级索引中找到相应的叶子节点，获得行的主键值，然后使用主键去聚簇索引中查找数据行，这需要两次B-Tree查找。</p>
-<p><img src="https://raw.githubusercontent.com/uiste/uiste.github.io/master/images/doc/mysql-btree-1.png" alt></p>
+<p><img src="../../../assets/imgs/201708160101.png" alt="mysql-btree-1"></p>
 <h2 id="主键和唯一索引都要求值唯一-但是它们还是有区别的"><a href="#主键和唯一索引都要求值唯一-但是它们还是有区别的" class="headerlink" title="主键和唯一索引都要求值唯一,但是它们还是有区别的:"></a>主键和唯一索引都要求值唯一,但是它们还是有区别的:</h2><p>1.主键是一种约束,唯一索引是一种索引;<br>2.一张表只能有一个主键,但可以创建多个唯一索引;<br>3.主键创建后一定包含一个唯一索引,唯一索引并一定是主键;<br>4.主键不能为null,唯一索引可以为null;<br>5.主键可以做为外键,唯一索引不行;</p>
 <h2 id="全文索引的版本、存储引擎、数据类型的支持情况"><a href="#全文索引的版本、存储引擎、数据类型的支持情况" class="headerlink" title="全文索引的版本、存储引擎、数据类型的支持情况"></a>全文索引的版本、存储引擎、数据类型的支持情况</h2><p>MySQL 5.6 以前的版本，只有 MyISAM 存储引擎支持全文索引；<br>MySQL 5.6 及以后的版本，MyISAM 和 InnoDB 存储引擎均支持全文索引;<br>只有字段的数据类型为 char、varchar、text 及其系列才可以建全文索引。</p>
 <p>使用全文索引<br>和常用的模糊匹配使用 like + % 不同，全文索引有自己的语法格式，使用 match 和 against 关键字，比如</p>

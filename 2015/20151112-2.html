@@ -108,13 +108,13 @@
 <meta property="og:site_name" content="uiste">
 <meta property="og:description" content="目录结构 配置选项 php.iniextension=php_openssl.dllextension=php_mbstring.dllextension=php_pdo_mysql.dll  修改默认首页 server.php =&amp;gt; index.php DirectoryIndex server.php 修改入口文件：DocumentRoot &amp;quot;.../public&amp;quot;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://resoure.uiste.com/6.laravel5.2_1.png">
-<meta property="og:image" content="http://resoure.uiste.com/route_resource.png">
-<meta property="og:updated_time" content="2019-11-29T11:00:26.190Z">
+<meta property="og:image" content="http://blog.uiste.com/assets/imgs/201511120201.png">
+<meta property="og:image" content="http://blog.uiste.com/assets/imgs/201511200102.png">
+<meta property="og:updated_time" content="2020-04-26T11:02:21.977Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Laravel 开发前奏">
 <meta name="twitter:description" content="目录结构 配置选项 php.iniextension=php_openssl.dllextension=php_mbstring.dllextension=php_pdo_mysql.dll  修改默认首页 server.php =&amp;gt; index.php DirectoryIndex server.php 修改入口文件：DocumentRoot &amp;quot;.../public&amp;quot;">
-<meta name="twitter:image" content="http://resoure.uiste.com/6.laravel5.2_1.png">
+<meta name="twitter:image" content="http://blog.uiste.com/assets/imgs/201511120201.png">
 
 
 
@@ -398,7 +398,7 @@
       
 
       
-        <h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><p><img src="http://resoure.uiste.com/6.laravel5.2_1.png" alt="目录结构"></p>
+        <h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><p><img src="../../../assets/imgs/201511120201.png" alt="目录结构"></p>
 <h2 id="配置选项"><a href="#配置选项" class="headerlink" title="配置选项"></a>配置选项</h2><blockquote>
 <p>php.ini<br><code>extension=php_openssl.dll</code><br><code>extension=php_mbstring.dll</code><br><code>extension=php_pdo_mysql.dll</code></p>
 </blockquote>
@@ -434,7 +434,7 @@
 <p>使用group对平台及命名空间进行分组方式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Route::group([&apos;prefix&apos;=&gt;&apos;admin&apos;,&apos;namespace&apos;=&gt;&apos;Admin&apos;],function()&#123;</span><br><span class="line">    Route::get(&apos;index&apos;, &apos;IndexController@index&apos;)-&gt;name(&apos;index&apos;);</span><br><span class="line">    Route::get(&apos;login&apos;, &apos;IndexController@login&apos;)-&gt;name(&apos;login&apos;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
 <p>Terminal中显示路由列表<br><code>uiste:blog uiste$ php artisan route:list</code></p>
 <p>RESTfun 资源路由控制器<br>资源路由设置，优点：一条路由生成多种路由规则<br><code>Route::resource(&#39;article&#39;,&#39;ArticleController&#39;);</code></p>
-<p><img src="http://resoure.uiste.com/route_resource.png" alt="route_resource"></p>
+<p><img src="../../../assets/imgs/201511200102.png" alt="route_resource"></p>
 <h3 id="Middleware中间件"><a href="#Middleware中间件" class="headerlink" title="Middleware中间件"></a>Middleware中间件</h3><p>HTTP 中间件提供一个方便的机制来过滤进入应用程序的 HTTP 请求。<br>Laravel 框架已经内置一些中间件，包括维护、身份验证、CSRF 保护，等等。所有的中间件都位于 app/Http/Middleware 目录内。</p>
 <p>自定义路由中间件<code>app\Htp\Kernel.php</code></p>
 <ol>
