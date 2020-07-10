@@ -338,7 +338,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 <a class="post-title-link" href="/2020/20200426-1.html" itemprop="url">
-                  嘟嘟
+                  Vim下多行同时编辑与删除技巧
                 </a>
               
             
@@ -401,8 +401,41 @@
         
           
           
+方法：
 
-          
+编辑：
+
+将光标移到要插入相同内容的第一行第一个字符上，如上面代码中item 1中的i上
+
+按下ctrl+v进入visual block模式
+
+按两次j或者2j，将光标移动到要插入的最后一样，如上面代码中item 3中的i上
+
+按下I（大写i）进入编辑模式
+
+开始输入要插入的内容，如my_
+
+按
+1esc
+退出（
+非常重要，不要忘记了
+），Vim会自动在这几行前面添加相同的内容，可能需要一些运行时间。
+
+
+
+
+
+
+插入
+
+删除：
+
+将光标移到要删除相同内容的第一行第一个字符上，如代码中my_item 1中的m上
+
+按下ctrl+v进入visual block模式
+
+使用motion
+          ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2020/20200426-1.html#more" rel="contents">

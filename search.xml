@@ -1,9 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>嘟嘟</title>
+    <title>Vim下多行同时编辑与删除技巧</title>
     <url>/2020/20200426-1.html</url>
-    <content><![CDATA[<p><img src="../../../assets/imgs/202004260101.png" alt="141587863937_.pic_hd"></p>
+    <content><![CDATA[<ul>
+<li><p>方法：</p>
+<ul>
+<li><p>编辑：</p>
+<ol>
+<li><p>将光标移到要插入相同内容的第一行第一个字符上，如上面代码中<code>item 1</code>中的<code>i</code>上</p>
+</li>
+<li><p>按下<code>ctrl</code>+<code>v</code>进入visual block模式</p>
+</li>
+<li><p>按两次<code>j</code>或者<code>2j</code>，将光标移动到要插入的最后一样，如上面代码中<code>item 3</code>中的<code>i</code>上</p>
+</li>
+<li><p>按下<code>I</code>（大写i）进入编辑模式</p>
+</li>
+<li><p>开始输入要插入的内容，如<code>my_</code></p>
+</li>
+<li><p>按</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">esc</span><br></pre></td></tr></table></figure>
+<p>退出（</p>
+<p>非常重要，不要忘记了</p>
+<p>），Vim会自动在这几行前面添加相同的内容，可能需要一些运行时间。</p>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>插入
+</code></pre><ul>
+<li><p>删除：</p>
+<ol>
+<li><p>将光标移到要删除相同内容的第一行第一个字符上，如代码中<code>my_item 1</code>中的<code>m</code>上</p>
+</li>
+<li><p>按下<code>ctrl</code>+<code>v</code>进入visual block模式</p>
+</li>
+<li><p>使用motion选中想要删除的所有内容，在本问题中，按两次<code>j</code>和两次<code>l</code></p>
+</li>
+<li><p>按下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">d</span><br></pre></td></tr></table></figure>
+<p>，同时删除所有选中的字符</p>
+<p>删除</p>
+</li>
+</ol>
+</li>
+</ul>
 ]]></content>
   </entry>
   <entry>
