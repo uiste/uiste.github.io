@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>面向对象编程的基本原则</title>
+    <url>/2021/20210525-1.html</url>
+    <content><![CDATA[<h1 id="单一职责原则"><a href="#单一职责原则" class="headerlink" title="单一职责原则"></a>单一职责原则</h1><ul>
+<li>一个类，只需要做好一件事情．</li>
+</ul>
+<h1 id="开放封闭原则"><a href="#开放封闭原则" class="headerlink" title="开放封闭原则"></a>开放封闭原则</h1><ul>
+<li>一个类，应该是对扩展是开放的，但是对修改是封闭的；不应该使用修改增加功能，而是通过扩展来增加功能.</li>
+</ul>
+<h1 id="依赖倒置原则"><a href="#依赖倒置原则" class="headerlink" title="依赖倒置原则"></a>依赖倒置原则</h1><ul>
+<li>一个类，不应该强依赖另外一个类．每个类对于另外一个类都是可替换的．</li>
+<li>比如有A和B两个类，当A类依赖B类时，A类不能在其中直接调用B类，而是应该使用依赖注入的方式，通过注入将B类对象注入给A类，这样B类对于A类来说就是可以替换的.当新类C类实现了与B类实现了一致的接口类，这样就可以在B类和C类之间切换．</li>
+</ul>
+<h1 id="配置化原则"><a href="#配置化原则" class="headerlink" title="配置化原则"></a>配置化原则</h1><ul>
+<li>尽可能地使用配置，而不是硬编码．</li>
+</ul>
+<h1 id="面向接口编程原则"><a href="#面向接口编程原则" class="headerlink" title="面向接口编程原则"></a>面向接口编程原则</h1><ul>
+<li>只需要关心接口，不需要关心实现．</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>Vim下多行同时编辑与删除技巧</title>
     <url>/2020/20200426-1.html</url>
     <content><![CDATA[<ul>
